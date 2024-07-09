@@ -1,0 +1,199 @@
+"[0.0.0]":
+  resources: 5
+Abyz:
+  resources: 3
+  trait: HAZARDOUS
+Arc Prime:
+  resources: 4
+Archon Ren:
+  resources: 2
+  influence: 3
+Archon Tau:
+  resources: 1
+  influence: 1
+Arinam:
+  resources: 1
+  influence: 2
+  trait: INDUSTRIAL
+Arnor:
+  resources: 2
+  influence: 1
+  trait: INDUSTRIAL
+Arretze:
+  resources: 2
+Bereg:
+  resources: 3
+  influence: 1
+  trait: HAZARDOUS
+Centauri:
+  resources: 1
+  influence: 3
+  trait: CULTURAL
+Corneeq:
+  resources: 1
+  influence: 2
+  trait: CULTURAL
+Creuss:
+  resources: 4
+  influence: 2
+Dal Bootha:
+  influence: 2
+  trait: CULTURAL
+Darien:
+  resources: 4
+  influence: 4
+Druaa:
+  resources: 3
+  influence: 1
+Fria:
+  resources: 2
+  trait: HAZARDOUS
+Gral:
+  resources: 1
+  influence: 1
+  trait: INDUSTRIAL
+  tech_specialty: PROPULSION
+Hercant:
+  resources: 1
+  influence: 1
+Jol:
+  resources: 1
+  influence: 2
+Jord:
+  resources: 4
+  influence: 2
+Kamdorn:
+  influence: 1
+Lazar:
+  resources: 1
+  trait: INDUSTRIAL
+  tech_specialty: CYBERNETIC
+Lirta IV:
+  resources: 2
+  influence: 3
+  trait: HAZARDOUS
+Lisis II:
+  resources: 1
+Lodor:
+  resources: 3
+  influence: 1
+  trait: CULTURAL
+Lor:
+  resources: 1
+  influence: 2
+  trait: INDUSTRIAL
+Maaluuk:
+  influence: 2
+Mecatol Rex:
+  resources: 1
+  influence: 6
+Meer:
+  influence: 4
+  trait: HAZARDOUS
+  tech_specialty: WARFARE
+Mehar Xull:
+  resources: 1
+  influence: 3
+  trait: HAZARDOUS
+  tech_specialty: WARFARE
+Mellon:
+  influence: 2
+  trait: CULTURAL
+Moll Primus:
+  resources: 4
+  influence: 1
+Mordai II: 
+  resources: 4
+Muaat:
+  resources: 4
+  influence: 1
+Nar:
+  resources: 2
+  influence: 3
+Nestphar:
+  resources: 3
+  influence: 2
+New Albion:
+  resources: 1
+  influence: 1
+  trait: INDUSTRIAL
+  tech_specialty: BIOTIC
+Quann:
+  resources: 2
+  influence: 1
+  trait: CULTURAL
+Qucen'n:
+  resources: 1
+  influence: 2
+  trait: INDUSTRIAL
+Quinarra:
+  resources: 3
+  influence: 1
+Ragh:
+  resources: 2
+  influence: 1
+Rarron:
+  influence: 3
+  trait: CULTURAL
+Resculon:
+  resources: 2
+  trait: CULTURAL
+Retillion:
+  resources: 2
+  influence: 3
+Sakulag:
+  resources: 2
+  influence: 1
+  trait: HAZARDOUS
+Saudor:
+  resources: 2
+  influence: 2
+  trait: INDUSTRIAL
+Shalloq:
+  resources: 1
+  influence: 2
+Starpoint:
+  resources: 3
+  influence: 1
+  trait: HAZARDOUS
+Tar'mann:
+  resources: 1
+  influence: 1
+  trait: INDUSTRIAL
+  tech_specialty: BIOTIC
+Tequ'ran:
+  resources: 2
+  trait: HAZARDOUS
+Thibah:
+  resources: 1
+  influence: 1
+  trait: INDUSTRIAL
+  tech_specialty: PROPULSION
+Torkan:
+  influence: 3
+  trait: CULTURAL
+Tren'lak:
+  resources: 1
+Vefut II:
+  resources: 2
+  influence: 2
+  trait: HAZARDOUS
+Wellon:
+  resources: 1
+  influence: 2
+  trait: INDUSTRIAL
+  tech_specialty: CYBERNETIC
+Winnu:
+  resources: 3
+  influence: 4
+Wren Terra:
+  resources: 2
+  influence: 1
+Xxehan:
+  resources: 1
+  influence: 1
+  trait: CULTURAL
+Zohbat:
+  resources: 3
+  influence: 1
+  trait: HAZARDOUS

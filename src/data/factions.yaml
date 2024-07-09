@@ -1,0 +1,399 @@
+# Each race has its unique name as the unique key identifier in this dictionary.
+# Every race will be formatted in the following way:
+# 
+# [RACE NAME]:
+#   home_systems: [ Numerical value used as a key in systems.yaml
+#   commodities:  Numerical value which is the max commodities this race can hold
+#   abilities:    List [] of this race's unique special abilities (used as keys in abilities.yaml)]
+#   start_techs:  List [] of technologies this race starts the game with (used as keys in techs.yaml)
+#   units: 
+#     
+#     Within the application, default "name"s and "start"ing amounts will be applied for each races' units. 
+#     This .yaml will only contain names of race-unique units, and starting amounts > 0, in order to consolidate the file size
+#     
+#     Each unit type follows the following convention:
+#     [type_of_unit]:
+#       name: Unique name of this unit, used as a key in units.yaml
+#       start: Starting amount of this type of unit if start amount > 0
+#     
+#     Possible units contained in this field include the following, with associated default names -
+#     
+#     flagship:     Required by every race, cannot be defaulted
+#     war_sun:      Defaults to NULL, as most races do not start the game with War Sun capabilities
+#     dreadnought:  Defaults to "Dreadnought I"
+#     carrier:      Defaults to "Carrier I"
+#     cruiser:      Defaults to "Cruiser I"
+#     destroyer:    Defaults to "Destroyer I"
+#     fighter:      Defaults to "Fighter I"
+#     infantry:     Defaults to "Infantry I"
+#     space_dock:   Defaults to "Space Dock I"
+#     pds:          Defaults to "PDS I"
+
+The Federation of Sol:
+
+  home_systems: [1]
+  commodoties: 4
+  abilities: [Orbital Drop, Versatile]
+  start_techs: [Neural Motivator, Antimass Deflectors]
+  units:
+    flagship: 
+      name: Genesis
+    carrier: 
+      name: Advanced Carrier I
+      start: 2
+    destroyer: 
+      start: 1
+    fighter: 
+      start: 3
+    infantry: 
+      name: Spec Ops I
+      start: 5
+    space_dock: 
+      start: 0
+
+The Mentak Coalition:
+  
+  home_systems: [2]
+  commodoties: 2
+  abilities: [Ambush, Pillage]
+  start_techs: [Sarween Tools, Plasma Scoring]
+  units:
+    flagship: 
+      name: Fourth Moon
+    carrier: 
+      start: 1
+    cruiser:
+      start: 2
+    fighter: 
+      start: 3
+    infantry: 
+      start: 4
+    pds: 
+      start: 1
+    space_dock: 
+      start: 1
+
+The Yin Brotherhood:
+  
+  home_systems: [3]
+  commodoties: 2
+  abilities: [Indoctrination, Devotion]
+  start_techs: [Sarween Tools]
+  units:
+    flagship: 
+      name: Van Hauge
+    carrier: 
+      start: 2
+    destroyer: 
+      start: 1
+    fighter: 
+      start: 4
+    infantry: 
+      start: 4
+    space_dock: 
+      start: 1
+
+The Embers of Muaat:
+  
+  home_systems: [4]
+  commodoties: 4
+  abilities: [Star Forge, Gashlai Physiology]
+  start_techs: [Plasma Scoring]
+  units:
+    flagship: 
+      name: The Inferno
+    fighter: 
+      start: 2
+    infantry: 
+      start: 4
+    space_dock: 
+      start: 1
+    war_sun:
+      name: Prototype War Sun I
+      start: 1
+
+The Arborec:
+  
+  home_systems: [5]
+  commodoties: 3
+  abilities: [Mitosis]
+  start_techs: [Magen Defense Grid]
+  units:
+    flagship: 
+      name: Duha Menaimon
+    carrier: 
+      start: 1
+    cruiser:
+      start: 1
+    fighter: 
+      start: 2
+    infantry: 
+      name: Letani Warrior I
+      start: 4
+    pds: 
+      start: 1
+    space_dock: 
+      start: 1
+
+The L1z1x Mindnet:
+  
+  home_systems: [6]
+  commodoties: 2
+  abilities: [Assimilate, Harrow]
+  start_techs: [Neural Motivator, Plasma Scoring]
+  units:
+    flagship: 
+      name: "[0.0.1]"
+    carrier: 
+      start: 1
+    dreadnought: 
+      name: Super-Dreadnought I
+      start: 1
+    fighter: 
+      start: 3
+    infantry: 
+      start: 5
+    pds: 
+      start: 1
+    space_dock: 
+      start: 1
+
+The Winnu:
+  
+  home_systems: [7]
+  commodoties: 3
+  abilities: [Blood Ties, Reclamation]
+  start_techs: [] # Choose any 1 technology that has no prereqs
+  units:
+    flagship: 
+      name: Salai Sai Corian
+    carrier: 
+      start: 1
+    cruiser:
+      start: 1
+    fighter: 
+      start: 2
+    infantry: 
+      start: 2
+    pds: 
+      start: 1
+    space_dock: 
+      start: 1
+
+The Nekro Virus:
+  
+  home_systems: [8]
+  commodoties: 3
+  abilities: [Galactic Threat, Technological Singularity, Propagation]
+  start_techs: [Dacxive Animators, Valefar Assimilator X, Valefar Assimilator Y]
+  units:
+    flagship: 
+      name: The Alastor
+    carrier: 
+      start: 1
+    cruiser:
+      start: 1
+    dreadnought: 
+      start: 1
+    fighter: 
+      start: 2
+    infantry: 
+      start: 2
+    space_dock: 
+      start: 1
+
+The Naalu Collective:
+  
+  home_systems: [9]
+  commodoties: 3
+  abilities: [Telepathic, Foresight]
+  start_techs: [Neural Motivator, Sarween Tools]
+  units:
+    flagship: 
+      name: Matriarch
+    carrier: 
+      start: 1
+    cruiser:
+      start: 1
+    destroyer: 
+      start: 1
+    fighter: 
+      name: Hybrid Crystal Fighter I
+      start: 3
+    infantry: 
+      start: 4
+    pds: 
+      start: 1
+    space_dock: 
+      start: 1
+
+The Barony of Letnev:
+  
+  home_systems: [10]
+  commodoties: 2
+  abilities: [Munitions Reserves, Armada]
+  start_techs: [Antimass Deflectors, Plasma Scoring]
+  units:
+    flagship: 
+      name: Arc Secundus
+    carrier: 
+      start: 1
+    destroyer: 
+      start: 1
+    dreadnought: 
+      start: 1
+    fighter: 
+      start: 1
+    infantry: 
+      start: 3
+    space_dock: 
+      start: 1
+
+The Clan of Saar:
+  
+  home_systems: [11]
+  commodoties: 3
+  abilities: [Scavenge, Nomadic]
+  start_techs: [Antimass Deflectors]
+  units:
+    flagship: 
+      name: Son of Ragh
+    carrier: 
+      start: 2
+    cruiser:
+      start: 1
+    fighter: 
+      start: 2
+    infantry: 
+      start: 4
+    space_dock: 
+      name: Floating Factory I
+      start: 1
+
+The Universities of Jol-Nar:
+  
+  home_systems: [12]
+  commodoties: 4
+  abilities: [Fragile, Brilliant, Analytical]
+  start_techs: [Neural Motivator, Antimass Deflectors, Sarween Tools, Plasma Scoring]
+  units:
+    flagship: 
+      name: J.N.S Hylarim
+    carrier: 
+      start: 2
+    dreadnought: 
+      start: 1
+    fighter: 
+      start: 1
+    infantry: 
+      start: 2
+    pds: 
+      start: 2
+    space_dock: 
+      start: 1
+
+Sardakk N'orr:
+  
+  home_systems: [13]
+  commodoties: 3
+  abilities: [Unrelenting]
+  start_techs: []
+  units:
+    flagship: 
+      name: C'morran N'orr
+    carrier: 
+      start: 2
+    cruiser:
+      start: 1
+    dreadnought: 
+      name: Exotrireme I
+    infantry: 
+      start: 5
+    pds: 
+      start: 1
+    space_dock: 
+      start: 1
+
+The Xxcha Kingdom:
+  
+  home_systems: [14]
+  commodoties: 4
+  abilities: [Peace Accords, Quash]
+  start_techs: [Graviton Laser System]
+  units:
+    flagship: 
+      name: Loncara Ssodu
+    carrier: 
+      start: 1
+    cruiser:
+      start: 2
+    fighter: 
+      start: 3
+    infantry: 
+      start: 4
+    pds: 
+      start: 1
+    space_dock: 
+      start: 1
+
+The Yssaril Tribes:
+  
+  home_systems: [15]
+  commodoties: 3
+  abilities: [Stall Tactics, Scheming, Crafty]
+  start_techs: [Neural Motivator]
+  units:
+    flagship: 
+      name: Y'sia Y'ssrila
+    carrier: 
+      start: 2
+    cruiser:
+      start: 1
+    fighter: 
+      start: 2
+    infantry: 
+      start: 5
+    pds: 
+      start: 1
+    space_dock: 
+      start: 1
+
+The Emirates of Hacan:
+  
+  home_systems: [16]
+  commodoties: 6
+  abilities: [Masters of Trade, Guild Ships, Arbiters]
+  start_techs: [Antimass Deflectors, Sarween Tools]
+  units:
+    flagship: 
+      name: Wrath of Kenara
+    carrier: 
+      start: 2
+    cruiser:
+      start: 1
+    fighter: 
+      start: 2
+    infantry: 
+      start: 4
+    space_dock: 
+      start: 1
+
+The Ghosts of Creuss:
+  
+  home_systems: [17, 51]
+  commodoties: 4
+  abilities: [Quantum Entanglement, Slipstream, Creuss Gate]
+  start_techs: [Gravity Drive]
+  units:
+    flagship: 
+      name: Hil Colish
+    carrier: 
+      start: 1
+    destroyer: 
+      start: 2
+    fighter: 
+      start: 2
+    infantry: 
+      start: 4
+    space_dock: 
+      start: 1

@@ -1,0 +1,56 @@
+Antimass Deflectors:
+  type: PROPULSION
+Assault Cannon: 
+  type: WARFARE
+  prereqs: 
+    WARFARE: 3
+Dacxive Animators: 
+  type: BIOTIC
+  prereqs:
+    BIOTIC: 1
+Duranium Armor:
+  type: WARFARE
+  prereqs:
+    WARFARE: 2
+Fleet Logistics: 
+  type: PROPULSION
+  prereqs:
+    PROPULSION: 2
+Graviton Laser System: 
+  type: CYBERNETIC
+  prereqs:
+    CYBERNETIC: 1
+Gravity Drive: 
+  type: PROPULSION
+  prereqs:
+    PROPULSION: 1
+Hyper Metabolism: 
+  type: BIOTIC
+  prereqs:
+    BIOTIC: 2
+Integrated Economy: 
+  type: CYBERNETIC
+  prereqs:
+    CYBERNETIC: 3
+Light/Wave Deflector: 
+  type: PROPULSION
+  prereqs:
+    CYBERNETIC: 3
+Magen Defense Grid: 
+  type: WARFARE
+  prereqs:
+    WARFARE: 1
+Neural Motivator: 
+  type: BIOTIC
+Plasma Scoring: 
+  type: WARFARE
+Sarween Tools: 
+  type: CYBERNETIC
+Transit Diodes: 
+  type: CYBERNETIC
+  prereqs:
+    CYBERNETIC: 2
+X-89 Bacterial Weapon: 
+  type: BIOTIC
+  prereqs:
+    BIOTIC: 3

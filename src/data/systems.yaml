@@ -1,0 +1,115 @@
+# This .yaml is formatted as follows:
+# 
+# The key of each entry is the numerical value as printed on the tile. It was chosen to use the number itself, instead of,
+#   for example, a list of entries, where each system number == index + 1, as it decouples the indexing to have exact match
+#   data directly from the tile. The index number can then be used directly by other parts of the application
+#
+# Every entry MAY have zero or more of the following items:
+#
+#   planets: A list [] of planets in this system, whose names will be used as keys within the planets.yaml file
+#   wormhole: a string representing one of three types of wormholes - "alpha", "beta", and "delta"
+#   anomaly: a string representing one of four types of anomalies - "asteroid_field", "nebula", "supernova", "gravity_rift"
+#
+# Some tiles/systems are completely blank, and so they have no entries in their dictionary - they are simply set to NULL
+#     
+
+1:
+  planets: [Jord]
+2:
+  planets: [Moll Primus]
+3:
+  planets: [Darien]
+4:
+  planets: [Muatt]
+5:
+  planets: [Nestphar]
+6:
+  planets: ["[0.0.0]"]
+7:
+  planets: [Winnu]
+8:
+  planets: [Mordai II]
+9:
+  planets: [Druaa, Maaluuk]
+10:
+  planets: [Arc Prime, Wren Terra]
+11:
+  planets: [Lisis II, Ragh]
+12:
+  planets: [Jol, Nar]
+13:
+  planets: [Quinarra, Tren'lak]
+14:
+  planets: [Archon Ren, Archon Tau]
+15:
+  planets: [Retillion, Shalloq]
+16:
+  planets: [Arretze, Hercant, Kamdorn]
+17:
+  wormhole: &delta delta
+18:
+  planets: [Mecatol Rex]
+19:
+  planets: [Wellon]
+20:
+  planets: [Vefut II]
+21:
+  planets: [Thibah]
+22:
+  planets: [Tar'mann]
+23:
+  planets: [Saudor]
+24:
+  planets: [Mehar Xull]
+25:
+  planets: [Quann]
+  wormhole: &beta beta
+26:
+  planets: [Lodor]
+  wormhole: &alpha alpha
+27:
+  planets: [New Albion, Starpoint]
+28:
+  planets: [Tequ'ran, Torkan]
+29:
+  planets: [Qucen'n, Rarron]
+30:
+  planets: [Mellon, Zohbat]
+31:
+  planets: [Lazar, Sakulag]
+32:
+  planets: [Dal Bootha, Xxehan]
+33:
+  planets: [Corneeq, Resculon]
+34:
+  planets: [Centauri, Gral]
+35:
+  planets: [Bereg, Lirta IV]
+36:
+  planets: [Arnor, Lor]
+37:
+  planets: [Arinam, Meer]
+38:
+  planets: [Abyz, Fria]
+39:
+  wormhole: *alpha
+40:
+  wormhole: *beta
+41:
+  anomaly: gravity_rift
+42:
+  anomaly: nebula
+43:
+  anomaly: supernova
+44:
+  anomaly: &asteroid_field asteroid_field
+45:
+  anomaly: *asteroid_field
+46: &empty null
+47: *empty
+48: *empty
+49: *empty
+50: *empty
+51:
+  planets: [Creuss]
+  wormhole: *delta

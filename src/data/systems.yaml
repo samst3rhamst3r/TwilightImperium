@@ -46,7 +46,7 @@
 16:
   planets: [Arretze, Hercant, Kamdorn]
 17:
-  wormhole: &delta delta
+  wormhole: &delta DELTA
 18:
   planets: [Mecatol Rex]
 19:
@@ -63,10 +63,10 @@
   planets: [Mehar Xull]
 25:
   planets: [Quann]
-  wormhole: &beta beta
+  wormhole: &beta BETA
 26:
   planets: [Lodor]
-  wormhole: &alpha alpha
+  wormhole: &alpha ALPHA
 27:
   planets: [New Albion, Starpoint]
 28:
@@ -101,10 +101,9 @@
   anomaly: nebula
 43:
   anomaly: supernova
-44:
-  anomaly: &asteroid_field asteroid_field
-45:
-  anomaly: *asteroid_field
+44: &asteroid_field 
+  anomaly: asteroid_field
+45: *asteroid_field
 46: &empty null
 47: *empty
 48: *empty

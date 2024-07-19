@@ -1,4 +1,14 @@
-
+Advanced Carrier:
+  I: &level_1
+    cost: 3
+    combat: 9
+    move: 1
+    capacity: 6
+  II:
+    <<: *level_1
+    move: 2
+    capacity: 8
+    abilities: [SUSTAIN DAMAGE]
 Carrier:
   I: &level_1
     cost: 3
@@ -16,13 +26,15 @@ Cruiser:
     move: 2
   II:
     <<: *level_1
-    combat: 7
+    combat: 6
+    move: 3
     capacity: 1
 Destroyer:
   I: &level_1
     cost: 1
     combat: 9
     move: 2
+    abilities: [ANTI-FIGHTER BARRAGE 9 (x2)]
   II:
     <<: *level_1
     combat: 8
@@ -37,7 +49,18 @@ Dreadnought:
   II: 
     <<: *level_1
     move: 2
-    abilities: [SUSTAIN DAMAGE, BOMBARDMENT 5] # Also cannot be destroyed by Direct Hit action cards
+    # Also cannot be destroyed by Direct Hit action cards
+Exotrireme:
+  I: &level_1
+    cost: 4
+    combat: 5
+    move: 1
+    capacity: 1
+    abilities: [SUSTAIN DAMAGE, BOMBARDMENT 4 (x2)]
+  II: 
+    <<: *level_1
+    move: 2
+    # In addition to abilities, cannot be destroyed by Direct Hit action cards
 Fighter: 
   I: &level_1
     cost: 1
@@ -48,6 +71,26 @@ Fighter:
     combat: 8
     move: 2
     abilities: [] # May move without being transported. Excess of ships' capacity count against fleet pool
+Floating Factory:
+  I: &level_1
+    move: 1
+    capacity: 4
+    abilities: [PRODUCTION 5] # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
+  II: 
+    <<: *level_1
+    move: 2
+    capacity: 5
+    abilities: [PRODUCTION 7]
+Hybrid Crystal Fighter: 
+  I: &level_1
+    cost: 1
+    units_per_cost: 2
+    combat: 8
+  II: 
+    <<: *level_1
+    combat: 7
+    move: 2
+    # Unit may move without being trasnported. Each fighter in excess of ships capacity counts as 1/2 of a ship against fleet pool
 Infantry: 
   I: &level_1
     cost: 1
@@ -57,16 +100,59 @@ Infantry:
     <<: *level_1
     combat: 7
     abilities: [] # After unit destroyed, roll 1 die - if >= 6, place unit on the card. At start of next turn, place each unit on card on a controlled planet in my home system
+Letani Warrior:
+  I: &level_1
+    cost: 1
+    units_per_cost: 2
+    combat: 8
+    abilities: [PRODUCTION 1]
+  II: 
+    <<: *level_1
+    combat: 7
+    abilities: [PRODUCTION 2]
 PDS: 
   I: 
     abilities: [PLANETARY SHIELD, SPACE CANNON 6]
   II: 
     abilities: [PLANETARY SHIELD, SPACE CANNON 5] # May use this unit's SPACE CANNON against adjacent systems
+Prototype War Sun:
+  I: &level_1
+    cost: 12
+    combat: 3
+    burst: 3
+    move: 1
+    capacity: 6
+    abilities: [SUSTAIN DAMAGE, BOMBARDMENT 3 (x3)] # Other players' units in this system lose PLANETARY SHIELD
+  II: 
+    <<: *level_1
+    cost: 10
+    move: 3
 Space Dock: 
   I: 
     abilities: [PRODUCTION X] # PROD value is 2 more than rsrc value of this planet; up to 3 fighters in system do not count toward ships' capacity
   II: 
     abilities: [PRODUCTION X] # PROD value is 4 more
+Spec Ops:
+  I: &level_1
+    cost: 1
+    units_per_cost: 2
+    combat: 7
+  II: 
+    <<: *level_1
+    combat: 6
+    # After unit destroyed, roll 1 die; If result >= 5, place unit on card; at start of next turn, place each unit on card on planet controlled in home system
+Super-Dreadnought:
+  I: &level_1
+    cost: 4
+    combat: 5
+    move: 1
+    capacity: 2
+    abilities: [SUSTAIN DAMAGE, BOMBARDMENT 5]
+  II: 
+    <<: *level_1
+    combat: 4
+    move: 2
+    abilities: [SUSTAIN DAMAGE, BOMBARDMENT 4] # Cannot be destroyed by Direct Hit action cards
 War Sun: 
   cost: 12
   combat: 3

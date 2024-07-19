@@ -2,10 +2,10 @@
 # Every race will be formatted in the following way:
 # 
 # [RACE NAME]:
-#   home_systems: [ Numerical value used as a key in systems.yaml
-#   commodities:  Numerical value which is the max commodities this race can hold
-#   abilities:    List [] of this race's unique special abilities (used as keys in abilities.yaml)]
-#   start_techs:  List [] of technologies this race starts the game with (used as keys in techs.yaml)
+#   home_systems:     Numerical list [] of indices in systems.yaml. Most lists are 1 entry only.
+#   max_commodities:  Numerical value which is the max commodities this race can hold
+#   abilities:        List [] of this race's unique special abilities (used as keys in abilities.yaml)]
+#   start_techs:      List [] of technologies this race starts the game with (used as keys in techs.yaml)
 #   units: 
 #     
 #     Within the application, default "name"s and "start"ing amounts will be applied for each races' units. 
@@ -18,7 +18,7 @@
 #     
 #     Possible units contained in this field include the following, with associated default names -
 #     
-#     flagship:     Required by every race, cannot be defaulted
+#     flagship:     Required by every race, will not be defaulted
 #     war_sun:      Defaults to NULL, as most races do not start the game with War Sun capabilities
 #     dreadnought:  Defaults to "Dreadnought I"
 #     carrier:      Defaults to "Carrier I"
@@ -32,21 +32,21 @@
 The Federation of Sol:
 
   home_systems: [1]
-  commodoties: 4
+  max_commodities: 4
   abilities: [Orbital Drop, Versatile]
   start_techs: [Neural Motivator, Antimass Deflectors]
   units:
     flagship: 
       name: Genesis
     carrier: 
-      name: Advanced Carrier I
+      name: Advanced Carrier
       start: 2
     destroyer: 
       start: 1
     fighter: 
       start: 3
     infantry: 
-      name: Spec Ops I
+      name: Spec Ops
       start: 5
     space_dock: 
       start: 0
@@ -54,9 +54,10 @@ The Federation of Sol:
 The Mentak Coalition:
   
   home_systems: [2]
-  commodoties: 2
+  max_commodities: 2
   abilities: [Ambush, Pillage]
   start_techs: [Sarween Tools, Plasma Scoring]
+  unique_techs: [Mirror Computing, Salvage Operations]
   units:
     flagship: 
       name: Fourth Moon
@@ -76,9 +77,10 @@ The Mentak Coalition:
 The Yin Brotherhood:
   
   home_systems: [3]
-  commodoties: 2
+  max_commodities: 2
   abilities: [Indoctrination, Devotion]
   start_techs: [Sarween Tools]
+  unique_techs: [Yin Spinner, Impulse Core]
   units:
     flagship: 
       name: Van Hauge
@@ -96,9 +98,10 @@ The Yin Brotherhood:
 The Embers of Muaat:
   
   home_systems: [4]
-  commodoties: 4
+  max_commodities: 4
   abilities: [Star Forge, Gashlai Physiology]
   start_techs: [Plasma Scoring]
+  unique_techs: [Magmus Reactor]
   units:
     flagship: 
       name: The Inferno
@@ -109,15 +112,16 @@ The Embers of Muaat:
     space_dock: 
       start: 1
     war_sun:
-      name: Prototype War Sun I
+      name: Prototype War Sun
       start: 1
 
 The Arborec:
   
   home_systems: [5]
-  commodoties: 3
+  max_commodities: 3
   abilities: [Mitosis]
   start_techs: [Magen Defense Grid]
+  unique_techs: [Bioplasmosis]
   units:
     flagship: 
       name: Duha Menaimon
@@ -128,7 +132,7 @@ The Arborec:
     fighter: 
       start: 2
     infantry: 
-      name: Letani Warrior I
+      name: Letani Warrior
       start: 4
     pds: 
       start: 1
@@ -138,16 +142,17 @@ The Arborec:
 The L1z1x Mindnet:
   
   home_systems: [6]
-  commodoties: 2
+  max_commodities: 2
   abilities: [Assimilate, Harrow]
   start_techs: [Neural Motivator, Plasma Scoring]
+  unique_techs: [Inheritance Systems]
   units:
     flagship: 
       name: "[0.0.1]"
     carrier: 
       start: 1
     dreadnought: 
-      name: Super-Dreadnought I
+      name: Super-Dreadnought
       start: 1
     fighter: 
       start: 3
@@ -161,9 +166,10 @@ The L1z1x Mindnet:
 The Winnu:
   
   home_systems: [7]
-  commodoties: 3
+  max_commodities: 3
   abilities: [Blood Ties, Reclamation]
   start_techs: [] # Choose any 1 technology that has no prereqs
+  unique_techs: [Hegemonic Trade Policy, Lazax Gate Folding]
   units:
     flagship: 
       name: Salai Sai Corian
@@ -183,9 +189,10 @@ The Winnu:
 The Nekro Virus:
   
   home_systems: [8]
-  commodoties: 3
+  max_commodities: 3
   abilities: [Galactic Threat, Technological Singularity, Propagation]
   start_techs: [Dacxive Animators, Valefar Assimilator X, Valefar Assimilator Y]
+  unique_techs: [Valefar Assimilator X, Valefar Assimilator Y]
   units:
     flagship: 
       name: The Alastor
@@ -205,9 +212,10 @@ The Nekro Virus:
 The Naalu Collective:
   
   home_systems: [9]
-  commodoties: 3
+  max_commodities: 3
   abilities: [Telepathic, Foresight]
   start_techs: [Neural Motivator, Sarween Tools]
+  unique_techs: [Neuroglaive]
   units:
     flagship: 
       name: Matriarch
@@ -218,7 +226,7 @@ The Naalu Collective:
     destroyer: 
       start: 1
     fighter: 
-      name: Hybrid Crystal Fighter I
+      name: Hybrid Crystal Fighter
       start: 3
     infantry: 
       start: 4
@@ -230,9 +238,10 @@ The Naalu Collective:
 The Barony of Letnev:
   
   home_systems: [10]
-  commodoties: 2
+  max_commodities: 2
   abilities: [Munitions Reserves, Armada]
   start_techs: [Antimass Deflectors, Plasma Scoring]
+  unique_techs: [L4 Disruptors, Non-Euclidean Shielding]
   units:
     flagship: 
       name: Arc Secundus
@@ -252,9 +261,10 @@ The Barony of Letnev:
 The Clan of Saar:
   
   home_systems: [11]
-  commodoties: 3
+  max_commodities: 3
   abilities: [Scavenge, Nomadic]
   start_techs: [Antimass Deflectors]
+  unique_techs: [Chaos Mapping]
   units:
     flagship: 
       name: Son of Ragh
@@ -267,15 +277,16 @@ The Clan of Saar:
     infantry: 
       start: 4
     space_dock: 
-      name: Floating Factory I
+      name: Floating Factory
       start: 1
 
 The Universities of Jol-Nar:
   
   home_systems: [12]
-  commodoties: 4
+  max_commodities: 4
   abilities: [Fragile, Brilliant, Analytical]
   start_techs: [Neural Motivator, Antimass Deflectors, Sarween Tools, Plasma Scoring]
+  unique_techs: [Spacial Conduit Cylinder, E-Res Siphons]
   units:
     flagship: 
       name: J.N.S Hylarim
@@ -295,9 +306,10 @@ The Universities of Jol-Nar:
 Sardakk N'orr:
   
   home_systems: [13]
-  commodoties: 3
+  max_commodities: 3
   abilities: [Unrelenting]
   start_techs: []
+  unique_techs: [Valkyrie Particle Weave]
   units:
     flagship: 
       name: C'morran N'orr
@@ -306,7 +318,7 @@ Sardakk N'orr:
     cruiser:
       start: 1
     dreadnought: 
-      name: Exotrireme I
+      name: Exotrireme
     infantry: 
       start: 5
     pds: 
@@ -317,9 +329,10 @@ Sardakk N'orr:
 The Xxcha Kingdom:
   
   home_systems: [14]
-  commodoties: 4
+  max_commodities: 4
   abilities: [Peace Accords, Quash]
   start_techs: [Graviton Laser System]
+  unique_techs: [Nullification Field, Instinct Training]
   units:
     flagship: 
       name: Loncara Ssodu
@@ -339,9 +352,10 @@ The Xxcha Kingdom:
 The Yssaril Tribes:
   
   home_systems: [15]
-  commodoties: 3
+  max_commodities: 3
   abilities: [Stall Tactics, Scheming, Crafty]
   start_techs: [Neural Motivator]
+  unique_techs: [Mageon Implants, Transparasteel Plating]
   units:
     flagship: 
       name: Y'sia Y'ssrila
@@ -361,9 +375,10 @@ The Yssaril Tribes:
 The Emirates of Hacan:
   
   home_systems: [16]
-  commodoties: 6
+  max_commodities: 6
   abilities: [Masters of Trade, Guild Ships, Arbiters]
   start_techs: [Antimass Deflectors, Sarween Tools]
+  unique_techs: [Production Biomes, Quantum Datahub Node]
   units:
     flagship: 
       name: Wrath of Kenara
@@ -381,9 +396,10 @@ The Emirates of Hacan:
 The Ghosts of Creuss:
   
   home_systems: [17, 51]
-  commodoties: 4
+  max_commodities: 4
   abilities: [Quantum Entanglement, Slipstream, Creuss Gate]
   start_techs: [Gravity Drive]
+  unique_techs: [Dimensional Splicer, Wormhole Generator]
   units:
     flagship: 
       name: Hil Colish

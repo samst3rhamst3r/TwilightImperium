@@ -1,0 +1,68 @@
+players:
+  3:
+    layout: [
+      [null,  1,      null,   1,      null,   1,      null],
+      [1,     null,   1,      null,   1,      null,   1   ],
+      [null,  1,      null,   1,      null,   1,      null],
+      [1,     null,   1,      null,   1,      null,   1   ],
+      [null,  1,      null,   1,      null,   1,      null],
+      [null,  null,   1,      null,   1,      null,   null],
+      [null,  1,      null,   1,      null,   1,      null],
+      [null,  null,   1,      null,   1,      null,   null],
+      [null,  null,   null,   1,      null,   null,   null],
+      [null,  null,   1,      null,   1,      null,   null],
+      [null,  null,   null,   1,      null,   null,   null]
+    ]
+    mecatol_rex_coordinates: [4, 3]
+    home_systems:
+    - coordinates: [1, 0]
+    - coordinates: [1, 6]
+    - coordinates: [10, 3]
+
+  4: &default
+    layout: [
+      [null,  null,   null,   1,      null,   null,   null],
+      [null,  null,   1,      null,   1,      null,   null],
+      [null,  1,      null,   1,      null,   1,      null],
+      [1,     null,   1,      null,   1,      null,   1   ],
+      [null,  1,      null,   1,      null,   1,      null],
+      [1,     null,   1,      null,   1,      null,   1   ],
+      [null,  1,      null,   1,      null,   1,      null],
+      [1,     null,   1,      null,   1,      null,   1   ],
+      [null,  1,      null,   1,      null,   1,      null],
+      [1,     null,   1,      null,   1,      null,   1   ],
+      [null,  1,      null,   1,      null,   1,      null],
+      [null,  null,   1,      null,   1,      null,   null],
+      [null,  null,   null,   1,      null,   null,   null]
+    ]
+    mecatol_rex_coordinates: [6, 3]
+    home_systems:
+    - coordinates: [1, 2]
+    - coordinates: [5, 6]
+    - coordinates: [11, 4]
+    - coordinates: [7, 0]
+
+  5: 
+    <<: *default
+    home_systems:
+    - coordinates: [1, 2]
+      trade_good_bonus: 0
+    - coordinates: [3, 6]
+      trade_good_bonus: 2
+    - coordinates: [9, 6]
+      trade_good_bonus: 4
+    - coordinates: [12, 3]
+      trade_good_bonus: 2
+    - coordinates: [7, 0]
+      trade_good_bonus: 0
+  
+  6: 
+    <<: *default
+    home_systems:
+    - coordinates: [0, 3]
+    - coordinates: [3, 6]
+    - coordinates: [9, 6]
+    - coordinates: [12, 3]
+    - coordinates: [9, 0]
+    - coordinates: [3, 0]
+

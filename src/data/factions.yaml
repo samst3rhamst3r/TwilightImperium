@@ -4,7 +4,7 @@
 # [RACE NAME]:
 #   home_systems:     Numerical list [] of indices in systems.yaml. Most lists are 1 entry only.
 #   max_commodities:  Numerical value which is the max commodities this race can hold
-#   abilities:        List [] of this race's unique special abilities (used as keys in abilities.yaml)]
+#   abilities:        List [] of this race's unique special abilities (used as keys in abilities.yaml)
 #   start_techs:      List [] of technologies this race starts the game with (used as keys in techs.yaml)
 #   units: 
 #     

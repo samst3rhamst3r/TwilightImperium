@@ -1,0 +1,16 @@
+- name: Leadership
+  initiative: 1
+- name: Diplomacy
+  initiative: 2
+- name: Politics
+  initiative: 3
+- name: Construction
+  initiative: 4
+- name: Trade
+  initiative: 5
+- name: Warfare
+  initiative: 6
+- name: Technology
+  initiative: 7
+- name: Imperial
+  initiative: 8

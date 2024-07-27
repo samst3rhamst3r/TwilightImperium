@@ -2,6 +2,7 @@
 import pathlib, yaml
 
 from ..game.exceptions import DiplomacyPrimaryAbilitytException, StrategyCardInitException
+from .exhaustable import Exhaustable
 
 _LEADERSHIP_PRIM_ABILITY_GAIN_TOKENS = 3
 _LEADERSHIP_SEC_ABILITY_INFL_PER_TOKEN = 3
@@ -100,7 +101,7 @@ _ABILITY_MAPPING = {
         },
 }
 
-class Strategy:
+class Strategy(Exhaustable):
 
     @classmethod
     def Init(cls, *, strategy_cards: dict | None = None, yaml_file_path: str | pathlib.Path | None = None):
@@ -117,11 +118,12 @@ class Strategy:
 
 
     def __init__(self, name: str, initiative: int, prim_ability: callable, sec_ability: callable, exhausted: bool = False) -> None:
+        super().__init__(exhausted)
+        
         self._name = name
         self._initiative = initiative
         self._prim_ability = prim_ability
         self._sec_ability = sec_ability
-        self._exhausted = exhausted
     
     @property
     def name(self):
@@ -130,10 +132,6 @@ class Strategy:
     @property
     def initiative(self):
         return self._initiative
-    
-    @property
-    def exhausted(self):
-        return self._exhausted
     
     def exec_prim_ability(self, *args, **kwargs):
         self._exhausted = True

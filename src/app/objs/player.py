@@ -1,21 +1,24 @@
 
-from typing import Iterable, Any
+from typing import Iterable, TypeAlias
+import dataclasses as dc
 
-class Player:
+from .named import NamedObject
 
-    def __init__(self, name: str, planets: Iterable | None = None) -> None:
-        self._name = name
+Planet: TypeAlias = "Planet"
 
-        if planets is None:
-            self._planets = set()
-        else:
-            self._planets = set(planets)
+@dc.dataclass(slots=True)
+class Player(NamedObject):
+    name = dc.InitVar[str]
+    planets = dc.field(default_factory=set)
+
+    def __post_init__(self, name: str) -> None:
+        NamedObject.__init__(self, name)
+
+    def gain_planets(self, planets: Iterable[Planet]) -> None:
+        self.planets.update(planets)
+
+    def has_planets(self, planets: Iterable[Planet]) -> bool:
+        return self.planets.issuperset(planets)
     
-    def gain_planets(self, planets: Iterable[Any]) -> None:
-        self._planets.update(planets)
-
-    def has_planets(self, planets: Iterable[Any]) -> bool:
-        return self._planets.issuperset(planets)
-    
-    def has_planet(self, planet) -> bool:
-        return planet in self._planets
+    def has_planet(self, planet: Planet) -> bool:
+        return planet in self.planets

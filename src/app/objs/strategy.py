@@ -1,24 +1,34 @@
 
 import pathlib, yaml
+from typing import Iterable
 
-from ..game.exceptions import DiplomacyPrimaryAbilitytException, StrategyCardInitException
+from ..game.exceptions import DiplomacyPrimaryAbilityException, DiplomacySecondaryAbilityException, StrategyCardInitException
 from .exhaustable import Exhaustable
+from .planet import Planet
 
 _LEADERSHIP_PRIM_ABILITY_GAIN_TOKENS = 3
 _LEADERSHIP_SEC_ABILITY_INFL_PER_TOKEN = 3
 
-def _leadership_primary(player, influence: int = 0):
+def _leadership_primary(player, influence: int = 0) -> None:
     player.gain_command_tokens( _LEADERSHIP_PRIM_ABILITY_GAIN_TOKENS )
     _leadership_secondary(player, influence)
 
-def _leadership_secondary(player, influence: int):
+def _leadership_secondary(player, influence: int) -> None:
     command_tokens = influence // _LEADERSHIP_SEC_ABILITY_INFL_PER_TOKEN
     player.gain_command_tokens(command_tokens)
 
 def _diplomacy_primary(player, other_players, system):
     
-    if player.has_planets(system.planets):
-        raise DiplomacyPrimaryAbilitytException('Player does not control any planet in this system.')
+    if system.has_planet('Mecatol Rex'):
+        raise DiplomacyPrimaryAbilityException('Cannot choose the Mecatol Rex system for the Primary Diplomacy ability.')
+    
+    controls_planet = False
+    for planet in system.planets:
+        if player.has_planet(planet):
+            controls_planet = True
+            break
+    if not controls_planet:
+        raise DiplomacyPrimaryAbilityException('Player does not control any planet in this system.')
     
     for other_player in other_players:
         other_player.place_command_token(system)
@@ -27,8 +37,10 @@ def _diplomacy_primary(player, other_players, system):
         if planet in player.planets:
             player.ready_planet(planet)
 
-def _diplomacy_secondary():
-    pass
+def _diplomacy_secondary(player, planets: Iterable[Planet[2]]):
+    player.spend_command_tokens(1)
+    for planet in planets:
+        player.ready_planet(planet)
 
 def _politics_primary():
     pass
@@ -119,7 +131,7 @@ class Strategy(Exhaustable):
 
     def __init__(self, name: str, initiative: int, prim_ability: callable, sec_ability: callable, exhausted: bool = False) -> None:
         super().__init__(exhausted)
-        
+
         self._name = name
         self._initiative = initiative
         self._prim_ability = prim_ability

@@ -3,7 +3,7 @@ import dataclasses as dc
 
 from .types import StrNameOrNamedObjType
 
-@dc.dataclass(frozen=True, slots=True)
+@dc.dataclass(slots=True)
 class NamedObject:
     name: str
     

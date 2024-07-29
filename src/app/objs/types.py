@@ -1,8 +1,8 @@
-from typing import TypeVar, TypeAlias
+from typing import TypeVar
 
-Faction: TypeAlias = "Faction"
-Planet: TypeAlias = "Planet"
-Player: TypeAlias = "Player"
+type Faction = Faction
+type Planet = Planet
+type Player = Player
 
 NamedObjType = TypeVar('NamedObjType', Faction, Planet, Player)
 

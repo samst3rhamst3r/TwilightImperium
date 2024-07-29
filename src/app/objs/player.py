@@ -1,15 +1,15 @@
 
-from typing import Iterable, TypeAlias
+from typing import Iterable
 import dataclasses as dc
 
 from .named import NamedObject
 
-Planet: TypeAlias = "Planet"
+type Planet = Planet
 
 @dc.dataclass(slots=True)
 class Player(NamedObject):
-    name = dc.InitVar[str]
-    planets = dc.field(default_factory=set)
+    name: str = dc.InitVar[str]
+    planets: Iterable[Planet] = dc.field(default_factory=set)
 
     def __post_init__(self, name: str) -> None:
         NamedObject.__init__(self, name)

@@ -113,7 +113,7 @@ _ABILITY_MAPPING = {
         },
 }
 
-class Strategy(Exhaustable):
+class StrategyCard(Exhaustable):
 
     @classmethod
     def Init(cls, *, strategy_cards: dict | None = None, yaml_file_path: str | pathlib.Path | None = None):

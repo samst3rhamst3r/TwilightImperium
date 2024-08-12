@@ -18,6 +18,18 @@ class Anomaly(enum.Enum):
 @dc.dataclass(slots=True)
 class System:
     planets: tuple[Planet] | None = None
-    wormhole: tuple[Wormhole] | None = None
+    wormholes: tuple[Wormhole] | None = None
     anomaly: Anomaly | None = None
     neighbors: tuple = dc.field(init=False)
+
+    def has_planet(self, planet: str | Planet):
+        if isinstance(planet, str):
+            return planet in (planet_.name for planet_ in self.planets)
+        else:
+            return planet in self.planets
+        
+    def has_wormhole(self, wormhole: str | Wormhole):
+        if isinstance(wormhole, str):
+            return wormhole in (wormhole_.name for wormhole_ in self.wormholes)
+        else:
+            return wormhole in self.wormholes

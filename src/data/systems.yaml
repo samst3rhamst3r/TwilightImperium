@@ -3,112 +3,164 @@
 # The key of each entry is the numerical value as printed on the tile. It was chosen to use the number itself, instead of,
 #   for example, a list of entries, where each system number == index + 1, as it decouples the indexing to have exact match
 #   data directly from the tile. The index number can then be used directly by other parts of the application
-#
+# 
+# Every entry WILL have:
+#   back_color: a str Enum type signifying what color the back of the tile is - a home system (GREEN),
+#     a regular system (BLUE), or an anomaly/empty system (RED). Used for initial map setup.
+# 
 # Every entry MAY have zero or more of the following items:
 #
-#   planets: A list [] of planets in this system, whose names will be used as keys within the planets.yaml file
-#   wormhole: a string representing one of three types of wormholes - "alpha", "beta", and "delta"
-#   anomaly: a string representing one of four types of anomalies - "asteroid_field", "nebula", "supernova", "gravity_rift"
+#   planets: a list [] of planets in this system, whose names will be used as keys within the planets.yaml file
+#   wormhole: a str Enum type representing one of three types of wormholes - ALPHA, BETA, or DELTA
+#   anomaly: a str Enum type representing one of four types of anomalies - ASTEROID_FIELD, GRAVITY_RIFT, NEBULA, or SUPERNOVA
 #
-# Some tiles/systems are completely blank, and so they have no entries in their dictionary - they are simply set to NULL
-#     
 
-1:
+1: &green
+  back_color: GREEN
   planets: [Jord]
 2:
+  <<: *green
   planets: [Moll Primus]
 3:
+  <<: *green
   planets: [Darien]
 4:
+  <<: *green
   planets: [Muatt]
 5:
+  <<: *green
   planets: [Nestphar]
 6:
+  <<: *green
   planets: ["[0.0.0]"]
 7:
+  <<: *green
   planets: [Winnu]
 8:
+  <<: *green
   planets: [Mordai II]
 9:
+  <<: *green
   planets: [Druaa, Maaluuk]
 10:
+  <<: *green
   planets: [Arc Prime, Wren Terra]
 11:
+  <<: *green
   planets: [Lisis II, Ragh]
 12:
+  <<: *green
   planets: [Jol, Nar]
 13:
+  <<: *green
   planets: [Quinarra, Tren'lak]
 14:
+  <<: *green
   planets: [Archon Ren, Archon Tau]
 15:
+  <<: *green
   planets: [Retillion, Shalloq]
 16:
+  <<: *green
   planets: [Arretze, Hercant, Kamdorn]
 17:
+  <<: *green
+  planets: null
   wormhole: &delta DELTA
-18:
+18: &blue
+  back_color: BLUE
   planets: [Mecatol Rex]
 19:
+  <<: *blue
   planets: [Wellon]
 20:
+  <<: *blue
   planets: [Vefut II]
 21:
+  <<: *blue
   planets: [Thibah]
 22:
+  <<: *blue
   planets: [Tar'mann]
 23:
+  <<: *blue
   planets: [Saudor]
 24:
+  <<: *blue
   planets: [Mehar Xull]
 25:
+  <<: *blue
   planets: [Quann]
   wormhole: &beta BETA
 26:
+  <<: *blue
   planets: [Lodor]
   wormhole: &alpha ALPHA
 27:
+  <<: *blue
   planets: [New Albion, Starpoint]
 28:
+  <<: *blue
   planets: [Tequ'ran, Torkan]
 29:
+  <<: *blue
   planets: [Qucen'n, Rarron]
 30:
+  <<: *blue
   planets: [Mellon, Zohbat]
 31:
+  <<: *blue
   planets: [Lazar, Sakulag]
 32:
+  <<: *blue
   planets: [Dal Bootha, Xxehan]
 33:
+  <<: *blue
   planets: [Corneeq, Resculon]
 34:
+  <<: *blue
   planets: [Centauri, Gral]
 35:
+  <<: *blue
   planets: [Bereg, Lirta IV]
 36:
+  <<: *blue
   planets: [Arnor, Lor]
 37:
+  <<: *blue
   planets: [Arinam, Meer]
 38:
+  <<: *blue
   planets: [Abyz, Fria]
 39:
+  <<: *blue
+  planets: null
   wormhole: *alpha
 40:
+  <<: *blue
+  planets: null
   wormhole: *beta
-41:
-  anomaly: gravity_rift
+41: &red
+  back_color: RED
+  anomaly: GRAVITY_RIFT
 42:
-  anomaly: nebula
+  <<: *red
+  anomaly: NEBULA
 43:
-  anomaly: supernova
+  <<: *red
+  anomaly: SUPERNOVA
 44: &asteroid_field 
-  anomaly: asteroid_field
+  <<: *red
+  anomaly: ASTEROID_FIELD
 45: *asteroid_field
-46: &empty null
+46: &empty
+  <<: *red
+  anomaly: null
 47: *empty
 48: *empty
 49: *empty
 50: *empty
 51:
+  <<: *green
   planets: [Creuss]
   wormhole: *delta

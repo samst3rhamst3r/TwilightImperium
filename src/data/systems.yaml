@@ -11,156 +11,211 @@
 # Every entry MAY have zero or more of the following items:
 #
 #   planets: a list [] of planets in this system, whose names will be used as keys within the planets.yaml file
-#   wormhole: a str Enum type representing one of three types of wormholes - ALPHA, BETA, or DELTA
-#   anomaly: a str Enum type representing one of four types of anomalies - ASTEROID_FIELD, GRAVITY_RIFT, NEBULA, or SUPERNOVA
+#   wormhole: a str Enum type representing one of three types of wormholes - ALPHA, BETA, or delta
+#   anomaly: a str Enum type representing one of four types of anomalies - asteroid_field, gravity_rift, nebula, or supernova
 #
 
-1: &green
-  back_color: GREEN
-  planets: [Jord]
-2:
-  <<: *green
-  planets: [Moll Primus]
-3:
-  <<: *green
-  planets: [Darien]
-4:
-  <<: *green
-  planets: [Muatt]
-5:
-  <<: *green
-  planets: [Nestphar]
-6:
-  <<: *green
-  planets: ["[0.0.0]"]
-7:
-  <<: *green
-  planets: [Winnu]
-8:
-  <<: *green
-  planets: [Mordai II]
-9:
-  <<: *green
-  planets: [Druaa, Maaluuk]
-10:
-  <<: *green
-  planets: [Arc Prime, Wren Terra]
-11:
-  <<: *green
-  planets: [Lisis II, Ragh]
-12:
-  <<: *green
-  planets: [Jol, Nar]
-13:
-  <<: *green
-  planets: [Quinarra, Tren'lak]
-14:
-  <<: *green
-  planets: [Archon Ren, Archon Tau]
-15:
-  <<: *green
-  planets: [Retillion, Shalloq]
-16:
-  <<: *green
-  planets: [Arretze, Hercant, Kamdorn]
-17:
-  <<: *green
-  planets: null
-  wormhole: &delta DELTA
-18: &blue
-  back_color: BLUE
-  planets: [Mecatol Rex]
-19:
-  <<: *blue
-  planets: [Wellon]
-20:
-  <<: *blue
-  planets: [Vefut II]
-21:
-  <<: *blue
-  planets: [Thibah]
-22:
-  <<: *blue
-  planets: [Tar'mann]
-23:
-  <<: *blue
-  planets: [Saudor]
-24:
-  <<: *blue
-  planets: [Mehar Xull]
-25:
-  <<: *blue
-  planets: [Quann]
-  wormhole: &beta BETA
-26:
-  <<: *blue
-  planets: [Lodor]
-  wormhole: &alpha ALPHA
-27:
-  <<: *blue
-  planets: [New Albion, Starpoint]
-28:
-  <<: *blue
-  planets: [Tequ'ran, Torkan]
-29:
-  <<: *blue
-  planets: [Qucen'n, Rarron]
-30:
-  <<: *blue
-  planets: [Mellon, Zohbat]
-31:
-  <<: *blue
-  planets: [Lazar, Sakulag]
-32:
-  <<: *blue
-  planets: [Dal Bootha, Xxehan]
-33:
-  <<: *blue
-  planets: [Corneeq, Resculon]
-34:
-  <<: *blue
-  planets: [Centauri, Gral]
-35:
-  <<: *blue
-  planets: [Bereg, Lirta IV]
-36:
-  <<: *blue
-  planets: [Arnor, Lor]
-37:
-  <<: *blue
-  planets: [Arinam, Meer]
-38:
-  <<: *blue
-  planets: [Abyz, Fria]
-39:
-  <<: *blue
-  planets: null
-  wormhole: *alpha
-40:
-  <<: *blue
-  planets: null
-  wormhole: *beta
-41: &red
-  back_color: RED
-  anomaly: GRAVITY_RIFT
-42:
-  <<: *red
-  anomaly: NEBULA
-43:
-  <<: *red
-  anomaly: SUPERNOVA
-44: &asteroid_field 
-  <<: *red
-  anomaly: ASTEROID_FIELD
-45: *asteroid_field
-46: &empty
-  <<: *red
-  anomaly: null
-47: *empty
-48: *empty
-49: *empty
-50: *empty
-51:
-  <<: *green
-  planets: [Creuss]
-  wormhole: *delta
+id: "1"
+back_color: green
+planets: [Jord]
+---
+id: "2"
+back_color: green
+planets: [Moll Primus]
+---
+id: "3"
+back_color: green
+planets: [Darien]
+---
+id: "4"
+back_color: green
+planets: [Muatt]
+---
+id: "5"
+back_color: green
+planets: [Nestphar]
+---
+id: "6"
+back_color: green
+planets: ["[0.0.0]"]
+---
+id: "7"
+back_color: green
+planets: [Winnu]
+---
+id: "8"
+back_color: green
+planets: [Mordai II]
+---
+id: "9"
+back_color: green
+planets: [Druaa, Maaluuk]
+---
+id: "10"
+back_color: green
+planets: [Arc Prime, Wren Terra]
+---
+id: "11"
+back_color: green
+planets: [Lisis II, Ragh]
+---
+id: "12"
+back_color: green
+planets: [Jol, Nar]
+---
+id: "13"
+back_color: green
+planets: [Quinarra, Tren'lak]
+---
+id: "14"
+back_color: green
+planets: [Archon Ren, Archon Tau]
+---
+id: "15"
+back_color: green
+planets: [Retillion, Shalloq]
+---
+id: "16"
+back_color: green
+planets: [Arretze, Hercant, Kamdorn]
+---
+id: "17"
+back_color: green
+planets: []
+wormhole: delta
+---
+id: "18"
+back_color: blue
+planets: [Mecatol Rex]
+---
+id: "19"
+back_color: blue
+planets: [Wellon]
+---
+id: "20"
+back_color: blue
+planets: [Vefut II]
+---
+id: "21"
+back_color: blue
+planets: [Thibah]
+---
+id: "22"
+back_color: blue
+planets: [Tar'mann]
+---
+id: "23"
+back_color: blue
+planets: [Saudor]
+---
+id: "24"
+back_color: blue
+planets: [Mehar Xull]
+---
+id: "25"
+back_color: blue
+planets: [Quann]
+wormhole: beta
+---
+id: "26"
+back_color: blue
+planets: [Lodor]
+wormhole: alpha
+---
+id: "27"
+back_color: blue
+planets: [New Albion, Starpoint]
+---
+id: "28"
+back_color: blue
+planets: [Tequ'ran, Torkan]
+---
+id: "29"
+back_color: blue
+planets: [Qucen'n, Rarron]
+---
+id: "30"
+back_color: blue
+planets: [Mellon, Zohbat]
+---
+id: "31"
+back_color: blue
+planets: [Lazar, Sakulag]
+---
+id: "32"
+back_color: blue
+planets: [Dal Bootha, Xxehan]
+---
+id: "33"
+back_color: blue
+planets: [Corneeq, Resculon]
+---
+id: "34"
+back_color: blue
+planets: [Centauri, Gral]
+---
+id: "35"
+back_color: blue
+planets: [Bereg, Lirta IV]
+---
+id: "36"
+back_color: blue
+planets: [Arnor, Lor]
+---
+id: "37"
+back_color: blue
+planets: [Arinam, Meer]
+---
+id: "38"
+back_color: blue
+planets: [Abyz, Fria]
+---
+id: "39"
+back_color: blue
+planets: null
+wormhole: alpha
+---
+id: "40"
+back_color: blue
+planets: null
+wormhole: beta
+---
+id: "41"
+back_color: red
+anomaly: gravity_rift
+---
+id: "42"
+back_color: red
+anomaly: nebula
+---
+id: "43"
+back_color: red
+anomaly: supernova
+---
+id: "44"
+back_color: red
+anomaly: asteroid_field
+---
+id: "45"
+back_color: red
+anomaly: asteroid_field
+---
+id: "46"
+back_color: red
+---
+id: "47"
+back_color: red
+---
+id: "48"
+back_color: red
+---
+id: "49"
+back_color: red
+---
+id: "50"
+back_color: red
+---
+id: "51"
+back_color: green
+planets: [Creuss]
+wormhole: delta

@@ -1,199 +1,316 @@
-"[0.0.0]":
-  resources: 5
-Abyz:
-  resources: 3
-  trait: HAZARDOUS
-Arc Prime:
-  resources: 4
-Archon Ren:
-  resources: 2
-  influence: 3
-Archon Tau:
-  resources: 1
-  influence: 1
-Arinam:
-  resources: 1
-  influence: 2
-  trait: INDUSTRIAL
-Arnor:
-  resources: 2
-  influence: 1
-  trait: INDUSTRIAL
-Arretze:
-  resources: 2
-Bereg:
-  resources: 3
-  influence: 1
-  trait: HAZARDOUS
-Centauri:
-  resources: 1
-  influence: 3
-  trait: CULTURAL
-Corneeq:
-  resources: 1
-  influence: 2
-  trait: CULTURAL
-Creuss:
-  resources: 4
-  influence: 2
-Dal Bootha:
-  influence: 2
-  trait: CULTURAL
-Darien:
-  resources: 4
-  influence: 4
-Druaa:
-  resources: 3
-  influence: 1
-Fria:
-  resources: 2
-  trait: HAZARDOUS
-Gral:
-  resources: 1
-  influence: 1
-  trait: INDUSTRIAL
-  tech_specialty: PROPULSION
-Hercant:
-  resources: 1
-  influence: 1
-Jol:
-  resources: 1
-  influence: 2
-Jord:
-  resources: 4
-  influence: 2
-Kamdorn:
-  influence: 1
-Lazar:
-  resources: 1
-  trait: INDUSTRIAL
-  tech_specialty: CYBERNETIC
-Lirta IV:
-  resources: 2
-  influence: 3
-  trait: HAZARDOUS
-Lisis II:
-  resources: 1
-Lodor:
-  resources: 3
-  influence: 1
-  trait: CULTURAL
-Lor:
-  resources: 1
-  influence: 2
-  trait: INDUSTRIAL
-Maaluuk:
-  influence: 2
-Mecatol Rex:
-  resources: 1
-  influence: 6
-Meer:
-  influence: 4
-  trait: HAZARDOUS
-  tech_specialty: WARFARE
-Mehar Xull:
-  resources: 1
-  influence: 3
-  trait: HAZARDOUS
-  tech_specialty: WARFARE
-Mellon:
-  influence: 2
-  trait: CULTURAL
-Moll Primus:
-  resources: 4
-  influence: 1
-Mordai II: 
-  resources: 4
-Muaat:
-  resources: 4
-  influence: 1
-Nar:
-  resources: 2
-  influence: 3
-Nestphar:
-  resources: 3
-  influence: 2
-New Albion:
-  resources: 1
-  influence: 1
-  trait: INDUSTRIAL
-  tech_specialty: BIOTIC
-Quann:
-  resources: 2
-  influence: 1
-  trait: CULTURAL
-Qucen'n:
-  resources: 1
-  influence: 2
-  trait: INDUSTRIAL
-Quinarra:
-  resources: 3
-  influence: 1
-Ragh:
-  resources: 2
-  influence: 1
-Rarron:
-  influence: 3
-  trait: CULTURAL
-Resculon:
-  resources: 2
-  trait: CULTURAL
-Retillion:
-  resources: 2
-  influence: 3
-Sakulag:
-  resources: 2
-  influence: 1
-  trait: HAZARDOUS
-Saudor:
-  resources: 2
-  influence: 2
-  trait: INDUSTRIAL
-Shalloq:
-  resources: 1
-  influence: 2
-Starpoint:
-  resources: 3
-  influence: 1
-  trait: HAZARDOUS
-Tar'mann:
-  resources: 1
-  influence: 1
-  trait: INDUSTRIAL
-  tech_specialty: BIOTIC
-Tequ'ran:
-  resources: 2
-  trait: HAZARDOUS
-Thibah:
-  resources: 1
-  influence: 1
-  trait: INDUSTRIAL
-  tech_specialty: PROPULSION
-Torkan:
-  influence: 3
-  trait: CULTURAL
-Tren'lak:
-  resources: 1
-Vefut II:
-  resources: 2
-  influence: 2
-  trait: HAZARDOUS
-Wellon:
-  resources: 1
-  influence: 2
-  trait: INDUSTRIAL
-  tech_specialty: CYBERNETIC
-Winnu:
-  resources: 3
-  influence: 4
-Wren Terra:
-  resources: 2
-  influence: 1
-Xxehan:
-  resources: 1
-  influence: 1
-  trait: CULTURAL
-Zohbat:
-  resources: 3
-  influence: 1
-  trait: HAZARDOUS
+id: 0_0_0
+name: "[0.0.0]"
+resources: 5
+---
+id: abyz
+name: Abyz
+resources: 3
+trait: hazardous
+---
+id: arc_prime
+name: Arc Prime
+resources: 4
+---
+id: archon_ren
+name: Archon Ren
+resources: 2
+influence: 3
+---
+id: archon_tau
+name: Archon Tau
+resources: 1
+influence: 1
+---
+id: arinam
+name: Arinam
+resources: 1
+influence: 2
+trait: industrial
+---
+id: arnor
+name: Arnor
+resources: 2
+influence: 1
+trait: industrial
+---
+id: arretze
+name: Arretze
+resources: 2
+---
+id: bereg
+name: Bereg
+resources: 3
+influence: 1
+trait: hazardous
+---
+id: centauri
+name: Centauri
+resources: 1
+influence: 3
+trait: cultural
+---
+id: corneeq
+name: Corneeq
+resources: 1
+influence: 2
+trait: cultural
+---
+id: creuss
+name: Creuss
+resources: 4
+influence: 2
+---
+id: dal_bootha
+name: Dal Bootha
+influence: 2
+trait: cultural
+---
+id: darien
+name: Darien
+resources: 4
+influence: 4
+---
+id: druaa
+name: Druaa
+resources: 3
+influence: 1
+---
+id: fria
+name: Fria
+resources: 2
+trait: hazardous
+---
+id: gral
+name: Gral
+resources: 1
+influence: 1
+trait: industrial
+tech_specialty: propulsion
+---
+id: hercant
+name: Hercant
+resources: 1
+influence: 1
+---
+id: jol
+name: Jol
+resources: 1
+influence: 2
+---
+id: jord
+name: Jord
+resources: 4
+influence: 2
+---
+id: kamdorn
+name: Kamdorn
+influence: 1
+---
+id: lazar
+name: Lazar
+resources: 1
+trait: industrial
+tech_specialty: cybernetic
+---
+id: lirta_iv
+name: Lirta IV
+resources: 2
+influence: 3
+trait: hazardous
+---
+id: lisis_ii
+name: Lisis II
+resources: 1
+---
+id: lodor
+name: Lodor
+resources: 3
+influence: 1
+trait: cultural
+---
+id: lor
+name: Lor
+resources: 1
+influence: 2
+trait: industrial
+---
+id: maaluuk
+name: Maaluuk
+influence: 2
+---
+id: mecatol_rex
+name: Mecatol Rex
+resources: 1
+influence: 6
+---
+id: meer
+name: Meer
+influence: 4
+trait: hazardous
+tech_specialty: warfare
+---
+id: mehar_xull
+name: Mehar Xull
+resources: 1
+influence: 3
+trait: hazardous
+tech_specialty: warfare
+---
+id: mellon
+name: Mellon
+influence: 2
+trait: cultural
+---
+id: moll_primus
+name: Moll Primus
+resources: 4
+influence: 1
+---
+id: mordai_ii
+name: Mordai II
+resources: 4
+---
+id: muaat
+name: Muaat
+resources: 4
+influence: 1
+---
+id: nar
+name: Nar
+resources: 2
+influence: 3
+---
+id: nestphar
+name: Nestphar
+resources: 3
+influence: 2
+---
+id: new_albion
+name: New Albion
+resources: 1
+influence: 1
+trait: industrial
+tech_specialty: biotic
+---
+id: quann
+name: Quann
+resources: 2
+influence: 1
+trait: cultural
+---
+id: qucen_n
+name: Qucen'n
+resources: 1
+influence: 2
+trait: industrial
+---
+id: quinarra
+name: Quinarra
+resources: 3
+influence: 1
+---
+id: ragh
+name: Ragh
+resources: 2
+influence: 1
+---
+id: rarron
+name: Rarron
+influence: 3
+trait: cultural
+---
+id: resculon
+name: Resculon
+resources: 2
+trait: cultural
+---
+id: retillion
+name: Retillion
+resources: 2
+influence: 3
+---
+id: sakulag
+name: Sakulag
+resources: 2
+influence: 1
+trait: hazardous
+---
+id: saudor
+name: Saudor
+resources: 2
+influence: 2
+trait: industrial
+---
+id: shalloq
+name: Shalloq
+resources: 1
+influence: 2
+---
+id: starpoint
+name: Starpoint
+resources: 3
+influence: 1
+trait: hazardous
+---
+id: tar_mann
+name: Tar'mann
+resources: 1
+influence: 1
+trait: industrial
+tech_specialty: biotic
+---
+id: tequ_ran
+name: Tequ'ran
+resources: 2
+trait: hazardous
+---
+id: thibah
+name: Thibah
+resources: 1
+influence: 1
+trait: industrial
+tech_specialty: propulsion
+---
+id: torkan
+name: Torkan
+influence: 3
+trait: cultural
+---
+id: tren_lak
+name: Tren'lak
+resources: 1
+---
+id: vefut_ii
+name: Vefut II
+resources: 2
+influence: 2
+trait: hazardous
+---
+id: wellon
+name: Wellon
+resources: 1
+influence: 2
+trait: industrial
+tech_specialty: cybernetic
+---
+id: winnu
+name: Winnu
+resources: 3
+influence: 4
+---
+id: wren_terra
+name: Wren Terra
+resources: 2
+influence: 1
+---
+id: xxehan
+name: Xxehan
+resources: 1
+influence: 1
+trait: cultural
+---
+id: zohbat
+name: Zohbat
+resources: 3
+influence: 1
+trait: hazardous

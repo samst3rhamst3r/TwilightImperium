@@ -1,10 +1,10 @@
 import dataclasses as dc
 import enum
 
-from .named import NamedObject
+from ..objs.named import NamedObject
 from .tech import TechType
-from .exhaustable import Exhaustable
-from .player import Player
+from ..objs.exhaustable import Exhaustable
+from ..objs.player import Player
 
 class PlanetTrait(enum.Enum):
     CULTURAL = enum.auto()

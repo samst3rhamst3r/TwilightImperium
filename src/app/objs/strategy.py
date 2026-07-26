@@ -4,7 +4,7 @@ from typing import Iterable
 
 from ..game.exceptions import DiplomacyPrimaryAbilityException, DiplomacySecondaryAbilityException, StrategyCardInitException
 from .exhaustable import Exhaustable
-from .planet import Planet
+from ..config.planet import Planet
 
 _LEADERSHIP_PRIM_ABILITY_GAIN_TOKENS = 3
 _LEADERSHIP_SEC_ABILITY_INFL_PER_TOKEN = 3

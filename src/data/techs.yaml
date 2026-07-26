@@ -1,56 +1,87 @@
-Antimass Deflectors:
-  type: PROPULSION
-Assault Cannon: 
-  type: WARFARE
-  prereqs: 
-    WARFARE: 3
-Dacxive Animators: 
-  type: BIOTIC
-  prereqs:
-    BIOTIC: 1
-Duranium Armor:
-  type: WARFARE
-  prereqs:
-    WARFARE: 2
-Fleet Logistics: 
-  type: PROPULSION
-  prereqs:
-    PROPULSION: 2
-Graviton Laser System: 
-  type: CYBERNETIC
-  prereqs:
-    CYBERNETIC: 1
-Gravity Drive: 
-  type: PROPULSION
-  prereqs:
-    PROPULSION: 1
-Hyper Metabolism: 
-  type: BIOTIC
-  prereqs:
-    BIOTIC: 2
-Integrated Economy: 
-  type: CYBERNETIC
-  prereqs:
-    CYBERNETIC: 3
-Light/Wave Deflector: 
-  type: PROPULSION
-  prereqs:
-    CYBERNETIC: 3
-Magen Defense Grid: 
-  type: WARFARE
-  prereqs:
-    WARFARE: 1
-Neural Motivator: 
-  type: BIOTIC
-Plasma Scoring: 
-  type: WARFARE
-Sarween Tools: 
-  type: CYBERNETIC
-Transit Diodes: 
-  type: CYBERNETIC
-  prereqs:
-    CYBERNETIC: 2
-X-89 Bacterial Weapon: 
-  type: BIOTIC
-  prereqs:
-    BIOTIC: 3
+id: antimass_deflectors
+name: Antimass Deflectors
+type: PROPULSION
+---
+id: assault_cannon
+name: Assault Cannon
+type: WARFARE
+prereqs: 
+  WARFARE: 3
+---
+id: dacxive_animators
+name: Dacxive Animators
+type: BIOTIC
+prereqs:
+  BIOTIC: 1
+---
+id: duranium_armor
+name: Duranium Armor
+type: WARFARE
+prereqs:
+  WARFARE: 2
+---
+id: fleet_logistics
+name: Fleet Logistics
+type: PROPULSION
+prereqs:
+  PROPULSION: 2
+---
+id: graviton_laser_system
+name: Graviton Laser System
+type: CYBERNETIC
+prereqs:
+  CYBERNETIC: 1
+---
+id: gravity_drive
+name: Gravity Drive
+type: PROPULSION
+prereqs:
+  PROPULSION: 1
+---
+id: hyper_metabolism
+name: Hyper Metabolism
+type: BIOTIC
+prereqs:
+  BIOTIC: 2
+---
+id: integrated_economy
+name: Integrated Economy
+type: CYBERNETIC
+prereqs:
+  CYBERNETIC: 3
+---
+id: light_wave_deflector
+name: Light/Wave Deflector
+type: PROPULSION
+prereqs:
+  CYBERNETIC: 3
+---
+id: magen_defense_grid
+name: Magen Defense Grid
+type: WARFARE
+prereqs:
+  WARFARE: 1
+---
+id: neural_motivator
+name: Neural Motivator
+type: BIOTIC
+---
+id: plasma_scoring
+name: Plasma Scoring
+type: WARFARE
+---
+id: sarween_tools
+name: Sarween Tools
+type: CYBERNETIC
+---
+id: transit_diodes
+name: Transit Diodes
+type: CYBERNETIC
+prereqs:
+  CYBERNETIC: 2
+---
+id: x_89_bacterial_weapon
+name: X-89 Bacterial Weapon
+type: BIOTIC
+prereqs:
+  BIOTIC: 3

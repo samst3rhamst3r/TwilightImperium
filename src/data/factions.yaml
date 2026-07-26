@@ -28,388 +28,388 @@
 #     infantry:     Defaults to "Infantry I"
 #     space_dock:   Defaults to "Space Dock I"
 #     pds:          Defaults to "PDS I"
-
-The Federation of Sol:
-
-  home_systems: [1]
-  max_commodities: 4
-  abilities: [Orbital Drop, Versatile]
-  start_techs: [Neural Motivator, Antimass Deflectors]
-  units:
-    flagship: 
-      name: Genesis
-    carrier: 
-      name: Advanced Carrier
-      start: 2
-    destroyer: 
-      start: 1
-    fighter: 
-      start: 3
-    infantry: 
-      name: Spec Ops
-      start: 5
-    space_dock: 
-      start: 0
-
-The Mentak Coalition:
-  
-  home_systems: [2]
-  max_commodities: 2
-  abilities: [Ambush, Pillage]
-  start_techs: [Sarween Tools, Plasma Scoring]
-  unique_techs: [Mirror Computing, Salvage Operations]
-  units:
-    flagship: 
-      name: Fourth Moon
-    carrier: 
-      start: 1
-    cruiser:
-      start: 2
-    fighter: 
-      start: 3
-    infantry: 
-      start: 4
-    pds: 
-      start: 1
-    space_dock: 
-      start: 1
-
-The Yin Brotherhood:
-  
-  home_systems: [3]
-  max_commodities: 2
-  abilities: [Indoctrination, Devotion]
-  start_techs: [Sarween Tools]
-  unique_techs: [Yin Spinner, Impulse Core]
-  units:
-    flagship: 
-      name: Van Hauge
-    carrier: 
-      start: 2
-    destroyer: 
-      start: 1
-    fighter: 
-      start: 4
-    infantry: 
-      start: 4
-    space_dock: 
-      start: 1
-
-The Embers of Muaat:
-  
-  home_systems: [4]
-  max_commodities: 4
-  abilities: [Star Forge, Gashlai Physiology]
-  start_techs: [Plasma Scoring]
-  unique_techs: [Magmus Reactor]
-  units:
-    flagship: 
-      name: The Inferno
-    fighter: 
-      start: 2
-    infantry: 
-      start: 4
-    space_dock: 
-      start: 1
-    war_sun:
-      name: Prototype War Sun
-      start: 1
-
-The Arborec:
-  
-  home_systems: [5]
-  max_commodities: 3
-  abilities: [Mitosis]
-  start_techs: [Magen Defense Grid]
-  unique_techs: [Bioplasmosis]
-  units:
-    flagship: 
-      name: Duha Menaimon
-    carrier: 
-      start: 1
-    cruiser:
-      start: 1
-    fighter: 
-      start: 2
-    infantry: 
-      name: Letani Warrior
-      start: 4
-    pds: 
-      start: 1
-    space_dock: 
-      start: 1
-
-The L1z1x Mindnet:
-  
-  home_systems: [6]
-  max_commodities: 2
-  abilities: [Assimilate, Harrow]
-  start_techs: [Neural Motivator, Plasma Scoring]
-  unique_techs: [Inheritance Systems]
-  units:
-    flagship: 
-      name: "[0.0.1]"
-    carrier: 
-      start: 1
-    dreadnought: 
-      name: Super-Dreadnought
-      start: 1
-    fighter: 
-      start: 3
-    infantry: 
-      start: 5
-    pds: 
-      start: 1
-    space_dock: 
-      start: 1
-
-The Winnu:
-  
-  home_systems: [7]
-  max_commodities: 3
-  abilities: [Blood Ties, Reclamation]
-  start_techs: [] # Choose any 1 technology that has no prereqs
-  unique_techs: [Hegemonic Trade Policy, Lazax Gate Folding]
-  units:
-    flagship: 
-      name: Salai Sai Corian
-    carrier: 
-      start: 1
-    cruiser:
-      start: 1
-    fighter: 
-      start: 2
-    infantry: 
-      start: 2
-    pds: 
-      start: 1
-    space_dock: 
-      start: 1
-
-The Nekro Virus:
-  
-  home_systems: [8]
-  max_commodities: 3
-  abilities: [Galactic Threat, Technological Singularity, Propagation]
-  start_techs: [Dacxive Animators, Valefar Assimilator X, Valefar Assimilator Y]
-  unique_techs: [Valefar Assimilator X, Valefar Assimilator Y]
-  units:
-    flagship: 
-      name: The Alastor
-    carrier: 
-      start: 1
-    cruiser:
-      start: 1
-    dreadnought: 
-      start: 1
-    fighter: 
-      start: 2
-    infantry: 
-      start: 2
-    space_dock: 
-      start: 1
-
-The Naalu Collective:
-  
-  home_systems: [9]
-  max_commodities: 3
-  abilities: [Telepathic, Foresight]
-  start_techs: [Neural Motivator, Sarween Tools]
-  unique_techs: [Neuroglaive]
-  units:
-    flagship: 
-      name: Matriarch
-    carrier: 
-      start: 1
-    cruiser:
-      start: 1
-    destroyer: 
-      start: 1
-    fighter: 
-      name: Hybrid Crystal Fighter
-      start: 3
-    infantry: 
-      start: 4
-    pds: 
-      start: 1
-    space_dock: 
-      start: 1
-
-The Barony of Letnev:
-  
-  home_systems: [10]
-  max_commodities: 2
-  abilities: [Munitions Reserves, Armada]
-  start_techs: [Antimass Deflectors, Plasma Scoring]
-  unique_techs: [L4 Disruptors, Non-Euclidean Shielding]
-  units:
-    flagship: 
-      name: Arc Secundus
-    carrier: 
-      start: 1
-    destroyer: 
-      start: 1
-    dreadnought: 
-      start: 1
-    fighter: 
-      start: 1
-    infantry: 
-      start: 3
-    space_dock: 
-      start: 1
-
-The Clan of Saar:
-  
-  home_systems: [11]
-  max_commodities: 3
-  abilities: [Scavenge, Nomadic]
-  start_techs: [Antimass Deflectors]
-  unique_techs: [Chaos Mapping]
-  units:
-    flagship: 
-      name: Son of Ragh
-    carrier: 
-      start: 2
-    cruiser:
-      start: 1
-    fighter: 
-      start: 2
-    infantry: 
-      start: 4
-    space_dock: 
-      name: Floating Factory
-      start: 1
-
-The Universities of Jol-Nar:
-  
-  home_systems: [12]
-  max_commodities: 4
-  abilities: [Fragile, Brilliant, Analytical]
-  start_techs: [Neural Motivator, Antimass Deflectors, Sarween Tools, Plasma Scoring]
-  unique_techs: [Spacial Conduit Cylinder, E-Res Siphons]
-  units:
-    flagship: 
-      name: J.N.S Hylarim
-    carrier: 
-      start: 2
-    dreadnought: 
-      start: 1
-    fighter: 
-      start: 1
-    infantry: 
-      start: 2
-    pds: 
-      start: 2
-    space_dock: 
-      start: 1
-
-Sardakk N'orr:
-  
-  home_systems: [13]
-  max_commodities: 3
-  abilities: [Unrelenting]
-  start_techs: []
-  unique_techs: [Valkyrie Particle Weave]
-  units:
-    flagship: 
-      name: C'morran N'orr
-    carrier: 
-      start: 2
-    cruiser:
-      start: 1
-    dreadnought: 
-      name: Exotrireme
-    infantry: 
-      start: 5
-    pds: 
-      start: 1
-    space_dock: 
-      start: 1
-
-The Xxcha Kingdom:
-  
-  home_systems: [14]
-  max_commodities: 4
-  abilities: [Peace Accords, Quash]
-  start_techs: [Graviton Laser System]
-  unique_techs: [Nullification Field, Instinct Training]
-  units:
-    flagship: 
-      name: Loncara Ssodu
-    carrier: 
-      start: 1
-    cruiser:
-      start: 2
-    fighter: 
-      start: 3
-    infantry: 
-      start: 4
-    pds: 
-      start: 1
-    space_dock: 
-      start: 1
-
-The Yssaril Tribes:
-  
-  home_systems: [15]
-  max_commodities: 3
-  abilities: [Stall Tactics, Scheming, Crafty]
-  start_techs: [Neural Motivator]
-  unique_techs: [Mageon Implants, Transparasteel Plating]
-  units:
-    flagship: 
-      name: Y'sia Y'ssrila
-    carrier: 
-      start: 2
-    cruiser:
-      start: 1
-    fighter: 
-      start: 2
-    infantry: 
-      start: 5
-    pds: 
-      start: 1
-    space_dock: 
-      start: 1
-
-The Emirates of Hacan:
-  
-  home_systems: [16]
-  max_commodities: 6
-  abilities: [Masters of Trade, Guild Ships, Arbiters]
-  start_techs: [Antimass Deflectors, Sarween Tools]
-  unique_techs: [Production Biomes, Quantum Datahub Node]
-  units:
-    flagship: 
-      name: Wrath of Kenara
-    carrier: 
-      start: 2
-    cruiser:
-      start: 1
-    fighter: 
-      start: 2
-    infantry: 
-      start: 4
-    space_dock: 
-      start: 1
-
-The Ghosts of Creuss:
-  
-  home_systems: [17, 51]
-  max_commodities: 4
-  abilities: [Quantum Entanglement, Slipstream, Creuss Gate]
-  start_techs: [Gravity Drive]
-  unique_techs: [Dimensional Splicer, Wormhole Generator]
-  units:
-    flagship: 
-      name: Hil Colish
-    carrier: 
-      start: 1
-    destroyer: 
-      start: 2
-    fighter: 
-      start: 2
-    infantry: 
-      start: 4
-    space_dock: 
-      start: 1
+...
+id: federation_of_sol
+name: The Federation of Sol
+home_systems: [1]
+max_commodities: 4
+abilities: [Orbital Drop, Versatile]
+start_techs: [Neural Motivator, Antimass Deflectors]
+units:
+  flagship: 
+    name: Genesis
+  carrier: 
+    name: Advanced Carrier
+    start: 2
+  destroyer: 
+    start: 1
+  fighter: 
+    start: 3
+  infantry: 
+    name: Spec Ops
+    start: 5
+  space_dock: 
+    start: 0
+---
+id: mentak_coalition
+name: The Mentak Coalition
+home_systems: [2]
+max_commodities: 2
+abilities: [Ambush, Pillage]
+start_techs: [Sarween Tools, Plasma Scoring]
+unique_techs: [Mirror Computing, Salvage Operations]
+units:
+  flagship: 
+    name: Fourth Moon
+  carrier: 
+    start: 1
+  cruiser:
+    start: 2
+  fighter: 
+    start: 3
+  infantry: 
+    start: 4
+  pds: 
+    start: 1
+  space_dock: 
+    start: 1
+---
+id: yin_brotherhood
+name: The Yin Brotherhood
+home_systems: [3]
+max_commodities: 2
+abilities: [Indoctrination, Devotion]
+start_techs: [Sarween Tools]
+unique_techs: [Yin Spinner, Impulse Core]
+units:
+  flagship: 
+    name: Van Hauge
+  carrier: 
+    start: 2
+  destroyer: 
+    start: 1
+  fighter: 
+    start: 4
+  infantry: 
+    start: 4
+  space_dock: 
+    start: 1
+---
+id: embers_of_muaat
+name: The Embers of Muaat
+home_systems: [4]
+max_commodities: 4
+abilities: [Star Forge, Gashlai Physiology]
+start_techs: [Plasma Scoring]
+unique_techs: [Magmus Reactor]
+units:
+  flagship: 
+    name: The Inferno
+  fighter: 
+    start: 2
+  infantry: 
+    start: 4
+  space_dock: 
+    start: 1
+  war_sun:
+    name: Prototype War Sun
+    start: 1
+---
+id: arborec
+name: The Arborec
+home_systems: [5]
+max_commodities: 3
+abilities: [Mitosis]
+start_techs: [Magen Defense Grid]
+unique_techs: [Bioplasmosis]
+units:
+  flagship: 
+    name: Duha Menaimon
+  carrier: 
+    start: 1
+  cruiser:
+    start: 1
+  fighter: 
+    start: 2
+  infantry: 
+    name: Letani Warrior
+    start: 4
+  pds: 
+    start: 1
+  space_dock: 
+    start: 1
+---
+id: l1z1x_mindnet
+name: The L1z1x Mindnet
+home_systems: [6]
+max_commodities: 2
+abilities: [Assimilate, Harrow]
+start_techs: [Neural Motivator, Plasma Scoring]
+unique_techs: [Inheritance Systems]
+units:
+  flagship: 
+    name: "[0.0.1]"
+  carrier: 
+    start: 1
+  dreadnought: 
+    name: Super-Dreadnought
+    start: 1
+  fighter: 
+    start: 3
+  infantry: 
+    start: 5
+  pds: 
+    start: 1
+  space_dock: 
+    start: 1
+---
+id: winnu
+name: The Winnu
+home_systems: [7]
+max_commodities: 3
+abilities: [Blood Ties, Reclamation]
+start_techs: [] # Choose any 1 technology that has no prereqs
+unique_techs: [Hegemonic Trade Policy, Lazax Gate Folding]
+units:
+  flagship: 
+    name: Salai Sai Corian
+  carrier: 
+    start: 1
+  cruiser:
+    start: 1
+  fighter: 
+    start: 2
+  infantry: 
+    start: 2
+  pds: 
+    start: 1
+  space_dock: 
+    start: 1
+---
+id: nekro_virus
+name: The Nekro Virus
+home_systems: [8]
+max_commodities: 3
+abilities: [Galactic Threat, Technological Singularity, Propagation]
+start_techs: [Dacxive Animators, Valefar Assimilator X, Valefar Assimilator Y]
+unique_techs: [Valefar Assimilator X, Valefar Assimilator Y]
+units:
+  flagship: 
+    name: The Alastor
+  carrier: 
+    start: 1
+  cruiser:
+    start: 1
+  dreadnought: 
+    start: 1
+  fighter: 
+    start: 2
+  infantry: 
+    start: 2
+  space_dock: 
+    start: 1
+---
+id: naalu_collective
+name: The Naalu Collective
+home_systems: [9]
+max_commodities: 3
+abilities: [Telepathic, Foresight]
+start_techs: [Neural Motivator, Sarween Tools]
+unique_techs: [Neuroglaive]
+units:
+  flagship: 
+    name: Matriarch
+  carrier: 
+    start: 1
+  cruiser:
+    start: 1
+  destroyer: 
+    start: 1
+  fighter: 
+    name: Hybrid Crystal Fighter
+    start: 3
+  infantry: 
+    start: 4
+  pds: 
+    start: 1
+  space_dock: 
+    start: 1
+---
+id: barony_of_letnev
+name: The Barony of Letnev
+home_systems: [10]
+max_commodities: 2
+abilities: [Munitions Reserves, Armada]
+start_techs: [Antimass Deflectors, Plasma Scoring]
+unique_techs: [L4 Disruptors, Non-Euclidean Shielding]
+units:
+  flagship: 
+    name: Arc Secundus
+  carrier: 
+    start: 1
+  destroyer: 
+    start: 1
+  dreadnought: 
+    start: 1
+  fighter: 
+    start: 1
+  infantry: 
+    start: 3
+  space_dock: 
+    start: 1
+---
+id: clan_of_saar
+name: The Clan of Saar
+home_systems: [11]
+max_commodities: 3
+abilities: [Scavenge, Nomadic]
+start_techs: [Antimass Deflectors]
+unique_techs: [Chaos Mapping]
+units:
+  flagship: 
+    name: Son of Ragh
+  carrier: 
+    start: 2
+  cruiser:
+    start: 1
+  fighter: 
+    start: 2
+  infantry: 
+    start: 4
+  space_dock: 
+    name: Floating Factory
+    start: 1
+---
+id: universities_of_jolnar
+name: The Universities of Jol-Nar
+home_systems: [12]
+max_commodities: 4
+abilities: [Fragile, Brilliant, Analytical]
+start_techs: [Neural Motivator, Antimass Deflectors, Sarween Tools, Plasma Scoring]
+unique_techs: [Spacial Conduit Cylinder, E-Res Siphons]
+units:
+  flagship: 
+    name: J.N.S Hylarim
+  carrier: 
+    start: 2
+  dreadnought: 
+    start: 1
+  fighter: 
+    start: 1
+  infantry: 
+    start: 2
+  pds: 
+    start: 2
+  space_dock: 
+    start: 1
+---
+id: sardakk_norr
+name: Sardakk N'orr
+home_systems: [13]
+max_commodities: 3
+abilities: [Unrelenting]
+start_techs: []
+unique_techs: [Valkyrie Particle Weave]
+units:
+  flagship: 
+    name: C'morran N'orr
+  carrier: 
+    start: 2
+  cruiser:
+    start: 1
+  dreadnought: 
+    name: Exotrireme
+  infantry: 
+    start: 5
+  pds: 
+    start: 1
+  space_dock: 
+    start: 1
+---
+id: xxcha_kingdom
+name: The Xxcha Kingdom
+home_systems: [14]
+max_commodities: 4
+abilities: [Peace Accords, Quash]
+start_techs: [Graviton Laser System]
+unique_techs: [Nullification Field, Instinct Training]
+units:
+  flagship: 
+    name: Loncara Ssodu
+  carrier: 
+    start: 1
+  cruiser:
+    start: 2
+  fighter: 
+    start: 3
+  infantry: 
+    start: 4
+  pds: 
+    start: 1
+  space_dock: 
+    start: 1
+---
+id: yssaril_tribes
+name: The Yssaril Tribes
+home_systems: [15]
+max_commodities: 3
+abilities: [Stall Tactics, Scheming, Crafty]
+start_techs: [Neural Motivator]
+unique_techs: [Mageon Implants, Transparasteel Plating]
+units:
+  flagship: 
+    name: Y'sia Y'ssrila
+  carrier: 
+    start: 2
+  cruiser:
+    start: 1
+  fighter: 
+    start: 2
+  infantry: 
+    start: 5
+  pds: 
+    start: 1
+  space_dock: 
+    start: 1
+---
+id: emirates_of_hacan
+name: The Emirates of Hacan
+home_systems: [16]
+max_commodities: 6
+abilities: [Masters of Trade, Guild Ships, Arbiters]
+start_techs: [Antimass Deflectors, Sarween Tools]
+unique_techs: [Production Biomes, Quantum Datahub Node]
+units:
+  flagship: 
+    name: Wrath of Kenara
+  carrier: 
+    start: 2
+  cruiser:
+    start: 1
+  fighter: 
+    start: 2
+  infantry: 
+    start: 4
+  space_dock: 
+    start: 1
+---
+id: ghosts_of_creuss
+name: The Ghosts of Creuss
+home_systems: [17, 51]
+max_commodities: 4
+abilities: [Quantum Entanglement, Slipstream, Creuss Gate]
+start_techs: [Gravity Drive]
+unique_techs: [Dimensional Splicer, Wormhole Generator]
+units:
+  flagship: 
+    name: Hil Colish
+  carrier: 
+    start: 1
+  destroyer: 
+    start: 2
+  fighter: 
+    start: 2
+  infantry: 
+    start: 4
+  space_dock: 
+    start: 1

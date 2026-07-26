@@ -1,4 +1,4 @@
-from .system import System
+from ..config.system import System
 
 class Map:
     

@@ -31,385 +31,420 @@
 ...
 id: federation_of_sol
 name: The Federation of Sol
-home_systems: ["01"]
+home_systems: 
+- ref_id: "01"
 max_commodities: 4
-abilities: [Orbital Drop, Versatile]
-start_techs: [Neural Motivator, Antimass Deflectors]
-units:
+abilities: 
+- ref_id: orbital_drop
+- ref_id: versatile
+start_techs: 
+- ref_id: neural_motivator
+- ref_id: antimass_deflectors
+unique_units:
   flagship: 
-    name: Genesis
-  carrier: 
-    name: Advanced Carrier
-    start: 2
-  destroyer: 
-    start: 1
-  fighter: 
-    start: 3
+    ref_id: genesis
+  carrier:
+    ref_id: advanced_carrier
   infantry: 
-    name: Spec Ops
-    start: 5
-  space_dock: 
-    start: 0
+    ref_id: spec_ops
+starting_units:
+  carrier: 2
+  destroyer: 1
+  fighter: 3
+  infantry: 5
+  space_dock: 1
 ---
 id: mentak_coalition
 name: The Mentak Coalition
-home_systems: ["02"]
+home_systems: 
+- ref_id: "02"
 max_commodities: 2
-abilities: [Ambush, Pillage]
-start_techs: [Sarween Tools, Plasma Scoring]
-unique_techs: [Mirror Computing, Salvage Operations]
-units:
+abilities: 
+- ref_id: ambush
+- ref_id: pillage
+start_techs: 
+- ref_id: sarween_tools
+- ref_id: plasma_scoring
+unique_techs: 
+- ref_id: mirror_computing
+- ref_id: salvage_operations
+unique_units:
   flagship: 
-    name: Fourth Moon
-  carrier: 
-    start: 1
-  cruiser:
-    start: 2
-  fighter: 
-    start: 3
-  infantry: 
-    start: 4
-  pds: 
-    start: 1
-  space_dock: 
-    start: 1
+    ref_id: fourth_moon
+starting_units:
+  carrier: 1
+  cruiser: 2
+  fighter: 3
+  infantry: 4
+  space_dock: 1
+  pds: 1
 ---
 id: yin_brotherhood
 name: The Yin Brotherhood
-home_systems: ["03"]
+home_systems: 
+- ref_id: "03"
 max_commodities: 2
-abilities: [Indoctrination, Devotion]
-start_techs: [Sarween Tools]
-unique_techs: [Yin Spinner, Impulse Core]
-units:
+abilities: 
+- ref_id: indoctrination
+- ref_id: devotion
+start_techs: 
+- ref_id: sarween_tools
+unique_techs: 
+- ref_id: yin_spinner
+- ref_id: impulse_core
+unique_units:
   flagship: 
-    name: Van Hauge
-  carrier: 
-    start: 2
-  destroyer: 
-    start: 1
-  fighter: 
-    start: 4
-  infantry: 
-    start: 4
-  space_dock: 
-    start: 1
+    ref_id: van_hauge
+starting_units:
+  carrier: 2
+  destroyer: 1
+  fighter: 4
+  infantry: 4
+  space_dock: 1
 ---
 id: embers_of_muaat
 name: The Embers of Muaat
-home_systems: ["04"]
+home_systems: 
+- ref_id: "04"
 max_commodities: 4
-abilities: [Star Forge, Gashlai Physiology]
-start_techs: [Plasma Scoring]
-unique_techs: [Magmus Reactor]
-units:
+abilities: 
+- ref_id: star_forge
+- ref_id: gashlai_physiology
+start_techs: 
+- ref_id: plasma_scoring
+unique_techs: 
+- ref_id: magmus_reactor
+unique_units:
   flagship: 
-    name: The Inferno
-  fighter: 
-    start: 2
-  infantry: 
-    start: 4
-  space_dock: 
-    start: 1
+    ref_id: inferno
   war_sun:
-    name: Prototype War Sun
-    start: 1
+    ref_id: prototype_war_sun
+starting_units:
+  fighter: 2
+  infantry: 4
+  space_dock: 1
+  war_sun: 1
 ---
 id: arborec
 name: The Arborec
-home_systems: ["05"]
+home_systems: 
+- ref_id: "05"
 max_commodities: 3
-abilities: [Mitosis]
-start_techs: [Magen Defense Grid]
-unique_techs: [Bioplasmosis]
-units:
+abilities: 
+- ref_id: mitosis
+start_techs: 
+- ref_id: magen_defense_grid
+unique_techs: 
+- ref_id: bioplasmosis
+unique_units:
   flagship: 
-    name: Duha Menaimon
-  carrier: 
-    start: 1
-  cruiser:
-    start: 1
-  fighter: 
-    start: 2
-  infantry: 
-    name: Letani Warrior
-    start: 4
-  pds: 
-    start: 1
-  space_dock: 
-    start: 1
+    ref_id: duha_menaimon
+  infantry:
+    ref_id: letani_warrior
+starting_units:
+  carrier: 1
+  cruiser: 1
+  fighter: 2
+  infantry: 4
+  space_dock: 1
+  pds: 1
 ---
 id: l1z1x_mindnet
 name: The L1z1x Mindnet
-home_systems: ["06"]
+home_systems: 
+- ref_id: "06"
 max_commodities: 2
-abilities: [Assimilate, Harrow]
-start_techs: [Neural Motivator, Plasma Scoring]
-unique_techs: [Inheritance Systems]
-units:
+abilities: 
+- ref_id: assimilate
+- ref_id: harrow
+start_techs: 
+- ref_id: neural_motivator
+- ref_id: plasma_scoring
+unique_techs: 
+- ref_id: inheritance_systems
+unique_units:
   flagship: 
-    name: "[0.0.1]"
-  carrier: 
-    start: 1
-  dreadnought: 
-    name: Super-Dreadnought
-    start: 1
-  fighter: 
-    start: 3
-  infantry: 
-    start: 5
-  pds: 
-    start: 1
-  space_dock: 
-    start: 1
+    ref_id: 0_0_1
+  dreadnought:
+    ref_id: super_dreadnought
+starting_units:
+  dreadnought: 1
+  carrier: 1
+  fighter: 3
+  infantry: 5
+  space_dock: 1
+  pds: 1
 ---
 id: winnu_faction
 name: The Winnu
-home_systems: ["07"]
+home_systems: 
+- ref_id: "07"
 max_commodities: 3
-abilities: [Blood Ties, Reclamation]
+abilities: 
+- ref_id: blood_ties
+- ref_id: reclamation
 start_techs: [] # Choose any 1 technology that has no prereqs
-unique_techs: [Hegemonic Trade Policy, Lazax Gate Folding]
-units:
+unique_techs: 
+- ref_id: hegemonic_trade_policy
+- ref_id: lazax_gate_folding
+unique_units:
   flagship: 
-    name: Salai Sai Corian
-  carrier: 
-    start: 1
-  cruiser:
-    start: 1
-  fighter: 
-    start: 2
-  infantry: 
-    start: 2
-  pds: 
-    start: 1
-  space_dock: 
-    start: 1
+    ref_id: salai_sai_corian
+starting_units:
+  carrier: 1
+  cruiser: 1
+  fighter: 2
+  infantry: 2
+  space_dock: 1
+  pds: 1
 ---
 id: nekro_virus
 name: The Nekro Virus
-home_systems: ["08"]
+home_systems: 
+- ref_id: "08"
 max_commodities: 3
-abilities: [Galactic Threat, Technological Singularity, Propagation]
-start_techs: [Dacxive Animators, Valefar Assimilator X, Valefar Assimilator Y]
-unique_techs: [Valefar Assimilator X, Valefar Assimilator Y]
-units:
+abilities: 
+- ref_id: galactic_threat
+- ref_id: technological_singularity
+- ref_id: propagation
+start_techs: 
+- ref_id: daxcive_animators
+- ref_id: valefar_assimilator_x
+- ref_id: valefar_assimilator_y
+unique_techs: 
+- ref_id: valefar_assimilator_x
+- ref_id: valefar_assimilator_y
+unique_units:
   flagship: 
-    name: The Alastor
-  carrier: 
-    start: 1
-  cruiser:
-    start: 1
-  dreadnought: 
-    start: 1
-  fighter: 
-    start: 2
-  infantry: 
-    start: 2
-  space_dock: 
-    start: 1
+    ref_id: the_alastor
+starting_units:
+  dreadnought: 1
+  carrier: 1
+  cruiser: 1
+  fighter: 2
+  infantry: 2
+  space_dock: 1
 ---
 id: naalu_collective
 name: The Naalu Collective
-home_systems: ["09"]
+home_systems: 
+- ref_id: "09"
 max_commodities: 3
-abilities: [Telepathic, Foresight]
-start_techs: [Neural Motivator, Sarween Tools]
-unique_techs: [Neuroglaive]
-units:
+abilities: 
+- ref_id: telepathic
+- ref_id: foresight
+start_techs: 
+- ref_id: neural_motivator
+- ref_id: sarween_tools
+unique_techs: 
+- ref_id: neuroglaive
+unique_units:
   flagship: 
-    name: Matriarch
-  carrier: 
-    start: 1
-  cruiser:
-    start: 1
-  destroyer: 
-    start: 1
-  fighter: 
-    name: Hybrid Crystal Fighter
-    start: 3
-  infantry: 
-    start: 4
-  pds: 
-    start: 1
-  space_dock: 
-    start: 1
+    ref_id: matriarch
+  fighter:
+    ref_id: hybrid_crystal_fighter
+starting_units:
+  carrier: 1
+  cruiser: 1
+  destroyer:  1
+  fighter: 3
+  infantry: 4
+  space_dock: 1
+  pds: 1
 ---
 id: barony_of_letnev
 name: The Barony of Letnev
-home_systems: ["10"]
+home_systems: 
+- ref_id: "10"
 max_commodities: 2
-abilities: [Munitions Reserves, Armada]
-start_techs: [Antimass Deflectors, Plasma Scoring]
-unique_techs: [L4 Disruptors, Non-Euclidean Shielding]
-units:
+abilities: 
+- ref_id: munitions_reserves
+- ref_id: armada
+start_techs: 
+- ref_id: antimass_deflectors
+- ref_id: plasma_scoring
+unique_techs: 
+- ref_id: l4_disruptors
+- ref_id: non_euclidean_shielding
+unique_units:
   flagship: 
-    name: Arc Secundus
-  carrier: 
-    start: 1
-  destroyer: 
-    start: 1
-  dreadnought: 
-    start: 1
-  fighter: 
-    start: 1
-  infantry: 
-    start: 3
-  space_dock: 
-    start: 1
+    ref_id: arc_secundus
+starting_units:
+  dreadnought: 1
+  carrier: 1
+  destroyer: 1
+  fighter: 1
+  infantry: 3
+  space_dock: 1
 ---
 id: clan_of_saar
 name: The Clan of Saar
-home_systems: ["11"]
+home_systems: 
+- ref_id: "11"
 max_commodities: 3
-abilities: [Scavenge, Nomadic]
-start_techs: [Antimass Deflectors]
-unique_techs: [Chaos Mapping]
-units:
+abilities: 
+- ref_id: scavenge
+- ref_id: nomadic
+start_techs: 
+- ref_id: antimass_deflectors
+unique_techs: 
+- ref_id: chaos_mapping
+unique_units:
   flagship: 
-    name: Son of Ragh
-  carrier: 
-    start: 2
-  cruiser:
-    start: 1
-  fighter: 
-    start: 2
-  infantry: 
-    start: 4
+    ref_id: son_of_ragh
   space_dock: 
-    name: Floating Factory
-    start: 1
+    ref_id: floating_factory
+starting_units:
+  carrier: 2
+  cruiser: 1
+  fighter: 2
+  infantry: 4
+  space_dock: 1
 ---
 id: universities_of_jolnar
 name: The Universities of Jol-Nar
-home_systems: ["12"]
+home_systems: 
+- ref_id: "12"
 max_commodities: 4
-abilities: [Fragile, Brilliant, Analytical]
-start_techs: [Neural Motivator, Antimass Deflectors, Sarween Tools, Plasma Scoring]
-unique_techs: [Spacial Conduit Cylinder, E-Res Siphons]
-units:
+abilities: 
+- ref_id: fragile
+- ref_id: brilliant
+- ref_id: analytical
+start_techs: 
+- ref_id: neural_motivator
+- ref_id: antimass_deflectors
+- ref_id: sarween_tools
+- ref_id: plasma_scoring
+unique_techs: 
+- ref_id: spacial_conduit_cylinder
+- ref_id: e_res_siphons
+unique_units:
   flagship: 
-    name: J.N.S Hylarim
-  carrier: 
-    start: 2
-  dreadnought: 
-    start: 1
-  fighter: 
-    start: 1
-  infantry: 
-    start: 2
-  pds: 
-    start: 2
-  space_dock: 
-    start: 1
+    ref_id: jns_hylarim
+starting_units:
+  dreadnought: 1
+  carrier: 2
+  fighter: 1
+  infantry: 2
+  space_dock: 1
+  pds: 2
 ---
 id: sardakk_norr
 name: Sardakk N'orr
-home_systems: ["13"]
+home_systems: 
+- ref_id: "13"
 max_commodities: 3
-abilities: [Unrelenting]
-start_techs: []
-unique_techs: [Valkyrie Particle Weave]
-units:
+abilities: 
+- ref_id: unrelenting
+unique_techs: 
+- ref_id: valkyrie_particle_weave
+unique_units:
   flagship: 
-    name: C'morran N'orr
-  carrier: 
-    start: 2
-  cruiser:
-    start: 1
+    ref_id: cmorran_norr
   dreadnought: 
-    name: Exotrireme
-  infantry: 
-    start: 5
-  pds: 
-    start: 1
-  space_dock: 
-    start: 1
+    ref_id: exotrireme
+starting_units:
+  carrier: 2
+  cruiser: 1
+  infantry: 5
+  space_dock: 1
+  pds: 1
 ---
 id: xxcha_kingdom
 name: The Xxcha Kingdom
-home_systems: ["14"]
+home_systems: 
+- ref_id: "14"
 max_commodities: 4
-abilities: [Peace Accords, Quash]
-start_techs: [Graviton Laser System]
-unique_techs: [Nullification Field, Instinct Training]
-units:
+abilities: 
+- ref_id: peace_accords
+- ref_id: quash
+start_techs: 
+- ref_id: graviton_laser_system
+unique_techs: 
+- ref_id: nullification_field
+- ref_id: instinct_training
+unique_units:
   flagship: 
-    name: Loncara Ssodu
-  carrier: 
-    start: 1
-  cruiser:
-    start: 2
-  fighter: 
-    start: 3
-  infantry: 
-    start: 4
-  pds: 
-    start: 1
-  space_dock: 
-    start: 1
+    ref_id: loncara_ssodu
+starting_units:
+  carrier: 1
+  cruiser: 2
+  fighter: 3
+  infantry: 4
+  space_dock: 1
+  pds: 1
 ---
 id: yssaril_tribes
 name: The Yssaril Tribes
-home_systems: ["15"]
+home_systems: 
+- ref_id: "15"
 max_commodities: 3
-abilities: [Stall Tactics, Scheming, Crafty]
-start_techs: [Neural Motivator]
-unique_techs: [Mageon Implants, Transparasteel Plating]
-units:
+abilities: 
+- ref_id: stall_tactics
+- ref_id: scheming
+- ref_id: crafty
+start_techs: 
+- ref_id: neural_motivator
+unique_techs: 
+- ref_id: mageon_implants
+- ref_id: transparasteel_plating
+unique_units:
   flagship: 
-    name: Y'sia Y'ssrila
-  carrier: 
-    start: 2
-  cruiser:
-    start: 1
-  fighter: 
-    start: 2
-  infantry: 
-    start: 5
-  pds: 
-    start: 1
-  space_dock: 
-    start: 1
+    ref_id: ysia_yssrila
+starting_units:
+  carrier: 2
+  cruiser: 1
+  fighter: 2
+  infantry: 5
+  space_dock: 1
+  pds: 1
 ---
 id: emirates_of_hacan
 name: The Emirates of Hacan
-home_systems: ["16"]
+home_systems: 
+- ref_id: "16"
 max_commodities: 6
-abilities: [Masters of Trade, Guild Ships, Arbiters]
-start_techs: [Antimass Deflectors, Sarween Tools]
-unique_techs: [Production Biomes, Quantum Datahub Node]
-units:
+abilities: 
+- ref_id: masters_of_trade
+- ref_id: guild_ships
+- ref_id: arbiters
+start_techs: 
+- ref_id: antimass_deflectors
+- ref_id: sarween_tools
+unique_techs: 
+- ref_id: production_biomes
+- ref_id: quantum_datahub_node
+unique_units:
   flagship: 
-    name: Wrath of Kenara
-  carrier: 
-    start: 2
-  cruiser:
-    start: 1
-  fighter: 
-    start: 2
-  infantry: 
-    start: 4
-  space_dock: 
-    start: 1
+    ref_id: wrath_of_kenara
+starting_units:
+  carrier: 2
+  cruiser: 1
+  fighter: 2
+  infantry: 4
+  space_dock: 1
 ---
 id: ghosts_of_creuss
 name: The Ghosts of Creuss
-home_systems: ["17", "51"]
+home_systems: 
+- ref_id: "17"
+- ref_id: "51"
 max_commodities: 4
-abilities: [Quantum Entanglement, Slipstream, Creuss Gate]
-start_techs: [Gravity Drive]
-unique_techs: [Dimensional Splicer, Wormhole Generator]
-units:
+abilities: 
+- ref_id: quantum_entanglement
+- ref_id: slipstream
+- ref_id: creuss_gate
+start_techs: 
+- ref_id: gravity_drive
+unique_techs: 
+- ref_id: dimensional_splicer
+- ref_id: wormhole_generator
+unique_units:
   flagship: 
-    name: Hil Colish
-  carrier: 
-    start: 1
-  destroyer: 
-    start: 2
-  fighter: 
-    start: 2
-  infantry: 
-    start: 4
-  space_dock: 
-    start: 1
+    ref_id: hil_colish
+starting_units:
+  carrier: 1
+  destroyer: 2
+  fighter: 2
+  infantry: 4
+  space_dock: 1

@@ -1,87 +1,99 @@
 id: antimass_deflectors
 name: Antimass Deflectors
-type: PROPULSION
+tech_type: propulsion
 ---
 id: assault_cannon
 name: Assault Cannon
-type: WARFARE
+tech_type: warfare
 prereqs: 
-  WARFARE: 3
+- tech_type: warfare
+  num: 3
 ---
 id: dacxive_animators
 name: Dacxive Animators
-type: BIOTIC
+tech_type: biotic
 prereqs:
-  BIOTIC: 1
+- tech_type: biotic
+  num: 1
 ---
 id: duranium_armor
 name: Duranium Armor
-type: WARFARE
+tech_type: warfare
 prereqs:
-  WARFARE: 2
+- tech_type: warfare
+  num: 2
 ---
 id: fleet_logistics
 name: Fleet Logistics
-type: PROPULSION
+tech_type: propulsion
 prereqs:
-  PROPULSION: 2
+- tech_type: propulsion
+  num: 2
 ---
 id: graviton_laser_system
 name: Graviton Laser System
-type: CYBERNETIC
+tech_type: cybernetic
 prereqs:
-  CYBERNETIC: 1
+- tech_type: cybernetic
+  num: 1
 ---
 id: gravity_drive
 name: Gravity Drive
-type: PROPULSION
+tech_type: propulsion
 prereqs:
-  PROPULSION: 1
+- tech_type: propulsion
+  num: 1
 ---
 id: hyper_metabolism
 name: Hyper Metabolism
-type: BIOTIC
+tech_type: biotic
 prereqs:
-  BIOTIC: 2
+- tech_type: biotic
+  num: 2
 ---
 id: integrated_economy
 name: Integrated Economy
-type: CYBERNETIC
+tech_type: cybernetic
 prereqs:
-  CYBERNETIC: 3
+- tech_type: cybernetic
+  num: 3
 ---
 id: light_wave_deflector
 name: Light/Wave Deflector
-type: PROPULSION
+tech_type: propulsion
 prereqs:
-  CYBERNETIC: 3
+- tech_type: propulsion
+  num: 3
 ---
 id: magen_defense_grid
 name: Magen Defense Grid
-type: WARFARE
+tech_type: warfare
 prereqs:
-  WARFARE: 1
+- tech_type: warfare
+  num: 1
 ---
 id: neural_motivator
 name: Neural Motivator
-type: BIOTIC
+tech_type: biotic
 ---
 id: plasma_scoring
 name: Plasma Scoring
-type: WARFARE
+tech_type: warfare
 ---
 id: sarween_tools
 name: Sarween Tools
-type: CYBERNETIC
+tech_type: cybernetic
 ---
 id: transit_diodes
 name: Transit Diodes
-type: CYBERNETIC
+tech_type: cybernetic
 prereqs:
-  CYBERNETIC: 2
+- tech_type: cybernetic
+  num: 2
 ---
 id: x_89_bacterial_weapon
 name: X-89 Bacterial Weapon
-type: BIOTIC
+tech_type: biotic
 prereqs:
-  BIOTIC: 3
+- tech_type: biotic
+  num: 3

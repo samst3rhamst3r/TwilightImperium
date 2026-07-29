@@ -1,11 +1,11 @@
 id: advanced_carrier
 name: Advanced Carrier
-I: &level_1
+level_1_config: &level_1
   cost: 3
   combat: 9
   move: 1
   capacity: 6
-II:
+level_2_config:
   <<: *level_1
   move: 2
   capacity: 8
@@ -14,23 +14,33 @@ II:
 ---
 id: carrier
 name: Carrier
-I: &level_1
+level_1_config: &level_1
   cost: 3
   combat: 9
   move: 1
   capacity: 4
-II:
+upgrade_reqs:
+- tech_type: propulsion
+  num: 2
+level_2_config:
   <<: *level_1
   move: 2
   capacity: 6
 ---
 id: cruiser
 name: Cruiser
-I: &level_1
+level_1_config: &level_1
   cost: 2
   combat: 7
   move: 2
-II:
+upgrade_reqs:
+- tech_type: biotic
+  num: 1
+- tech_type: cybernetic
+  num: 1
+- tech_type: warfare
+  num: 1
+level_2_config:
   <<: *level_1
   combat: 6
   move: 3
@@ -38,62 +48,75 @@ II:
 ---
 id: destroyer
 name: Destroyer
-I: &level_1
+level_1_config: &level_1
   cost: 1
   combat: 9
   move: 2
   abilities: 
-  - id: anti_fighter_barrage
+  - ref_id: anti_fighter_barrage
     threshold: 9
     dice: 2
-II:
+upgrade_reqs:
+- tech_type: warfare
+  num: 2
+level_2_config:
   <<: *level_1
   combat: 8
   abilities: 
-  - id: anti_fighter_barrage
+  - ref_id: anti_fighter_barrage
     threshold: 6
     dice: 3
 ---
 id: dreadnought
 name: Dreadnought
-I: &level_1
+level_1_config: &level_1
   cost: 4
   combat: 5
   move: 1
   capacity: 1
   abilities: 
   - sustain_damage
-  - id: bombardment
+  - ref_id: bombardment
     threshold: 5
-II: 
+upgrade_reqs:
+- tech_type: propulsion
+  num: 2
+- tech_type: cybernetic
+  num: 1
+level_2_config: 
   <<: *level_1
   move: 2
   # Also cannot be destroyed by Direct Hit action cards
 ---
 id: exotrireme
 name: Exotrireme
-I: &level_1
+level_1_config: &level_1
   cost: 4
   combat: 5
   move: 1
   capacity: 1
   abilities: 
   - sustain_damage
-  - id: bombardment
+  - ref_id: bombardment
     threshold: 4
     dice: 2
-II: 
+level_2_config: 
   <<: *level_1
   move: 2
   # In addition to abilities, cannot be destroyed by Direct Hit action cards
 ---
 id: fighter
 name: Fighter
-I: &level_1
+level_1_config: &level_1
   cost: 1
   units_per_cost: 2
   combat: 9
-II:
+upgrade_reqs:
+- tech_type: biotic
+  num: 1
+- tech_type: propulsion
+  num: 1
+level_2_config:
   <<: *level_1
   combat: 8
   move: 2
@@ -101,28 +124,28 @@ II:
 ---
 id: floating_factory
 name: Floating Factory
-I: &level_1
+level_1_config: &level_1
   move: 1
   capacity: 4
   abilities: 
-  - id: production
+  - ref_id: production
     threshold: 5
     # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
-II: 
+level_2_config: 
   <<: *level_1
   move: 2
   capacity: 5
   abilities: 
-  - id: production
+  - ref_id: production
     threshold: 7
 ---
 id: hybrid_crystal_fighter
 name: Hybrid Crystal Fighter
-I: &level_1
+level_1_config: &level_1
   cost: 1
   units_per_cost: 2
   combat: 8
-II: 
+level_2_config: 
   <<: *level_1
   combat: 7
   move: 2
@@ -130,131 +153,135 @@ II:
 ---
 id: infantry
 name: Infantry
-I: &level_1
+level_1_config: &level_1
   cost: 1
   units_per_cost: 2
   combat: 8
-II:
+upgrade_reqs:
+- tech_type: biotic
+  num: 2
+level_2_config:
   <<: *level_1
   combat: 7
   # After unit destroyed, roll 1 die - if >= 6, place unit on the card. At start of next turn, place each unit on card on a controlled planet in my home system
 ---
 id: letani_warrior
 name: Letani Warrior
-I: &level_1
+level_1_config: &level_1
   cost: 1
   units_per_cost: 2
   combat: 8
   abilities: 
-  - id: production
+  - ref_id: production
     threshold: 1
-II: 
+level_2_config: 
   <<: *level_1
   combat: 7
   abilities: 
-  - id: production
+  - ref_id: production
     threshold: 2
 ---
 id: pds
 name: PDS
-I: 
+level_1_config: 
   abilities: 
-  - id: planetary_shield
-  - id: space_cannon
+  - ref_id: planetary_shield
+  - ref_id: space_cannon
     threshold: 6
-II: 
+upgrade_reqs:
+- tech_type: cybernetic
+  num: 1
+- tech_type: warfare
+  num: 1
+level_2_config: 
   abilities: 
-  - id: planetary_shield
-  - id: space_cannon
+  - ref_id: planetary_shield
+  - ref_id: space_cannon
     threshold: 5
     abilities: [PLANETARY SHIELD, SPACE CANNON 5] # May use this unit's SPACE CANNON against adjacent systems
 ---
 id: prototype_war_sun
 name: Prototype War Sun
-I: &level_1
+level_1_config: &level_1
   cost: 12
   combat: 3
   burst: 3
   move: 1
   capacity: 6
   abilities: 
-  - id: sustain_damage
-  - id: bombardment
+  - ref_id: sustain_damage
+  - ref_id: bombardment
     threshold: 3
     dice: 3
     # Other players' units in this system lose PLANETARY SHIELD
-II: 
+level_2_config: 
   <<: *level_1
   cost: 10
   move: 3
 ---
 id: space_dock
 name: Space Dock
-I: 
+level_1_config: 
   abilities: 
-  - id: production
+  - ref_id: production
     threshold: x # PROD value is 2 more than rsrc value of this planet; up to 3 fighters in system do not count toward ships' capacity
-II: 
+upgrade_reqs:
+- tech_type: cybernetic
+  num: 2
+level_2_config: 
   abilities: 
-  - id: production
+  - ref_id: production
     threshold: x # PROD value is 4 more
 ---
 id: spec_ops
 name: Spec Ops
-I: &level_1
+level_1_config: &level_1
   cost: 1
   units_per_cost: 2
   combat: 7
-II: 
+level_2_config: 
   <<: *level_1
   combat: 6
   # After unit destroyed, roll 1 die; If result >= 5, place unit on card; at start of next turn, place each unit on card on planet controlled in home system
 ---
 id: super_dreadnought
 name: Super-Dreadnought
-I: &level_1
+level_1_config: &level_1
   cost: 4
   combat: 5
   move: 1
   capacity: 2
   abilities: 
-  - id: sustain_damage
-  - id: bombardment
+  - ref_id: sustain_damage
+  - ref_id: bombardment
     threshold: 5
-II: 
+level_2_config: 
   <<: *level_1
   combat: 4
   move: 2
   abilities: 
-  - id: sustain_damage
-  - id: bombardment
+  - ref_id: sustain_damage
+  - ref_id: bombardment
     threshold: 4
     # Cannot be destroyed by Direct Hit action cards
 ---
 id: war_sun
 name: War Sun
-I: &level_1
+level_1_config: null
+upgrade_reqs:
+- tech_type: cybernetic
+  num: 1
+- tech_type: warfare
+  num: 3
+level_2_config: 
   cost: 12
   combat: 3
   burst: 3
   move: 2
   capacity: 6
   abilities: 
-  - id: sustain_damage
-  - id: bombardment
-    threshold: 3
-    dice: 3
-    # Other players in this system lose PLANETARY SHIELD
-II: 
-  <<: *level_1
-cost: 12
-combat: 3
-burst: 3
-move: 2
-capacity: 6
-abilities: 
-  - id: sustain_damage
-  - id: bombardment
+  - ref_id: sustain_damage
+  - ref_id: bombardment
     threshold: 3
     dice: 3
     # Other players in this system lose PLANETARY SHIELD

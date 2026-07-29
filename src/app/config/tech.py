@@ -3,11 +3,12 @@ from typing import Optional
 from collections.abc import Sequence
 
 from .shared.obj_ import ConfigObj
-from ..types.techtype import TechType
+from .tech_req import TechReqConfig
+from ..types.tech_type import TechType
 
 @dataclass(frozen=True, kw_only=True, slots=True)
-class Tech(ConfigObj):
+class TechConfig(ConfigObj):
     name: str
-    type: Optional[TechType] = None
-    pre_reqs: Sequence[TechType] = field(default_factory=tuple)
+    tech_type: TechType
+    prereqs: Optional[Sequence[TechReqConfig]] = field(default_factory=tuple)
     

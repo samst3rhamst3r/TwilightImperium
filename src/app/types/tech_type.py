@@ -1,6 +1,6 @@
 import enum
 
-class TechType(enum.Enum):
+class TechType(enum.StrEnum):
     BIOTIC = enum.auto()
     WARFARE = enum.auto()
     PROPULSION = enum.auto()

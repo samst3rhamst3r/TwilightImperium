@@ -1,17 +1,12 @@
 from dataclasses import dataclass
 from typing import Optional
-import enum
 
-from .tech import TechType
 from .shared.obj_ import ConfigObj
+from ..types.planet_trait import PlanetTrait
+from ..types.tech_type import TechType
 
-class PlanetTrait(enum.StrEnum):
-    CULTURAL = enum.auto()
-    HAZARDOUS = enum.auto()
-    INDUSTRIAL = enum.auto()
-
-@dataclass(frozen=True, kw_only=True, slots=True)
-class Planet(ConfigObj):
+@dataclass(slots=True, frozen=True, kw_only=True)
+class PlanetConfig(ConfigObj):
     name: str
     resources: int = 0
     influence: int = 0

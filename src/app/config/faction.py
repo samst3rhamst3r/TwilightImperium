@@ -2,8 +2,10 @@ from dataclasses import dataclass
 from typing import Optional
 from collections.abc import Sequence
 
+from .shared.obj_ import ConfigObj
+
 @dataclass(slots=True, frozen=True, kw_only=True)
-class Faction:
+class FactionConfig(ConfigObj):
     name: str
     max_commodities: int    
     units: Optional[Sequence] = None

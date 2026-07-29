@@ -1,32 +1,19 @@
-import dataclasses as dc
+from dataclasses import dataclass
+from typing import Optional
 import enum
 
-from ..objs.named import NamedObject
 from .tech import TechType
-from ..objs.exhaustable import Exhaustable
-from ..objs.player import Player
+from .shared.obj_ import ConfigObj
 
-class PlanetTrait(enum.Enum):
+class PlanetTrait(enum.StrEnum):
     CULTURAL = enum.auto()
     HAZARDOUS = enum.auto()
     INDUSTRIAL = enum.auto()
 
-@dc.dataclass(slots=True)
-class Planet(NamedObject, Exhaustable):
-    name: dc.InitVar[str]
+@dataclass(frozen=True, kw_only=True, slots=True)
+class Planet(ConfigObj):
+    name: str
     resources: int = 0
     influence: int = 0
-    tech_specialty: TechType | str | None = None
-    trait: PlanetTrait | str | None = None
-    player: Player = None
-    exhausted: dc.InitVar[bool] = False
-
-    def __post_init__(self, name: str, exhausted: bool):
-        NamedObject.__init__(self, name)
-        Exhaustable.__init__(self, exhausted)
-
-        if isinstance(self.trait, str):
-            self.trait = PlanetTrait[self.trait.upper()]
-        
-        if isinstance(self.tech_specialty, str):
-            self.tech_specialty = TechType[self.tech_specialty.upper()]
+    tech_specialty: Optional[TechType] = None
+    trait: Optional[PlanetTrait] = None

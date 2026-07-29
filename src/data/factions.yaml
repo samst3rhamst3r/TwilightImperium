@@ -31,7 +31,7 @@
 ...
 id: federation_of_sol
 name: The Federation of Sol
-home_systems: [1]
+home_systems: ["01"]
 max_commodities: 4
 abilities: [Orbital Drop, Versatile]
 start_techs: [Neural Motivator, Antimass Deflectors]
@@ -53,7 +53,7 @@ units:
 ---
 id: mentak_coalition
 name: The Mentak Coalition
-home_systems: [2]
+home_systems: ["02"]
 max_commodities: 2
 abilities: [Ambush, Pillage]
 start_techs: [Sarween Tools, Plasma Scoring]
@@ -76,7 +76,7 @@ units:
 ---
 id: yin_brotherhood
 name: The Yin Brotherhood
-home_systems: [3]
+home_systems: ["03"]
 max_commodities: 2
 abilities: [Indoctrination, Devotion]
 start_techs: [Sarween Tools]
@@ -97,7 +97,7 @@ units:
 ---
 id: embers_of_muaat
 name: The Embers of Muaat
-home_systems: [4]
+home_systems: ["04"]
 max_commodities: 4
 abilities: [Star Forge, Gashlai Physiology]
 start_techs: [Plasma Scoring]
@@ -117,7 +117,7 @@ units:
 ---
 id: arborec
 name: The Arborec
-home_systems: [5]
+home_systems: ["05"]
 max_commodities: 3
 abilities: [Mitosis]
 start_techs: [Magen Defense Grid]
@@ -141,7 +141,7 @@ units:
 ---
 id: l1z1x_mindnet
 name: The L1z1x Mindnet
-home_systems: [6]
+home_systems: ["06"]
 max_commodities: 2
 abilities: [Assimilate, Harrow]
 start_techs: [Neural Motivator, Plasma Scoring]
@@ -163,9 +163,9 @@ units:
   space_dock: 
     start: 1
 ---
-id: winnu
+id: winnu_faction
 name: The Winnu
-home_systems: [7]
+home_systems: ["07"]
 max_commodities: 3
 abilities: [Blood Ties, Reclamation]
 start_techs: [] # Choose any 1 technology that has no prereqs
@@ -188,7 +188,7 @@ units:
 ---
 id: nekro_virus
 name: The Nekro Virus
-home_systems: [8]
+home_systems: ["08"]
 max_commodities: 3
 abilities: [Galactic Threat, Technological Singularity, Propagation]
 start_techs: [Dacxive Animators, Valefar Assimilator X, Valefar Assimilator Y]
@@ -211,7 +211,7 @@ units:
 ---
 id: naalu_collective
 name: The Naalu Collective
-home_systems: [9]
+home_systems: ["09"]
 max_commodities: 3
 abilities: [Telepathic, Foresight]
 start_techs: [Neural Motivator, Sarween Tools]
@@ -237,7 +237,7 @@ units:
 ---
 id: barony_of_letnev
 name: The Barony of Letnev
-home_systems: [10]
+home_systems: ["10"]
 max_commodities: 2
 abilities: [Munitions Reserves, Armada]
 start_techs: [Antimass Deflectors, Plasma Scoring]
@@ -260,7 +260,7 @@ units:
 ---
 id: clan_of_saar
 name: The Clan of Saar
-home_systems: [11]
+home_systems: ["11"]
 max_commodities: 3
 abilities: [Scavenge, Nomadic]
 start_techs: [Antimass Deflectors]
@@ -282,7 +282,7 @@ units:
 ---
 id: universities_of_jolnar
 name: The Universities of Jol-Nar
-home_systems: [12]
+home_systems: ["12"]
 max_commodities: 4
 abilities: [Fragile, Brilliant, Analytical]
 start_techs: [Neural Motivator, Antimass Deflectors, Sarween Tools, Plasma Scoring]
@@ -305,7 +305,7 @@ units:
 ---
 id: sardakk_norr
 name: Sardakk N'orr
-home_systems: [13]
+home_systems: ["13"]
 max_commodities: 3
 abilities: [Unrelenting]
 start_techs: []
@@ -328,7 +328,7 @@ units:
 ---
 id: xxcha_kingdom
 name: The Xxcha Kingdom
-home_systems: [14]
+home_systems: ["14"]
 max_commodities: 4
 abilities: [Peace Accords, Quash]
 start_techs: [Graviton Laser System]
@@ -351,7 +351,7 @@ units:
 ---
 id: yssaril_tribes
 name: The Yssaril Tribes
-home_systems: [15]
+home_systems: ["15"]
 max_commodities: 3
 abilities: [Stall Tactics, Scheming, Crafty]
 start_techs: [Neural Motivator]
@@ -374,7 +374,7 @@ units:
 ---
 id: emirates_of_hacan
 name: The Emirates of Hacan
-home_systems: [16]
+home_systems: ["16"]
 max_commodities: 6
 abilities: [Masters of Trade, Guild Ships, Arbiters]
 start_techs: [Antimass Deflectors, Sarween Tools]
@@ -395,7 +395,7 @@ units:
 ---
 id: ghosts_of_creuss
 name: The Ghosts of Creuss
-home_systems: [17, 51]
+home_systems: ["17", "51"]
 max_commodities: 4
 abilities: [Quantum Entanglement, Slipstream, Creuss Gate]
 start_techs: [Gravity Drive]

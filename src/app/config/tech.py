@@ -1,14 +1,13 @@
-import enum
-import dataclasses as dc
+from dataclasses import dataclass, field
+from typing import Optional
+from collections.abc import Sequence
 
-class TechType(enum.Enum):
-    BIOTIC = enum.auto()
-    WARFARE = enum.auto()
-    PROPULSION = enum.auto()
-    CYBERNETIC = enum.auto()
+from .shared.obj_ import ConfigObj
+from ..types.techtype import TechType
 
-@dc.dataclass(frozen=True, slots=True)
-class Tech:
+@dataclass(frozen=True, kw_only=True, slots=True)
+class Tech(ConfigObj):
     name: str
-    type: TechType | None
-    pre_reqs: list[TechType] | None
+    type: Optional[TechType] = None
+    pre_reqs: Sequence[TechType] = field(default_factory=tuple)
+    

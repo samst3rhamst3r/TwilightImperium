@@ -39,6 +39,8 @@ abilities:
 - ref_id: versatile
 flagship: 
   ref_id: genesis
+promissory_note:
+  ref_id: military_support
 starting_units:
   carrier: 2
   destroyer: 1
@@ -64,6 +66,8 @@ abilities:
 - ref_id: pillage
 flagship: 
   ref_id: fourth_moon
+promissory_note:
+  ref_id: promise_of_protection
 starting_units:
   carrier: 1
   cruiser: 2
@@ -88,6 +92,8 @@ abilities:
 - ref_id: devotion
 flagship: 
   ref_id: van_hauge
+promissory_note:
+  ref_id: greyfire_mutagen
 starting_units:
   carrier: 2
   destroyer: 1
@@ -110,6 +116,8 @@ abilities:
 - ref_id: gashlai_physiology
 flagship: 
   ref_id: inferno
+promissory_note:
+  ref_id: fires_of_gashlai
 starting_units:
   fighter: 2
   infantry: 4
@@ -132,6 +140,8 @@ abilities:
 - ref_id: mitosis
 flagship: 
   ref_id: duha_menaimon
+promissory_note:
+  ref_id: stymie
 starting_units:
   carrier: 1
   cruiser: 1
@@ -157,6 +167,8 @@ abilities:
 - ref_id: harrow
 flagship: 
   ref_id: 0_0_1
+promissory_note:
+  ref_id: cybernetic_enhancements
 starting_units:
   dreadnought: 1
   carrier: 1
@@ -183,6 +195,8 @@ abilities:
 - ref_id: reclamation
 flagship: 
   ref_id: salai_sai_corian
+promissory_note:
+  ref_id: acquiescence
 starting_units:
   carrier: 1
   cruiser: 1
@@ -206,6 +220,8 @@ abilities:
 - ref_id: propagation
 flagship: 
   ref_id: the_alastor
+promissory_note:
+  ref_id: antivirus
 starting_units:
   dreadnought: 1
   carrier: 1
@@ -231,6 +247,8 @@ abilities:
 - ref_id: foresight
 flagship: 
   ref_id: matriarch
+promissory_note:
+  ref_id: gift_of_prescience
 starting_units:
   carrier: 1
   cruiser: 1
@@ -258,6 +276,8 @@ abilities:
 - ref_id: armada
 flagship: 
   ref_id: arc_secundus
+promissory_note:
+  ref_id: war_funding
 starting_units:
   dreadnought: 1
   carrier: 1
@@ -282,6 +302,8 @@ abilities:
 - ref_id: nomadic
 flagship: 
   ref_id: son_of_ragh
+promissory_note:
+  ref_id: raghs_call
 starting_units:
   carrier: 2
   cruiser: 1
@@ -307,6 +329,8 @@ abilities:
 - ref_id: analytical
 flagship: 
   ref_id: jns_hylarim
+promissory_note:
+  ref_id: research_agreement
 starting_units:
   dreadnought: 1
   carrier: 2
@@ -332,6 +356,8 @@ abilities:
 - ref_id: unrelenting
 flagship: 
   ref_id: cmorran_norr
+promissory_note:
+  ref_id: tekklar_legion
 starting_units:
   carrier: 2
   cruiser: 1
@@ -354,6 +380,8 @@ abilities:
 - ref_id: quash
 flagship: 
   ref_id: loncara_ssodu
+promissory_note:
+  ref_id: political_favor
 starting_units:
   carrier: 1
   cruiser: 2
@@ -378,6 +406,8 @@ abilities:
 - ref_id: crafty
 flagship: 
   ref_id: ysia_yssrila
+promissory_note:
+  ref_id: spy_net
 starting_units:
   carrier: 2
   cruiser: 1
@@ -402,6 +432,8 @@ abilities:
 - ref_id: arbiters
 flagship: 
   ref_id: wrath_of_kenara
+promissory_note:
+  ref_id: trade_convoys
 starting_units:
   carrier: 2
   cruiser: 1
@@ -427,6 +459,8 @@ abilities:
 - ref_id: creuss_gate
 flagship: 
   ref_id: hil_colish
+promissory_note:
+  ref_id: creuss_iff
 starting_units:
   carrier: 1
   destroyer: 2

@@ -36,6 +36,7 @@ class FactionConfig(ConfigObj):
     max_commodities: int
     abilities: Sequence[ConfigRefObj]
     flagship: ConfigRefObj
+    promissory_note: ConfigRefObj
     starting_units: StartingUnitsConfig
 
     start_techs: Optional[Sequence[ConfigRefObj]] = field(default_factory=tuple)

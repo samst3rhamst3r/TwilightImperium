@@ -1,20 +1,62 @@
+id: 0_0_1
+name: "[0.0.1]"
+level_1: 
+  cost: 8
+  combat: 5
+  burst: 2
+  move: 1
+  capacity: 5
+  abilities: 
+  - ref_id: sustain_damage
+  # During a space combat, hits produced by this ship and by your dreadnoughts in this system must be assigned to non-fighter ships if able.
+---
 id: advanced_carrier
 name: Advanced Carrier
-level_1_config: &level_1
+level_1: &level_1
   cost: 3
   combat: 9
   move: 1
   capacity: 6
-level_2_config:
+upgrade_reqs:
+- tech_type: propulsion
+  num: 2
+level_2:
   <<: *level_1
   move: 2
   capacity: 8
   abilities: 
   - sustain_damage
 ---
+id: alastor
+name: The Alastor
+level_1: 
+  cost: 8
+  combat: 9
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # At the start of a space combat, choose any number of your ground forces in this system to participate in that combat as if they were ships.
+---
+id: arc_secundus
+name: Arc Secundus
+level_1: 
+  cost: 8
+  combat: 5
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  - ref_id: bombardment
+    threshold: 5
+    dice: 3
+  # Other players' units in this system lose PLANETARY SHIELD. At the start of each space combat round, repair this ship.
+---
 id: carrier
 name: Carrier
-level_1_config: &level_1
+level_1: &level_1
   cost: 3
   combat: 9
   move: 1
@@ -22,14 +64,26 @@ level_1_config: &level_1
 upgrade_reqs:
 - tech_type: propulsion
   num: 2
-level_2_config:
+level_2:
   <<: *level_1
   move: 2
   capacity: 6
 ---
+id: cmorran_norr
+name: C'Morran Norr
+level_1: 
+  cost: 8
+  combat: 6
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # Apply +1 to the result of each of your other ship's combat rolls in this system.
+---
 id: cruiser
 name: Cruiser
-level_1_config: &level_1
+level_1: &level_1
   cost: 2
   combat: 7
   move: 2
@@ -40,7 +94,7 @@ upgrade_reqs:
   num: 1
 - tech_type: warfare
   num: 1
-level_2_config:
+level_2:
   <<: *level_1
   combat: 6
   move: 3
@@ -48,7 +102,7 @@ level_2_config:
 ---
 id: destroyer
 name: Destroyer
-level_1_config: &level_1
+level_1: &level_1
   cost: 1
   combat: 9
   move: 2
@@ -59,7 +113,7 @@ level_1_config: &level_1
 upgrade_reqs:
 - tech_type: warfare
   num: 2
-level_2_config:
+level_2:
   <<: *level_1
   combat: 8
   abilities: 
@@ -69,13 +123,13 @@ level_2_config:
 ---
 id: dreadnought
 name: Dreadnought
-level_1_config: &level_1
+level_1: &level_1
   cost: 4
   combat: 5
   move: 1
   capacity: 1
   abilities: 
-  - sustain_damage
+  - ref_id: sustain_damage
   - ref_id: bombardment
     threshold: 5
 upgrade_reqs:
@@ -83,31 +137,49 @@ upgrade_reqs:
   num: 2
 - tech_type: cybernetic
   num: 1
-level_2_config: 
+level_2: 
   <<: *level_1
   move: 2
   # Also cannot be destroyed by Direct Hit action cards
 ---
+id: duha_menaimon
+name: Duha Menaimon
+level_1: 
+  cost: 8
+  combat: 7
+  burst: 2
+  move: 1
+  capacity: 5
+  abilities: 
+  - ref_id: sustain_damage
+  # After you activate this system, you may produce up to 5 units in this system
+---
 id: exotrireme
 name: Exotrireme
-level_1_config: &level_1
+level_1: &level_1
   cost: 4
   combat: 5
   move: 1
   capacity: 1
   abilities: 
-  - sustain_damage
+  - ref_id: sustain_damage
   - ref_id: bombardment
     threshold: 4
     dice: 2
-level_2_config: 
+upgrade_reqs:
+- tech_type: propulsion
+  num: 2
+- tech_type: cybernetic
+  num: 1
+level_2: 
   <<: *level_1
   move: 2
   # In addition to abilities, cannot be destroyed by Direct Hit action cards
+  # After space combat, you may destroy this unit to destroy up to 2 ships in the system
 ---
 id: fighter
 name: Fighter
-level_1_config: &level_1
+level_1: &level_1
   cost: 1
   units_per_cost: 2
   combat: 9
@@ -116,7 +188,7 @@ upgrade_reqs:
   num: 1
 - tech_type: propulsion
   num: 1
-level_2_config:
+level_2:
   <<: *level_1
   combat: 8
   move: 2
@@ -124,28 +196,72 @@ level_2_config:
 ---
 id: floating_factory
 name: Floating Factory
-level_1_config: &level_1
+level_1: &level_1
   move: 1
   capacity: 4
   abilities: 
   - ref_id: production
     threshold: 5
-    # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
-level_2_config: 
+  # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
+upgrade_reqs:
+- tech_type: cybernetic
+  num: 2
+level_2: 
   <<: *level_1
   move: 2
   capacity: 5
   abilities: 
   - ref_id: production
     threshold: 7
+  # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
+---
+id: fourth_moon
+name: Fourth Moon
+level_1: 
+  cost: 8
+  combat: 7
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # Other players' ships in this system cannot use SUSTAIN DAMAGE
+---
+id: genesis
+name: Genesis
+level_1: 
+  cost: 8
+  combat: 5
+  burst: 2
+  move: 1
+  capacity: 12
+  abilities: 
+  - ref_id: sustain_damage
+  # At end of status phase, place 1 infantry from reinforcements in this system's space area
+---
+id: hil_colish
+name: Hil Colish
+level_1: 
+  cost: 8
+  combat: 5
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # This ship's system contains a delta wormhole. During movement, this ship may move before or after your other ships.
 ---
 id: hybrid_crystal_fighter
 name: Hybrid Crystal Fighter
-level_1_config: &level_1
+level_1: &level_1
   cost: 1
   units_per_cost: 2
   combat: 8
-level_2_config: 
+upgrade_reqs:
+- tech_type: biotic
+  num: 1
+- tech_type: propulsion
+  num: 1
+level_2: 
   <<: *level_1
   combat: 7
   move: 2
@@ -153,37 +269,92 @@ level_2_config:
 ---
 id: infantry
 name: Infantry
-level_1_config: &level_1
+level_1: &level_1
   cost: 1
   units_per_cost: 2
   combat: 8
 upgrade_reqs:
 - tech_type: biotic
   num: 2
-level_2_config:
+level_2:
   <<: *level_1
   combat: 7
   # After unit destroyed, roll 1 die - if >= 6, place unit on the card. At start of next turn, place each unit on card on a controlled planet in my home system
 ---
+id: inferno
+name: The Inferno
+level_1: 
+  cost: 8
+  combat: 5
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # ACTION: Spend 1 token from your strategy pool to place 1 cruiser in this unit's system
+---
+id: jns_hylarim
+name: J.N.S. Hylarim
+level_1: 
+  cost: 8
+  combat: 6
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # When making a combat roll for this ship, each result of 9 or 10, before applying modifiers, produces 2 additional hits.
+---
 id: letani_warrior
 name: Letani Warrior
-level_1_config: &level_1
+level_1: &level_1
   cost: 1
   units_per_cost: 2
   combat: 8
   abilities: 
   - ref_id: production
     threshold: 1
-level_2_config: 
+upgrade_reqs:
+- tech_type: biotic
+  num: 2
+level_2: 
   <<: *level_1
   combat: 7
   abilities: 
   - ref_id: production
     threshold: 2
+  # After unit is destroyed, roll 1 die; if result >= 6, place unit on card. At start of next turn, place each unit on card on a controlled planet in my home system
+---
+id: loncara_ssodu
+name: Loncara Ssodu
+level_1: 
+  cost: 8
+  combat: 7
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  - ref_id: space_cannon
+    threshold: 5
+    dice: 3
+  # You may use this unit's SPACE CANNON against ships that are in adjacent systems.
+---
+id: matriarch
+name: Matriarch
+level_1: 
+  cost: 8
+  combat: 9
+  burst: 2
+  move: 1
+  capacity: 6
+  abilities: 
+  - ref_id: sustain_damage
+  # During an invasion in this system, you may commit fighters to planets as if they were ground forces. When combat ends, return those units to the space area.
 ---
 id: pds
 name: PDS
-level_1_config: 
+level_1: 
   abilities: 
   - ref_id: planetary_shield
   - ref_id: space_cannon
@@ -193,7 +364,7 @@ upgrade_reqs:
   num: 1
 - tech_type: warfare
   num: 1
-level_2_config: 
+level_2: 
   abilities: 
   - ref_id: planetary_shield
   - ref_id: space_cannon
@@ -202,7 +373,7 @@ level_2_config:
 ---
 id: prototype_war_sun
 name: Prototype War Sun
-level_1_config: &level_1
+level_1: &level_1
   cost: 12
   combat: 3
   burst: 3
@@ -214,39 +385,72 @@ level_1_config: &level_1
     threshold: 3
     dice: 3
     # Other players' units in this system lose PLANETARY SHIELD
-level_2_config: 
+upgrade_reqs:
+- tech_type: cybernetic
+  num: 1
+- tech_type: warfare
+  num: 3
+level_2: 
   <<: *level_1
   cost: 10
   move: 3
 ---
+id: salai_sai_corian
+name: Salai Sai Corian
+level_1: 
+  cost: 8
+  combat: 7
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # When this unit makes a combat roll, it rolls a number of dice equal to the number of your opponent's non-fighter ships in this system
+---
+id: son_of_ragh
+name: Son of Ragh
+level_1: 
+  cost: 8
+  combat: 5
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  - ref_id: anti_fighter_barage
+    threshold: 6
+    dice: 4
+---
 id: space_dock
 name: Space Dock
-level_1_config: 
+level_1: 
   abilities: 
   - ref_id: production
     threshold: x # PROD value is 2 more than rsrc value of this planet; up to 3 fighters in system do not count toward ships' capacity
 upgrade_reqs:
 - tech_type: cybernetic
   num: 2
-level_2_config: 
+level_2: 
   abilities: 
   - ref_id: production
     threshold: x # PROD value is 4 more
 ---
 id: spec_ops
 name: Spec Ops
-level_1_config: &level_1
+level_1: &level_1
   cost: 1
   units_per_cost: 2
   combat: 7
-level_2_config: 
+upgrade_reqs:
+- tech_type: biotic
+  num: 2
+level_2: 
   <<: *level_1
   combat: 6
   # After unit destroyed, roll 1 die; If result >= 5, place unit on card; at start of next turn, place each unit on card on planet controlled in home system
 ---
 id: super_dreadnought
 name: Super-Dreadnought
-level_1_config: &level_1
+level_1: &level_1
   cost: 4
   combat: 5
   move: 1
@@ -255,7 +459,12 @@ level_1_config: &level_1
   - ref_id: sustain_damage
   - ref_id: bombardment
     threshold: 5
-level_2_config: 
+upgrade_reqs:
+- tech_type: propulsion
+  num: 2
+- tech_type: cybernetic
+  num: 1
+level_2: 
   <<: *level_1
   combat: 4
   move: 2
@@ -265,15 +474,27 @@ level_2_config:
     threshold: 4
     # Cannot be destroyed by Direct Hit action cards
 ---
+id: van_hauge
+name: Van Hauge
+level_1: 
+  cost: 8
+  combat: 9
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # When this ship is destroyed, destroy all ships in this system
+---
 id: war_sun
 name: War Sun
-level_1_config: null
+level_1: null
 upgrade_reqs:
 - tech_type: cybernetic
   num: 1
 - tech_type: warfare
   num: 3
-level_2_config: 
+level_2: 
   cost: 12
   combat: 3
   burst: 3
@@ -285,3 +506,27 @@ level_2_config:
     threshold: 3
     dice: 3
     # Other players in this system lose PLANETARY SHIELD
+---
+id: wrath_of_kenara
+name: Wrath of Kenara
+level_1: 
+  cost: 8
+  combat: 7
+  burst: 2
+  move: 1
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # After you roll a die during a space combat in this system, you. may spend 1 trade good to apply +1 to the result.
+---
+id: ysia_yssrila
+name: Y'sia Y'ssrila
+level_1: 
+  cost: 8
+  combat: 5
+  burst: 2
+  move: 2
+  capacity: 3
+  abilities: 
+  - ref_id: sustain_damage
+  # This ship can move through systems that contain other players' ships.

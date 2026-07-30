@@ -37,22 +37,22 @@ max_commodities: 4
 abilities: 
 - ref_id: orbital_drop
 - ref_id: versatile
-start_techs: 
-- ref_id: neural_motivator
-- ref_id: antimass_deflectors
-unique_units:
-  flagship: 
-    ref_id: genesis
-  carrier:
-    ref_id: advanced_carrier
-  infantry: 
-    ref_id: spec_ops
+flagship: 
+  ref_id: genesis
 starting_units:
   carrier: 2
   destroyer: 1
   fighter: 3
   infantry: 5
   space_dock: 1
+start_techs: 
+- ref_id: neural_motivator
+- ref_id: antimass_deflectors
+unique_units:
+  carrier:
+    ref_id: advanced_carrier
+  infantry: 
+    ref_id: spec_ops
 ---
 id: mentak_coalition
 name: The Mentak Coalition
@@ -62,15 +62,8 @@ max_commodities: 2
 abilities: 
 - ref_id: ambush
 - ref_id: pillage
-start_techs: 
-- ref_id: sarween_tools
-- ref_id: plasma_scoring
-unique_techs: 
-- ref_id: mirror_computing
-- ref_id: salvage_operations
-unique_units:
-  flagship: 
-    ref_id: fourth_moon
+flagship: 
+  ref_id: fourth_moon
 starting_units:
   carrier: 1
   cruiser: 2
@@ -78,6 +71,12 @@ starting_units:
   infantry: 4
   space_dock: 1
   pds: 1
+start_techs: 
+- ref_id: sarween_tools
+- ref_id: plasma_scoring
+unique_techs: 
+- ref_id: mirror_computing
+- ref_id: salvage_operations
 ---
 id: yin_brotherhood
 name: The Yin Brotherhood
@@ -87,20 +86,19 @@ max_commodities: 2
 abilities: 
 - ref_id: indoctrination
 - ref_id: devotion
-start_techs: 
-- ref_id: sarween_tools
-unique_techs: 
-- ref_id: yin_spinner
-- ref_id: impulse_core
-unique_units:
-  flagship: 
-    ref_id: van_hauge
+flagship: 
+  ref_id: van_hauge
 starting_units:
   carrier: 2
   destroyer: 1
   fighter: 4
   infantry: 4
   space_dock: 1
+start_techs: 
+- ref_id: sarween_tools
+unique_techs: 
+- ref_id: yin_spinner
+- ref_id: impulse_core
 ---
 id: embers_of_muaat
 name: The Embers of Muaat
@@ -110,20 +108,20 @@ max_commodities: 4
 abilities: 
 - ref_id: star_forge
 - ref_id: gashlai_physiology
-start_techs: 
-- ref_id: plasma_scoring
-unique_techs: 
-- ref_id: magmus_reactor
-unique_units:
-  flagship: 
-    ref_id: inferno
-  war_sun:
-    ref_id: prototype_war_sun
+flagship: 
+  ref_id: inferno
 starting_units:
   fighter: 2
   infantry: 4
   space_dock: 1
   war_sun: 1
+start_techs: 
+- ref_id: plasma_scoring
+unique_techs: 
+- ref_id: magmus_reactor
+unique_units:
+  war_sun:
+    ref_id: prototype_war_sun
 ---
 id: arborec
 name: The Arborec
@@ -132,15 +130,8 @@ home_systems:
 max_commodities: 3
 abilities: 
 - ref_id: mitosis
-start_techs: 
-- ref_id: magen_defense_grid
-unique_techs: 
-- ref_id: bioplasmosis
-unique_units:
-  flagship: 
-    ref_id: duha_menaimon
-  infantry:
-    ref_id: letani_warrior
+flagship: 
+  ref_id: duha_menaimon
 starting_units:
   carrier: 1
   cruiser: 1
@@ -148,6 +139,13 @@ starting_units:
   infantry: 4
   space_dock: 1
   pds: 1
+start_techs: 
+- ref_id: magen_defense_grid
+unique_techs: 
+- ref_id: bioplasmosis
+unique_units:
+  infantry:
+    ref_id: letani_warrior
 ---
 id: l1z1x_mindnet
 name: The L1z1x Mindnet
@@ -157,16 +155,8 @@ max_commodities: 2
 abilities: 
 - ref_id: assimilate
 - ref_id: harrow
-start_techs: 
-- ref_id: neural_motivator
-- ref_id: plasma_scoring
-unique_techs: 
-- ref_id: inheritance_systems
-unique_units:
-  flagship: 
-    ref_id: 0_0_1
-  dreadnought:
-    ref_id: super_dreadnought
+flagship: 
+  ref_id: 0_0_1
 starting_units:
   dreadnought: 1
   carrier: 1
@@ -174,6 +164,14 @@ starting_units:
   infantry: 5
   space_dock: 1
   pds: 1
+start_techs: 
+- ref_id: neural_motivator
+- ref_id: plasma_scoring
+unique_techs: 
+- ref_id: inheritance_systems
+unique_units:
+  dreadnought:
+    ref_id: super_dreadnought
 ---
 id: winnu_faction
 name: The Winnu
@@ -183,13 +181,8 @@ max_commodities: 3
 abilities: 
 - ref_id: blood_ties
 - ref_id: reclamation
-start_techs: [] # Choose any 1 technology that has no prereqs
-unique_techs: 
-- ref_id: hegemonic_trade_policy
-- ref_id: lazax_gate_folding
-unique_units:
-  flagship: 
-    ref_id: salai_sai_corian
+flagship: 
+  ref_id: salai_sai_corian
 starting_units:
   carrier: 1
   cruiser: 1
@@ -197,6 +190,10 @@ starting_units:
   infantry: 2
   space_dock: 1
   pds: 1
+start_techs: [] # Choose any 1 technology that has no prereqs
+unique_techs: 
+- ref_id: hegemonic_trade_policy
+- ref_id: lazax_gate_folding
 ---
 id: nekro_virus
 name: The Nekro Virus
@@ -207,16 +204,8 @@ abilities:
 - ref_id: galactic_threat
 - ref_id: technological_singularity
 - ref_id: propagation
-start_techs: 
-- ref_id: daxcive_animators
-- ref_id: valefar_assimilator_x
-- ref_id: valefar_assimilator_y
-unique_techs: 
-- ref_id: valefar_assimilator_x
-- ref_id: valefar_assimilator_y
-unique_units:
-  flagship: 
-    ref_id: the_alastor
+flagship: 
+  ref_id: the_alastor
 starting_units:
   dreadnought: 1
   carrier: 1
@@ -224,6 +213,13 @@ starting_units:
   fighter: 2
   infantry: 2
   space_dock: 1
+start_techs: 
+- ref_id: daxcive_animators
+- ref_id: valefar_assimilator_x
+- ref_id: valefar_assimilator_y
+unique_techs: 
+- ref_id: valefar_assimilator_x
+- ref_id: valefar_assimilator_y
 ---
 id: naalu_collective
 name: The Naalu Collective
@@ -233,16 +229,8 @@ max_commodities: 3
 abilities: 
 - ref_id: telepathic
 - ref_id: foresight
-start_techs: 
-- ref_id: neural_motivator
-- ref_id: sarween_tools
-unique_techs: 
-- ref_id: neuroglaive
-unique_units:
-  flagship: 
-    ref_id: matriarch
-  fighter:
-    ref_id: hybrid_crystal_fighter
+flagship: 
+  ref_id: matriarch
 starting_units:
   carrier: 1
   cruiser: 1
@@ -251,6 +239,14 @@ starting_units:
   infantry: 4
   space_dock: 1
   pds: 1
+start_techs: 
+- ref_id: neural_motivator
+- ref_id: sarween_tools
+unique_techs: 
+- ref_id: neuroglaive
+unique_units:
+  fighter:
+    ref_id: hybrid_crystal_fighter
 ---
 id: barony_of_letnev
 name: The Barony of Letnev
@@ -260,15 +256,8 @@ max_commodities: 2
 abilities: 
 - ref_id: munitions_reserves
 - ref_id: armada
-start_techs: 
-- ref_id: antimass_deflectors
-- ref_id: plasma_scoring
-unique_techs: 
-- ref_id: l4_disruptors
-- ref_id: non_euclidean_shielding
-unique_units:
-  flagship: 
-    ref_id: arc_secundus
+flagship: 
+  ref_id: arc_secundus
 starting_units:
   dreadnought: 1
   carrier: 1
@@ -276,6 +265,12 @@ starting_units:
   fighter: 1
   infantry: 3
   space_dock: 1
+start_techs: 
+- ref_id: antimass_deflectors
+- ref_id: plasma_scoring
+unique_techs: 
+- ref_id: l4_disruptors
+- ref_id: non_euclidean_shielding
 ---
 id: clan_of_saar
 name: The Clan of Saar
@@ -285,21 +280,21 @@ max_commodities: 3
 abilities: 
 - ref_id: scavenge
 - ref_id: nomadic
-start_techs: 
-- ref_id: antimass_deflectors
-unique_techs: 
-- ref_id: chaos_mapping
-unique_units:
-  flagship: 
-    ref_id: son_of_ragh
-  space_dock: 
-    ref_id: floating_factory
+flagship: 
+  ref_id: son_of_ragh
 starting_units:
   carrier: 2
   cruiser: 1
   fighter: 2
   infantry: 4
   space_dock: 1
+start_techs: 
+- ref_id: antimass_deflectors
+unique_techs: 
+- ref_id: chaos_mapping
+unique_units:
+  space_dock: 
+    ref_id: floating_factory
 ---
 id: universities_of_jolnar
 name: The Universities of Jol-Nar
@@ -310,6 +305,15 @@ abilities:
 - ref_id: fragile
 - ref_id: brilliant
 - ref_id: analytical
+flagship: 
+  ref_id: jns_hylarim
+starting_units:
+  dreadnought: 1
+  carrier: 2
+  fighter: 1
+  infantry: 2
+  space_dock: 1
+  pds: 2
 start_techs: 
 - ref_id: neural_motivator
 - ref_id: antimass_deflectors
@@ -318,16 +322,6 @@ start_techs:
 unique_techs: 
 - ref_id: spacial_conduit_cylinder
 - ref_id: e_res_siphons
-unique_units:
-  flagship: 
-    ref_id: jns_hylarim
-starting_units:
-  dreadnought: 1
-  carrier: 2
-  fighter: 1
-  infantry: 2
-  space_dock: 1
-  pds: 2
 ---
 id: sardakk_norr
 name: Sardakk N'orr
@@ -336,19 +330,19 @@ home_systems:
 max_commodities: 3
 abilities: 
 - ref_id: unrelenting
-unique_techs: 
-- ref_id: valkyrie_particle_weave
-unique_units:
-  flagship: 
-    ref_id: cmorran_norr
-  dreadnought: 
-    ref_id: exotrireme
+flagship: 
+  ref_id: cmorran_norr
 starting_units:
   carrier: 2
   cruiser: 1
   infantry: 5
   space_dock: 1
   pds: 1
+unique_techs: 
+- ref_id: valkyrie_particle_weave
+unique_units:
+  dreadnought: 
+    ref_id: exotrireme
 ---
 id: xxcha_kingdom
 name: The Xxcha Kingdom
@@ -358,14 +352,8 @@ max_commodities: 4
 abilities: 
 - ref_id: peace_accords
 - ref_id: quash
-start_techs: 
-- ref_id: graviton_laser_system
-unique_techs: 
-- ref_id: nullification_field
-- ref_id: instinct_training
-unique_units:
-  flagship: 
-    ref_id: loncara_ssodu
+flagship: 
+  ref_id: loncara_ssodu
 starting_units:
   carrier: 1
   cruiser: 2
@@ -373,6 +361,11 @@ starting_units:
   infantry: 4
   space_dock: 1
   pds: 1
+start_techs: 
+- ref_id: graviton_laser_system
+unique_techs: 
+- ref_id: nullification_field
+- ref_id: instinct_training
 ---
 id: yssaril_tribes
 name: The Yssaril Tribes
@@ -383,14 +376,8 @@ abilities:
 - ref_id: stall_tactics
 - ref_id: scheming
 - ref_id: crafty
-start_techs: 
-- ref_id: neural_motivator
-unique_techs: 
-- ref_id: mageon_implants
-- ref_id: transparasteel_plating
-unique_units:
-  flagship: 
-    ref_id: ysia_yssrila
+flagship: 
+  ref_id: ysia_yssrila
 starting_units:
   carrier: 2
   cruiser: 1
@@ -398,6 +385,11 @@ starting_units:
   infantry: 5
   space_dock: 1
   pds: 1
+start_techs: 
+- ref_id: neural_motivator
+unique_techs: 
+- ref_id: mageon_implants
+- ref_id: transparasteel_plating
 ---
 id: emirates_of_hacan
 name: The Emirates of Hacan
@@ -408,21 +400,20 @@ abilities:
 - ref_id: masters_of_trade
 - ref_id: guild_ships
 - ref_id: arbiters
-start_techs: 
-- ref_id: antimass_deflectors
-- ref_id: sarween_tools
-unique_techs: 
-- ref_id: production_biomes
-- ref_id: quantum_datahub_node
-unique_units:
-  flagship: 
-    ref_id: wrath_of_kenara
+flagship: 
+  ref_id: wrath_of_kenara
 starting_units:
   carrier: 2
   cruiser: 1
   fighter: 2
   infantry: 4
   space_dock: 1
+start_techs: 
+- ref_id: antimass_deflectors
+- ref_id: sarween_tools
+unique_techs: 
+- ref_id: production_biomes
+- ref_id: quantum_datahub_node
 ---
 id: ghosts_of_creuss
 name: The Ghosts of Creuss
@@ -434,17 +425,16 @@ abilities:
 - ref_id: quantum_entanglement
 - ref_id: slipstream
 - ref_id: creuss_gate
-start_techs: 
-- ref_id: gravity_drive
-unique_techs: 
-- ref_id: dimensional_splicer
-- ref_id: wormhole_generator
-unique_units:
-  flagship: 
-    ref_id: hil_colish
+flagship: 
+  ref_id: hil_colish
 starting_units:
   carrier: 1
   destroyer: 2
   fighter: 2
   infantry: 4
   space_dock: 1
+start_techs: 
+- ref_id: gravity_drive
+unique_techs: 
+- ref_id: dimensional_splicer
+- ref_id: wormhole_generator

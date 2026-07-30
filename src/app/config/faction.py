@@ -6,16 +6,15 @@ from .shared.obj_ import ConfigObj, ConfigRefObj, BaseConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class UniqueUnitsRefConfig(BaseConfigObj):
-    flagship: ConfigRefObj
-    carrier: ConfigRefObj = None
-    cruiser: ConfigRefObj = None
-    dreadnought: ConfigRefObj = None
-    destroyer: ConfigRefObj = None
-    fighter: ConfigRefObj = None
-    infantry: ConfigRefObj = None
-    space_dock: ConfigRefObj = None
-    pds: ConfigRefObj = None
-    war_sun: ConfigRefObj = None
+    carrier: Optional[ConfigRefObj] = None
+    cruiser: Optional[ConfigRefObj] = None
+    destroyer: Optional[ConfigRefObj] = None
+    dreadnought: Optional[ConfigRefObj] = None
+    fighter: Optional[ConfigRefObj] = None
+    infantry: Optional[ConfigRefObj] = None
+    pds: Optional[ConfigRefObj] = None
+    space_dock: Optional[ConfigRefObj] = None
+    war_sun: Optional[ConfigRefObj] = None
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class StartingUnitsConfig(BaseConfigObj):
@@ -33,11 +32,12 @@ class StartingUnitsConfig(BaseConfigObj):
 @dataclass(slots=True, frozen=True, kw_only=True)
 class FactionConfig(ConfigObj):
     name: str
-    max_commodities: int
     home_systems: Sequence[ConfigRefObj]
+    max_commodities: int
     abilities: Sequence[ConfigRefObj]
-    unique_units: UniqueUnitsRefConfig
+    flagship: ConfigRefObj
     starting_units: StartingUnitsConfig
 
     start_techs: Optional[Sequence[ConfigRefObj]] = field(default_factory=tuple)
     unique_techs: Optional[Sequence[ConfigRefObj]] = field(default_factory=tuple)
+    unique_units: Optional[UniqueUnitsRefConfig] = field(default_factory=UniqueUnitsRefConfig)

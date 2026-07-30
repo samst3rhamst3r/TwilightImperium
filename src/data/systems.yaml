@@ -10,164 +10,181 @@
 # 
 # Every entry MAY have zero or more of the following items:
 #
-#   planets: a list [] of planets in this system, whose names will be used as keys within the planets.yaml file
+#   planet_ids: a list [] of planets in this system, whose names will be used as keys within the planets.yaml file
 #   wormhole: a str Enum type representing one of three types of wormholes - ALPHA, BETA, or delta
 #   anomaly: a str Enum type representing one of four types of anomalies - asteroid_field, gravity_rift, nebula, or supernova
 #
 
 id: "01"
 back_color: green
-planets: [jord]
+planet_ids: [jord]
+home_faction_id: federation_of_sol
 ---
 id: "02"
 back_color: green
-planets: [moll_primus]
+planet_ids: [moll_primus]
+home_faction_id: mentak_coalition
 ---
 id: "03"
 back_color: green
-planets: [darien]
+planet_ids: [darien]
+home_faction_id: yin_brotherhood
 ---
 id: "04"
 back_color: green
-planets: [muatt]
+planet_ids: [muatt]
+home_faction_id: embers_of_muaat
 ---
 id: "05"
 back_color: green
-planets: [nestphar]
+planet_ids: [nestphar]
+home_faction_id: arborec
 ---
 id: "06"
 back_color: green
-planets: [0_0_0]
+planet_ids: [0_0_0]
+home_faction_id: l1z1x_mindnet
 ---
 id: "07"
 back_color: green
-planets: [winnu]
+planet_ids: [winnu]
+home_faction_id: winnu_faction
 ---
 id: "08"
 back_color: green
-planets: [mordai_ii]
+planet_ids: [mordai_ii]
+home_faction_id: nekro_virus
 ---
 id: "09"
 back_color: green
-planets: [druaa, maaluuk]
+planet_ids: [druaa, maaluuk]
+home_faction_id: naalu_collective
 ---
 id: "10"
 back_color: green
-planets: [arc_prime, wren_terra]
+planet_ids: [arc_prime, wren_terra]
+home_faction_id: barony_of_letnev
 ---
 id: "11"
 back_color: green
-planets: [lisis_ii, ragh]
+planet_ids: [lisis_ii, ragh]
+home_faction_id: clan_of_saar
 ---
 id: "12"
 back_color: green
-planets: [jol, nar]
+planet_ids: [jol, nar]
+home_faction_id: universities_of_jolnar
 ---
 id: "13"
 back_color: green
-planets: [quinarra, tren_lak]
+planet_ids: [quinarra, tren_lak]
+home_faction_id: sardakk_norr
 ---
 id: "14"
 back_color: green
-planets: [archon_ren, archon_tau]
+planet_ids: [archon_ren, archon_tau]
+home_faction_id: xxcha_kingdom
 ---
 id: "15"
 back_color: green
-planets: [retillion, shalloq]
+planet_ids: [retillion, shalloq]
+home_faction_id: yssaril_tribes
 ---
 id: "16"
 back_color: green
-planets: [arretze, hercant, kamdorn]
+planet_ids: [arretze, hercant, kamdorn]
+home_faction_id: emirates_of_hacan
 ---
 id: "17"
 back_color: green
 wormhole: delta
+home_faction_id: ghosts_of_creuss
 ---
 id: "18"
 back_color: null
-planets: [mecatol_rex]
+planet_ids: [mecatol_rex]
 ---
 id: "19"
 back_color: blue
-planets: [wellon]
+planet_ids: [wellon]
 ---
 id: "20"
 back_color: blue
-planets: [vefut_ii]
+planet_ids: [vefut_ii]
 ---
 id: "21"
 back_color: blue
-planets: [thibah]
+planet_ids: [thibah]
 ---
 id: "22"
 back_color: blue
-planets: [tar_mann]
+planet_ids: [tar_mann]
 ---
 id: "23"
 back_color: blue
-planets: [saudor]
+planet_ids: [saudor]
 ---
 id: "24"
 back_color: blue
-planets: [mehar_xull]
+planet_ids: [mehar_xull]
 ---
 id: "25"
 back_color: blue
-planets: [quann]
+planet_ids: [quann]
 wormhole: beta
 ---
 id: "26"
 back_color: blue
-planets: [lodor]
+planet_ids: [lodor]
 wormhole: alpha
 ---
 id: "27"
 back_color: blue
-planets: [new_albion, starpoint]
+planet_ids: [new_albion, starpoint]
 ---
 id: "28"
 back_color: blue
-planets: [tequ_ran, torkan]
+planet_ids: [tequ_ran, torkan]
 ---
 id: "29"
 back_color: blue
-planets: [qucen_n, rarron]
+planet_ids: [qucen_n, rarron]
 ---
 id: "30"
 back_color: blue
-planets: [mellon, zohbat]
+planet_ids: [mellon, zohbat]
 ---
 id: "31"
 back_color: blue
-planets: [lazar, sakulag]
+planet_ids: [lazar, sakulag]
 ---
 id: "32"
 back_color: blue
-planets: [dal_bootha, xxehan]
+planet_ids: [dal_bootha, xxehan]
 ---
 id: "33"
 back_color: blue
-planets: [corneeq, resculon]
+planet_ids: [corneeq, resculon]
 ---
 id: "34"
 back_color: blue
-planets: [centauri, gral]
+planet_ids: [centauri, gral]
 ---
 id: "35"
 back_color: blue
-planets: [bereg, lirta_iv]
+planet_ids: [bereg, lirta_iv]
 ---
 id: "36"
 back_color: blue
-planets: [arnor, lor]
+planet_ids: [arnor, lor]
 ---
 id: "37"
 back_color: blue
-planets: [arinam, meer]
+planet_ids: [arinam, meer]
 ---
 id: "38"
 back_color: blue
-planets: [abyz, fria]
+planet_ids: [abyz, fria]
 ---
 id: "39"
 back_color: red
@@ -175,7 +192,7 @@ wormhole: alpha
 ---
 id: "40"
 back_color: red
-planets: null
+planet_ids: null
 wormhole: beta
 ---
 id: "41"
@@ -215,5 +232,7 @@ back_color: red
 ---
 id: "51"
 back_color: green
-planets: [creuss]
+planet_ids: [creuss]
 wormhole: delta
+home_faction_id: ghosts_of_creuss
+is_off_board: true

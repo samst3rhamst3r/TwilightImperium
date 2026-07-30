@@ -1,5 +1,7 @@
 id: 0_0_1
 name: "[0.0.1]"
+unit_class: flagship
+faction_exclusive_id: l1z1x_mindnet
 level_1: 
   cost: 8
   combat: 5
@@ -12,6 +14,8 @@ level_1:
 ---
 id: advanced_carrier
 name: Advanced Carrier
+unit_class: carrier
+faction_exclusive_id: federation_of_sol
 level_1: &level_1
   cost: 3
   combat: 9
@@ -29,6 +33,8 @@ level_2:
 ---
 id: alastor
 name: The Alastor
+unit_class: flagship
+faction_exclusive_id: nekro_virus
 level_1: 
   cost: 8
   combat: 9
@@ -41,6 +47,8 @@ level_1:
 ---
 id: arc_secundus
 name: Arc Secundus
+unit_class: flagship
+faction_exclusive_id: barony_of_letnev
 level_1: 
   cost: 8
   combat: 5
@@ -57,6 +65,7 @@ level_1:
 ---
 id: carrier
 name: Carrier
+unit_class: carrier
 level_1: &level_1
   cost: 3
   combat: 9
@@ -84,6 +93,7 @@ level_1:
 ---
 id: cruiser
 name: Cruiser
+unit_class: cruiser
 level_1: &level_1
   cost: 2
   combat: 7
@@ -103,6 +113,7 @@ level_2:
 ---
 id: destroyer
 name: Destroyer
+unit_class: destroyer
 level_1: &level_1
   cost: 1
   combat: 9
@@ -126,6 +137,7 @@ level_2:
 ---
 id: dreadnought
 name: Dreadnought
+unit_class: dreadnought
 level_1: &level_1
   cost: 4
   combat: 5
@@ -148,6 +160,8 @@ level_2:
 ---
 id: duha_menaimon
 name: Duha Menaimon
+unit_class: flagship
+faction_exclusive_id: arborec
 level_1: 
   cost: 8
   combat: 7
@@ -160,6 +174,8 @@ level_1:
 ---
 id: exotrireme
 name: Exotrireme
+unit_class: dreadnought
+faction_exclusive_id: sardakk_norr
 level_1: &level_1
   cost: 4
   combat: 5
@@ -184,6 +200,7 @@ level_2:
 ---
 id: fighter
 name: Fighter
+unit_class: fighter
 level_1: &level_1
   cost: 1
   units_per_cost: 2
@@ -201,6 +218,8 @@ level_2:
 ---
 id: floating_factory
 name: Floating Factory
+unit_class: space_dock
+faction_exclusive_id: clan_of_sarr
 level_1: &level_1
   move: 1
   capacity: 4
@@ -224,6 +243,8 @@ level_2:
 ---
 id: fourth_moon
 name: Fourth Moon
+unit_class: flagship
+faction_exclusive_id: mentak_coalition
 level_1: 
   cost: 8
   combat: 7
@@ -236,6 +257,8 @@ level_1:
 ---
 id: genesis
 name: Genesis
+unit_class: flagship
+faction_exclusive_id: federation_of_sol
 level_1: 
   cost: 8
   combat: 5
@@ -248,6 +271,8 @@ level_1:
 ---
 id: hil_colish
 name: Hil Colish
+unit_class: flagship
+faction_exclusive_id: ghosts_of_creuss
 level_1: 
   cost: 8
   combat: 5
@@ -259,6 +284,8 @@ level_1:
 ---
 id: hybrid_crystal_fighter
 name: Hybrid Crystal Fighter
+unit_class: fighter
+faction_exclusive_id: naalu_collective
 level_1: &level_1
   cost: 1
   units_per_cost: 2
@@ -276,6 +303,7 @@ level_2:
 ---
 id: infantry
 name: Infantry
+unit_class: infantry
 level_1: &level_1
   cost: 1
   units_per_cost: 2
@@ -290,6 +318,8 @@ level_2:
 ---
 id: inferno
 name: The Inferno
+unit_class: flagship
+faction_exclusive_id: embers_of_muatt
 level_1: 
   cost: 8
   combat: 5
@@ -302,6 +332,8 @@ level_1:
 ---
 id: jns_hylarim
 name: J.N.S. Hylarim
+unit_class: flagship
+faction_exclusive_id: universities_of_jolnar
 level_1: 
   cost: 8
   combat: 6
@@ -314,6 +346,8 @@ level_1:
 ---
 id: letani_warrior
 name: Letani Warrior
+unit_class: infantry
+faction_exclusive_id: arborec
 level_1: &level_1
   cost: 1
   units_per_cost: 2
@@ -336,6 +370,8 @@ level_2:
 ---
 id: loncara_ssodu
 name: Loncara Ssodu
+unit_class: flagship
+faction_exclusive_id: xxcha_kingdom
 level_1: 
   cost: 8
   combat: 7
@@ -352,6 +388,8 @@ level_1:
 ---
 id: matriarch
 name: Matriarch
+unit_class: flagship
+faction_exclusive_id: naalu_collective
 level_1: 
   cost: 8
   combat: 9
@@ -364,6 +402,7 @@ level_1:
 ---
 id: pds
 name: PDS
+unit_class: pds
 level_1: 
   abilities: 
   - ref_id: planetary_shield
@@ -385,6 +424,8 @@ level_2:
 ---
 id: prototype_war_sun
 name: Prototype War Sun
+unit_class: war_sun
+faction_exclusive_id: embers_of_muatt
 level_1: &level_1
   cost: 12
   combat: 3
@@ -410,6 +451,8 @@ level_2:
 ---
 id: salai_sai_corian
 name: Salai Sai Corian
+unit_class: flagship
+faction_exclusive_id: winnu_faction
 level_1: 
   cost: 8
   combat: 7
@@ -421,6 +464,8 @@ level_1:
 ---
 id: son_of_ragh
 name: Son of Ragh
+unit_class: flagship
+faction_exclusive_id: clan_of_sarr
 level_1: 
   cost: 8
   combat: 5
@@ -436,6 +481,7 @@ level_1:
 ---
 id: space_dock
 name: Space Dock
+unit_class: space_dock
 level_1: 
   abilities: 
   - ref_id: production
@@ -452,6 +498,8 @@ level_2:
 ---
 id: spec_ops
 name: Spec Ops
+unit_class: infantry
+faction_exclusive_id: federation_of_sol
 level_1: &level_1
   cost: 1
   units_per_cost: 2
@@ -466,6 +514,8 @@ level_2:
 ---
 id: super_dreadnought
 name: Super-Dreadnought
+unit_class: dreadnought
+faction_exclusive_id: l1z1x_mindnet
 level_1: &level_1
   cost: 4
   combat: 5
@@ -494,6 +544,8 @@ level_2:
 ---
 id: van_hauge
 name: Van Hauge
+unit_class: flagship
+faction_exclusive_id: yin_brotherhood
 level_1: 
   cost: 8
   combat: 9
@@ -506,6 +558,7 @@ level_1:
 ---
 id: war_sun
 name: War Sun
+unit_class: war_sun
 level_1: null
 upgrade_reqs:
 - tech_type: cybernetic
@@ -528,6 +581,8 @@ level_2:
 ---
 id: wrath_of_kenara
 name: Wrath of Kenara
+unit_class: flagship
+faction_exclusive_id: emirates_of_hacan
 level_1: 
   cost: 8
   combat: 7
@@ -540,6 +595,8 @@ level_1:
 ---
 id: ysia_yssrila
 name: Y'sia Y'ssrila
+unit_class: flagship
+faction_exclusive_id: yssaril_tribes
 level_1: 
   cost: 8
   combat: 5

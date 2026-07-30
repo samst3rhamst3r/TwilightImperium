@@ -25,7 +25,7 @@ level_2:
   move: 2
   capacity: 8
   abilities: 
-  - sustain_damage
+  - ref_id: sustain_damage
 ---
 id: alastor
 name: The Alastor
@@ -50,8 +50,9 @@ level_1:
   abilities: 
   - ref_id: sustain_damage
   - ref_id: bombardment
-    threshold: 5
-    dice: 3
+    kwargs:
+      threshold: 5
+      dice: 3
   # Other players' units in this system lose PLANETARY SHIELD. At the start of each space combat round, repair this ship.
 ---
 id: carrier
@@ -108,8 +109,9 @@ level_1: &level_1
   move: 2
   abilities: 
   - ref_id: anti_fighter_barrage
-    threshold: 9
-    dice: 2
+    kwargs:
+      threshold: 9
+      dice: 2
 upgrade_reqs:
 - tech_type: warfare
   num: 2
@@ -118,8 +120,9 @@ level_2:
   combat: 8
   abilities: 
   - ref_id: anti_fighter_barrage
-    threshold: 6
-    dice: 3
+    kwargs:
+      threshold: 6
+      dice: 3
 ---
 id: dreadnought
 name: Dreadnought
@@ -131,7 +134,8 @@ level_1: &level_1
   abilities: 
   - ref_id: sustain_damage
   - ref_id: bombardment
-    threshold: 5
+    kwargs:
+      threshold: 5
 upgrade_reqs:
 - tech_type: propulsion
   num: 2
@@ -164,8 +168,9 @@ level_1: &level_1
   abilities: 
   - ref_id: sustain_damage
   - ref_id: bombardment
-    threshold: 4
-    dice: 2
+    kwargs:
+      threshold: 4
+      dice: 2
 upgrade_reqs:
 - tech_type: propulsion
   num: 2
@@ -201,7 +206,8 @@ level_1: &level_1
   capacity: 4
   abilities: 
   - ref_id: production
-    threshold: 5
+    kwargs:
+      threshold: 5
   # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
 upgrade_reqs:
 - tech_type: cybernetic
@@ -212,7 +218,8 @@ level_2:
   capacity: 5
   abilities: 
   - ref_id: production
-    threshold: 7
+    kwargs:
+      threshold: 7
   # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
 ---
 id: fourth_moon
@@ -313,7 +320,8 @@ level_1: &level_1
   combat: 8
   abilities: 
   - ref_id: production
-    threshold: 1
+    kwargs:
+      threshold: 1
 upgrade_reqs:
 - tech_type: biotic
   num: 2
@@ -322,7 +330,8 @@ level_2:
   combat: 7
   abilities: 
   - ref_id: production
-    threshold: 2
+    kwargs:
+      threshold: 2
   # After unit is destroyed, roll 1 die; if result >= 6, place unit on card. At start of next turn, place each unit on card on a controlled planet in my home system
 ---
 id: loncara_ssodu
@@ -336,8 +345,9 @@ level_1:
   abilities: 
   - ref_id: sustain_damage
   - ref_id: space_cannon
-    threshold: 5
-    dice: 3
+    kwargs:
+      threshold: 5
+      dice: 3
   # You may use this unit's SPACE CANNON against ships that are in adjacent systems.
 ---
 id: matriarch
@@ -358,7 +368,8 @@ level_1:
   abilities: 
   - ref_id: planetary_shield
   - ref_id: space_cannon
-    threshold: 6
+    kwargs:
+      threshold: 6
 upgrade_reqs:
 - tech_type: cybernetic
   num: 1
@@ -368,8 +379,9 @@ level_2:
   abilities: 
   - ref_id: planetary_shield
   - ref_id: space_cannon
-    threshold: 5
-    abilities: [PLANETARY SHIELD, SPACE CANNON 5] # May use this unit's SPACE CANNON against adjacent systems
+    kwargs:
+      threshold: 5
+  # May use this unit's SPACE CANNON against adjacent systems
 ---
 id: prototype_war_sun
 name: Prototype War Sun
@@ -382,9 +394,10 @@ level_1: &level_1
   abilities: 
   - ref_id: sustain_damage
   - ref_id: bombardment
-    threshold: 3
-    dice: 3
-    # Other players' units in this system lose PLANETARY SHIELD
+    kwargs:
+      threshold: 3
+      dice: 3
+  # Other players' units in this system lose PLANETARY SHIELD
 upgrade_reqs:
 - tech_type: cybernetic
   num: 1
@@ -417,22 +430,25 @@ level_1:
   abilities: 
   - ref_id: sustain_damage
   - ref_id: anti_fighter_barage
-    threshold: 6
-    dice: 4
+    kwargs:
+      threshold: 6
+      dice: 4
 ---
 id: space_dock
 name: Space Dock
 level_1: 
   abilities: 
   - ref_id: production
-    threshold: x # PROD value is 2 more than rsrc value of this planet; up to 3 fighters in system do not count toward ships' capacity
+    kwargs:
+      threshold: x # PROD value is 2 more than rsrc value of this planet; up to 3 fighters in system do not count toward ships' capacity
 upgrade_reqs:
 - tech_type: cybernetic
   num: 2
 level_2: 
   abilities: 
   - ref_id: production
-    threshold: x # PROD value is 4 more
+    kwargs:
+      threshold: x # PROD value is 4 more
 ---
 id: spec_ops
 name: Spec Ops
@@ -458,7 +474,8 @@ level_1: &level_1
   abilities: 
   - ref_id: sustain_damage
   - ref_id: bombardment
-    threshold: 5
+    kwargs:
+      threshold: 5
 upgrade_reqs:
 - tech_type: propulsion
   num: 2
@@ -471,8 +488,9 @@ level_2:
   abilities: 
   - ref_id: sustain_damage
   - ref_id: bombardment
-    threshold: 4
-    # Cannot be destroyed by Direct Hit action cards
+    kwargs:
+      threshold: 4
+  # Cannot be destroyed by Direct Hit action cards
 ---
 id: van_hauge
 name: Van Hauge
@@ -503,9 +521,10 @@ level_2:
   abilities: 
   - ref_id: sustain_damage
   - ref_id: bombardment
-    threshold: 3
-    dice: 3
-    # Other players in this system lose PLANETARY SHIELD
+    kwargs:
+      threshold: 3
+      dice: 3
+  # Other players in this system lose PLANETARY SHIELD
 ---
 id: wrath_of_kenara
 name: Wrath of Kenara

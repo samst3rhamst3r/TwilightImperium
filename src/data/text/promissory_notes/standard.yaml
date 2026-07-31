@@ -1,0 +1,23 @@
+id: trade_agreement
+functional_text: |-
+  When the __PLAYER_COLOR__ player replenishes commodities:
+  The __PLAYER_COLOR__ player gives you all of his commodities.
+  Then, return this card to the __PLAYER_COLOR__ player.
+---
+id: political_secret
+functional_text: |-
+  When an agenda is revealed:
+  The __PLAYER_COLOR__ player cannot vote, play action cards, or use faction abilities until after that agenda has been resolved.
+  Then, return this card to the __PLAYER_COLOR__ player.
+---
+id: ceasefire
+functional_text: |-
+  After the __PLAYER_COLOR__ player activates a system that contains 1 or more of your units:
+  The __PLAYER_COLOR__ player cannot move units into the active system.
+  Then, return this card to the __PLAYER_COLOR__ player.
+---
+id: support_for_the_throne
+functional_text: |-
+  When you receive this card, if you are not the __PLAYER_COLOR__ player, you must place it faceup in your play area and gain 1 victory point.
+  If you activate a system that contains 1 or more of the __PLAYER_COLOR__ player's units, or if the blue player is eliminated, lose 1 victory point and return this card to the blue player.
+  

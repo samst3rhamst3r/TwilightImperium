@@ -8,8 +8,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 5
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # During a space combat, hits produced by this ship and by your dreadnoughts in this system must be assigned to non-fighter ships if able.
 ---
 id: advanced_carrier
@@ -28,8 +27,7 @@ level_2:
   <<: *level_1
   move: 2
   capacity: 8
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
 ---
 id: alastor
 name: The Alastor
@@ -41,8 +39,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # At the start of a space combat, choose any number of your ground forces in this system to participate in that combat as if they were ships.
 ---
 id: arc_secundus
@@ -55,12 +52,11 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
-  - ref_id: bombardment
-    kwargs:
-      threshold: 5
-      dice: 3
+  ability_ids: [sustain_damage]
+  parameterized_abilities:
+  - ability_id: bombardment
+    combat: 5
+    dice: 3
   # Other players' units in this system lose PLANETARY SHIELD. At the start of each space combat round, repair this ship.
 ---
 id: carrier
@@ -87,8 +83,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # Apply +1 to the result of each of your other ship's combat rolls in this system.
 ---
 id: cruiser
@@ -118,22 +113,20 @@ level_1: &level_1
   cost: 1
   combat: 9
   move: 2
-  abilities: 
-  - ref_id: anti_fighter_barrage
-    kwargs:
-      threshold: 9
-      dice: 2
+  parameterized_abilities:
+  - ability_id: anti_fighter_barrage
+    combat: 9
+    dice: 2
 upgrade_reqs:
 - tech_type: warfare
   num: 2
 level_2:
   <<: *level_1
   combat: 8
-  abilities: 
-  - ref_id: anti_fighter_barrage
-    kwargs:
-      threshold: 6
-      dice: 3
+  parameterized_abilities:
+  - ability_id: anti_fighter_barrage
+    combat: 6
+    dice: 3
 ---
 id: dreadnought
 name: Dreadnought
@@ -143,11 +136,10 @@ level_1: &level_1
   combat: 5
   move: 1
   capacity: 1
-  abilities: 
-  - ref_id: sustain_damage
-  - ref_id: bombardment
-    kwargs:
-      threshold: 5
+  ability_ids: [sustain_damage]
+  parameterized_abilities:
+  - ability_id: bombardment
+    combat: 5
 upgrade_reqs:
 - tech_type: propulsion
   num: 2
@@ -168,8 +160,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 5
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # After you activate this system, you may produce up to 5 units in this system
 ---
 id: exotrireme
@@ -181,12 +172,11 @@ level_1: &level_1
   combat: 5
   move: 1
   capacity: 1
-  abilities: 
-  - ref_id: sustain_damage
-  - ref_id: bombardment
-    kwargs:
-      threshold: 4
-      dice: 2
+  ability_ids: [sustain_damage]
+  parameterized_abilities:
+  - ability_id: bombardment
+    combat: 4
+    dice: 2
 upgrade_reqs:
 - tech_type: propulsion
   num: 2
@@ -223,10 +213,9 @@ faction_exclusive_id: clan_of_sarr
 level_1: &level_1
   move: 1
   capacity: 4
-  abilities: 
-  - ref_id: production
-    kwargs:
-      threshold: 5
+  parameterized_abilities:
+  - ability_id: production
+    combat: 5
   # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
 upgrade_reqs:
 - tech_type: cybernetic
@@ -235,10 +224,9 @@ level_2:
   <<: *level_1
   move: 2
   capacity: 5
-  abilities: 
-  - ref_id: production
-    kwargs:
-      threshold: 7
+  parameterized_abilities:
+  - ability_id: production
+    value: 7
   # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
 ---
 id: fourth_moon
@@ -251,8 +239,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # Other players' ships in this system cannot use SUSTAIN DAMAGE
 ---
 id: genesis
@@ -265,8 +252,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 12
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # At end of status phase, place 1 infantry from reinforcements in this system's space area
 ---
 id: hil_colish
@@ -278,8 +264,7 @@ level_1:
   combat: 5
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # This ship's system contains a delta wormhole. During movement, this ship may move before or after your other ships.
 ---
 id: hybrid_crystal_fighter
@@ -326,8 +311,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # ACTION: Spend 1 token from your strategy pool to place 1 cruiser in this unit's system
 ---
 id: jns_hylarim
@@ -340,8 +324,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # When making a combat roll for this ship, each result of 9 or 10, before applying modifiers, produces 2 additional hits.
 ---
 id: letani_warrior
@@ -352,20 +335,18 @@ level_1: &level_1
   cost: 1
   units_per_cost: 2
   combat: 8
-  abilities: 
-  - ref_id: production
-    kwargs:
-      threshold: 1
+  parameterized_abilities:
+  - ability_id: production
+    value: 1
 upgrade_reqs:
 - tech_type: biotic
   num: 2
 level_2: 
   <<: *level_1
   combat: 7
-  abilities: 
-  - ref_id: production
-    kwargs:
-      threshold: 2
+  parameterized_abilities:
+  - ability_id: production
+    value: 2
   # After unit is destroyed, roll 1 die; if result >= 6, place unit on card. At start of next turn, place each unit on card on a controlled planet in my home system
 ---
 id: loncara_ssodu
@@ -378,12 +359,11 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
-  - ref_id: space_cannon
-    kwargs:
-      threshold: 5
-      dice: 3
+  ability_ids: [sustain_damage]
+  parameterized_abilities:
+  - ability_id: space_cannon
+    combat: 5
+    dice: 3
   # You may use this unit's SPACE CANNON against ships that are in adjacent systems.
 ---
 id: matriarch
@@ -396,30 +376,27 @@ level_1:
   burst: 2
   move: 1
   capacity: 6
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # During an invasion in this system, you may commit fighters to planets as if they were ground forces. When combat ends, return those units to the space area.
 ---
 id: pds
 name: PDS
 unit_class: pds
 level_1: 
-  abilities: 
-  - ref_id: planetary_shield
-  - ref_id: space_cannon
-    kwargs:
-      threshold: 6
+  ability_ids: [planetary_shield]
+  parameterized_abilities:
+  - ability_id: space_cannon
+    combat: 6
 upgrade_reqs:
 - tech_type: cybernetic
   num: 1
 - tech_type: warfare
   num: 1
 level_2: 
-  abilities: 
-  - ref_id: planetary_shield
-  - ref_id: space_cannon
-    kwargs:
-      threshold: 5
+  ability_ids: [planetary_shield]
+  parameterized_abilities:
+  - ability_id: space_cannon
+    combat: 5
   # May use this unit's SPACE CANNON against adjacent systems
 ---
 id: prototype_war_sun
@@ -432,12 +409,11 @@ level_1: &level_1
   burst: 3
   move: 1
   capacity: 6
-  abilities: 
-  - ref_id: sustain_damage
-  - ref_id: bombardment
-    kwargs:
-      threshold: 3
-      dice: 3
+  ability_ids: [sustain_damage]
+  parameterized_abilities:
+  - ability_id: bombardment
+    combat: 3
+    dice: 3
   # Other players' units in this system lose PLANETARY SHIELD
 upgrade_reqs:
 - tech_type: cybernetic
@@ -458,8 +434,7 @@ level_1:
   combat: 7
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # When this unit makes a combat roll, it rolls a number of dice equal to the number of your opponent's non-fighter ships in this system
 ---
 id: son_of_ragh
@@ -472,29 +447,27 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
-  - ref_id: anti_fighter_barage
-    kwargs:
-      threshold: 6
-      dice: 4
+  ability_ids: [sustain_damage]
+  parameterized_abilities:
+  - ability_id: anti_fighter_barage
+    combat: 6
+    dice: 4
 ---
 id: space_dock
 name: Space Dock
 unit_class: space_dock
 level_1: 
-  abilities: 
-  - ref_id: production
-    kwargs:
-      threshold: x # PROD value is 2 more than rsrc value of this planet; up to 3 fighters in system do not count toward ships' capacity
+  parameterized_abilities:
+  - ability_id: production
+    amt_more_than_rsrc_value_of_planet: 2
+  # Up to 3 fighters in system do not count toward ship's capacity
 upgrade_reqs:
 - tech_type: cybernetic
   num: 2
 level_2: 
-  abilities: 
-  - ref_id: production
-    kwargs:
-      threshold: x # PROD value is 4 more
+  parameterized_abilities:
+  - ability_id: production
+    amt_more_than_rsrc_value_of_planet: 4
 ---
 id: spec_ops
 name: Spec Ops
@@ -521,11 +494,10 @@ level_1: &level_1
   combat: 5
   move: 1
   capacity: 2
-  abilities: 
-  - ref_id: sustain_damage
-  - ref_id: bombardment
-    kwargs:
-      threshold: 5
+  ability_ids: [sustain_damage]
+  parameterized_abilities:
+  - ability_id: bombardment
+    combat: 5
 upgrade_reqs:
 - tech_type: propulsion
   num: 2
@@ -535,11 +507,10 @@ level_2:
   <<: *level_1
   combat: 4
   move: 2
-  abilities: 
-  - ref_id: sustain_damage
-  - ref_id: bombardment
-    kwargs:
-      threshold: 4
+  ability_ids: [sustain_damage]
+  parameterized_abilities:
+  - ability_id: bombardment
+    combat: 4
   # Cannot be destroyed by Direct Hit action cards
 ---
 id: van_hauge
@@ -552,8 +523,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # When this ship is destroyed, destroy all ships in this system
 ---
 id: war_sun
@@ -571,12 +541,11 @@ level_2:
   burst: 3
   move: 2
   capacity: 6
-  abilities: 
-  - ref_id: sustain_damage
-  - ref_id: bombardment
-    kwargs:
-      threshold: 3
-      dice: 3
+  ability_ids: [sustain_damage]
+  parameterized_abilities:
+  - ability_id: bombardment
+    combat: 3
+    dice: 3
   # Other players in this system lose PLANETARY SHIELD
 ---
 id: wrath_of_kenara
@@ -589,8 +558,7 @@ level_1:
   burst: 2
   move: 1
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # After you roll a die during a space combat in this system, you. may spend 1 trade good to apply +1 to the result.
 ---
 id: ysia_yssrila
@@ -603,6 +571,5 @@ level_1:
   burst: 2
   move: 2
   capacity: 3
-  abilities: 
-  - ref_id: sustain_damage
+  ability_ids: [sustain_damage]
   # This ship can move through systems that contain other players' ships.

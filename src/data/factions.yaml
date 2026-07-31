@@ -1,38 +1,20 @@
-# Each race has its unique name as the unique key identifier in this dictionary.
-# Every race will be formatted in the following way:
+# Every faction will be formatted in the following way:
 # 
-# [RACE NAME]:
-#   home_systems:     Numerical list [] of indices in systems.yaml. Most lists are 1 entry only.
-#   max_commodities:  Numerical value which is the max commodities this race can hold
-#   ability_ids:        List [] of this race's unique special abilities (used as keys in abilities.yaml)
-#   start_tech_ids:      List [] of technologies this race starts the game with (used as keys in techs.yaml)
-#   units: 
-#     
-#     Within the application, default "name"s and "start"ing amounts will be applied for each races' units. 
-#     This .yaml will only contain names of race-unique units, and starting amounts > 0, in order to consolidate the file size
-#     
-#     Each unit type follows the following convention:
-#     [type_of_unit]:
-#       name: Unique name of this unit, used as a key in units.yaml
-#       start: Starting amount of this type of unit if start amount > 0
-#     
-#     Possible units contained in this field include the following, with associated default names -
-#     
-#     flagship_id:     Required by every race, will not be defaulted
-#     war_sun:      Defaults to NULL, as most races do not start the game with War Sun capabilities
-#     dreadnought:  Defaults to "Dreadnought I"
-#     carrier:      Defaults to "Carrier I"
-#     cruiser:      Defaults to "Cruiser I"
-#     destroyer:    Defaults to "Destroyer I"
-#     fighter:      Defaults to "Fighter I"
-#     infantry:     Defaults to "Infantry I"
-#     space_dock:   Defaults to "Space Dock I"
-#     pds:          Defaults to "PDS I"
-...
+#   id:                     Unique identifier for the faction, internally used for lookups only
+#   name:                   Unique name of the faction
+#   max_commodities:        Numerical value which is the max commodities this faction can hold
+#   starting_units:         List of StartingUnitConfig objects
+#     - unit_class:           [class of unit]
+#       num:                  [number of units]
+#   starting_tech_ids:      List of technologies this faction starts the game with
+# 
+# Note: All other "faction-specific" information, such as unique abilities, are coded as backwards
+# references - that is, an ability has a faction_exclusive_id reference. Guarantees a 1:1 mapping
+# between abilities and factions. Minimizes drift.
+
 id: federation_of_sol
 name: The Federation of Sol
 max_commodities: 4
-ability_ids: [orbital_drop, versatile]
 starting_units:
 - unit_class: carrier
   num: 2
@@ -44,12 +26,11 @@ starting_units:
   num: 5
 - unit_class: space_dock
   num: 1
-start_tech_ids: [neural_motivator, antimass_deflectors]
+starting_tech_ids: [neural_motivator, antimass_deflectors]
 ---
 id: mentak_coalition
 name: The Mentak Coalition
 max_commodities: 2
-ability_ids: [ambush, pillage]
 starting_units:
 - unit_class: carrier
   num: 1
@@ -63,14 +44,11 @@ starting_units:
   num: 1
 - unit_class: pds
   num: 1
-start_tech_ids: [sarween_tools, plasma_scoring]
+starting_tech_ids: [sarween_tools, plasma_scoring]
 ---
 id: yin_brotherhood
 name: The Yin Brotherhood
 max_commodities: 2
-ability_ids: 
-- ref_id: indoctrination
-- ref_id: devotion
 starting_units:
 - unit_class: carrier
   num: 2
@@ -82,14 +60,11 @@ starting_units:
   num: 4
 - unit_class: space_dock
   num: 1
-start_tech_ids: [sarween_tools]
+starting_tech_ids: [sarween_tools]
 ---
 id: embers_of_muaat
 name: The Embers of Muaat
 max_commodities: 4
-ability_ids: 
-- ref_id: star_forge
-- ref_id: gashlai_physiology
 starting_units:
 - unit_class: fighter
   num: 2
@@ -99,13 +74,11 @@ starting_units:
   num: 1
 - unit_class: war_sun
   num: 1
-start_tech_ids: [plasma_scoring]
+starting_tech_ids: [plasma_scoring]
 ---
 id: arborec
 name: The Arborec
 max_commodities: 3
-ability_ids: 
-- ref_id: mitosis
 starting_units:
 - unit_class: carrier
   num: 1
@@ -119,14 +92,11 @@ starting_units:
   num: 1
 - unit_class: pds
   num: 1
-start_tech_ids: [magen_defense_grid]
+starting_tech_ids: [magen_defense_grid]
 ---
 id: l1z1x_mindnet
 name: The L1z1x Mindnet
 max_commodities: 2
-ability_ids: 
-- ref_id: assimilate
-- ref_id: harrow
 starting_units:
 - unit_class: dreadnought
   num: 1
@@ -140,14 +110,11 @@ starting_units:
   num: 1
 - unit_class: pds
   num: 1
-start_tech_ids: [neural_motivator, plasma_scoring]
+starting_tech_ids: [neural_motivator, plasma_scoring]
 ---
 id: winnu_faction
 name: The Winnu
 max_commodities: 3
-ability_ids: 
-- ref_id: blood_ties
-- ref_id: reclamation
 starting_units:
 - unit_class: carrier
   num: 1
@@ -161,15 +128,11 @@ starting_units:
   num: 1
 - unit_class: pds
   num: 1
-start_tech_ids: [] # Choose any 1 technology that has no prereqs
+starting_tech_ids: [] # Choose any 1 technology that has no prereqs
 ---
 id: nekro_virus
 name: The Nekro Virus
 max_commodities: 3
-ability_ids: 
-- ref_id: galactic_threat
-- ref_id: technological_singularity
-- ref_id: propagation
 starting_units:
 - unit_class: dreadnought
   num: 1
@@ -183,14 +146,11 @@ starting_units:
   num: 2
 - unit_class: space_dock
   num: 1
-start_tech_ids: [dacxive_animators, valefar_assimilator_x, valefar_assimilator_y]
+starting_tech_ids: [dacxive_animators, valefar_assimilator_x, valefar_assimilator_y]
 ---
 id: naalu_collective
 name: The Naalu Collective
 max_commodities: 3
-ability_ids: 
-- ref_id: telepathic
-- ref_id: foresight
 starting_units:
 - unit_class: carrier
   num: 1
@@ -206,14 +166,11 @@ starting_units:
   num: 1
 - unit_class: pds
   num: 1
-start_tech_ids: [neural_motivator, sarween_tools]
+starting_tech_ids: [neural_motivator, sarween_tools]
 ---
 id: barony_of_letnev
 name: The Barony of Letnev
 max_commodities: 2
-ability_ids: 
-- ref_id: munitions_reserves
-- ref_id: armada
 starting_units:
 - unit_class: dreadnought
   num: 1
@@ -227,14 +184,11 @@ starting_units:
   num: 3
 - unit_class: space_dock
   num: 1
-start_tech_ids: [antimass_deflectors, plasma_scoring]
+starting_tech_ids: [antimass_deflectors, plasma_scoring]
 ---
 id: clan_of_saar
 name: The Clan of Saar
 max_commodities: 3
-ability_ids: 
-- ref_id: scavenge
-- ref_id: nomadic
 starting_units:
 - unit_class: carrier
   num: 2
@@ -246,15 +200,11 @@ starting_units:
   num: 4
 - unit_class: space_dock
   num: 1
-start_tech_ids: [antimass_deflectors]
+starting_tech_ids: [antimass_deflectors]
 ---
 id: universities_of_jolnar
 name: The Universities of Jol-Nar
 max_commodities: 4
-ability_ids: 
-- ref_id: fragile
-- ref_id: brilliant
-- ref_id: analytical
 starting_units:
 - unit_class: dreadnought
   num: 1
@@ -268,13 +218,11 @@ starting_units:
   num: 1
 - unit_class: pds
   num: 2
-start_tech_ids: [neural_motivator, antimass_deflectors, sarween_tools, plasma_scoring]
+starting_tech_ids: [neural_motivator, antimass_deflectors, sarween_tools, plasma_scoring]
 ---
 id: sardakk_norr
 name: Sardakk N'orr
 max_commodities: 3
-ability_ids: 
-- ref_id: unrelenting
 starting_units:
   carrier: 2
   cruiser: 1
@@ -285,9 +233,6 @@ starting_units:
 id: xxcha_kingdom
 name: The Xxcha Kingdom
 max_commodities: 4
-ability_ids: 
-- ref_id: peace_accords
-- ref_id: quash
 starting_units:
 - unit_class: carrier
   num: 1
@@ -301,15 +246,11 @@ starting_units:
   num: 1
 - unit_class: pds
   num: 1
-start_tech_ids: [graviton_laser_system]
+starting_tech_ids: [graviton_laser_system]
 ---
 id: yssaril_tribes
 name: The Yssaril Tribes
 max_commodities: 3
-ability_ids: 
-- ref_id: stall_tactics
-- ref_id: scheming
-- ref_id: crafty
 starting_units:
 - unit_class: carrier
   num: 2
@@ -323,12 +264,11 @@ starting_units:
   num: 1
 - unit_class: pds
   num: 1
-start_tech_ids: [neural_motivator]
+starting_tech_ids: [neural_motivator]
 ---
 id: emirates_of_hacan
 name: The Emirates of Hacan
 max_commodities: 6
-ability_ids: [masters_of_trade, guild_ships, arbiters]
 starting_units:
 - unit_class: carrier
   num: 2
@@ -340,15 +280,11 @@ starting_units:
   num: 4
 - unit_class: space_dock
   num: 1
-start_tech_ids: [antimass_deflectors, sarween_tools]
+starting_tech_ids: [antimass_deflectors, sarween_tools]
 ---
 id: ghosts_of_creuss
 name: The Ghosts of Creuss
 max_commodities: 4
-ability_ids: 
-- ref_id: quantum_entanglement
-- ref_id: slipstream
-- ref_id: creuss_gate
 starting_units:
 - unit_class: carrier
   num: 1
@@ -360,4 +296,4 @@ starting_units:
   num: 4
 - unit_class: space_dock
   num: 1
-start_tech_ids: [gravity_drive]
+starting_tech_ids: [gravity_drive]

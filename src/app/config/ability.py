@@ -1,9 +1,7 @@
-from dataclasses import dataclass, field
-from collections.abc import Mapping
-from typing import Any
+from dataclasses import dataclass
 
-from .shared.obj_ import ConfigRefObj
+from .shared.obj_ import FactionExclusiveConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class AbilityRefConfig(ConfigRefObj):
-    kwargs: Mapping[str, Any] = field(default_factory=dict)
+class AbilityConfig(FactionExclusiveConfigObj):
+    pass

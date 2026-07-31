@@ -1,0 +1,125 @@
+# num_in_deck defaults to 1
+
+id: ancient_burial_sites
+---
+id: assassinate_representative
+---
+id: bribery
+---
+id: bunker
+---
+id: confusing_legal_text
+---
+id: construction_rider
+---
+id: courageous_to_the_end
+---
+id: cripple_defenses
+---
+id: direct_hit
+num_in_deck: 4
+---
+id: diplomacy_rider
+---
+id: disable
+---
+id: distinguished_councilor
+---
+id: economic_initiative
+---
+id: emergency_repairs
+---
+id: experimental_battlestation
+---
+id: fighter_prototype
+---
+id: fire_team
+---
+id: flank_speed
+num_in_deck: 4
+---
+id: focused_research
+---
+id: frontline_deployment
+---
+id: ghost_ship
+---
+id: imperial_rider
+---
+id: silence_of_space
+---
+id: industrial_initiative
+---
+id: infiltrate
+---
+id: insubordination
+---
+id: intercept
+---
+id: leadership_rider
+---
+id: lost_start_chart
+---
+id: lucky_shot
+---
+id: maneuvering_jets
+num_in_deck: 4
+---
+id: mining_initiative
+---
+id: morale_boost
+num_in_deck: 4
+---
+id: parley
+---
+id: plague
+---
+id: political_instability
+---
+id: politics_rider
+---
+id: public_disgrace
+---
+id: reactor_meltdown
+---
+id: reparations
+---
+id: repeal_law
+---
+id: rise_of_messiah
+---
+id: sabotage
+num_in_deck: 4
+---
+id: salvage
+---
+id: shields_holding
+num_in_deck: 4
+---
+id: signal_jamming
+---
+id: skilled_retreat
+---
+id: spy
+---
+id: summit
+---
+id: tactical_bombardment
+---
+id: tech_rider
+---
+id: trade_rider
+---
+id: unexpected_action
+---
+id: unstable_planet
+---
+id: upgrade
+---
+id: uprising
+---
+id: veto
+---
+id: war_effort
+---
+id: warfare_rider

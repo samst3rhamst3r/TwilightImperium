@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
 from app.config.shared import NamedConfigObj
-from app.config.game_phase import GamePhase
+from app.config.game.phase import GamePhase
 
 from .type import ObjectiveType
 

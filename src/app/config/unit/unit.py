@@ -2,9 +2,9 @@ from dataclasses import dataclass, field
 from collections.abc import Sequence
 from typing import Optional
 
-from ..ability import ParameterizedAbilityInstanceConfig
-from ..shared import BaseConfigObj, FactionExclusiveConfigObj
-from ..tech import TechUpgradeReqConfig
+from app.config.ability import ParameterizedAbilityInstanceConfig
+from app.config.shared import BaseConfigObj, FactionExclusiveConfigObj
+from app.config.tech import TechUpgradeReqConfig
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class UnitLevelConfig(BaseConfigObj):

@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from .shared.obj_ import ConfigObj
-from ..types.planet_trait import PlanetTrait
-from ..types.tech_type import TechType
+from app.config.shared import ConfigObj
+from app.config.tech import TechType
+
+from .trait import PlanetTrait
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class PlanetConfig(ConfigObj):

@@ -18,87 +18,70 @@
 id: "01"
 back_color: green
 planet_ids: [jord]
-home_faction_id: federation_of_sol
 ---
 id: "02"
 back_color: green
 planet_ids: [moll_primus]
-home_faction_id: mentak_coalition
 ---
 id: "03"
 back_color: green
 planet_ids: [darien]
-home_faction_id: yin_brotherhood
 ---
 id: "04"
 back_color: green
 planet_ids: [muatt]
-home_faction_id: embers_of_muaat
 ---
 id: "05"
 back_color: green
 planet_ids: [nestphar]
-home_faction_id: arborec
 ---
 id: "06"
 back_color: green
 planet_ids: [0_0_0]
-home_faction_id: l1z1x_mindnet
 ---
 id: "07"
 back_color: green
 planet_ids: [winnu]
-home_faction_id: winnu_faction
 ---
 id: "08"
 back_color: green
 planet_ids: [mordai_ii]
-home_faction_id: nekro_virus
 ---
 id: "09"
 back_color: green
 planet_ids: [druaa, maaluuk]
-home_faction_id: naalu_collective
 ---
 id: "10"
 back_color: green
 planet_ids: [arc_prime, wren_terra]
-home_faction_id: barony_of_letnev
 ---
 id: "11"
 back_color: green
 planet_ids: [lisis_ii, ragh]
-home_faction_id: clan_of_saar
 ---
 id: "12"
 back_color: green
 planet_ids: [jol, nar]
-home_faction_id: universities_of_jolnar
 ---
 id: "13"
 back_color: green
 planet_ids: [quinarra, tren_lak]
-home_faction_id: sardakk_norr
 ---
 id: "14"
 back_color: green
 planet_ids: [archon_ren, archon_tau]
-home_faction_id: xxcha_kingdom
 ---
 id: "15"
 back_color: green
 planet_ids: [retillion, shalloq]
-home_faction_id: yssaril_tribes
 ---
 id: "16"
 back_color: green
 planet_ids: [arretze, hercant, kamdorn]
-home_faction_id: emirates_of_hacan
 ---
 id: "17"
 back_color: green
 wormhole: delta
-home_faction_id: ghosts_of_creuss
 ---
 id: "18"
 back_color: null
@@ -234,5 +217,4 @@ id: "51"
 back_color: green
 planet_ids: [creuss]
 wormhole: delta
-home_faction_id: ghosts_of_creuss
 is_off_board: true

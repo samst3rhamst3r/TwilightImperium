@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 
-from .shared.obj_ import ConfigObj
+from app.config.shared import NamedConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class EventCardConfig(ConfigObj):
-    name: str
-    num_in_deck: int = 1
+class EventCardConfig(NamedConfigObj):
+    pass

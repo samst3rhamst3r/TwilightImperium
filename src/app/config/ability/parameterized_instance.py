@@ -1,19 +1,19 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from .shared.obj_ import BaseConfigObj
+from ..shared.obj_ import BaseConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class ParameterizedAbilityConfig(BaseConfigObj):
+class ParameterizedAbilityInstanceConfig(BaseConfigObj):
     ability_id: str
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class CombatAbilityConfig(ParameterizedAbilityConfig):
+class CombatAbilityInstanceConfig(ParameterizedAbilityInstanceConfig):
     combat: int
     dice: int = 1
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class ProductionAbilityConfig(ParameterizedAbilityConfig):
+class ProductionAbilityInstanceConfig(ParameterizedAbilityInstanceConfig):
     value: Optional[int] = None
     amt_more_than_rsrc_value_of_planet: Optional[int] = None
 
@@ -23,9 +23,9 @@ class ProductionAbilityConfig(ParameterizedAbilityConfig):
         if self.value is not None and self.amt_more_than_rsrc_value_of_planet is not None:
             raise ValueError("Only one of value or amt_more_than_rsrc_value_of_planet can be specified")
 
-PARAMETERIZED_ABILITY_REGISTRY = {
-    "bombardment": CombatAbilityConfig,
-    "anti_fighter_barrage": CombatAbilityConfig,
-    "space_cannon": CombatAbilityConfig,
-    "production": ProductionAbilityConfig
+PARAMETERIZED_ABILITY_INSTANCE_REGISTRY = {
+    "bombardment": CombatAbilityInstanceConfig,
+    "anti_fighter_barrage": CombatAbilityInstanceConfig,
+    "space_cannon": CombatAbilityInstanceConfig,
+    "production": ProductionAbilityInstanceConfig
 }

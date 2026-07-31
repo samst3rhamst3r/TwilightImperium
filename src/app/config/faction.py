@@ -2,16 +2,18 @@ from dataclasses import dataclass, field
 from typing import Optional
 from collections.abc import Sequence
 
-from ..types.unit_class import UnitClass
-from .shared.obj_ import NamedConfigObj, BaseConfigObj
+from app.config.unit import UnitClass
+from app.config.shared import NamedConfigObj, BaseConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class StartingUnitConfig(BaseConfigObj):
+class FactionStartingUnitConfig(BaseConfigObj):
     unit_class: UnitClass
     num: int
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class FactionConfig(NamedConfigObj):
     max_commodities: int
-    starting_units: Sequence[StartingUnitConfig]
+    home_system_id: str
+    starting_units: Sequence[FactionStartingUnitConfig]
     starting_tech_ids: Optional[Sequence[str]] = field(default_factory=tuple)
+    off_board_home_system_id: Optional[str] = None # Unique to Ghosts of Creuss

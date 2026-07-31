@@ -1,13 +1,7 @@
 from dataclasses import dataclass
-from typing import Any, Optional, get_args, get_origin, get_type_hints
+from typing import Optional
 
-@dataclass(slots=True, frozen=True, kw_only=True)
-class BaseConfigObj:
-    """Base class for all configuration objects."""
-
-    @classmethod
-    def from_raw_config(cls, raw_data: Any):
-        pass
+from .base import BaseConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class ConfigObj(BaseConfigObj):

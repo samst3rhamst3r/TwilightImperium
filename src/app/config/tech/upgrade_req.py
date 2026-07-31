@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 
-from .shared.obj_ import BaseConfigObj
-from ..types.tech_type import TechType
+from app.config.shared import BaseConfigObj
+
+from .type import TechType
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class TechReqConfig(BaseConfigObj):
+class TechUpgradeReqConfig(BaseConfigObj):
     tech_type: TechType
     num: int

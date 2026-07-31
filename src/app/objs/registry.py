@@ -1,4 +1,4 @@
-from .obj_ import ConfigObj
+from ..config.shared.obj_ import ConfigObj
 
 class Registry[T: ConfigObj]:
 

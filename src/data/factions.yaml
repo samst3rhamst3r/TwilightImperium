@@ -14,6 +14,7 @@
 
 id: federation_of_sol
 name: The Federation of Sol
+home_system_id: "01"
 max_commodities: 4
 starting_units:
 - unit_class: carrier
@@ -30,6 +31,7 @@ starting_tech_ids: [neural_motivator, antimass_deflectors]
 ---
 id: mentak_coalition
 name: The Mentak Coalition
+home_system_id: "02"
 max_commodities: 2
 starting_units:
 - unit_class: carrier
@@ -48,6 +50,7 @@ starting_tech_ids: [sarween_tools, plasma_scoring]
 ---
 id: yin_brotherhood
 name: The Yin Brotherhood
+home_system_id: "03"
 max_commodities: 2
 starting_units:
 - unit_class: carrier
@@ -64,6 +67,7 @@ starting_tech_ids: [sarween_tools]
 ---
 id: embers_of_muaat
 name: The Embers of Muaat
+home_system_id: "04"
 max_commodities: 4
 starting_units:
 - unit_class: fighter
@@ -78,6 +82,7 @@ starting_tech_ids: [plasma_scoring]
 ---
 id: arborec
 name: The Arborec
+home_system_id: "05"
 max_commodities: 3
 starting_units:
 - unit_class: carrier
@@ -96,6 +101,7 @@ starting_tech_ids: [magen_defense_grid]
 ---
 id: l1z1x_mindnet
 name: The L1z1x Mindnet
+home_system_id: "06"
 max_commodities: 2
 starting_units:
 - unit_class: dreadnought
@@ -114,6 +120,7 @@ starting_tech_ids: [neural_motivator, plasma_scoring]
 ---
 id: winnu_faction
 name: The Winnu
+home_system_id: "07"
 max_commodities: 3
 starting_units:
 - unit_class: carrier
@@ -132,6 +139,7 @@ starting_tech_ids: [] # Choose any 1 technology that has no prereqs
 ---
 id: nekro_virus
 name: The Nekro Virus
+home_system_id: "08"
 max_commodities: 3
 starting_units:
 - unit_class: dreadnought
@@ -150,6 +158,7 @@ starting_tech_ids: [dacxive_animators, valefar_assimilator_x, valefar_assimilato
 ---
 id: naalu_collective
 name: The Naalu Collective
+home_system_id: "09"
 max_commodities: 3
 starting_units:
 - unit_class: carrier
@@ -170,6 +179,7 @@ starting_tech_ids: [neural_motivator, sarween_tools]
 ---
 id: barony_of_letnev
 name: The Barony of Letnev
+home_system_id: "10"
 max_commodities: 2
 starting_units:
 - unit_class: dreadnought
@@ -188,6 +198,7 @@ starting_tech_ids: [antimass_deflectors, plasma_scoring]
 ---
 id: clan_of_saar
 name: The Clan of Saar
+home_system_id: "11"
 max_commodities: 3
 starting_units:
 - unit_class: carrier
@@ -205,6 +216,7 @@ starting_tech_ids: [antimass_deflectors]
 id: universities_of_jolnar
 name: The Universities of Jol-Nar
 max_commodities: 4
+home_system_id: "12"
 starting_units:
 - unit_class: dreadnought
   num: 1
@@ -222,16 +234,23 @@ starting_tech_ids: [neural_motivator, antimass_deflectors, sarween_tools, plasma
 ---
 id: sardakk_norr
 name: Sardakk N'orr
+home_system_id: "13"
 max_commodities: 3
 starting_units:
-  carrier: 2
-  cruiser: 1
-  infantry: 5
-  space_dock: 1
-  pds: 1
+- unit_class: carrier
+  num: 2
+- unit_class: cruiser
+  num: 1
+- unit_class: infantry
+  num: 5
+- unit_class: space_dock
+  num: 1
+- unit_class: pds
+  num: 1
 ---
 id: xxcha_kingdom
 name: The Xxcha Kingdom
+home_system_id: "14"
 max_commodities: 4
 starting_units:
 - unit_class: carrier
@@ -250,6 +269,7 @@ starting_tech_ids: [graviton_laser_system]
 ---
 id: yssaril_tribes
 name: The Yssaril Tribes
+home_system_id: "15"
 max_commodities: 3
 starting_units:
 - unit_class: carrier
@@ -268,6 +288,7 @@ starting_tech_ids: [neural_motivator]
 ---
 id: emirates_of_hacan
 name: The Emirates of Hacan
+home_system_id: "16"
 max_commodities: 6
 starting_units:
 - unit_class: carrier
@@ -284,6 +305,7 @@ starting_tech_ids: [antimass_deflectors, sarween_tools]
 ---
 id: ghosts_of_creuss
 name: The Ghosts of Creuss
+home_system_id: "17"
 max_commodities: 4
 starting_units:
 - unit_class: carrier
@@ -297,3 +319,4 @@ starting_units:
 - unit_class: space_dock
   num: 1
 starting_tech_ids: [gravity_drive]
+off_board_home_system_id: "51" # Unique to The Ghosts of Creuss

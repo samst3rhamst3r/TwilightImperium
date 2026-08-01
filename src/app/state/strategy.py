@@ -2,8 +2,8 @@
 import pathlib, yaml
 from typing import Iterable
 
-from ..game.exceptions import DiplomacyPrimaryAbilityException, DiplomacySecondaryAbilityException, StrategyCardInitException
-from .exhaustable import Exhaustable
+from ..engine.exceptions import DiplomacyPrimaryAbilityException, DiplomacySecondaryAbilityException, StrategyCardInitException
+from .shared.exhaustable import Exhaustable
 from ..config.planet import Planet
 
 _LEADERSHIP_PRIM_ABILITY_GAIN_TOKENS = 3

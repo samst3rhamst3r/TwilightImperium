@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from ..shared.obj_ import BaseConfigObj
+from app.config.shared import BaseConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class ParameterizedAbilityInstanceConfig(BaseConfigObj):

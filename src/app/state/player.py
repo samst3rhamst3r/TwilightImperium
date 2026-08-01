@@ -2,8 +2,6 @@
 from typing import Iterable
 import dataclasses as dc
 
-from .named import NamedObject
-
 type Planet = Planet
 type Faction = Faction
 type StrategyCard = StrategyCard
@@ -28,8 +26,8 @@ _MAX_DREADNOUGHTS = 5
 _MAX_FLAGSHIPS = 1
 
 @dc.dataclass(slots=True)
-class Player(NamedObject):
-    name: str = dc.InitVar[str]
+class Player:
+    name: str
     speaker: bool = False
     faction: Faction = None
     strategy_card: StrategyCard = None
@@ -47,9 +45,6 @@ class Player(NamedObject):
     _control_token_pool: int = _MAX_CONTROL_TOKENS
     _command_token_pool: int = _MAX_COMMAND_TOKENS
     
-    def __post_init__(self, name: str) -> None:
-        NamedObject.__init__(self, name)
-
     def become_speaker(self):
         self.speaker = True
     

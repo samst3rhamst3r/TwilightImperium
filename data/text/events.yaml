@@ -2,7 +2,7 @@
   functional_text: |-
     At the start of the agenda phase:
     Choose a planet. Exhaust each cultural planet owned by that player.
-  flavor_text: 
+  flavor_text_options: 
   - |-
     The images depicted a race that Rin had never seen before. Curious. Could it be that this was a race that was exterminated by the Lazax?
 
@@ -10,7 +10,7 @@
   functional_text: |-
     After an agenda is revealed:
     Choose 1 player. That player cannot vote on this agenda.
-  flavor_text:  
+  flavor_text_options:  
   - |-
     With a sickening crunch of bone and metal, unit.desgn.FLAYESH extracted its stinger from the blood-drenched skull of the Jol-Nar councilor.
 
@@ -18,7 +18,7 @@
   functional_text: |-
     After the speaker votes on an agenda:
     Spend any number of trade goods. For each trade good spent, cast 1 additional vote for an outcome on which you voted.
-  flavor_text:  
+  flavor_text_options:  
   - |-
     "We think that this initiative would spell disaster for the galaxy, not just the Creuss," Taivra said, quietly slipping Z'eu an envelope. "Don't you agree?"
 
@@ -26,7 +26,7 @@
   functional_text: |-
     At the start of an invasion:
     During this invasion, apply -4 to the result of each BOMBARDMENT roll against planets you control.
-  flavor_text:
+  flavor_text_options:
   - |-
     Elder Junn crossed his arms and steadied his breathing. The bombs could not reach them, not this far down. At least, that is what the soldiers had told him.
 
@@ -34,7 +34,7 @@
   functional_text: |-
     When you are elected as the outcome of an agenda:
     Choose 1 player. That player is the elected player instead.
-  flavor_text:
+  flavor_text_options:
   - |-
     Somehow, even after the Council had adjourned, none of them were any closer to understanding the strange and confusing events of the day.
 
@@ -42,7 +42,7 @@
   functional_text: |-
     After an agenda is revealed:
     You cannot vote on this agenda. Predict aloud an outcome of this agenda. If you prediction is correct, place 1 space dock from your reinforcements on a planet you control.
-  flavor_text:
+  flavor_text_options:
   - |-
     The vote was nearly unanimous. The Council would provide funding for the restoration. Ciel was furious.
 
@@ -50,14 +50,14 @@
   functional_text: |-
     After 1 of your ships is destroyed during a space combat:
     Roll 2 dice. For each result equal to or greater than that ship's combat value, your opponent must choose and destroy 1 of their ships.
-  flavor_text:
+  flavor_text_options:
   - |-
     Coughing up blood and covered in burns, Havvat collapsed against the rapidly overheating ship core. She smiled. She would be remembered.
 
 - id: cripple_defenses
   functional_text: |-
     ACTION: Choose 1 planet. Destroy each PDS on that planet.
-  flavor_text:
+  flavor_text_options:
   - |-
     Titanic vines burst forth from the ground, wrapping themselves around the system's primary firing cylinder, breaking it free from its moorings, and bringing it crashing down upon the installation below.
 
@@ -65,7 +65,7 @@
   functional_text: |-
     After another player's ship uses SUSTAIN DAMAGE to cancel a hit produced by your units or abilities:
     Destroy that ship.
-  flavor_text:
+  flavor_text_options:
   - |-
     Neekuaq watched, satisfied, as the ship was wracked by a series of explosions from within, huge armored plates and other debris hurtling off into the darkness.
   - |-
@@ -79,7 +79,7 @@
   functional_text: |-
     After an agenda is revealed:
     You cannot vote on this agenda. Predict aloud an outcome of this agenda. If you prediction is correct, choose 1 system that contains a planet your control. Each other player places a command token from their reinforcements in that system.
-  flavor_text:
+  flavor_text_options:
   - |-
     Ciel evaluated the other senators. Weak, all of them. this was his game to win.
 
@@ -87,7 +87,7 @@
   functional_text: |-
     At the start of an invasion in a system that contains 1 or more of your opponents' PDS units:
     Your opponents' PDS units lose PLANTARY SHIELD and SPACE CANNON during this invasion.
-  flavor_text:
+  flavor_text_options:
   - |-
     "Ssruu has met their systems and fixed them." Ssruu dropped a handful of ripped wires and broken circuitry on the pedestal before Q'uesh Sish. "He will await his next task aboard the ship."
 
@@ -95,14 +95,14 @@
   functional_text: |-
     After you cast votes on an outcome of an agenda:
     Cast 5 additional votes for that outcome.
-  flavor_text:
+  flavor_text_options:
   - |-
     Elder Junn was a wonder to behold. He knew the name of every senator, made small talk effortlessly, and commanded attention when he spoke. Magmus hated everything about him.
 
 - id: economic_initiative
   functional_text: |-
     ACTION: Ready each cultural planet you control.
-  flavor_text:
+  flavor_text_options:
   - |-
     Large sums of Hacan currency flowed freely into the project, and somehow, defying all logic, the returns were even greater.
 
@@ -110,7 +110,7 @@
   functional_text: |-
     At the start or end of a combat round:
     Repair all of your units that have SUSTAIN DAMAGE in the active system.
-  flavor_text:
+  flavor_text_options:
   - |-
     "What do you mean 'It's fine!?'" Dahla said, nearly tripping over a damaged bulkhead as the ship rocked from the explosive barrage.
 
@@ -118,7 +118,7 @@
   functional_text: |-
     After another player moves ships into a system during a tactical action:
     Choose 1 of your space docks that is either in or adjacent to that system. That space dock uses SPACE CANNON 5 (x3) against ships in the active system.
-  flavor_text:
+  flavor_text_options:
   - |-
     "Arm the relay!" Mendosa bared his fangs. "The Saar will not submit!"
 
@@ -126,7 +126,7 @@
   functional_text: |-
     At the start of the first round of a space combat:
     Apply +2 to the result of each of your fighters' combat rolls during this combat round.
-  flavor_text:
+  flavor_text_options:
   - |-
     Suffi vaulted excitedly off the prototype's sleek, azure wing, landing effortlessly in its cockpit. "Let's see those damn snakes keep up with us now!"
 
@@ -134,7 +134,7 @@
   functional_text: |-
     After your ground forces make combat rolls during a round of ground combat:
     Reroll any number of your dice.
-  flavor_text:
+  flavor_text_options:
   - |-
     Grinning, Joel spun toward the familiar noise of heavy boots hitting the ground. Backup had arrived.
 
@@ -142,7 +142,7 @@
   functional_text: |-
     After you activate a system:
     Apply +1 to the move value of each of your ships during this tactical action.
-  flavor_text:
+  flavor_text_options:
   - |-
     Mendosa smiled. "Don't ye fret now, girl. It sounds like ye've got somewhere ta be in a hurry, and it just se happens that I ken get ye there right quick."
   - |-
@@ -155,21 +155,21 @@
 - id: focused_research
   functional_text: |-
     ACTION: Spend 4 trade goods to research 1 technology.
-  flavor_text:
+  flavor_text_options:
   - |-
     Stunned, Rin looked over the data, scarcely able to believe what he was seeing. It was nothing short of a major breakthrough. The Headmaster would be pleased.
 
 - id: frontline_deployment
   functional_text: |-
     ACTION: Place 3 infantry from your reinforcements on 1 planet you control.
-  flavor_text:
+  flavor_text_options:
   - |-
     The soldiers poured fire on the writhing mass, but as each tendril vaporized, two more took its place. Panic wormed into the troopers' minds; was the creature growing?
 
 - id: ghost_ship
   functional_text: |-
     ACTION: Place 1 destroyer from your reinforcements in a non-home system that contains a wormhole and does not contain other players' ships.
-  flavor_text:
+  flavor_text_options:
   - |-
     Reports of Creuss vessels sighted in the area had surely been exaggerated. After all, the Creuss had no business this far from the Shaleri passage, and usually kept to themselves.
 
@@ -177,7 +177,7 @@
   functional_text: |-
     After an agenda is revealed:
     You cannot vote on this agenda. Predict aloud an outcome of this agenda. If your prediction is correct, gain 1 victory point.
-  flavor_text:
+  flavor_text_options:
   - |-
     In a sweeping victory that surprised absolutely no one, the Winnu representative singlehandedly elected himself to oversee the analysis of a recently uncovered Lazax data cache.
 
@@ -185,14 +185,14 @@
   functional_text: |-
     After you activate a system:
     Choose 1 system. During the tactical action, your ships in the chosen system can move through systems that contain other players' ships.
-  flavor_text:
+  flavor_text_options:
   - |-
     The Barony ships seemed to defy reality, bending light around them at impossible angles - naught but inky-black contours could be seen.
 
 - id: industrial_initiative
   functional_text: |-
     ACTION: Gain 1 trade good for each industrial planet you control.
-  flavor_text:
+  flavor_text_options:
   - |-
     The Gashlai reactors proved to be extremely effective. With the conversion rate practically doubled, the factories' output was immense.
 
@@ -200,14 +200,14 @@
   functional_text: |-
     When you gain control of a planet:
     Replace each PDS and space dock that is on that planet with a matching unit from your reinforcements.
-  flavor_text:
+  flavor_text_options:
   - |-
     The 1X had scarcely interfaced with the mainframe before it belonged to them completely.
 
 - id: insubordination
   functional_text: |-
     ACTION: Remove 1 token from another player's tactic pool and return it to their reinforcements.
-  flavor_text:
+  flavor_text_options:
   - |-
     Kilik had never been particularly good at following orders. It only seemed natural to get paid for exercising that trait, as long as she didn't think too hard about where the money was coming from.
 
@@ -215,7 +215,7 @@
   functional_text: |-
     After your opponent declares a retreat during a space combat:
     Your opponent cannot retreat during this round of space combat.
-  flavor_text:
+  flavor_text_options:
   - |-
     The space before the fleeing ship shimmered and warped, revealing the bow of the Y'sia Yssrila bearing down on its position. There would be no escape today.
 
@@ -223,7 +223,7 @@
   functional_text: |-
     After an agenda is revealed:
     You cannot vote on this agenda. Predict aloud an outcome of this agenda. If your prediction is correct, gain 3 command tokens.
-  flavor_text:
+  flavor_text_options:
   - |-
     Rev's impassioned speech stunned the other councilors. Perhaps there was more to these humans than they had initially thought.
 
@@ -231,14 +231,14 @@
   functional_text: |-
     After you activate a system:
     During this tactical action, systems that contain alpha and beta wormholes are adjacent to each other.
-  flavor_text:
+  flavor_text_options:
   - |-
     The ship's sensors showed that the ancient star-map had somehow led them beyond the Mahact plateau.
 
 - id: lucky_shot
   functional_text: |-
     ACTION: Destroy 1 dreadnought, cruiser, or destroyer in a system that contains a planet you control.
-  flavor_text:
+  flavor_text_options:
   - |-
     The missile - an insignificant spark against the darkness - struck the hull of the dreadnought. Moments later, the starboard flank erupted in flames.
 
@@ -247,7 +247,7 @@
   functional_text: |-
     Before you assign hits produced by another player's SPACE CANNON roll:
     Cancel 1 hit.
-  flavor_text:
+  flavor_text_options:
   - |-
     T'esla breathed a sigh of relief as the massive slug disappeared into the distance. A touch slower and she would have been eliminated.
   - |-
@@ -260,7 +260,7 @@
 - id: mining_initiative
   functional_text: |-
     ACTION: Gain trade goods equal to the resource value of 1 planet you control
-  flavor_text:
+  flavor_text_options:
   - |-
     To support its voracious war machine, the N'orr empire cracked the planet's crust and began mining its very core.
 
@@ -268,7 +268,7 @@
   functional_text: |-
     At the start of a combat round:
     Apply +1 to the result of each of your unit's combat rolls during this combat round.
-  flavor_text:
+  flavor_text_options:
   - |-
     "Today we turn these invaders to ash and take back what is ours!" Harrugh paused, noting the murmurs of approval rippling through the ranks.
   - |-
@@ -282,14 +282,14 @@
   functional_text: |-
     After another player commits units to land on a planet you control:
     Return the committed units to the space area.
-  flavor_text:
+  flavor_text_options:
   - |-
     The human admiral returned to his ship, struggling to remember precisely how his meeting with the Collective had gone.
 
 - id: plague
   functional_text: |-
     ACTION: Choose 1 planet that is controlled by another player. Roll 1 die for each infantry on that planet. For each result of 6 or greater, destroy 1 of those units.
-  flavor_text:
+  flavor_text_options:
   - |-
     The letani dipped a mossy limb beneath the surface of the reservoir, feeling the flow of the particles within, shifting them, changing them into something different. Something dangerous.
 
@@ -297,7 +297,7 @@
   functional_text: |-
     When you would return your strategy card(s) during the status phase:
     Do not return your strategy card(s). You do not choose strategy cards during the next strategy phase.
-  flavor_text:
+  flavor_text_options:
   - |-
     The Winnu councilor breathed a sigh of relief. This opportunity would not be wasted. The peace of the Lazax was within grasp.
 
@@ -305,7 +305,7 @@
   functional_text: |-
     After an agenda is revealed:
     You cannot vote on this agenda. Predict aloud an outcome of this agenda. If you prediction is correct, draw 3 action cards and gain the speaker token.
-  flavor_text:
+  flavor_text_options:
   - |-
     The Dirzuga had managed to negotiate themselves into a position of power amongst the other councilors, all of whom still looked terribly uncomfortable in their presence.
 
@@ -313,14 +313,14 @@
   functional_text: |-
     When another player chooses a strategy card during the strategy phase:
     That player must choose a different strategy card instead, if able.
-  flavor_text:
+  flavor_text_options:
   - |-
     In the months that followed the report, the Council was quick to censure the Jol-Nar for their unethical practices.
 
 - id: reactor_meltdown
   functional_text: |-
     ACTION: Destroy 1 space dock in a non-home system.
-  flavor_text:
+  flavor_text_options:
   - |-
     Flames engulfed the shipyard, a vortex of fire and shrapnel that left nothing untouched.
 
@@ -328,21 +328,21 @@
   functional_text: |-
     After another player gains control of a planet you control:
     Exhaust 1 planet that player controls and ready 1 planet you control
-  flavor_text:
+  flavor_text_options:
   - |-
     Gila oversaw the reconstruction of the Hacan outpost, but neglected to inform the N'orr representative that the damage was not nearly as severe as he was led to believe.
 
 - id: repeal_law
   functional_text: |-
     ACTION: Discard 1 law from play.
-  flavor_text:
+  flavor_text_options:
   - |-
     Eventually, the N'orr diplomat came to an agreement with Hacan Garrus, and the embargo was repealed. Still, he couldn't shake the feeling that Garrus had gotten the better end of the deal.
 
 - id: rise_of_messiah
   functional_text: |-
     ACTION: Place 1 infantry from your reinforcements on each planet you control.
-  flavor_text:
+  flavor_text_options:
   - |-
     Harrugh stood atop the dunes, looking down at the thousands of Hacan warriors mustered below. Gathering his strength, he let loose a mighty roar, the will of his people throughout the galaxy echoing forth from within.
 
@@ -350,7 +350,7 @@
   functional_text: |-
     When another player plays an action card other than "Sabotage":
     Cancel that action card.
-  flavor_text:
+  flavor_text_options:
   - |-
     trjn.desgn.ALIZARIN introduced itself to each data nodek, incorporating them into its platform, expunging any data it deemed a threat to the Virus.
   - |-
@@ -364,7 +364,7 @@
   functional_text: |-
     After you win a space combat:
     Your opponent gives you all of their commodities.
-  flavor_text:
+  flavor_text_options:
   - |-
     When the Coalition raiders had finally returned to their ships, scarcely a bolt remained to salvage from the destroyed vessel.
 
@@ -372,7 +372,7 @@
   functional_text: |-
     Before you assign hits to your ships during a space combat:
     Cancel up to 2 hits.
-  flavor_text:
+  flavor_text_options:
   - |-
     T'ro stared unflinching at the incoming barrage through the bridge's observation deck. The shields would hold.
   - |-
@@ -385,7 +385,7 @@
 - id: signal_jamming
   functional_text: |-
     ACTION: Choose 1 non-home system that contains or is adjacent to 1 of your ships. Place a command token from another player's reinforcements in that system.
-  flavor_text:
+  flavor_text_options:
   - |-
     Meian was practically aglow, wisps of her ether crackling with delight. It was amazing what could be achieved with a well-time electromagnetic discharge.
 
@@ -393,7 +393,7 @@
   functional_text: |-
     At the start of a combat round:
     Move all of your ships from the active system into an adjacent system that does not contain another player's ships; the space combat ends in a draw. Then, place a command token from your reinforcements in that system.
-  flavor_text:
+  flavor_text_options:
   - |-
     T'ro gave the order, and the entire fleet withdrew without question.
   - |-
@@ -406,7 +406,7 @@
 - id: spy
   functional_text: |-
     ACTION: Choose 1 player. That player gives you 1 random action card from their hand.
-  flavor_text:
+  flavor_text_options:
   - |-
     "I'm no spy," Connor said, casually stuffing the data drives into his pack. "Now, how can I get out of here without being seen?"
 
@@ -414,14 +414,14 @@
   functional_text: |-
     At the start of the strategy phase:
     Gain 2 command tokens.
-  flavor_text:
+  flavor_text_options:
   - |-
     At the end of the twelfth day, Rev returned home from the summit in New Moscow feeling physically exhausted and mentally drained. But she was also satisfied. They had a plan - finally - and it was a good plan.
 
 - id: tactical_bombardment
   functional_text: |-
     ACTION: Choose 1 system that contains 1 or more of your units that have BOMBARDMENT. Exhaust each planet controlled by other players in that system.
-  flavor_text:
+  flavor_text_options:
   - |-
     A6's red eyes flickered with activity, and a string of numbers flashed briefly across the screen before he spoke. "Bombardment complete. All enemy installations have been neutralized."
 
@@ -429,7 +429,7 @@
   functional_text: |-
     After an agenda is revealed:
     You cannot vote on this agenda. Predict aloud an outcome of this agenda. If your prediction is correct, research 1 technology.
-  flavor_text:
+  flavor_text_options:
   - |-
     The Council granted the Yin funding to research an effective countermeasure to combat the virus. After all, keeping the Yin occupied with the virus meant killing two birds with one stone.
 
@@ -437,21 +437,21 @@
   functional_text: |-
     After an agenda is revealed:
     You cannot vote on this agenda. Predict aloud an outcome of this agenda. If your prediction is correct, gain 5 trade goods.
-  flavor_text:
+  flavor_text_options:
   - |-
     The Letnev councilor begrudgingly accepted the N'orr's core mining contract, if only so that the "gracious" Hacan senator didn't secure yet another source of income for his clan.
 
 - id: unexpected_action
   functional_text: |-
     ACTION: Remove 1 of your command tokens from the game board and return it to your reinforcements.
-  flavor_text:
+  flavor_text_options:
   - |-
     M'aban's voice was barely a whisper, cracking as hundreds of flashing lights appeared on her scanner. "We've been tricked."
 
 - id: unstable_planet
   functional_text: |-
     ACTION: Choose 1 hazardous planet. Exhaust that planet and destroy up to 3 infantry on it.
-  flavor_text:
+  flavor_text_options:
   - |-
     Another quake shook the planet, and a wave of dirt and rock rose up to swallow the Tekklar legion.
 
@@ -459,14 +459,14 @@
   functional_text: |-
     After you activate a system that contains 1 or more of your ships:
     Replace 1 of your cruisers in that system with 1 dreadnought from your reinforcements.
-  flavor_text:
+  flavor_text_options:
   - |-
     "More guns?" Connor shook his head. "Not more guns. Let's try something bigger."
 
 - id: uprising
   functional_text: |-
     ACTION: Exhaust 1 non-home planet controlled by another player. Then, gain trade goods equal to its resource value.
-  flavor_text:
+  flavor_text_options:
   - |-
     Harrugh leapt down from the ledge, gyro-spear blazing in the sunlight. In front, the L1Z1X began to take notice. Behind, his warriors stood at the ready. Win or lose, this would be the end.
 
@@ -474,14 +474,14 @@
   functional_text: |-
     When an agenda is revealed:
     Discard that agenda and reveal 1 agenda from the top of the deck. Players vote on this agenda instead.
-  flavor_text:
+  flavor_text_options:
   - |-
     Magmus batted the now charred corpse aside with the back of his golden gauntlet. "The Muaat reject your proposal."
 
 - id: war_effort
   functional_text: |-
     ACTION: Place 1 cruiser from your reinforcements in a system that contains 1 or more of your ships.
-  flavor_text:
+  flavor_text_options:
   - |-
     The N'orr may not be the most proficient shipwrights, but the willingness of their citizens to do their part far exceeds that of the other great races.
 
@@ -489,6 +489,6 @@
   functional_text: |-
     After an agenda is revealed:
     You cannot vote on this agenda. Predict aloud an outcome of this agenda. If your prediction is correct, place 1 dreadnought from your reinforcements in a system that contains 1 or more of your ships.
-  flavor_text: 
+  flavor_text_options: 
   - |-
     Elder Junn sighed. "Disarmament, it seems, has fallen out of fashion in these dark days."

@@ -6,4 +6,3 @@ from app.config.base import BaseConfigObj
 class BaseStateObj[TConfig: BaseConfigObj]:
     """Base class for all state objects."""
     config: TConfig
-

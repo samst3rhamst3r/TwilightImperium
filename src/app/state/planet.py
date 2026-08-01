@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app.config.planet import PlanetConfig
-from .shared import BaseStateObj, Exhaustable
+from .base import BaseStateObj, Exhaustable
 
 @dataclass(slots=True, kw_only=True)
 class PlanetState(BaseStateObj[PlanetConfig], Exhaustable):

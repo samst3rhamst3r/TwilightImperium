@@ -1,151 +1,147 @@
-# id:                   unique identifier for the ability
-# name:                 user-friendly name for the ability
-# faction_exclusive_id: unique identifier for the faction that uniquely uses this ability, if any
+- id: ambush
+  name: Ambush
+  faction_exclusive_id: mentak_coalition
 
-id: ambush
-name: Ambush
-faction_exclusive_id: mentak_coalition
----
-id: analytical
-name: Analytical
-faction_exclusive_id: universities_of_jolnar
----
-id: arbiters
-name: Arbiters
-faction_exclusive_id: emirates_of_hacan
----
-id: armada
-name: Armada
-faction_exclusive_id: barony_of_letnev
----
-id: assimilate
-name: Assimilate
-faction_exclusive_id: l1z1x_mindnet
----
-id: blood_ties
-name: Blood Ties
-faction_exclusive_id: winnu_faction
----
-id: brilliant
-name: Brilliant
-faction_exclusive_id: universities_of_jolnar
----
-id: crafty
-name: Crafty
-faction_exclusive_id: yssaril_tribes
----
-id: creuss_gate
-name: Creuss Gate
-faction_exclusive_id: ghosts_of_creuss
----
-id: devotion
-name: Devotion
-faction_exclusive_id: yin_brotherhood
----
-id: foresight
-name: Foresight
-faction_exclusive_id: naalu_collective
----
-id: fragile
-name: Fragile
-faction_exclusive_id: universities_of_jolnar
----
-id: galactic_threat
-name: Galactic Threat
-faction_exclusive_id: nekro_virus
----
-id: gashlai_physiology
-name: Gashlai Physiology
-faction_exclusive_id: embers_of_muaat
----
-id: guild_ships
-name: Guild Ships
-faction_exclusive_id: emirates_of_hacan
----
-id: harrow
-name: Harrow
-faction_exclusive_id: l1z1x_mindnet
----
-id: indoctrination
-name: Indoctrination
-faction_exclusive_id: yin_brotherhood
----
-id: masters_of_trade
-name: Masters of Trade
-faction_exclusive_id: emirates_of_hacan
----
-id: mitosis
-name: Mitosis
-faction_exclusive_id: arborec
----
-id: munitions_reserves
-name: Munitions Reserves
-faction_exclusive_id: barony_of_letnev
----
-id: nomadic
-name: Nomadic
-faction_exclusive_id: clan_of_saar
----
-id: orbital_drop
-name: Orbital Drop
-faction_exclusive_id: federation_of_sol
----
-id: peace_accords
-name: Peace Accords
-faction_exclusive_id: xxcha_kingdom
----
-id: pillage
-name: Pillage
-faction_exclusive_id: mentak_coalition
----
-id: propagation
-name: Propagation
-faction_exclusive_id: nekro_virus
----
-id: quantum_entanglement
-name: Quantum Entanglement
-faction_exclusive_id: ghosts_of_creuss
----
-id: quash
-name: Quash
-faction_exclusive_id: xxcha_kingdom
----
-id: reclamation
-name: Reclamation
-faction_exclusive_id: winnu_faction
----
-id: scavenge
-name: Scavenge
-faction_exclusive_id: clan_of_saar
----
-id: scheming
-name: Scheming
-faction_exclusive_id: yssaril_tribes
----
-id: slipstream
-name: Slipstream
-faction_exclusive_id: ghosts_of_creuss
----
-id: stall_tactics
-name: Stall Tactics
-faction_exclusive_id: yssaril_tribes
----
-id: star_forge
-name: Star Forge
-faction_exclusive_id: embers_of_muaat
----
-id: technological_singularity
-name: Technological Singularity
-faction_exclusive_id: nekro_virus
----
-id: telepathic
-name: Telepathic
-faction_exclusive_id: naalu_collective
----
-id: unrelenting
-name: Unrelenting
-faction_exclusive_id: sardakk_norr
----
-id: versatile
-name: Versatile
-faction_exclusive_id: federation_of_sol
+- id: analytical
+  name: Analytical
+  faction_exclusive_id: universities_of_jolnar
+
+- id: arbiters
+  name: Arbiters
+  faction_exclusive_id: emirates_of_hacan
+
+- id: armada
+  name: Armada
+  faction_exclusive_id: barony_of_letnev
+
+- id: assimilate
+  name: Assimilate
+  faction_exclusive_id: l1z1x_mindnet
+
+- id: blood_ties
+  name: Blood Ties
+  faction_exclusive_id: winnu_faction
+
+- id: brilliant
+  name: Brilliant
+  faction_exclusive_id: universities_of_jolnar
+
+- id: crafty
+  name: Crafty
+  faction_exclusive_id: yssaril_tribes
+
+- id: creuss_gate
+  name: Creuss Gate
+  faction_exclusive_id: ghosts_of_creuss
+
+- id: devotion
+  name: Devotion
+  faction_exclusive_id: yin_brotherhood
+
+- id: foresight
+  name: Foresight
+  faction_exclusive_id: naalu_collective
+
+- id: fragile
+  name: Fragile
+  faction_exclusive_id: universities_of_jolnar
+
+- id: galactic_threat
+  name: Galactic Threat
+  faction_exclusive_id: nekro_virus
+
+- id: gashlai_physiology
+  name: Gashlai Physiology
+  faction_exclusive_id: embers_of_muaat
+
+- id: guild_ships
+  name: Guild Ships
+  faction_exclusive_id: emirates_of_hacan
+
+- id: harrow
+  name: Harrow
+  faction_exclusive_id: l1z1x_mindnet
+
+- id: indoctrination
+  name: Indoctrination
+  faction_exclusive_id: yin_brotherhood
+
+- id: masters_of_trade
+  name: Masters of Trade
+  faction_exclusive_id: emirates_of_hacan
+
+- id: mitosis
+  name: Mitosis
+  faction_exclusive_id: arborec
+
+- id: munitions_reserves
+  name: Munitions Reserves
+  faction_exclusive_id: barony_of_letnev
+
+- id: nomadic
+  name: Nomadic
+  faction_exclusive_id: clan_of_saar
+
+- id: orbital_drop
+  name: Orbital Drop
+  faction_exclusive_id: federation_of_sol
+
+- id: peace_accords
+  name: Peace Accords
+  faction_exclusive_id: xxcha_kingdom
+
+- id: pillage
+  name: Pillage
+  faction_exclusive_id: mentak_coalition
+
+- id: propagation
+  name: Propagation
+  faction_exclusive_id: nekro_virus
+
+- id: quantum_entanglement
+  name: Quantum Entanglement
+  faction_exclusive_id: ghosts_of_creuss
+
+- id: quash
+  name: Quash
+  faction_exclusive_id: xxcha_kingdom
+
+- id: reclamation
+  name: Reclamation
+  faction_exclusive_id: winnu_faction
+
+- id: scavenge
+  name: Scavenge
+  faction_exclusive_id: clan_of_saar
+
+- id: scheming
+  name: Scheming
+  faction_exclusive_id: yssaril_tribes
+
+- id: slipstream
+  name: Slipstream
+  faction_exclusive_id: ghosts_of_creuss
+
+- id: stall_tactics
+  name: Stall Tactics
+  faction_exclusive_id: yssaril_tribes
+
+- id: star_forge
+  name: Star Forge
+  faction_exclusive_id: embers_of_muaat
+
+- id: technological_singularity
+  name: Technological Singularity
+  faction_exclusive_id: nekro_virus
+
+- id: telepathic
+  name: Telepathic
+  faction_exclusive_id: naalu_collective
+
+- id: unrelenting
+  name: Unrelenting
+  faction_exclusive_id: sardakk_norr
+
+- id: versatile
+  name: Versatile
+  faction_exclusive_id: federation_of_sol

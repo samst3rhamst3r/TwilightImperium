@@ -1,161 +1,161 @@
-id: expand_borders
-functional_text: |-
-  Control 6 planets in non-home systems.
----
-id: lead_from_front
-functional_text: |-
-  Spend a total of 3 tokens from your tactic and/or strategy pools.
----
-id: diversify_research
-functional_text: |-
-  Own 2 technologies in each of 2 colors.
----
-id: intimidate_council
-functional_text: |-
-  Have 1 or more ships in 2 systems that are adjacent to Mecatol Rex's system.
----
-id: sway_council
-functional_text: |-
-  Spend 8 influence.
----
-id: erect_monument
-functional_text: |-
-  Spend 8 resources.
----
-id: develop_weaponry
-functional_text: |-
-  Own 2 unit upgrade technologies.
----
-id: corner_market
-functional_text: |-
-  Control 4 planets that each have the same planet trait.
----
-id: found_research_outposts
-functional_text: |-
-  Control 3 planets that have technology specialties.
----
-id: negotiate_trade_routes
-functional_text: |-
-  Spend 5 trade goods.
----
-id: revolutionize_warfare
-functional_text: |-
-  Own 3 unit upgrade technologies.
----
-id: centralize_galactic_trade
-functional_text: |-
-  Spend 10 trade goods.
----
-id: unify_colonies
-functional_text: |-
-  Control 6 planets that each have the same planet trait.
----
-id: subdue_galaxy
-functional_text: |-
-  Control 11 planets in non-home systems.
----
-id: conquer_weak
-functional_text: |-
-  Control 1 planet that is in another player's home system.
----
-id: galvanize_people
-functional_text: |-
-  Spend a total of 6 tokens from your tactic and/or strategy pools.
----
-id: form_galactic_brain_trust
-functional_text: |-
-  Control 5 planets that have technology specialties.
----
-id: manipulate_galactic_law
-functional_text: |-
-  Spend 16 influence.
----
-id: found_golden_age
-functional_text: |-
-  Spend 16 resources.
----
-id: master_sciences
-functional_text: |-
-  Own 2 technologies in each of 4 colors.
----
-id: spark_rebellion
-functional_text: |-
-  Win a combat against a player who has the most victory points.
----
-id: form_spy_network
-functional_text: |-
-  Discard 5 action cards.
----
-id: become_gatekeeper
-functional_text: |-
-  Have 1 or more ships in a system that contains an alpha wormhole and 1 or more ships in a system that contains a beta wormhole.
----
-id: turn_their_fleets_to_dust
-functional_text: |-
-  Use SPACE CANNON to destroy the last of a player's ships in a system.
----
-id: make_example_of_their_world
-functional_text: |-
-  Use BOMBARDMENT to destroy the last of a player's ground forces on a planet.
----
-id: forge_alliance
-functional_text: |-
-  Control 4 cultural planets.
----
-id: establish_perimeter
-functional_text: |-
-  Have 4 PDS units on the game board.
----
-id: occupy_seat_of_empire
-functional_text: |-
-  Control Mecatol Rex and have 3 or more ships in its system.
----
-id: control_the_region
-functional_text: |-
-  Have 1 or more ships in 6 systems.
----
-id: monopolize_production
-functional_text: |-
-  Control 4 industrial planets.
----
-id: unveil_flagship
-functional_text: |-
-  Win a space combat in a system that contains your flagship.
-  You cannot score this objective if your flagship is destroyed in the combat.
----
-id: threaten_enemies
-functional_text: |-
-  Have 1 or more ships in a system that is adjacent to another player's home system.
----
-id: master_the_laws_of_physics
-functional_text: |-
-  Own 4 technologies of the same color.
----
-id: fuel_the_war_machine
-functional_text: |-
-  Have 3 space docks on the game board.
----
-id: mine_rare_metals
-functional_text: |-
-  Control 4 hazardous planets.
----
-id: adapt_new_strategies
-functional_text: |-
-  Own 2 faction technologies.
-  "Valefar Assimilator" technologies do not count toward this objective.
----
-id: gather_mighty_fleet
-functional_text: |-
-  Have 5 dreadnoughts on the game board.
----
-id: cut_supply_lines
-functional_text: |-
-  Have 1 or more ships in the same system as another player's space dock.
----
-id: destroy_their_greatest_ship
-functional_text: |-
-  Destroy another player's war sun or flagship.
----
-id: learn_secrets_of_the_cosmos
-functional_text: |-
-  Have 1 or more ships in 3 systems that are each adjacent to an anomaly.
+- id: expand_borders
+  functional_text: |-
+    Control 6 planets in non-home systems.
+
+- id: lead_from_front
+  functional_text: |-
+    Spend a total of 3 tokens from your tactic and/or strategy pools.
+
+- id: diversify_research
+  functional_text: |-
+    Own 2 technologies in each of 2 colors.
+
+- id: intimidate_council
+  functional_text: |-
+    Have 1 or more ships in 2 systems that are adjacent to Mecatol Rex's system.
+
+- id: sway_council
+  functional_text: |-
+    Spend 8 influence.
+
+- id: erect_monument
+  functional_text: |-
+    Spend 8 resources.
+
+- id: develop_weaponry
+  functional_text: |-
+    Own 2 unit upgrade technologies.
+
+- id: corner_market
+  functional_text: |-
+    Control 4 planets that each have the same planet trait.
+
+- id: found_research_outposts
+  functional_text: |-
+    Control 3 planets that have technology specialties.
+
+- id: negotiate_trade_routes
+  functional_text: |-
+    Spend 5 trade goods.
+
+- id: revolutionize_warfare
+  functional_text: |-
+    Own 3 unit upgrade technologies.
+
+- id: centralize_galactic_trade
+  functional_text: |-
+    Spend 10 trade goods.
+
+- id: unify_colonies
+  functional_text: |-
+    Control 6 planets that each have the same planet trait.
+
+- id: subdue_galaxy
+  functional_text: |-
+    Control 11 planets in non-home systems.
+
+- id: conquer_weak
+  functional_text: |-
+    Control 1 planet that is in another player's home system.
+
+- id: galvanize_people
+  functional_text: |-
+    Spend a total of 6 tokens from your tactic and/or strategy pools.
+
+- id: form_galactic_brain_trust
+  functional_text: |-
+    Control 5 planets that have technology specialties.
+
+- id: manipulate_galactic_law
+  functional_text: |-
+    Spend 16 influence.
+
+- id: found_golden_age
+  functional_text: |-
+    Spend 16 resources.
+
+- id: master_sciences
+  functional_text: |-
+    Own 2 technologies in each of 4 colors.
+
+- id: spark_rebellion
+  functional_text: |-
+    Win a combat against a player who has the most victory points.
+
+- id: form_spy_network
+  functional_text: |-
+    Discard 5 action cards.
+
+- id: become_gatekeeper
+  functional_text: |-
+    Have 1 or more ships in a system that contains an alpha wormhole and 1 or more ships in a system that contains a beta wormhole.
+
+- id: turn_their_fleets_to_dust
+  functional_text: |-
+    Use SPACE CANNON to destroy the last of a player's ships in a system.
+
+- id: make_example_of_their_world
+  functional_text: |-
+    Use BOMBARDMENT to destroy the last of a player's ground forces on a planet.
+
+- id: forge_alliance
+  functional_text: |-
+    Control 4 cultural planets.
+
+- id: establish_perimeter
+  functional_text: |-
+    Have 4 PDS units on the game board.
+
+- id: occupy_seat_of_empire
+  functional_text: |-
+    Control Mecatol Rex and have 3 or more ships in its system.
+
+- id: control_the_region
+  functional_text: |-
+    Have 1 or more ships in 6 systems.
+
+- id: monopolize_production
+  functional_text: |-
+    Control 4 industrial planets.
+
+- id: unveil_flagship
+  functional_text: |-
+    Win a space combat in a system that contains your flagship.
+    You cannot score this objective if your flagship is destroyed in the combat.
+
+- id: threaten_enemies
+  functional_text: |-
+    Have 1 or more ships in a system that is adjacent to another player's home system.
+
+- id: master_the_laws_of_physics
+  functional_text: |-
+    Own 4 technologies of the same color.
+
+- id: fuel_the_war_machine
+  functional_text: |-
+    Have 3 space docks on the game board.
+
+- id: mine_rare_metals
+  functional_text: |-
+    Control 4 hazardous planets.
+
+- id: adapt_new_strategies
+  functional_text: |-
+    Own 2 faction technologies.
+    "Valefar Assimilator" technologies do not count toward this objective.
+
+- id: gather_mighty_fleet
+  functional_text: |-
+    Have 5 dreadnoughts on the game board.
+
+- id: cut_supply_lines
+  functional_text: |-
+    Have 1 or more ships in the same system as another player's space dock.
+
+- id: destroy_their_greatest_ship
+  functional_text: |-
+    Destroy another player's war sun or flagship.
+
+- id: learn_secrets_of_the_cosmos
+  functional_text: |-
+    Have 1 or more ships in 3 systems that are each adjacent to an anomaly.

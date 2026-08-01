@@ -15,206 +15,206 @@
 #   anomaly: a str Enum type representing one of four types of anomalies - asteroid_field, gravity_rift, nebula, or supernova
 #
 
-id: "01"
-back_color: green
-planet_ids: [jord]
----
-id: "02"
-back_color: green
-planet_ids: [moll_primus]
----
-id: "03"
-back_color: green
-planet_ids: [darien]
----
-id: "04"
-back_color: green
-planet_ids: [muatt]
----
-id: "05"
-back_color: green
-planet_ids: [nestphar]
----
-id: "06"
-back_color: green
-planet_ids: [0_0_0]
----
-id: "07"
-back_color: green
-planet_ids: [winnu]
----
-id: "08"
-back_color: green
-planet_ids: [mordai_ii]
----
-id: "09"
-back_color: green
-planet_ids: [druaa, maaluuk]
----
-id: "10"
-back_color: green
-planet_ids: [arc_prime, wren_terra]
----
-id: "11"
-back_color: green
-planet_ids: [lisis_ii, ragh]
----
-id: "12"
-back_color: green
-planet_ids: [jol, nar]
----
-id: "13"
-back_color: green
-planet_ids: [quinarra, tren_lak]
----
-id: "14"
-back_color: green
-planet_ids: [archon_ren, archon_tau]
----
-id: "15"
-back_color: green
-planet_ids: [retillion, shalloq]
----
-id: "16"
-back_color: green
-planet_ids: [arretze, hercant, kamdorn]
----
-id: "17"
-back_color: green
-wormhole: delta
----
-id: "18"
-back_color: null
-planet_ids: [mecatol_rex]
----
-id: "19"
-back_color: blue
-planet_ids: [wellon]
----
-id: "20"
-back_color: blue
-planet_ids: [vefut_ii]
----
-id: "21"
-back_color: blue
-planet_ids: [thibah]
----
-id: "22"
-back_color: blue
-planet_ids: [tar_mann]
----
-id: "23"
-back_color: blue
-planet_ids: [saudor]
----
-id: "24"
-back_color: blue
-planet_ids: [mehar_xull]
----
-id: "25"
-back_color: blue
-planet_ids: [quann]
-wormhole: beta
----
-id: "26"
-back_color: blue
-planet_ids: [lodor]
-wormhole: alpha
----
-id: "27"
-back_color: blue
-planet_ids: [new_albion, starpoint]
----
-id: "28"
-back_color: blue
-planet_ids: [tequ_ran, torkan]
----
-id: "29"
-back_color: blue
-planet_ids: [qucen_n, rarron]
----
-id: "30"
-back_color: blue
-planet_ids: [mellon, zohbat]
----
-id: "31"
-back_color: blue
-planet_ids: [lazar, sakulag]
----
-id: "32"
-back_color: blue
-planet_ids: [dal_bootha, xxehan]
----
-id: "33"
-back_color: blue
-planet_ids: [corneeq, resculon]
----
-id: "34"
-back_color: blue
-planet_ids: [centauri, gral]
----
-id: "35"
-back_color: blue
-planet_ids: [bereg, lirta_iv]
----
-id: "36"
-back_color: blue
-planet_ids: [arnor, lor]
----
-id: "37"
-back_color: blue
-planet_ids: [arinam, meer]
----
-id: "38"
-back_color: blue
-planet_ids: [abyz, fria]
----
-id: "39"
-back_color: red
-wormhole: alpha
----
-id: "40"
-back_color: red
-planet_ids: null
-wormhole: beta
----
-id: "41"
-back_color: red
-anomaly: gravity_rift
----
-id: "42"
-back_color: red
-anomaly: nebula
----
-id: "43"
-back_color: red
-anomaly: supernova
----
-id: "44"
-back_color: red
-anomaly: asteroid_field
----
-id: "45"
-back_color: red
-anomaly: asteroid_field
----
-id: "46"
-back_color: red
----
-id: "47"
-back_color: red
----
-id: "48"
-back_color: red
----
-id: "49"
-back_color: red
----
-id: "50"
-back_color: red
----
-id: "51"
-back_color: green
-planet_ids: [creuss]
-wormhole: delta
-is_off_board: true
+- id: "01"
+  back_color: green
+  planet_ids: [jord]
+
+- id: "02"
+  back_color: green
+  planet_ids: [moll_primus]
+
+- id: "03"
+  back_color: green
+  planet_ids: [darien]
+
+- id: "04"
+  back_color: green
+  planet_ids: [muatt]
+
+- id: "05"
+  back_color: green
+  planet_ids: [nestphar]
+
+- id: "06"
+  back_color: green
+  planet_ids: [0_0_0]
+
+- id: "07"
+  back_color: green
+  planet_ids: [winnu]
+
+- id: "08"
+  back_color: green
+  planet_ids: [mordai_ii]
+
+- id: "09"
+  back_color: green
+  planet_ids: [druaa, maaluuk]
+
+- id: "10"
+  back_color: green
+  planet_ids: [arc_prime, wren_terra]
+
+- id: "11"
+  back_color: green
+  planet_ids: [lisis_ii, ragh]
+
+- id: "12"
+  back_color: green
+  planet_ids: [jol, nar]
+
+- id: "13"
+  back_color: green
+  planet_ids: [quinarra, tren_lak]
+
+- id: "14"
+  back_color: green
+  planet_ids: [archon_ren, archon_tau]
+
+- id: "15"
+  back_color: green
+  planet_ids: [retillion, shalloq]
+
+- id: "16"
+  back_color: green
+  planet_ids: [arretze, hercant, kamdorn]
+
+- id: "17"
+  back_color: green
+  wormhole: delta
+
+- id: "18"
+  back_color: null
+  planet_ids: [mecatol_rex]
+
+- id: "19"
+  back_color: blue
+  planet_ids: [wellon]
+
+- id: "20"
+  back_color: blue
+  planet_ids: [vefut_ii]
+
+- id: "21"
+  back_color: blue
+  planet_ids: [thibah]
+
+- id: "22"
+  back_color: blue
+  planet_ids: [tar_mann]
+
+- id: "23"
+  back_color: blue
+  planet_ids: [saudor]
+
+- id: "24"
+  back_color: blue
+  planet_ids: [mehar_xull]
+
+- id: "25"
+  back_color: blue
+  planet_ids: [quann]
+  wormhole: beta
+
+- id: "26"
+  back_color: blue
+  planet_ids: [lodor]
+  wormhole: alpha
+
+- id: "27"
+  back_color: blue
+  planet_ids: [new_albion, starpoint]
+
+- id: "28"
+  back_color: blue
+  planet_ids: [tequ_ran, torkan]
+
+- id: "29"
+  back_color: blue
+  planet_ids: [qucen_n, rarron]
+
+- id: "30"
+  back_color: blue
+  planet_ids: [mellon, zohbat]
+
+- id: "31"
+  back_color: blue
+  planet_ids: [lazar, sakulag]
+
+- id: "32"
+  back_color: blue
+  planet_ids: [dal_bootha, xxehan]
+
+- id: "33"
+  back_color: blue
+  planet_ids: [corneeq, resculon]
+
+- id: "34"
+  back_color: blue
+  planet_ids: [centauri, gral]
+
+- id: "35"
+  back_color: blue
+  planet_ids: [bereg, lirta_iv]
+
+- id: "36"
+  back_color: blue
+  planet_ids: [arnor, lor]
+
+- id: "37"
+  back_color: blue
+  planet_ids: [arinam, meer]
+
+- id: "38"
+  back_color: blue
+  planet_ids: [abyz, fria]
+
+- id: "39"
+  back_color: red
+  wormhole: alpha
+
+- id: "40"
+  back_color: red
+  planet_ids: null
+  wormhole: beta
+
+- id: "41"
+  back_color: red
+  anomaly: gravity_rift
+
+- id: "42"
+  back_color: red
+  anomaly: nebula
+
+- id: "43"
+  back_color: red
+  anomaly: supernova
+
+- id: "44"
+  back_color: red
+  anomaly: asteroid_field
+
+- id: "45"
+  back_color: red
+  anomaly: asteroid_field
+
+- id: "46"
+  back_color: red
+
+- id: "47"
+  back_color: red
+
+- id: "48"
+  back_color: red
+
+- id: "49"
+  back_color: red
+
+- id: "50"
+  back_color: red
+
+- id: "51"
+  back_color: green
+  planet_ids: [creuss]
+  wormhole: delta
+  is_off_board: true

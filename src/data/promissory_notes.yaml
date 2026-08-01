@@ -1,79 +1,79 @@
-id: military_support
-name: Military Support
-faction_exclusive_id: federation_of_sol
----
-id: promise_of_protection
-name: Promise of Protection
-faction_exclusive_id: mentak_coalition
----
-id: greyfire_mutagen
-name: Greyfire Mutagen
-faction_exclusive_id: yin_brotherhood
----
-id: fires_of_the_gashlai
-name: Fires of the Gashlai
-faction_exclusive_id: embers_of_muaat
----
-id: stymie
-name: Stymie
-faction_exclusive_id: arborec
----
-id: cybernetic_enhancements
-name: Cybernetic Enhancements
-faction_exclusive_id: l1z1x_mindnet
----
-id: acquiescence
-name: Acquiescence
-faction_exclusive_id: winnu_faction
----
-id: antivirus
-name: Antivirus
-faction_exclusive_id: nekro_virus
----
-id: gift_of_prescience
-name: Gift of Prescience
-faction_exclusive_id: naalu_collective
----
-id: war_funding
-name: War Funding
-faction_exclusive_id: barony_of_letnev
----
-id: raghs_call
-name: Ragh's Call
-faction_exclusive_id: clan_of_saar
----
-id: research_agreement
-name: Research Agreement
-faction_exclusive_id: universities_of_jolnar
----
-id: tekklar_legion
-name: Tekklar Legion
-faction_exclusive_id: sardakk_norr
----
-id: political_favor
-name: Political Favor
-faction_exclusive_id: xxcha_kingdom
----
-id: spy_net
-name: Spy Net
-faction_exclusive_id: yssaril_tribes
----
-id: trade_convoys
-name: Trade Convoys
-faction_exclusive_id: emirates_of_hacan
----
-id: creuss_iff
-name: Creuss IFF
-faction_exclusive_id: ghosts_of_creuss
----
-id: trade_agreement
-name: Trade Agreement
----
-id: political_secret
-name: Political Secret
----
-id: ceasefire
-name: Ceasefire
----
-id: support_for_the_throne
-name: Support for the Throne
+- id: military_support
+  name: Military Support
+  faction_exclusive_id: federation_of_sol
+
+- id: promise_of_protection
+  name: Promise of Protection
+  faction_exclusive_id: mentak_coalition
+
+- id: greyfire_mutagen
+  name: Greyfire Mutagen
+  faction_exclusive_id: yin_brotherhood
+
+- id: fires_of_the_gashlai
+  name: Fires of the Gashlai
+  faction_exclusive_id: embers_of_muaat
+
+- id: stymie
+  name: Stymie
+  faction_exclusive_id: arborec
+
+- id: cybernetic_enhancements
+  name: Cybernetic Enhancements
+  faction_exclusive_id: l1z1x_mindnet
+
+- id: acquiescence
+  name: Acquiescence
+  faction_exclusive_id: winnu_faction
+
+- id: antivirus
+  name: Antivirus
+  faction_exclusive_id: nekro_virus
+
+- id: gift_of_prescience
+  name: Gift of Prescience
+  faction_exclusive_id: naalu_collective
+
+- id: war_funding
+  name: War Funding
+  faction_exclusive_id: barony_of_letnev
+
+- id: raghs_call
+  name: Ragh's Call
+  faction_exclusive_id: clan_of_saar
+
+- id: research_agreement
+  name: Research Agreement
+  faction_exclusive_id: universities_of_jolnar
+
+- id: tekklar_legion
+  name: Tekklar Legion
+  faction_exclusive_id: sardakk_norr
+
+- id: political_favor
+  name: Political Favor
+  faction_exclusive_id: xxcha_kingdom
+
+- id: spy_net
+  name: Spy Net
+  faction_exclusive_id: yssaril_tribes
+
+- id: trade_convoys
+  name: Trade Convoys
+  faction_exclusive_id: emirates_of_hacan
+
+- id: creuss_iff
+  name: Creuss IFF
+  faction_exclusive_id: ghosts_of_creuss
+
+- id: trade_agreement
+  name: Trade Agreement
+
+- id: political_secret
+  name: Political Secret
+
+- id: ceasefire
+  name: Ceasefire
+
+- id: support_for_the_throne
+  name: Support for the Throne

@@ -1,52 +1,50 @@
-id: 0_0_1
-name: "[0.0.1]"
-unit_class: flagship
-faction_exclusive_id: l1z1x_mindnet
-level_1: 
+- id: 0_0_1
+  name: "[0.0.1]"
+  unit_class: flagship
+  faction_exclusive_id: l1z1x_mindnet
   cost: 8
   combat: 5
   burst: 2
   move: 1
   capacity: 5
   ability_ids: [sustain_damage]
-  # During a space combat, hits produced by this ship and by your dreadnoughts in this system must be assigned to non-fighter ships if able.
----
-id: advanced_carrier
-name: Advanced Carrier
-unit_class: carrier
-faction_exclusive_id: federation_of_sol
-level_1: &level_1
+
+- &advanced_carrier_level_1
+  id: advanced_carrier_i
+  name: Advanced Carrier I
+  unit_class: carrier
+  faction_exclusive_id: federation_of_sol
   cost: 3
   combat: 9
   move: 1
   capacity: 6
-upgrade_reqs:
-- tech_type: propulsion
-  num: 2
-level_2:
-  <<: *level_1
+
+- <<: *advanced_carrier_level_1
+  id: advanced_carrier_ii
+  name: Advanced Carrier II
   move: 2
   capacity: 8
   ability_ids: [sustain_damage]
----
-id: alastor
-name: The Alastor
-unit_class: flagship
-faction_exclusive_id: nekro_virus
-level_1: 
+  upgraded_from: advanced_carrier_i
+  upgrade_reqs:
+  - tech_type: propulsion
+    num: 2
+
+- id: alastor
+  name: The Alastor
+  unit_class: flagship
+  faction_exclusive_id: nekro_virus
   cost: 8
   combat: 9
   burst: 2
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
-  # At the start of a space combat, choose any number of your ground forces in this system to participate in that combat as if they were ships.
----
-id: arc_secundus
-name: Arc Secundus
-unit_class: flagship
-faction_exclusive_id: barony_of_letnev
-level_1: 
+
+- id: arc_secundus
+  name: Arc Secundus
+  unit_class: flagship
+  faction_exclusive_id: barony_of_letnev
   cost: 8
   combat: 5
   burst: 2
@@ -57,59 +55,64 @@ level_1:
   - ability_id: bombardment
     combat: 5
     dice: 3
-  # Other players' units in this system lose PLANETARY SHIELD. At the start of each space combat round, repair this ship.
----
-id: carrier
-name: Carrier
-unit_class: carrier
-level_1: &level_1
+
+- &carrier_i
+  id: carrier_i
+  name: Carrier I
+  unit_class: carrier
   cost: 3
   combat: 9
   move: 1
   capacity: 4
-upgrade_reqs:
-- tech_type: propulsion
-  num: 2
-level_2:
-  <<: *level_1
+
+- <<: *carrier_i
+  id: carrier_ii
+  name: Carrier II
   move: 2
   capacity: 6
----
-id: cmorran_norr
-name: C'Morran Norr
-level_1: 
+  upgraded_from: carrier_i
+  upgrade_reqs:
+  - tech_type: propulsion
+    num: 2
+
+- id: cmorran_norr
+  name: C'Morran Norr
+  unit_class: flagship
+  faction_exclusive_id: sardakk_norr
   cost: 8
   combat: 6
   burst: 2
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
-  # Apply +1 to the result of each of your other ship's combat rolls in this system.
----
-id: cruiser
-name: Cruiser
-unit_class: cruiser
-level_1: &level_1
+
+- &cruiser_i
+  id: cruiser_i
+  name: Cruiser I
+  unit_class: cruiser
   cost: 2
   combat: 7
   move: 2
-upgrade_reqs:
-- tech_type: biotic
-  num: 1
-- tech_type: cybernetic
-  num: 1
-- tech_type: warfare
-  num: 1
-level_2:
-  <<: *level_1
+
+- <<: *cruiser_i
+  id: cruiser_ii
+  name: Cruiser II
   combat: 6
   move: 3
   capacity: 1
----
-id: destroyer
-name: Destroyer
-unit_class: destroyer
-level_1: &level_1
+  upgraded_from: cruiser_i
+  upgrade_reqs:
+  - tech_type: biotic
+    num: 1
+  - tech_type: cybernetic
+    num: 1
+  - tech_type: warfare
+    num: 1
+
+- &destroyer_i
+  id: destroyer_i
+  name: Destroyer I
+  unit_class: destroyer
   cost: 1
   combat: 9
   move: 2
@@ -117,21 +120,24 @@ level_1: &level_1
   - ability_id: anti_fighter_barrage
     combat: 9
     dice: 2
-upgrade_reqs:
-- tech_type: warfare
-  num: 2
-level_2:
-  <<: *level_1
+
+- <<: *destroyer_i
+  id: destroyer_ii
+  name: Destroyer II
   combat: 8
   parameterized_abilities:
   - ability_id: anti_fighter_barrage
     combat: 6
     dice: 3
----
-id: dreadnought
-name: Dreadnought
-unit_class: dreadnought
-level_1: &level_1
+  upgraded_from: destroyer_i
+  upgrade_reqs:
+  - tech_type: warfare
+    num: 2
+
+- &dreadnought_i
+  id: dreadnought_i
+  name: Dreadnought I
+  unit_class: dreadnought
   cost: 4
   combat: 5
   move: 1
@@ -140,34 +146,34 @@ level_1: &level_1
   parameterized_abilities:
   - ability_id: bombardment
     combat: 5
-upgrade_reqs:
-- tech_type: propulsion
-  num: 2
-- tech_type: cybernetic
-  num: 1
-level_2: 
-  <<: *level_1
+
+- <<: *dreadnought_i
+  id: dreadnought_ii
+  name: Dreadnought II
   move: 2
-  # Also cannot be destroyed by Direct Hit action cards
----
-id: duha_menaimon
-name: Duha Menaimon
-unit_class: flagship
-faction_exclusive_id: arborec
-level_1: 
+  upgraded_from: dreadnought_i
+  upgrade_reqs:
+  - tech_type: propulsion
+    num: 2
+  - tech_type: cybernetic
+    num: 1
+
+- id: duha_menaimon
+  name: Duha Menaimon
+  unit_class: flagship
+  faction_exclusive_id: arborec
   cost: 8
   combat: 7
   burst: 2
   move: 1
   capacity: 5
   ability_ids: [sustain_damage]
-  # After you activate this system, you may produce up to 5 units in this system
----
-id: exotrireme
-name: Exotrireme
-unit_class: dreadnought
-faction_exclusive_id: sardakk_norr
-level_1: &level_1
+
+- &exotrireme_i
+  id: exotrireme_i
+  name: Exotrireme I
+  unit_class: dreadnought
+  faction_exclusive_id: sardakk_norr
   cost: 4
   combat: 5
   move: 1
@@ -177,183 +183,182 @@ level_1: &level_1
   - ability_id: bombardment
     combat: 4
     dice: 2
-upgrade_reqs:
-- tech_type: propulsion
-  num: 2
-- tech_type: cybernetic
-  num: 1
-level_2: 
-  <<: *level_1
+
+- <<: *exotrireme_i
+  id: exotrireme_ii
+  name: Exotrireme II
   move: 2
-  # In addition to abilities, cannot be destroyed by Direct Hit action cards
-  # After space combat, you may destroy this unit to destroy up to 2 ships in the system
----
-id: fighter
-name: Fighter
-unit_class: fighter
-level_1: &level_1
+  upgraded_from: exotrireme_i
+  upgrade_reqs:
+  - tech_type: propulsion
+    num: 2
+  - tech_type: cybernetic
+    num: 1
+
+- &fighter_i
+  id: fighter_i
+  name: Fighter I
+  unit_class: fighter
   cost: 1
   units_per_cost: 2
   combat: 9
-upgrade_reqs:
-- tech_type: biotic
-  num: 1
-- tech_type: propulsion
-  num: 1
-level_2:
-  <<: *level_1
+
+- <<: *fighter_i
+  id: fighter_ii
+  name: Fighter II
   combat: 8
   move: 2
-  # May move without being transported. Excess of ships' capacity count against fleet pool
----
-id: floating_factory
-name: Floating Factory
-unit_class: space_dock
-faction_exclusive_id: clan_of_sarr
-level_1: &level_1
+  upgraded_from: fighter_i
+  upgrade_reqs:
+  - tech_type: biotic
+    num: 1
+  - tech_type: propulsion
+    num: 1
+
+- &floating_factory_i
+  id: floating_factory_i
+  name: Floating Factory I
+  unit_class: space_dock
+  faction_exclusive_id: clan_of_sarr
   move: 1
   capacity: 4
   parameterized_abilities:
   - ability_id: production
-    combat: 5
-  # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
-upgrade_reqs:
-- tech_type: cybernetic
-  num: 2
-level_2: 
-  <<: *level_1
+    value: 5
+
+- <<: *floating_factory_i
+  id: floating_factory_ii
+  name: Floating Factory II
   move: 2
   capacity: 5
   parameterized_abilities:
   - ability_id: production
     value: 7
-  # This unit placed in space area instead of planet. Can move and retreat like a ship. If blockaded, it is destroyed
----
-id: fourth_moon
-name: Fourth Moon
-unit_class: flagship
-faction_exclusive_id: mentak_coalition
-level_1: 
+  upgraded_from: floating_factory_i
+  upgrade_reqs:
+  - tech_type: cybernetic
+    num: 2
+
+- id: fourth_moon
+  name: Fourth Moon
+  unit_class: flagship
+  faction_exclusive_id: mentak_coalition
   cost: 8
   combat: 7
   burst: 2
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
-  # Other players' ships in this system cannot use SUSTAIN DAMAGE
----
-id: genesis
-name: Genesis
-unit_class: flagship
-faction_exclusive_id: federation_of_sol
-level_1: 
+
+- id: genesis
+  name: Genesis
+  unit_class: flagship
+  faction_exclusive_id: federation_of_sol
   cost: 8
   combat: 5
   burst: 2
   move: 1
   capacity: 12
   ability_ids: [sustain_damage]
-  # At end of status phase, place 1 infantry from reinforcements in this system's space area
----
-id: hil_colish
-name: Hil Colish
-unit_class: flagship
-faction_exclusive_id: ghosts_of_creuss
-level_1: 
+
+- id: hil_colish
+  name: Hil Colish
+  unit_class: flagship
+  faction_exclusive_id: ghosts_of_creuss
   cost: 8
   combat: 5
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
-  # This ship's system contains a delta wormhole. During movement, this ship may move before or after your other ships.
----
-id: hybrid_crystal_fighter
-name: Hybrid Crystal Fighter
-unit_class: fighter
-faction_exclusive_id: naalu_collective
-level_1: &level_1
+
+- &hybrid_crystal_fighter_i
+  id: hybrid_crystal_fighter_i
+  name: Hybrid Crystal Fighter I
+  unit_class: fighter
+  faction_exclusive_id: naalu_collective
   cost: 1
   units_per_cost: 2
   combat: 8
-upgrade_reqs:
-- tech_type: biotic
-  num: 1
-- tech_type: propulsion
-  num: 1
-level_2: 
-  <<: *level_1
+
+- <<: *hybrid_crystal_fighter_i
+  id: hybrid_crystal_fighter_ii
+  name: Hybrid Crystal Fighter II
   combat: 7
   move: 2
-  # Unit may move without being trasnported. Each fighter in excess of ships capacity counts as 1/2 of a ship against fleet pool
----
-id: infantry
-name: Infantry
-unit_class: infantry
-level_1: &level_1
+  upgraded_from: hybrid_crystal_fighter_i
+  upgrade_reqs:
+  - tech_type: biotic
+    num: 1
+  - tech_type: propulsion
+    num: 1
+
+- &infantry_i
+  id: infantry_i
+  name: Infantry I
+  unit_class: infantry
   cost: 1
   units_per_cost: 2
   combat: 8
-upgrade_reqs:
-- tech_type: biotic
-  num: 2
-level_2:
-  <<: *level_1
+
+- <<: *infantry_i
+  id: infantry_ii
+  name: Infantry II
   combat: 7
-  # After unit destroyed, roll 1 die - if >= 6, place unit on the card. At start of next turn, place each unit on card on a controlled planet in my home system
----
-id: inferno
-name: The Inferno
-unit_class: flagship
-faction_exclusive_id: embers_of_muatt
-level_1: 
+  upgraded_from: infantry_i
+  upgrade_reqs:
+  - tech_type: biotic
+    num: 2
+
+- id: inferno
+  name: The Inferno
+  unit_class: flagship
+  faction_exclusive_id: embers_of_muatt
   cost: 8
   combat: 5
   burst: 2
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
-  # ACTION: Spend 1 token from your strategy pool to place 1 cruiser in this unit's system
----
-id: jns_hylarim
-name: J.N.S. Hylarim
-unit_class: flagship
-faction_exclusive_id: universities_of_jolnar
-level_1: 
+
+- id: jns_hylarim
+  name: J.N.S. Hylarim
+  unit_class: flagship
+  faction_exclusive_id: universities_of_jolnar
   cost: 8
   combat: 6
   burst: 2
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
-  # When making a combat roll for this ship, each result of 9 or 10, before applying modifiers, produces 2 additional hits.
----
-id: letani_warrior
-name: Letani Warrior
-unit_class: infantry
-faction_exclusive_id: arborec
-level_1: &level_1
+
+- &letani_warrior_i
+  id: letani_warrior_i
+  name: Letani Warrior I
+  unit_class: infantry
+  faction_exclusive_id: arborec
   cost: 1
   units_per_cost: 2
   combat: 8
   parameterized_abilities:
   - ability_id: production
     value: 1
-upgrade_reqs:
-- tech_type: biotic
-  num: 2
-level_2: 
-  <<: *level_1
+
+- <<: *letani_warrior_i
+  id: letani_warrior_ii
+  name: Letani Warrior II
   combat: 7
   parameterized_abilities:
   - ability_id: production
     value: 2
-  # After unit is destroyed, roll 1 die; if result >= 6, place unit on card. At start of next turn, place each unit on card on a controlled planet in my home system
----
-id: loncara_ssodu
-name: Loncara Ssodu
-unit_class: flagship
-faction_exclusive_id: xxcha_kingdom
-level_1: 
+  upgraded_from: letani_warrior_i
+  upgrade_reqs:
+  - tech_type: biotic
+    num: 2
+
+- id: loncara_ssodu
+  name: Loncara Ssodu
+  unit_class: flagship
+  faction_exclusive_id: xxcha_kingdom
   cost: 8
   combat: 7
   burst: 2
@@ -364,46 +369,45 @@ level_1:
   - ability_id: space_cannon
     combat: 5
     dice: 3
-  # You may use this unit's SPACE CANNON against ships that are in adjacent systems.
----
-id: matriarch
-name: Matriarch
-unit_class: flagship
-faction_exclusive_id: naalu_collective
-level_1: 
+
+- id: matriarch
+  name: Matriarch
+  unit_class: flagship
+  faction_exclusive_id: naalu_collective
   cost: 8
   combat: 9
   burst: 2
   move: 1
   capacity: 6
   ability_ids: [sustain_damage]
-  # During an invasion in this system, you may commit fighters to planets as if they were ground forces. When combat ends, return those units to the space area.
----
-id: pds
-name: PDS
-unit_class: pds
-level_1: 
+
+- &pds_i
+  id: pds_i
+  name: PDS I
+  unit_class: pds
   ability_ids: [planetary_shield]
   parameterized_abilities:
   - ability_id: space_cannon
     combat: 6
-upgrade_reqs:
-- tech_type: cybernetic
-  num: 1
-- tech_type: warfare
-  num: 1
-level_2: 
-  ability_ids: [planetary_shield]
+
+- <<: *pds_i
+  id: pds_ii
+  name: PDS II
   parameterized_abilities:
   - ability_id: space_cannon
     combat: 5
-  # May use this unit's SPACE CANNON against adjacent systems
----
-id: prototype_war_sun
-name: Prototype War Sun
-unit_class: war_sun
-faction_exclusive_id: embers_of_muatt
-level_1: &level_1
+  upgraded_from: pds_i
+  upgrade_reqs:
+  - tech_type: cybernetic
+    num: 1
+  - tech_type: warfare
+    num: 1
+
+- &prototype_war_sun_i
+  id: prototype_war_sun_i
+  name: Prototype War Sun I
+  unit_class: war_sun
+  faction_exclusive_id: embers_of_muatt
   cost: 12
   combat: 3
   burst: 3
@@ -414,34 +418,33 @@ level_1: &level_1
   - ability_id: bombardment
     combat: 3
     dice: 3
-  # Other players' units in this system lose PLANETARY SHIELD
-upgrade_reqs:
-- tech_type: cybernetic
-  num: 1
-- tech_type: warfare
-  num: 3
-level_2: 
-  <<: *level_1
+
+- <<: *prototype_war_sun_i
+  id: prototype_war_sun_ii
+  name: Prototype War Sun II
   cost: 10
   move: 3
----
-id: salai_sai_corian
-name: Salai Sai Corian
-unit_class: flagship
-faction_exclusive_id: winnu_faction
-level_1: 
+  upgraded_from: prototype_war_sun_i
+  upgrade_reqs:
+  - tech_type: cybernetic
+    num: 1
+  - tech_type: warfare
+    num: 3
+
+- id: salai_sai_corian
+  name: Salai Sai Corian
+  unit_class: flagship
+  faction_exclusive_id: winnu_faction
   cost: 8
   combat: 7
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
-  # When this unit makes a combat roll, it rolls a number of dice equal to the number of your opponent's non-fighter ships in this system
----
-id: son_of_ragh
-name: Son of Ragh
-unit_class: flagship
-faction_exclusive_id: clan_of_sarr
-level_1: 
+
+- id: son_of_ragh
+  name: Son of Ragh
+  unit_class: flagship
+  faction_exclusive_id: clan_of_sarr
   cost: 8
   combat: 5
   burst: 2
@@ -452,44 +455,49 @@ level_1:
   - ability_id: anti_fighter_barage
     combat: 6
     dice: 4
----
-id: space_dock
-name: Space Dock
-unit_class: space_dock
-level_1: 
+
+- &space_dock_i
+  id: space_dock_i
+  name: Space Dock I
+  unit_class: space_dock
   parameterized_abilities:
   - ability_id: production
     amt_more_than_rsrc_value_of_planet: 2
-  # Up to 3 fighters in system do not count toward ship's capacity
-upgrade_reqs:
-- tech_type: cybernetic
-  num: 2
-level_2: 
+
+- <<: *space_dock_i
+  id: space_dock_ii
+  name: Space Dock II
   parameterized_abilities:
   - ability_id: production
     amt_more_than_rsrc_value_of_planet: 4
----
-id: spec_ops
-name: Spec Ops
-unit_class: infantry
-faction_exclusive_id: federation_of_sol
-level_1: &level_1
+  upgraded_from: space_dock_i
+  upgrade_reqs:
+  - tech_type: cybernetic
+    num: 2
+
+- &spec_ops_i
+  id: spec_ops_i
+  name: Spec Ops I
+  unit_class: infantry
+  faction_exclusive_id: federation_of_sol
   cost: 1
   units_per_cost: 2
   combat: 7
-upgrade_reqs:
-- tech_type: biotic
-  num: 2
-level_2: 
-  <<: *level_1
+
+- <<: *spec_ops_i
+  id: spec_ops_ii
+  name: Spec Ops II
   combat: 6
-  # After unit destroyed, roll 1 die; If result >= 5, place unit on card; at start of next turn, place each unit on card on planet controlled in home system
----
-id: super_dreadnought
-name: Super-Dreadnought
-unit_class: dreadnought
-faction_exclusive_id: l1z1x_mindnet
-level_1: &level_1
+  upgraded_from: spec_ops_i
+  upgrade_reqs:
+  - tech_type: biotic
+    num: 2
+
+- &super_dreadnought_i
+  id: super_dreadnought_i
+  name: Super-Dreadnought I
+  unit_class: dreadnought
+  faction_exclusive_id: l1z1x_mindnet
   cost: 4
   combat: 5
   move: 1
@@ -498,44 +506,47 @@ level_1: &level_1
   parameterized_abilities:
   - ability_id: bombardment
     combat: 5
-upgrade_reqs:
-- tech_type: propulsion
-  num: 2
-- tech_type: cybernetic
-  num: 1
-level_2: 
-  <<: *level_1
+
+- <<: *super_dreadnought_i
+  id: super_dreadnought_ii
+  name: Super-Dreadnought II
   combat: 4
   move: 2
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: bombardment
     combat: 4
-  # Cannot be destroyed by Direct Hit action cards
----
-id: van_hauge
-name: Van Hauge
-unit_class: flagship
-faction_exclusive_id: yin_brotherhood
-level_1: 
+  upgraded_from: super_dreadnought_i
+  upgrade_reqs:
+  - tech_type: propulsion
+    num: 2
+  - tech_type: cybernetic
+    num: 1
+
+- id: van_hauge
+  name: Van Hauge
+  unit_class: flagship
+  faction_exclusive_id: yin_brotherhood
   cost: 8
   combat: 9
   burst: 2
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
-  # When this ship is destroyed, destroy all ships in this system
----
-id: war_sun
-name: War Sun
-unit_class: war_sun
-level_1: null
-upgrade_reqs:
-- tech_type: cybernetic
-  num: 1
-- tech_type: warfare
-  num: 3
-level_2: 
+
+- &war_sun_i
+  id: war_sun_i
+  name: War Sun
+  unit_class: war_sun
+  cost: null
+  units_per_cost: null
+  combat: null
+  burst: null
+  move: null
+  capacity: null
+
+- <<: *war_sun_i
+  id: war_sun_ii
   cost: 12
   combat: 3
   burst: 3
@@ -546,30 +557,31 @@ level_2:
   - ability_id: bombardment
     combat: 3
     dice: 3
-  # Other players in this system lose PLANETARY SHIELD
----
-id: wrath_of_kenara
-name: Wrath of Kenara
-unit_class: flagship
-faction_exclusive_id: emirates_of_hacan
-level_1: 
+  upgraded_from: war_sun_i
+  upgrade_reqs:
+  - tech_type: cybernetic
+    num: 1
+  - tech_type: warfare
+    num: 3
+
+- id: wrath_of_kenara
+  name: Wrath of Kenara
+  unit_class: flagship
+  faction_exclusive_id: emirates_of_hacan
   cost: 8
   combat: 7
   burst: 2
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
-  # After you roll a die during a space combat in this system, you. may spend 1 trade good to apply +1 to the result.
----
-id: ysia_yssrila
-name: Y'sia Y'ssrila
-unit_class: flagship
-faction_exclusive_id: yssaril_tribes
-level_1: 
+
+- id: ysia_yssrila
+  name: Y'sia Y'ssrila
+  unit_class: flagship
+  faction_exclusive_id: yssaril_tribes
   cost: 8
   combat: 5
   burst: 2
   move: 2
   capacity: 3
   ability_ids: [sustain_damage]
-  # This ship can move through systems that contain other players' ships.

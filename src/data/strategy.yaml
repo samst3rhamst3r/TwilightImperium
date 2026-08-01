@@ -1,31 +1,31 @@
-id: leadership
-name: Leadership
-initiative: 1
----
-id: diplomacy
-name: Diplomacy
-initiative: 2
----
-id: politics
-name: Politics
-initiative: 3
----
-id: construction
-name: Construction
-initiative: 4
----
-id: trade
-name: Trade
-initiative: 5
----
-id: warfare
-name: Warfare
-initiative: 6
----
-id: technology
-name: Technology
-initiative: 7
----
-id: imperial
-name: Imperial
-initiative: 8
+- id: leadership
+  name: Leadership
+  initiative: 1
+
+- id: diplomacy
+  name: Diplomacy
+  initiative: 2
+
+- id: politics
+  name: Politics
+  initiative: 3
+
+- id: construction
+  name: Construction
+  initiative: 4
+
+- id: trade
+  name: Trade
+  initiative: 5
+
+- id: warfare
+  name: Warfare
+  initiative: 6
+
+- id: technology
+  name: Technology
+  initiative: 7
+
+- id: imperial
+  name: Imperial
+  initiative: 8

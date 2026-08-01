@@ -1,3 +1,176 @@
-id: ancient_burial_sites
-name: Ancient Burial Sites
----
+- id: ancient_burial_sites
+  name: Ancient Burial Sites
+
+- id: assassinate_representative
+  name: Assassinate Representative
+
+- id: bribery
+  name: Bribery
+
+- id: bunker
+  name: Bunker
+
+- id: confusing_legal_text
+  name: Confusing Legal Text
+
+- id: construction_rider
+  name: Construction Rider
+
+- id: courageous_to_the_end
+  name: Courageous to the End
+
+- id: cripple_defenses
+  name: Cripple Defenses
+
+- id: direct_hit
+  name: Direct Hit
+
+- id: diplomacy_rider
+  name: Diplomacy Rider
+
+- id: disable
+  name: Disable
+
+- id: distinguished_councilor
+  name: Distinguished Councilor
+
+- id: economic_initiative
+  name: Economic Initiative
+
+- id: emergency_repairs
+  name: Emergency Repairs
+
+- id: experimental_battlestation
+  name: Experimental Battlestation
+
+- id: fighter_prototype
+  name: Fighter Prototype
+
+- id: fire_team
+  name: Fire Team
+
+- id: flank_speed
+  name: Flank Speed
+
+- id: focused_research
+  name: Focused Research
+
+- id: frontline_deployment
+  name: Frontline Deployment
+
+- id: ghost_ship
+  name: Ghost Ship
+
+- id: imperial_rider
+  name: Imperial Rider
+
+- id: silence_of_space
+  name: Silence of Space
+
+- id: industrial_initiative
+  name: Industrial Initiative
+
+- id: infiltrate
+  name: Infiltrate
+
+- id: insubordination
+  name: Insubordination
+
+- id: intercept
+  name: Intercept
+
+- id: leadership_rider
+  name: Leadership Rider
+
+- id: lost_start_chart
+  name: Lost Start Chart
+
+- id: lucky_shot
+  name: Lucky Shot
+
+- id: maneuvering_jets
+  name: Maneuvering Jets
+
+- id: mining_initiative
+  name: Mining Initiative
+
+- id: morale_boost
+  name: Morale Boost
+
+- id: parley
+  name: Parley
+
+- id: plague
+  name: Plague
+
+- id: political_instability
+  name: Political Instability
+
+- id: politics_rider
+  name: Politics Rider
+
+- id: public_disgrace
+  name: Public Disgrace
+
+- id: reactor_meltdown
+  name: Reactor Meltdown
+
+- id: reparations
+  name: Reparations
+
+- id: repeal_law
+  name: Repeal Law
+
+- id: rise_of_messiah
+  name: Rise of the Messiah
+
+- id: sabotage
+  name: Sabotage
+
+- id: salvage
+  name: Salvage
+
+- id: shields_holding
+  name: Shields Holding
+
+- id: signal_jamming
+  name: Signal Jamming
+
+- id: skilled_retreat
+  name: Skilled Retreat
+
+- id: spy
+  name: Spy
+
+- id: summit
+  name: Summit
+
+- id: tactical_bombardment
+  name: Tactical Bombardment
+
+- id: tech_rider
+  name: Technology Rider
+
+- id: trade_rider
+  name: Trade Rider
+
+- id: unexpected_action
+  name: Unexpected Action
+
+- id: unstable_planet
+  name: Unstable Planet
+
+- id: upgrade
+  name: Upgrade
+
+- id: uprising
+  name: Uprising
+
+- id: veto
+  name: Veto
+
+- id: war_effort
+  name: War Effort
+
+- id: warfare_rider
+  name: Warfare Rider

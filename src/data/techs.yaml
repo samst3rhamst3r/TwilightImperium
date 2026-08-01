@@ -1,299 +1,299 @@
-id: antimass_deflectors
-name: Antimass Deflectors
-tech_type: propulsion
----
-id: assault_cannon
-name: Assault Cannon
-tech_type: warfare
-prereqs: 
-- tech_type: warfare
-  num: 3
----
-id: bioplasmosis
-name: Bioplasmosis
-faction_exclusive_id: arborec
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 2
----
-id: chaos_mapping
-name: Chaos Mapping
-faction_exclusive_id: clan_of_saar
-tech_type: propulsion
-prereqs:
-- tech_type: propulsion
-  num: 1
----
-id: dacxive_animators
-name: Dacxive Animators
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 1
----
-id: dimensional_splicer
-name: Dimensional Splicer
-faction_exclusive_id: ghosts_of_creuss
-tech_type: warfare
-prereqs:
-- tech_type: warfare
-  num: 1
----
-id: duranium_armor
-name: Duranium Armor
-tech_type: warfare
-prereqs:
-- tech_type: warfare
-  num: 2
----
-id: e_res_siphons
-name: E-Res Siphons
-faction_exclusive_id: universities_of_jolnar
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 2
----
-id: fleet_logistics
-name: Fleet Logistics
-tech_type: propulsion
-prereqs:
-- tech_type: propulsion
-  num: 2
----
-id: graviton_laser_system
-name: Graviton Laser System
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 1
----
-id: gravity_drive
-name: Gravity Drive
-tech_type: propulsion
-prereqs:
-- tech_type: propulsion
-  num: 1
----
-id: hegemonic_trade_policy
-name: Hegemonic Trade Policy
-faction_exclusive_id: winnu_faction
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 2
----
-id: hyper_metabolism
-name: Hyper Metabolism
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 2
----
-id: impulse_core
-name: Impulse Core
-faction_exclusive_id: yin_brotherhood
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 2
----
-id: inheritance_systems
-name: Inheritance Systems
-faction_exclusive_id: l1z1x_mindnet
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 2
----
-id: instinct_training
-name: Instinct Training
-faction_exclusive_id: xxcha_kingdom
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 1
----
-id: integrated_economy
-name: Integrated Economy
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 3
----
-id: l4_disruptors
-name: L4 Disruptors
-faction_exclusive_id: barony_of_letnev
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 1
----
-id: lazax_gate_folding
-name: Lazax Gate Folding
-faction_exclusive_id: winnu_faction
-tech_type: propulsion
-prereqs:
-- tech_type: propulsion
-  num: 2
----
-id: light_wave_deflector
-name: Light/Wave Deflector
-tech_type: propulsion
-prereqs:
-- tech_type: propulsion
-  num: 3
----
-id: magen_defense_grid
-name: Magen Defense Grid
-tech_type: warfare
-prereqs:
-- tech_type: warfare
-  num: 1
----
-id: mageon_implants
-name: Mageon Implants
-faction_exclusive_id: yssaril_tribes
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 3
----
-id: magmus_reactor
-name: Magmus Reactor
-faction_exclusive_id: embers_of_muaat
-tech_type: warfare
-prereqs:
-- tech_type: warfare
-  num: 2
----
-id: mirror_computing
-name: Mirror Computing
-faction_exclusive_id: mentak_coalition
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 3
----
-id: neural_motivator
-name: Neural Motivator
-tech_type: biotic
----
-id: neuroglaive
-name: Neuroglaive
-faction_exclusive_id: naalu_collective
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 3
----
-id: non_euclidean_shielding
-name: Non-Euclidean Shielding
-faction_exclusive_id: barony_of_letnev
-tech_type: warfare
-prereqs:
-- tech_type: warfare
-  num: 2
----
-id: nullification_field
-name: Nullification Field
-faction_exclusive_id: xxcha_kingdom
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 2
----
-id: plasma_scoring
-name: Plasma Scoring
-tech_type: warfare
----
-id: production_biomes
-name: Production Biomes
-faction_exclusive_id: emirates_of_hacan
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 2
----
-id: quantum_datahub_node
-name: Quantum Datahub Node
-faction_exclusive_id: emirates_of_hacan
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 3
----
-id: salvage_operations
-name: Salvage Operations
-faction_exclusive_id: mentak_coalition
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 2
----
-id: sarween_tools
-name: Sarween Tools
-tech_type: cybernetic
----
-id: spacial_conduit_cylinder
-name: Spacial Conduit Cylinder
-faction_exclusive_id: universities_of_jolnar
-tech_type: propulsion
-prereqs:
-- tech_type: propulsion
-  num: 2
----
-id: transit_diodes
-name: Transit Diodes
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 2
----
-id: transparasteel_plating
-name: Transparasteel Plating
-faction_exclusive_id: yssaril_tribes
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 1
----
-id: valefar_assimilator_x
-name: Valefar Assimilator X
-faction_exclusive_id: nekro_virus
----
-id: valkyrie_particle_weave
-name: Valkyrie Particle Weave
-faction_exclusive_id: sardakk_norr
-tech_type: warfare
-prereqs:
-- tech_type: warfare
-  num: 2
----
-id: valefar_assimilator_y
-name: Valefar Assimilator Y
-faction_exclusive_id: nekro_virus
----
-id: wormhole_generator
-name: Wormhole Generator
-faction_exclusive_id: ghosts_of_creuss
-tech_type: cybernetic
-prereqs:
-- tech_type: cybernetic
-  num: 2
----
-id: x_89_bacterial_weapon
-name: X-89 Bacterial Weapon
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 3
----
-id: yin_spinner
-name: Yin Spinner
-faction_exclusive_id: yin_brotherhood
-tech_type: biotic
-prereqs:
-- tech_type: biotic
-  num: 2
+- id: antimass_deflectors
+  name: Antimass Deflectors
+  tech_type: propulsion
+
+- id: assault_cannon
+  name: Assault Cannon
+  tech_type: warfare
+  prereqs: 
+  - tech_type: warfare
+    num: 3
+
+- id: bioplasmosis
+  name: Bioplasmosis
+  faction_exclusive_id: arborec
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 2
+
+- id: chaos_mapping
+  name: Chaos Mapping
+  faction_exclusive_id: clan_of_saar
+  tech_type: propulsion
+  prereqs:
+  - tech_type: propulsion
+    num: 1
+
+- id: dacxive_animators
+  name: Dacxive Animators
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 1
+
+- id: dimensional_splicer
+  name: Dimensional Splicer
+  faction_exclusive_id: ghosts_of_creuss
+  tech_type: warfare
+  prereqs:
+  - tech_type: warfare
+    num: 1
+
+- id: duranium_armor
+  name: Duranium Armor
+  tech_type: warfare
+  prereqs:
+  - tech_type: warfare
+    num: 2
+
+- id: e_res_siphons
+  name: E-Res Siphons
+  faction_exclusive_id: universities_of_jolnar
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 2
+
+- id: fleet_logistics
+  name: Fleet Logistics
+  tech_type: propulsion
+  prereqs:
+  - tech_type: propulsion
+    num: 2
+
+- id: graviton_laser_system
+  name: Graviton Laser System
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 1
+
+- id: gravity_drive
+  name: Gravity Drive
+  tech_type: propulsion
+  prereqs:
+  - tech_type: propulsion
+    num: 1
+
+- id: hegemonic_trade_policy
+  name: Hegemonic Trade Policy
+  faction_exclusive_id: winnu_faction
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 2
+
+- id: hyper_metabolism
+  name: Hyper Metabolism
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 2
+
+- id: impulse_core
+  name: Impulse Core
+  faction_exclusive_id: yin_brotherhood
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 2
+
+- id: inheritance_systems
+  name: Inheritance Systems
+  faction_exclusive_id: l1z1x_mindnet
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 2
+
+- id: instinct_training
+  name: Instinct Training
+  faction_exclusive_id: xxcha_kingdom
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 1
+
+- id: integrated_economy
+  name: Integrated Economy
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 3
+
+- id: l4_disruptors
+  name: L4 Disruptors
+  faction_exclusive_id: barony_of_letnev
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 1
+
+- id: lazax_gate_folding
+  name: Lazax Gate Folding
+  faction_exclusive_id: winnu_faction
+  tech_type: propulsion
+  prereqs:
+  - tech_type: propulsion
+    num: 2
+
+- id: light_wave_deflector
+  name: Light/Wave Deflector
+  tech_type: propulsion
+  prereqs:
+  - tech_type: propulsion
+    num: 3
+
+- id: magen_defense_grid
+  name: Magen Defense Grid
+  tech_type: warfare
+  prereqs:
+  - tech_type: warfare
+    num: 1
+
+- id: mageon_implants
+  name: Mageon Implants
+  faction_exclusive_id: yssaril_tribes
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 3
+
+- id: magmus_reactor
+  name: Magmus Reactor
+  faction_exclusive_id: embers_of_muaat
+  tech_type: warfare
+  prereqs:
+  - tech_type: warfare
+    num: 2
+
+- id: mirror_computing
+  name: Mirror Computing
+  faction_exclusive_id: mentak_coalition
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 3
+
+- id: neural_motivator
+  name: Neural Motivator
+  tech_type: biotic
+
+- id: neuroglaive
+  name: Neuroglaive
+  faction_exclusive_id: naalu_collective
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 3
+
+- id: non_euclidean_shielding
+  name: Non-Euclidean Shielding
+  faction_exclusive_id: barony_of_letnev
+  tech_type: warfare
+  prereqs:
+  - tech_type: warfare
+    num: 2
+
+- id: nullification_field
+  name: Nullification Field
+  faction_exclusive_id: xxcha_kingdom
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 2
+
+- id: plasma_scoring
+  name: Plasma Scoring
+  tech_type: warfare
+
+- id: production_biomes
+  name: Production Biomes
+  faction_exclusive_id: emirates_of_hacan
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 2
+
+- id: quantum_datahub_node
+  name: Quantum Datahub Node
+  faction_exclusive_id: emirates_of_hacan
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 3
+
+- id: salvage_operations
+  name: Salvage Operations
+  faction_exclusive_id: mentak_coalition
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 2
+
+- id: sarween_tools
+  name: Sarween Tools
+  tech_type: cybernetic
+
+- id: spacial_conduit_cylinder
+  name: Spacial Conduit Cylinder
+  faction_exclusive_id: universities_of_jolnar
+  tech_type: propulsion
+  prereqs:
+  - tech_type: propulsion
+    num: 2
+
+- id: transit_diodes
+  name: Transit Diodes
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 2
+
+- id: transparasteel_plating
+  name: Transparasteel Plating
+  faction_exclusive_id: yssaril_tribes
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 1
+
+- id: valefar_assimilator_x
+  name: Valefar Assimilator X
+  faction_exclusive_id: nekro_virus
+
+- id: valkyrie_particle_weave
+  name: Valkyrie Particle Weave
+  faction_exclusive_id: sardakk_norr
+  tech_type: warfare
+  prereqs:
+  - tech_type: warfare
+    num: 2
+
+- id: valefar_assimilator_y
+  name: Valefar Assimilator Y
+  faction_exclusive_id: nekro_virus
+
+- id: wormhole_generator
+  name: Wormhole Generator
+  faction_exclusive_id: ghosts_of_creuss
+  tech_type: cybernetic
+  prereqs:
+  - tech_type: cybernetic
+    num: 2
+
+- id: x_89_bacterial_weapon
+  name: X-89 Bacterial Weapon
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 3
+
+- id: yin_spinner
+  name: Yin Spinner
+  faction_exclusive_id: yin_brotherhood
+  tech_type: biotic
+  prereqs:
+  - tech_type: biotic
+    num: 2

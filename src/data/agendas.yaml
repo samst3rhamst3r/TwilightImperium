@@ -1,258 +1,258 @@
-id: seed_of_an_empire
-name: Seed of an Empire
-type: directive
-vote_scenario_type: for_against
----
-id: shared_research
-name: Shared Research
-type: law
-vote_scenario_type: for_against
----
-id: minister_of_peace
-name: Minister of Peace
-type: law
-vote_scenario_type: elect_player
----
-id: minister_of_exploration
-name: Minister of Exploration
-type: law
-vote_scenario_type: elect_player
----
-id: conventions_of_war
-name: Conventions of War
-type: law
-vote_scenario_type: for_against
----
-id: anti_intellectual_revolution
-name: Anti-Intellectual Revolution
-type: law
-vote_scenario_type: for_against
----
-id: representative_government
-name: Representative Government
-type: law
-vote_scenario_type: for_against
----
-id: wormhole_reconstruction
-name: Wormhole Reconstruction
-type: law
-vote_scenario_type: for_against
----
-id: arms_reduction
-name: Arms Reduction
-type: directive
-vote_scenario_type: for_against
----
-id: miscount_disclosed
-name: Miscount Disclosed
-type: directive
-vote_scenario_type: elect_law
----
-id: minister_of_war
-name: Minister of War
-type: law
-vote_scenario_type: elect_player
----
-id: research_team_cybernetic
-name: "Research Team: Cybernetic"
-type: law
-vote_scenario_type: elect_planet
-planet_trait: industrial
----
-id: holy_planet_of_ixth
-name: Holy Planet of Ixth
-type: law
-vote_scenario_type: elect_planet
-planet_trait: cultural
----
-id: enforced_travel_ban
-name: Enforced Travel Ban
-type: law
-vote_scenario_type: for_against
----
-id: demilitarized_zone
-name: Demilitarized Zone
-type: law
-vote_scenario_type: elect_planet
-planet_trait: cultural
----
-id: shard_of_the_throne
-name: Shard of the Throne
-type: law
-vote_scenario_type: elect_player
----
-id: new_constitution
-name: New Constitution
-type: directive
-vote_scenario_type: for_against
----
-id: compensated_disarmament
-name: Compensated Disarmament
-type: directive
-vote_scenario_type: elect_planet
----
-id: judicial_abolishment
-name: Judicial Abolishment
-type: directive
-vote_scenario_type: elect_law
----
-id: crown_of_emphidia
-name: The Crown of Emphidia
-type: law
-vote_scenario_type: elect_player
----
-id: mutiny
-name: Mutiny
-type: directive
-vote_scenario_type: for_against
----
-id: minister_of_commerce
-name: Minister of Commerce
-type: law
-vote_scenario_type: elect_player
----
-id: research_team_biotic
-name: "Research Team: Biotic"
-type: law
-vote_scenario_type: elect_planet
-planet_trait: industrial
----
-id: core_mining
-name: Core Mining
-type: law
-vote_scenario_type: elect_planet
-planet_trait: hazardous
----
-id: fleet_regulations
-name: Fleet Regulations
-type: law
-vote_scenario_type: for_against
----
-id: wormhole_research
-name: Wormhole Research
-type: directive
-vote_scenario_type: for_against
----
-id: public_execution
-name: Public Execution
-type: directive
-vote_scenario_type: elect_player
----
-id: research_team_warfare
-name: "Research Team: Warfare"
-type: law
-vote_scenario_type: elect_planet
-planet_trait: hazardous
----
-id: economic_equality
-name: Economic Equality
-type: directive
-vote_scenario_type: for_against
----
-id: incentive_program
-name: Incentive Program
-type: directive
-vote_scenario_type: for_against
----
-id: executive_sanctions
-name: Executive Sanctions
-type: law
-vote_scenario_type: for_against
----
-id: terraforming_initiative
-name: Terraforming Initiative
-type: law
-vote_scenario_type: elect_planet
-planet_trait: hazardous
----
-id: colonial_redistribution
-name: Colonial Redistribution
-type: directive
-vote_scenario_type: elect_planet
----
-id: unconventional_measures
-name: Unconventional Measures
-type: directive
-vote_scenario_type: for_against
----
-id: archived_secret
-name: Archived Secret
-type: directive
-vote_scenario_type: elect_player
----
-id: crown_of_thalnos
-name: The Crown of Thalnos
-type: law
-vote_scenario_type: elect_player
----
-id: regulated_conscription
-name: Regulated Conscription
-type: law
-vote_scenario_type: for_against
----
-id: minister_of_sciences
-name: Minister of Sciences
-type: law
-vote_scenario_type: elect_player
----
-id: minister_of_policy
-name: Minister of Policy
-type: directive
-vote_scenario_type: elect_player
----
-id: homeland_defense_act
-name: Homeland Defense Act
-type: law
-vote_scenario_type: for_against
----
-id: senate_sanctuary
-name: Senate Sanctuary
-type: law
-vote_scenario_type: elect_planet
-planet_trait: cultural
----
-id: prophecy_of_ixth
-name: Prophecy of Ixth
-type: law
-vote_scenario_type: elect_player
----
-id: research_team_propulsion
-name: "Research Team: Propulsion"
-type: law
-vote_scenario_type: elect_planet
-planet_trait: industrial
----
-id: swords_to_plowshares
-name: Swords to Plowshares
-type: directive
-vote_scenario_type: for_against
----
-id: imperial_arbiter
-name: Imperial Arbiter
-type: law
-vote_scenario_type: elect_player
----
-id: classified_document_leaks
-name: Classified Document Leaks
-type: law
-vote_scenario_type: elect_scored_secret_objective
----
-id: committee_formation
-name: Committee Formation
-type: law
-vote_scenario_type: elect_player
----
-id: publicize_weapon_schematics
-name: Publicize Weapon Schematics
-type: law
-vote_scenario_type: for_against
----
-id: ixthian_artifact
-name: Ixthian Artifact
-type: directive
-vote_scenario_type: for_against
----
-id: minister_of_industry
-name: Minister of Industry
-type: law
-vote_scenario_type: elect_player
+- id: seed_of_an_empire
+  name: Seed of an Empire
+  type: directive
+  vote_scenario_type: for_against
+
+- id: shared_research
+  name: Shared Research
+  type: law
+  vote_scenario_type: for_against
+
+- id: minister_of_peace
+  name: Minister of Peace
+  type: law
+  vote_scenario_type: elect_player
+
+- id: minister_of_exploration
+  name: Minister of Exploration
+  type: law
+  vote_scenario_type: elect_player
+
+- id: conventions_of_war
+  name: Conventions of War
+  type: law
+  vote_scenario_type: for_against
+
+- id: anti_intellectual_revolution
+  name: Anti-Intellectual Revolution
+  type: law
+  vote_scenario_type: for_against
+
+- id: representative_government
+  name: Representative Government
+  type: law
+  vote_scenario_type: for_against
+
+- id: wormhole_reconstruction
+  name: Wormhole Reconstruction
+  type: law
+  vote_scenario_type: for_against
+
+- id: arms_reduction
+  name: Arms Reduction
+  type: directive
+  vote_scenario_type: for_against
+
+- id: miscount_disclosed
+  name: Miscount Disclosed
+  type: directive
+  vote_scenario_type: elect_law
+
+- id: minister_of_war
+  name: Minister of War
+  type: law
+  vote_scenario_type: elect_player
+
+- id: research_team_cybernetic
+  name: "Research Team: Cybernetic"
+  type: law
+  vote_scenario_type: elect_planet
+  planet_trait: industrial
+
+- id: holy_planet_of_ixth
+  name: Holy Planet of Ixth
+  type: law
+  vote_scenario_type: elect_planet
+  planet_trait: cultural
+
+- id: enforced_travel_ban
+  name: Enforced Travel Ban
+  type: law
+  vote_scenario_type: for_against
+
+- id: demilitarized_zone
+  name: Demilitarized Zone
+  type: law
+  vote_scenario_type: elect_planet
+  planet_trait: cultural
+
+- id: shard_of_the_throne
+  name: Shard of the Throne
+  type: law
+  vote_scenario_type: elect_player
+
+- id: new_constitution
+  name: New Constitution
+  type: directive
+  vote_scenario_type: for_against
+
+- id: compensated_disarmament
+  name: Compensated Disarmament
+  type: directive
+  vote_scenario_type: elect_planet
+
+- id: judicial_abolishment
+  name: Judicial Abolishment
+  type: directive
+  vote_scenario_type: elect_law
+
+- id: crown_of_emphidia
+  name: The Crown of Emphidia
+  type: law
+  vote_scenario_type: elect_player
+
+- id: mutiny
+  name: Mutiny
+  type: directive
+  vote_scenario_type: for_against
+
+- id: minister_of_commerce
+  name: Minister of Commerce
+  type: law
+  vote_scenario_type: elect_player
+
+- id: research_team_biotic
+  name: "Research Team: Biotic"
+  type: law
+  vote_scenario_type: elect_planet
+  planet_trait: industrial
+
+- id: core_mining
+  name: Core Mining
+  type: law
+  vote_scenario_type: elect_planet
+  planet_trait: hazardous
+
+- id: fleet_regulations
+  name: Fleet Regulations
+  type: law
+  vote_scenario_type: for_against
+
+- id: wormhole_research
+  name: Wormhole Research
+  type: directive
+  vote_scenario_type: for_against
+
+- id: public_execution
+  name: Public Execution
+  type: directive
+  vote_scenario_type: elect_player
+
+- id: research_team_warfare
+  name: "Research Team: Warfare"
+  type: law
+  vote_scenario_type: elect_planet
+  planet_trait: hazardous
+
+- id: economic_equality
+  name: Economic Equality
+  type: directive
+  vote_scenario_type: for_against
+
+- id: incentive_program
+  name: Incentive Program
+  type: directive
+  vote_scenario_type: for_against
+
+- id: executive_sanctions
+  name: Executive Sanctions
+  type: law
+  vote_scenario_type: for_against
+
+- id: terraforming_initiative
+  name: Terraforming Initiative
+  type: law
+  vote_scenario_type: elect_planet
+  planet_trait: hazardous
+
+- id: colonial_redistribution
+  name: Colonial Redistribution
+  type: directive
+  vote_scenario_type: elect_planet
+
+- id: unconventional_measures
+  name: Unconventional Measures
+  type: directive
+  vote_scenario_type: for_against
+
+- id: archived_secret
+  name: Archived Secret
+  type: directive
+  vote_scenario_type: elect_player
+
+- id: crown_of_thalnos
+  name: The Crown of Thalnos
+  type: law
+  vote_scenario_type: elect_player
+
+- id: regulated_conscription
+  name: Regulated Conscription
+  type: law
+  vote_scenario_type: for_against
+
+- id: minister_of_sciences
+  name: Minister of Sciences
+  type: law
+  vote_scenario_type: elect_player
+
+- id: minister_of_policy
+  name: Minister of Policy
+  type: directive
+  vote_scenario_type: elect_player
+
+- id: homeland_defense_act
+  name: Homeland Defense Act
+  type: law
+  vote_scenario_type: for_against
+
+- id: senate_sanctuary
+  name: Senate Sanctuary
+  type: law
+  vote_scenario_type: elect_planet
+  planet_trait: cultural
+
+- id: prophecy_of_ixth
+  name: Prophecy of Ixth
+  type: law
+  vote_scenario_type: elect_player
+
+- id: research_team_propulsion
+  name: "Research Team: Propulsion"
+  type: law
+  vote_scenario_type: elect_planet
+  planet_trait: industrial
+
+- id: swords_to_plowshares
+  name: Swords to Plowshares
+  type: directive
+  vote_scenario_type: for_against
+
+- id: imperial_arbiter
+  name: Imperial Arbiter
+  type: law
+  vote_scenario_type: elect_player
+
+- id: classified_document_leaks
+  name: Classified Document Leaks
+  type: law
+  vote_scenario_type: elect_scored_secret_objective
+
+- id: committee_formation
+  name: Committee Formation
+  type: law
+  vote_scenario_type: elect_player
+
+- id: publicize_weapon_schematics
+  name: Publicize Weapon Schematics
+  type: law
+  vote_scenario_type: for_against
+
+- id: ixthian_artifact
+  name: Ixthian Artifact
+  type: directive
+  vote_scenario_type: for_against
+
+- id: minister_of_industry
+  name: Minister of Industry
+  type: law
+  vote_scenario_type: elect_player

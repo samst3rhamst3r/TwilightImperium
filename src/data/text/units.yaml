@@ -1,0 +1,155 @@
+- id: 0_0_1
+  functional_text: |-
+    During a space combat, hits produced by this ship and by your dreadnoughts in this system
+    must be assigned to non-fighter ships if able.
+
+- id: alastor
+  functional_text: |-
+    At the start of a space combat, choose any number of your ground forces in this system
+    to participate in that combat as if they were ships.
+
+- id: arc_secundus
+  functional_text: |-
+    Other players' units in this system lose PLANETARY SHIELD. At the start of each
+    space combat round, repair this ship.
+
+- id: cmorran_norr
+  functional_text: |-
+    Apply +1 to the result of each of your other ship's combat rolls in this system.
+
+- id: dreadnought_ii
+  functional_text: |-
+    This unit cannot be destroyed by "Direct Hit" action cards.
+
+- id: duha_menaimon
+  functional_text: |-
+    After you activate this system, you may produce up to 5 units in this system.
+
+- id: exotrireme_ii
+  functional_text: |-
+    This unit cannot be destroyed by "Direct Hit" action cards. After a round of
+    space combat, you may destroy this unit to destroy up to 2 ships in this system.
+
+- id: fighter_ii
+  functional_text: |-
+    This unit may move without being transported. Fighters in excess of your ships'
+    capacity count against your fleet pool.
+
+- id: floating_factory_i
+  functional_text: &floating_factory_level_1 |-
+    This unit is placed in a space area instead of on a planet. This unit can move and retreat
+    as if it were a ship. If this unit is blockaded, it is destroyed.
+
+- id: floating_factory_ii
+  functional_text: *floating_factory_level_1
+
+- id: fourth_moon
+  functional_text: |-
+    Other players' ships in this system cannot use SUSTAIN DAMAGE.
+
+- id: genesis
+  functional_text: |-
+    At the end of the status phase, place 1 infantry from your reinforcements
+    in this system's space area.
+
+- id: hil_colish
+  functional_text: |-
+    This ship's system contains a delta wormhole. During movement, this ship
+    may move before or after your other ships.
+
+- id: hybrid_crystal_fighter_ii
+  functional_text: |-
+    This unit may move without being transported. Each fighter in excess of your
+    ships' capacity counts as 1/2 of a ship against your fleet pool.
+
+- id: infantry_ii
+  functional_text: |-
+    After this unit is destroyed, roll 1 die. If the result is 6 or greater, place
+    the unit on this card. At the start of your next turn, place each unit that is
+    on this card on a planet you control in your home system.
+
+- id: inferno
+  functional_text: |-
+    ACTION: Spend 1 token from your strategy pool to place 1 cruiser in this unit's system.
+
+- id: jns_hylarim
+  functional_text: |-
+    When making a combat roll for this ship, each result of 9 or 10, before applying
+    modifiers, produces 2 additional hits.
+
+- id: letani_warrior_ii
+  functional_text: |-
+    After this unit is destroyed, roll 1 die. If the result is 6 or greater, place
+    the unit on this card. At the start of your next turn, place each unit that is
+    on this card on a planet you control in your home system.
+
+- id: loncara_ssodu
+  functional_text: |-
+    You may use this unit's SPACE CANNON against ships that are in adjacent systems.
+
+- id: matriarch
+  functional_text: |-
+    During an invasion in this system, you may commit fighters to planets as if they were ground
+    forces. When combat ends, return those units to the space area.
+
+- id: pds_ii
+  functional_text: |-
+    You may use this unit's SPACE CANNON against ships that are adjacent
+    to this unit's systems.
+
+- id: prototype_war_sun_i
+  functional_text: &prototype_war_sun_level_1 |-
+    Other players' units in this system lose PLANETARY SHIELD.
+
+- id: prototype_war_sun_i
+  functional_text: *prototype_war_sun_level_1
+
+- id: salai_sai_corian
+  functional_text: |-
+    When this unit makes a combat roll, it rolls a number of dice equal to the
+    number of your opponent's non-fighter ships in this system.
+
+- id: space_dock_i
+  functional_text: |-
+    This unit's PRODUCTION value is equal to 2 more than the resource
+    value of this planet.
+
+    Up to 3 fighters in this system do not count against your ships' capacity.
+
+- id: space_dock_ii
+  functional_text: |-
+    This unit's PRODUCTION value is equal to 4 more than the resource
+    value of this planet.
+
+    Up to 3 fighters in this system do not count against your ships' capacity.
+
+- id: spec_ops_ii
+  functional_text: |-
+    After this unit is destroyed, roll 1 die. If the result is 5 or greater, place
+    the unit on this card. At the start of your next turn, place each unit that is
+    on this card on a planet you control in your home system.
+
+- id: super_dreadnought_ii
+  functional_text: |-
+    This unit cannot be destroyed by "Direct Hit" action cards.
+
+- id: van_hauge
+  functional_text: |-
+    When this ship is destroyed, destroy all ships in this system.
+
+- id: war_sun_i
+  functional_text: |-
+    You cannot produce this unit unless you own its unit upgrade technology.
+
+- id: war_sun_ii
+  functional_text: |-
+    Other players' units in this system lose PLANETARY SHIELD.
+
+- id: wrath_of_kenara
+  functional_text: |-
+    After you roll a die during a space combat in this system, you may spend 1 trade good
+    to apply +1 to the result.
+
+- id: ysia_yssrila
+  functional_text: |-
+    This ship can move through systems that contain other players' ships.

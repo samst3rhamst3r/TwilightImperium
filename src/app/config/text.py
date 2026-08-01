@@ -24,5 +24,5 @@ class FlavorTextConfig(ConfigObj, RequiresFlavorText):
     pass
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class FunctionalTextWithFlavorTextOptionsConfig(ConfigObj, RequiresFunctionalText, RequiresFlavorTextOptions):
+class EventTextConfig(ConfigObj, RequiresFunctionalText, RequiresFlavorTextOptions):
     pass

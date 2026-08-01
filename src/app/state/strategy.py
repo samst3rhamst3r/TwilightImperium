@@ -1,6 +1,11 @@
+from dataclasses import dataclass
 
-from .base import Exhaustable, BaseStateObj
 from app.config.strategy import StrategyConfig
+from app.config.text import StrategyTextConfig
 
-class StrategyCardState(BaseStateObj[StrategyConfig], Exhaustable):
+from .base import BaseStateObj
+from .shared import Exhaustable
+
+@dataclass(slots=True, kw_only=True)
+class StrategyCardState(BaseStateObj[StrategyConfig, StrategyTextConfig], Exhaustable):
     pass

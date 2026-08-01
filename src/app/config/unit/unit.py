@@ -3,13 +3,13 @@ from collections.abc import Sequence
 from typing import Optional
 
 from app.config.ability import ParameterizedAbilityInstanceConfig
-from app.config.base import FactionExclusiveConfigObj
+from app.config.base import CanHaveFactionExclusivity
 from app.config.tech import TechUpgradeReqConfig
 
 from .unit_class import UnitClass
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class UnitConfig(FactionExclusiveConfigObj):
+class UnitConfig(CanHaveFactionExclusivity):
 
     unit_class: UnitClass
 

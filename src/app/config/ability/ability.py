@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from app.config.base import FactionExclusiveConfigObj
+from app.config.base import CanHaveFactionExclusivity
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class AbilityConfig(FactionExclusiveConfigObj):
+class AbilityConfig(CanHaveFactionExclusivity):
     pass

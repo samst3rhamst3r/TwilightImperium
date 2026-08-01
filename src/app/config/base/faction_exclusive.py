@@ -4,7 +4,7 @@ from typing import Optional
 from .named import NamedConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class FactionExclusiveConfigObj(NamedConfigObj):
+class CanHaveFactionExclusivity(NamedConfigObj):
     """Configuration object for name and ID-based entities that may have faction exclusivity."""
     faction_exclusive_id: Optional[str] = None
 

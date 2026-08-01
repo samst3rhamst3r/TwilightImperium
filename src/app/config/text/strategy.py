@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
-from app.config.base import ConfigObj
+from .base import BaseTextConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class StrategyTextConfig(ConfigObj):
+class StrategyTextConfig(BaseTextConfigObj):
     primary_ability_text: str
     secondary_ability_text: str
     

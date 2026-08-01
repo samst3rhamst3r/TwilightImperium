@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 from collections.abc import Sequence
 
-from ..shared import ConfigObj
+from ..base import ConfigObj
 from .upgrade_req import TechUpgradeReqConfig
 from .type import TechType
 

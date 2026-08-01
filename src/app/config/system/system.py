@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from collections.abc import Sequence
 from typing import Optional
 
-from app.config.shared import ConfigObj
+from app.config.base import ConfigObj
 
 from .anomaly import Anomaly
 from .wormhole import Wormhole

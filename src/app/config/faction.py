@@ -3,7 +3,7 @@ from typing import Optional
 from collections.abc import Sequence
 
 from app.config.unit import UnitClass
-from app.config.shared import NamedConfigObj, BaseConfigObj
+from app.config.base import NamedConfigObj, BaseConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class FactionStartingUnitConfig(BaseConfigObj):

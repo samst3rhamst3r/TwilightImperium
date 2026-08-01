@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-from app.config.shared import ConfigObj
+from app.config.base import ConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class BaseTextConfig(ConfigObj):

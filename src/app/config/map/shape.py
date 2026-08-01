@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from collections.abc import Sequence
 
-from app.config.shared import BaseConfigObj
+from app.config.base import BaseConfigObj
 
 from .coordinate import HexCoordinate
 

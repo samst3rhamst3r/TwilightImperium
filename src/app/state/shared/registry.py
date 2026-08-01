@@ -1,4 +1,4 @@
-from app.config.shared import ConfigObj
+from app.config.base import ConfigObj
 
 class Registry[T: ConfigObj]:
 

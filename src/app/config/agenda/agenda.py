@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from app.config.planet import PlanetTrait
-from app.config.shared import NamedConfigObj
+from app.config.base import NamedConfigObj
 
 from .type import AgendaType
 from .vote_scenario_type import AgendaVoteScenarioType

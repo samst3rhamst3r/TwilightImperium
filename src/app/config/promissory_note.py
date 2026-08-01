@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
-from app.config.shared import FactionExclusiveConfigObj
+from app.config.base import FactionExclusiveConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class PromissoryNote(FactionExclusiveConfigObj):
+class PromissoryNoteConfig(FactionExclusiveConfigObj):
+    """Config for a promissory note."""
     pass

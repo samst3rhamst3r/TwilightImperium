@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.shared import BaseConfigObj
+from app.config.base import BaseConfigObj
 
 from .type import TechType
 

@@ -1,23 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from .base import BaseConfigObj
-
-@dataclass(slots=True, frozen=True, kw_only=True)
-class ConfigObj(BaseConfigObj):
-    """Configuration object for ID-based entities."""
-    id: str
-
-    def __str__(self):
-        return f"{self.id}"
-    
-@dataclass(slots=True, frozen=True, kw_only=True)
-class NamedConfigObj(ConfigObj):
-    """Configuration object for ID-based entities that have names."""
-    name: str
-
-    def __str__(self):
-        return f"{self.name}"
+from .named import NamedConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class FactionExclusiveConfigObj(NamedConfigObj):

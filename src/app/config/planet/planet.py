@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from app.config.shared import ConfigObj
+from app.config.base import ConfigObj
 from app.config.tech import TechType
 
 from .trait import PlanetTrait

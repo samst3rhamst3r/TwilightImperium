@@ -93,6 +93,7 @@
   cost: 2
   combat: 7
   move: 2
+  capacity: 0
 
 - <<: *cruiser_i
   id: cruiser_ii
@@ -116,6 +117,7 @@
   cost: 1
   combat: 9
   move: 2
+  capacity: null
   parameterized_abilities:
   - ability_id: anti_fighter_barrage
     combat: 9
@@ -202,6 +204,8 @@
   cost: 1
   units_per_cost: 2
   combat: 9
+  move: 0
+  capacity: null
 
 - <<: *fighter_i
   id: fighter_ii
@@ -220,6 +224,8 @@
   name: Floating Factory I
   unit_class: space_dock
   faction_exclusive_id: clan_of_sarr
+  cost: null
+  combat: null
   move: 1
   capacity: 4
   parameterized_abilities:
@@ -279,6 +285,8 @@
   cost: 1
   units_per_cost: 2
   combat: 8
+  move: 0
+  capacity: null
 
 - <<: *hybrid_crystal_fighter_i
   id: hybrid_crystal_fighter_ii
@@ -299,6 +307,8 @@
   cost: 1
   units_per_cost: 2
   combat: 8
+  move: null
+  capacity: null
 
 - <<: *infantry_i
   id: infantry_ii
@@ -339,6 +349,8 @@
   cost: 1
   units_per_cost: 2
   combat: 8
+  move: null
+  capacity: null
   parameterized_abilities:
   - ability_id: production
     value: 1
@@ -385,6 +397,10 @@
   id: pds_i
   name: PDS I
   unit_class: pds
+  cost: null
+  combat: null
+  move: null
+  capacity: null
   ability_ids: [planetary_shield]
   parameterized_abilities:
   - ability_id: space_cannon
@@ -460,6 +476,10 @@
   id: space_dock_i
   name: Space Dock I
   unit_class: space_dock
+  cost: null
+  combat: null
+  move: null
+  capacity: null
   parameterized_abilities:
   - ability_id: production
     amt_more_than_rsrc_value_of_planet: 2
@@ -483,6 +503,8 @@
   cost: 1
   units_per_cost: 2
   combat: 7
+  move: null
+  capacity: null
 
 - <<: *spec_ops_i
   id: spec_ops_ii

@@ -24,3 +24,11 @@ class UnitConfig(FactionExclusiveConfigObj):
     parameterized_abilities: Sequence[ParameterizedAbilityInstanceConfig] = field(default_factory=tuple)
     upgraded_from: Optional[str] = None
     upgrade_reqs: Sequence[TechUpgradeReqConfig] = field(default_factory=tuple)
+
+    @property
+    def can_move(self) -> bool:
+        return self.move is not None and self.move > 0
+
+    @property
+    def can_carry_units(self) -> bool:
+        return self.capacity is not None and self.capacity > 0

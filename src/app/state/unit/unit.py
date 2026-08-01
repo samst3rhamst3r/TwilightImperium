@@ -1,0 +1,89 @@
+from dataclasses import dataclass, field
+from typing import Optional
+
+from app.config.unit import UnitConfig, UnitLocationType, VALID_LOCATIONS_BY_UNIT_CLASS, VALID_LOCATIONS_BY_CONFIG_ID
+from app.config.text import FunctionalTextConfig
+from app.state.base import BaseStateObj
+
+from .location import UnitLocation
+
+@dataclass(slots=True, kw_only=True)
+class UnitState(BaseStateObj[UnitConfig, FunctionalTextConfig]):
+    location: Optional[UnitLocation] = None
+    current_damage: int = 0
+    _sustainable_damage: int = field(init=False)
+
+    def __post_init__(self):
+
+        if self.can_sustain_damage:
+            self._sustainable_damage = 2
+        else:
+            self._sustainable_damage = 1
+
+    def _validate_location(self):
+        valid_locs = VALID_LOCATIONS_BY_CONFIG_ID.get(self.config.id, ())
+        if self.location.loc_type not in valid_locs:
+            config_cls = self.config.unit_class
+            valid_locs = VALID_LOCATIONS_BY_UNIT_CLASS.get(config_cls, ())
+            if self.location.loc_type not in valid_locs:
+                raise ValueError(f"Invalid location types for unit of class {config_cls}: {self.location.loc_type.name}\nValid location types include: {', '.join(loc.name for loc in valid_locs)}")
+
+    def place_on_ship(self, ship_instance_id: str) -> None:
+        self.location = UnitLocation(UnitLocationType.SHIP, ship_instance_id)
+        self._validate_location()
+
+    def place_on_planet(self, planet_id: str) -> None:
+        self.location = UnitLocation(UnitLocationType.PLANET, planet_id)
+        self._validate_location()
+
+    def place_in_system(self, system_id: str) -> None:
+        self.location = UnitLocation(UnitLocationType.SYSTEM, system_id)
+        self._validate_location()
+
+    def move_to_system(self, system_id: str) -> None:
+        if self.can_move:
+            self.place_in_system(system_id)
+        else:
+            raise ValueError("Unit cannot move")
+    
+    def take_hit(self) -> None:
+        self.current_damage += 1
+
+    def repair(self) -> None:
+        self.current_damage -= 1
+        if self.current_damage < 0:
+            self.current_damage = 0
+
+    @property
+    def is_about_to_be_destroyed(self) -> bool:
+        return self.current_damage == self._sustainable_damage - 1
+    
+    @property
+    def is_destroyed(self) -> bool:
+        return self.current_damage == self._sustainable_damage
+
+    @property
+    def can_move(self) -> bool:
+        return self.config.move is not None and self.config.move > 0
+
+    def _does_parameterized_ability_exist(self, ability_id: str) -> bool:
+        return any(x.ability_id == ability_id for x in self.config.parameterized_abilities)
+
+    @property
+    def can_use_anti_fighter_barrage(self) -> bool:
+        return self._does_parameterized_ability_exist('anti_fighter_barrage')
+
+    @property
+    def can_use_space_cannon(self) -> bool:
+        return self._does_parameterized_ability_exist('space_cannon')
+
+    @property
+    def can_use_bombardment(self) -> bool:
+        return self._does_parameterized_ability_exist('bombardment')
+
+    def _does_standard_ability_exist(self, ability_id: str) -> bool:
+        return ability_id in self.config.ability_ids
+
+    @property
+    def can_sustain_damage(self) -> bool:
+        return self._does_standard_ability_exist('sustain_damage')

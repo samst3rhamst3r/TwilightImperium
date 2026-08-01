@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from app.config.unit import UnitConfig, UnitLocationType, VALID_LOCATIONS_BY_UNIT_CLASS, VALID_LOCATIONS_BY_CONFIG_ID
+from app.config.unit import UnitConfig, UnitLocationType, get_valid_locations_for
 from app.config.text import FunctionalTextConfig
 from app.state.base import BaseStateObj
 
@@ -21,10 +21,10 @@ class UnitState(BaseStateObj[UnitConfig, FunctionalTextConfig]):
             self._sustainable_damage = 1
 
     def _validate_location(self):
-        valid_locs = VALID_LOCATIONS_BY_CONFIG_ID.get(self.config.id, ())
+        valid_locs = get_valid_locations_for(self.config)
         if self.location.loc_type not in valid_locs:
             config_cls = self.config.unit_class
-            valid_locs = VALID_LOCATIONS_BY_UNIT_CLASS.get(config_cls, ())
+            valid_locs = get_valid_locations_for(self.config)
             if self.location.loc_type not in valid_locs:
                 raise ValueError(f"Invalid location types for unit of class {config_cls}: {self.location.loc_type.name}\nValid location types include: {', '.join(loc.name for loc in valid_locs)}")
 

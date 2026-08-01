@@ -3,9 +3,11 @@ from typing import Optional
 
 from app.config.base import BaseConfigObj
 
+from .ids import AbilityID
+
 @dataclass(slots=True, frozen=True, kw_only=True)
 class ParameterizedAbilityInstanceConfig(BaseConfigObj):
-    ability_id: str
+    ability_id: AbilityID
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class CombatAbilityInstanceConfig(ParameterizedAbilityInstanceConfig):
@@ -24,8 +26,8 @@ class ProductionAbilityInstanceConfig(ParameterizedAbilityInstanceConfig):
             raise ValueError("Only one of value or amt_more_than_rsrc_value_of_planet can be specified")
 
 PARAMETERIZED_ABILITY_INSTANCE_REGISTRY = {
-    "bombardment": CombatAbilityInstanceConfig,
-    "anti_fighter_barrage": CombatAbilityInstanceConfig,
-    "space_cannon": CombatAbilityInstanceConfig,
-    "production": ProductionAbilityInstanceConfig
+    AbilityID.BOMBARDMENT: CombatAbilityInstanceConfig,
+    AbilityID.ANTI_FIGHTER_BARRAGE: CombatAbilityInstanceConfig,
+    AbilityID.SPACE_CANNON: CombatAbilityInstanceConfig,
+    AbilityID.PRODUCTION: ProductionAbilityInstanceConfig
 }

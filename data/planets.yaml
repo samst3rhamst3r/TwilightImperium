@@ -1,375 +1,375 @@
 - id: 0_0_0
-  system_id: "06"
   name: "[0.0.0]"
+  system_id: "06"
   resources: 5
 
 - id: abyz
-  system_id: "38"
   name: Abyz
+  system_id: "38"
   resources: 3
   trait: hazardous
 
 - id: arc_prime
-  system_id: "10"
   name: Arc Prime
+  system_id: "10"
   resources: 4
 
 - id: archon_ren
-  system_id: "14"
   name: Archon Ren
+  system_id: "14"
   resources: 2
   influence: 3
 
 - id: archon_tau
-  system_id: "14"
   name: Archon Tau
+  system_id: "14"
   resources: 1
   influence: 1
 
 - id: arinam
-  system_id: "37"
   name: Arinam
+  system_id: "37"
   resources: 1
   influence: 2
   trait: industrial
 
 - id: arnor
-  system_id: "36"
   name: Arnor
+  system_id: "36"
   resources: 2
   influence: 1
   trait: industrial
 
 - id: arretze
-  system_id: "16"
   name: Arretze
+  system_id: "16"
   resources: 2
 
 - id: bereg
-  system_id: "35"
   name: Bereg
+  system_id: "35"
   resources: 3
   influence: 1
   trait: hazardous
 
 - id: centauri
-  system_id: "34"
   name: Centauri
+  system_id: "34"
   resources: 1
   influence: 3
   trait: cultural
 
 - id: corneeq
-  system_id: "33"
   name: Corneeq
+  system_id: "33"
   resources: 1
   influence: 2
   trait: cultural
 
 - id: creuss
-  system_id: "51"
   name: Creuss
+  system_id: "51"
   resources: 4
   influence: 2
 
 - id: dal_bootha
-  system_id: "32"
   name: Dal Bootha
+  system_id: "32"
   influence: 2
   trait: cultural
 
 - id: darien
-  system_id: "03"
   name: Darien
+  system_id: "03"
   resources: 4
   influence: 4
 
 - id: druaa
-  system_id: "09"
   name: Druaa
+  system_id: "09"
   resources: 3
   influence: 1
 
 - id: fria
-  system_id: "38"
   name: Fria
+  system_id: "38"
   resources: 2
   trait: hazardous
 
 - id: gral
-  system_id: "34"
   name: Gral
+  system_id: "34"
   resources: 1
   influence: 1
   trait: industrial
   tech_specialty: propulsion
 
 - id: hercant
-  system_id: "16"
   name: Hercant
+  system_id: "16"
   resources: 1
   influence: 1
 
 - id: jol
-  system_id: "12"
   name: Jol
+  system_id: "12"
   resources: 1
   influence: 2
 
 - id: jord
-  system_id: "01"
   name: Jord
+  system_id: "01"
   resources: 4
   influence: 2
 
 - id: kamdorn
-  system_id: "16"
   name: Kamdorn
+  system_id: "16"
   influence: 1
 
 - id: lazar
-  system_id: "31"
   name: Lazar
+  system_id: "31"
   resources: 1
   trait: industrial
   tech_specialty: cybernetic
 
 - id: lirta_iv
-  system_id: "35"
   name: Lirta IV
+  system_id: "35"
   resources: 2
   influence: 3
   trait: hazardous
 
 - id: lisis_ii
-  system_id: "11"
   name: Lisis II
+  system_id: "11"
   resources: 1
 
 - id: lodor
-  system_id: "26"
   name: Lodor
+  system_id: "26"
   resources: 3
   influence: 1
   trait: cultural
 
 - id: lor
-  system_id: "36"
   name: Lor
+  system_id: "36"
   resources: 1
   influence: 2
   trait: industrial
 
 - id: maaluuk
-  system_id: "09"
   name: Maaluuk
+  system_id: "09"
   influence: 2
 
 - id: mecatol_rex
-  system_id: "18"
   name: Mecatol Rex
+  system_id: "18"
   resources: 1
   influence: 6
 
 - id: meer
-  system_id: "37"
   name: Meer
+  system_id: "37"
   influence: 4
   trait: hazardous
   tech_specialty: warfare
 
 - id: mehar_xull
-  system_id: "24"
   name: Mehar Xull
+  system_id: "24"
   resources: 1
   influence: 3
   trait: hazardous
   tech_specialty: warfare
 
 - id: mellon
-  system_id: "30"
   name: Mellon
+  system_id: "30"
   influence: 2
   trait: cultural
 
 - id: moll_primus
-  system_id: "02"
   name: Moll Primus
+  system_id: "02"
   resources: 4
   influence: 1
 
 - id: mordai_ii
-  system_id: "08"
   name: Mordai II
+  system_id: "08"
   resources: 4
 
 - id: muaat
-  system_id: "04"
   name: Muaat
+  system_id: "04"
   resources: 4
   influence: 1
 
 - id: nar
-  system_id: "12"
   name: Nar
+  system_id: "12"
   resources: 2
   influence: 3
 
 - id: nestphar
-  system_id: "05"
   name: Nestphar
+  system_id: "05"
   resources: 3
   influence: 2
 
 - id: new_albion
-  system_id: "27"
   name: New Albion
+  system_id: "27"
   resources: 1
   influence: 1
   trait: industrial
   tech_specialty: biotic
 
 - id: quann
-  system_id: "25"
   name: Quann
+  system_id: "25"
   resources: 2
   influence: 1
   trait: cultural
 
 - id: qucen_n
-  system_id: "29"
   name: Qucen'n
+  system_id: "29"
   resources: 1
   influence: 2
   trait: industrial
 
 - id: quinarra
-  system_id: "13"
   name: Quinarra
+  system_id: "13"
   resources: 3
   influence: 1
 
 - id: ragh
-  system_id: "11"
   name: Ragh
+  system_id: "11"
   resources: 2
   influence: 1
 
 - id: rarron
-  system_id: "29"
   name: Rarron
+  system_id: "29"
   influence: 3
   trait: cultural
 
 - id: resculon
-  system_id: "33"
   name: Resculon
+  system_id: "33"
   resources: 2
   trait: cultural
 
 - id: retillion
-  system_id: "15"
   name: Retillion
+  system_id: "15"
   resources: 2
   influence: 3
 
 - id: sakulag
-  system_id: "31"
   name: Sakulag
+  system_id: "31"
   resources: 2
   influence: 1
   trait: hazardous
 
 - id: saudor
-  system_id: "23"
   name: Saudor
+  system_id: "23"
   resources: 2
   influence: 2
   trait: industrial
 
 - id: shalloq
-  system_id: "15"
   name: Shalloq
+  system_id: "15"
   resources: 1
   influence: 2
 
 - id: starpoint
-  system_id: "27"
   name: Starpoint
+  system_id: "27"
   resources: 3
   influence: 1
   trait: hazardous
 
 - id: tar_mann
-  system_id: "22"
   name: Tar'mann
+  system_id: "22"
   resources: 1
   influence: 1
   trait: industrial
   tech_specialty: biotic
 
 - id: tequ_ran
-  system_id: "28"
   name: Tequ'ran
+  system_id: "28"
   resources: 2
   trait: hazardous
 
 - id: thibah
-  system_id: "21"
   name: Thibah
+  system_id: "21"
   resources: 1
   influence: 1
   trait: industrial
   tech_specialty: propulsion
 
 - id: torkan
-  system_id: "28"
   name: Torkan
+  system_id: "28"
   influence: 3
   trait: cultural
 
 - id: tren_lak
-  system_id: "13"
   name: Tren'lak
+  system_id: "13"
   resources: 1
 
 - id: vefut_ii
-  system_id: "20"
   name: Vefut II
+  system_id: "20"
   resources: 2
   influence: 2
   trait: hazardous
 
 - id: wellon
-  system_id: "19"
   name: Wellon
+  system_id: "19"
   resources: 1
   influence: 2
   trait: industrial
   tech_specialty: cybernetic
 
 - id: winnu
-  system_id: "07"
   name: Winnu
+  system_id: "07"
   resources: 3
   influence: 4
 
 - id: wren_terra
-  system_id: "10"
   name: Wren Terra
+  system_id: "10"
   resources: 2
   influence: 1
 
 - id: xxehan
-  system_id: "32"
   name: Xxehan
+  system_id: "32"
   resources: 1
   influence: 1
   trait: cultural
 
 - id: zohbat
-  system_id: "30"
   name: Zohbat
+  system_id: "30"
   resources: 3
   influence: 1
   trait: hazardous

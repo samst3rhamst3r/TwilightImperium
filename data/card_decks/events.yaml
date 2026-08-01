@@ -1,0 +1,18 @@
+
+- id: direct_hit
+  num_in_deck: 4
+
+- id: flank_speed
+  num_in_deck: 4
+
+- id: maneuvering_jets
+  num_in_deck: 4
+
+- id: morale_boost
+  num_in_deck: 4
+
+- id: sabotage
+  num_in_deck: 4
+
+- id: shields_holding
+  num_in_deck: 4

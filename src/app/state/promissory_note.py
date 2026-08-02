@@ -5,10 +5,10 @@ from app.config.player_color import PlayerColor
 from app.config.base import CanHaveFactionExclusivity
 from app.config.text import FunctionalTextConfig
 
-from .base import UUIDStateObj
+from .base import ConfigBasedStateObj
 
 @dataclass(slots=True, kw_only=True)
-class PromissoryNoteState(UUIDStateObj[CanHaveFactionExclusivity, FunctionalTextConfig]):
+class PromissoryNoteState(ConfigBasedStateObj[CanHaveFactionExclusivity, FunctionalTextConfig]):
     issuing_player_color: Final[PlayerColor | None] = None
     current_holder_id: str | None = None
 

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from .base import BaseTextConfigObj
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class RequiresFlavorText:
     flavor_text: str
 

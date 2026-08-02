@@ -1,32 +1,36 @@
 from dataclasses import dataclass, field
-from typing import Self
+from typing import Final
 from uuid import uuid4
+from abc import ABC, abstractmethod
 
-from app.config.base import BaseConfigObj, IDConfigObj
+from app.config.base import NamedConfigObj, IDConfigObj
 from app.config.text import BaseTextConfigObj
 
 @dataclass(slots=True, kw_only=True)
-class BaseStateObj[TConfig: BaseConfigObj, TTextConfig: BaseTextConfigObj]:
+class BaseStateObj(ABC):
     """Base class for all state objects."""
+    _instance_id: Final[str] = field(init=False, default_factory=lambda: uuid4().hex)
+
+    @property
+    def instance_id(self):
+        return self._instance_id
+
+    @property
+    @abstractmethod
+    def name(self) -> str:
+        pass
+
+@dataclass(slots=True, kw_only=True)
+class ConfigBasedStateObj[TConfig: NamedConfigObj, TTextConfig: BaseTextConfigObj](BaseStateObj):
     config: TConfig
     text_config: TTextConfig
 
-@dataclass(slots=True, kw_only=True)
-class UUIDStateObj[TConfig: BaseConfigObj, TTextConfig: BaseTextConfigObj](BaseStateObj[TConfig, TTextConfig]):
-    _instance_id: str = field(init=False, default_factory=lambda: uuid4().hex)
-
     @property
-    def instance_id(self) -> str:
-        return self._instance_id
-    
-    @classmethod
-    def restore(cls, config: TConfig, text_config: TTextConfig, instance_id: str, **kwargs) -> Self:
-        obj = cls(config=config, text_config=text_config, **kwargs)
-        obj._instance_id = instance_id
-        return obj
+    def name(self) -> str:
+        return self.config.name
 
 @dataclass(slots=True, kw_only=True)
-class ConfigIDStateObj[TConfig: IDConfigObj, TTextConfig: BaseTextConfigObj](BaseStateObj[TConfig, TTextConfig]):
+class ConfigIDBasedStateObj[TConfig: IDConfigObj, TTextConfig: BaseTextConfigObj](ConfigBasedStateObj[TConfig, TTextConfig]):
 
     def __post_init__(self):
-        self._instance_id = self.config.id
+        self.instance_id = self.config.id

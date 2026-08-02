@@ -3,7 +3,7 @@ from dataclasses import dataclass
 class AlreadyOwnedResourceException(Exception): pass
 class NotYetOwnedResourceException(Exception): pass
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class PlayerOwnable:
     owned_by_player_id: str | None = None
     

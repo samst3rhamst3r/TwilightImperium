@@ -3,7 +3,7 @@ from dataclasses import dataclass
 class ExhaustableAlreadyExhausted(Exception):
     pass
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class Exhaustable:
     exhausted: bool = False
     

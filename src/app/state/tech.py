@@ -3,14 +3,14 @@ from dataclasses import dataclass
 from app.config.planet import PlanetConfig
 from app.config.text import PlanetTextConfig
 
-from .base import UUIDStateObj
+from .base import ConfigBasedStateObj
 from .shared import PlayerOwnable
 
 class PlanetAlreadyControlledError(Exception): pass
 class PlanetNotControlledError(Exception): pass
 
 @dataclass(slots=True, kw_only=True)
-class TechnologyCardState(UUIDStateObj[PlanetConfig, PlanetTextConfig], PlayerOwnable):
+class TechnologyCardState(ConfigBasedStateObj[PlanetConfig, PlanetTextConfig], PlayerOwnable):
 
     def assign_control(self, player_id: str) -> None:
         self.assign_owner(player_id)

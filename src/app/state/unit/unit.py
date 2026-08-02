@@ -3,13 +3,13 @@ from dataclasses import dataclass, field
 from app.config.unit import UnitConfig, UnitLocationType, get_valid_locations_for
 from app.config.text import FunctionalTextConfig
 from app.config.ability import AbilityID
-from app.state.base import UUIDStateObj
+from app.state.base import ConfigBasedStateObj
 from app.state.shared import PlayerOwnable
 
 from .location import UnitLocation
 
 @dataclass(slots=True, kw_only=True)
-class UnitState(UUIDStateObj[UnitConfig, FunctionalTextConfig], PlayerOwnable):
+class UnitState(ConfigBasedStateObj[UnitConfig, FunctionalTextConfig], PlayerOwnable):
     location: UnitLocation | None = None
     current_damage: int = 0
     _sustainable_damage: int = field(init=False)

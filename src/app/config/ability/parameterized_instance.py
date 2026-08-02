@@ -1,12 +1,10 @@
 from dataclasses import dataclass
 
-from app.config.base import BaseConfigObj
-
-from .ids import AbilityID
+from app.config.base import IDConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class ParameterizedAbilityInstanceConfig(BaseConfigObj):
-    ability_id: AbilityID
+class ParameterizedAbilityInstanceConfig(IDConfigObj):
+    pass
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class CombatAbilityInstanceConfig(ParameterizedAbilityInstanceConfig):

@@ -4,12 +4,12 @@ from app.config.base import NamedConfigObj
 from app.config.text import EventTextConfig
 
 from .shared import PlayerOwnable
-from .base import UUIDStateObj
+from .base import ConfigBasedStateObj
 
 class EventCardOutofBoundsError(IndexError): pass
 
 @dataclass(slots=True, kw_only=True)
-class EventCardState(UUIDStateObj[NamedConfigObj, EventTextConfig], PlayerOwnable):
+class EventCardState(ConfigBasedStateObj[NamedConfigObj, EventTextConfig], PlayerOwnable):
     flavor_text_index: int
 
     def __post_init__(self):

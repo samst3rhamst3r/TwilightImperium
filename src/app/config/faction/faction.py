@@ -2,13 +2,9 @@ from dataclasses import dataclass, field
 from typing import Optional
 from collections.abc import Sequence
 
-from app.config.unit import UnitClass
-from app.config.base import NamedConfigObj, BaseConfigObj
+from app.config.base import NamedConfigObj
 
-@dataclass(slots=True, frozen=True, kw_only=True)
-class FactionStartingUnitConfig(BaseConfigObj):
-    unit_class: UnitClass
-    num: int
+from .starting_unit import FactionStartingUnitConfig
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class FactionConfig(NamedConfigObj):

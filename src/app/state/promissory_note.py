@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Final
 
-from app.config.player.color import PlayerColor
+from app.config.player_color import PlayerColor
 from app.config.base import CanHaveFactionExclusivity
 from app.config.text import FunctionalTextConfig
 

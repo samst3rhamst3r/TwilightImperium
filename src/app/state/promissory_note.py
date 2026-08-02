@@ -17,3 +17,13 @@ class PromissoryNoteState(BaseStateObj[CanHaveFactionExclusivity, FunctionalText
             raise ValueError(f"Non-faction exclusive promissory notes must have an issuing player color.\nCONFIG: {self.config}")
         if self.issuing_player_color is not None and self.config.is_faction_exclusive:
             raise ValueError(f"Faction exclusive promissory notes cannot have an issuing player color.\nCOLOR: {self.issuing_player_color}\nCONFIG: {self.config}")
+
+    @property
+    def functional_text(self) -> str:
+        if self.issuing_player_color is None:
+            return self.text_config.functional_text
+        else:
+            return self.text_config.functional_text.replace("__PLAYER_COLOR__", self.issuing_player_color.value)
+
+    def assign_owner(self, player_id: str):
+        self.current_holder_id = player_id

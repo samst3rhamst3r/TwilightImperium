@@ -7,8 +7,8 @@ from app.config.game.phase import GamePhase
 from .type import ObjectiveType
 
 _OBJECTIVE_POINTS_BY_TYPE: MappingProxyType[ObjectiveType, int] = MappingProxyType({
-    ObjectiveType.STAGE_I: 1,
-    ObjectiveType.STAGE_II: 2,
+    ObjectiveType.PUBLIC_STAGE_I: 1,
+    ObjectiveType.PUBLIC_STAGE_II: 2,
     ObjectiveType.SECRET: 1
 })
 

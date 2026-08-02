@@ -20,7 +20,7 @@ class UnitConfig(CanHaveFactionExclusivity):
 
     ability_ids: tuple[str, ...] = ()
     parameterized_abilities: tuple[ParameterizedAbilityInstanceConfig, ...] = ()
-    upgraded_from: str | None = None
+    upgraded_from_unit_id: str | None = None
     upgrade_reqs: tuple[TechUpgradeReqConfig, ...] = ()
 
     @property

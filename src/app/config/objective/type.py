@@ -3,6 +3,6 @@ from enum import auto
 from app.config.enum import ConfigEnum
 
 class ObjectiveType(ConfigEnum):
-    STAGE_I = auto()
-    STAGE_II = auto()
+    PUBLIC_STAGE_I = auto()
+    PUBLIC_STAGE_II = auto()
     SECRET = auto()

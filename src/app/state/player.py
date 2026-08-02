@@ -1,47 +1,67 @@
 
-from typing import Iterable
 from dataclasses import dataclass, field
 
-type Planet = Planet
-type Faction = Faction
-type StrategyCard = StrategyCard
-type ActionCard = ActionCard
-type ObjectiveCard = ObjectiveCard
-type Tech = Tech
-type Unit = Unit
-type Objective = Objective
+from app.config.faction import FactionConfig
+from app.config.player import MAX_CONTROL_TOKENS, MAX_COMMAND_TOKENS
+from app.config.unit import UnitClass
 
-_MAX_CONTROL_TOKENS = 17
-_MAX_COMMAND_TOKENS = 16
+from .base import BaseStateObj
 
-@dataclass(slots=True)
-class Player:
-    name: str
-    speaker: bool = False
-    faction: Faction = None
-    strategy_card: StrategyCard = None
-    action_cards: list[ActionCard] = field(default_factory=list)
-    objective_cards: list[ObjectiveCard] = field(default_factory=list)
-    planets: set[Planet] = field(default_factory=set)
-    techs: set[Tech] = field(default_factory=set)
-    units_deployed: dict[str: list[Unit]] = field(default_factory=dict)
-    commodoties: int = 0
+class AlreadyScoredObjectiveError(Exception):
+    pass
+class AlreadyResearchedTechError(Exception):
+    pass
+class NotEnoughCommoditiesError(Exception):
+    pass
+class InvalidTradeGoodsToGiveError(Exception):
+    pass
+
+@dataclass(slots=True, kw_only=True)
+class Player(BaseStateObj):
+    faction: FactionConfig
+    scored_objective_card_ids: set[str] = field(default_factory=set)
+    researched_tech_ids: set[str] = field(default_factory=set)
+    commodities: int = 0
     trade_goods: int = 0
     victory_pts: int = 0
     
-    _techs_avail: set[Tech] = field(default_factory=set)
-    _unit_pool: dict[str: int] = field(default_factory=dict)
-    _control_token_pool: int = _MAX_CONTROL_TOKENS
-    _command_token_pool: int = _MAX_COMMAND_TOKENS
-    
-    def become_speaker(self):
-        self.speaker = True
-    
-    def gain_planets(self, planets: Iterable[Planet]) -> None:
-        self.planets.update(planets)
+    unit_reinforcement_pool: dict[UnitClass, int] = field(default_factory=dict)
+    control_token_pool: int = MAX_CONTROL_TOKENS
+    command_token_pool: int = MAX_COMMAND_TOKENS
 
-    def has_planets(self, planets: Iterable[Planet]) -> bool:
-        return self.planets.issuperset(planets)
-    
-    def has_planet(self, planet: Planet) -> bool:
-        return planet in self.planets
+    def score_objective(self, card_id: str, victory_pts: int) -> None:
+        if card_id in self.scored_objective_card_ids:
+            raise AlreadyScoredObjectiveError(f"Objective with ID {card_id} has already been scored.")
+        self.scored_objective_card_ids.add(card_id)
+        self.score_victory_points(victory_pts)
+
+    def score_victory_points(self, pts: int) -> None:
+        self.victory_pts += pts
+
+    def decrement_victory_points(self, pts: int) -> None:
+        self.victory_pts -= pts
+        if self.victory_pts < 0:
+            self.victory_pts = 0
+
+    def research_tech(self, tech_id: str) -> None:
+        if tech_id in self.researched_tech_ids:
+            raise AlreadyResearchedTechError(f"Tech with ID {tech_id} has already been researched.")
+        self.researched_tech_ids.add(tech_id)
+
+    def replenish_commodities(self) -> None:
+        self.commodities = self.faction.max_commodities
+
+    @property
+    def has_commodities(self) -> bool:
+        return self.commodities > 0
+
+    def give_commodities(self, amount: int) -> int:
+        if amount > self.commodities:
+            raise NotEnoughCommoditiesError(f"Only {self.commodities} are available.")
+        self.commodities -= amount
+        return amount
+
+    def receive_trade_goods(self, amount: int) -> None:
+        if amount < 1:
+            raise InvalidTradeGoodsToGiveError("Number of trade goods to give must be at least 1.")
+        self.trade_goods += amount

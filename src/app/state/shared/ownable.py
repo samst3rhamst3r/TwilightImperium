@@ -15,8 +15,8 @@ class PlayerOwnable:
     def reassign_owner(self, player_id: str) -> str:
         if self.owned_by_player_id is None:
             raise NotYetOwnedResourceException('This resource is not yet owned by any player. Cannot reassign a non-owned resource.')
-        released_player_id = self.owned_by_player_id
-        self.owned_by_player_id = player_id
+        released_player_id = self.release_owner()
+        self.assign_owner(player_id)
         return released_player_id
 
     def release_owner(self) -> str:

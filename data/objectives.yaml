@@ -1,101 +1,101 @@
 - id: expand_borders
   name: Expand Borders
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: lead_from_front
   name: Lead from the Front
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: diversify_research
   name: Diversify Research
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: intimidate_council
   name: Intimidate the Council
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: sway_council
   name: Sway the Council
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: erect_monument
   name: Erect a Monument
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: develop_weaponry
   name: Develop Weaponry
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: corner_market
   name: Corner the Market
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: found_research_outposts
   name: Found Research Outposts
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: negotiate_trade_routes
   name: Negotiate Trade Routes
-  type: stage_i
+  type: public_stage_i
   game_phase: status
 
 - id: revolutionize_warfare
   name: Revolutionize Warfare
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: centralize_galactic_trade
   name: Centralize Galactic Trade
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: unify_colonies
   name: Unify the Colonies
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: subdue_galaxy
   name: Subdue the Galaxy
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: conquer_weak
   name: Conquer the Weak
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: galvanize_people
   name: Galvanize the People
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: form_galactic_brain_trust
   name: Form Galactic Brain Trust
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: manipulate_galactic_law
   name: Manipulate Galactic Law
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: found_golden_age
   name: Found a Golden Age
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: master_sciences
   name: Master the Sciences
-  type: stage_ii
+  type: public_stage_ii
   game_phase: status
 
 - id: spark_rebellion

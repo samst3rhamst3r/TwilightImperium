@@ -1,16 +1,16 @@
 from dataclasses import dataclass
 from typing import Final
 
-from app.config.player_color import PlayerColor
+from app.config.player.color import PlayerColor
 from app.config.base import CanHaveFactionExclusivity
 from app.config.text import FunctionalTextConfig
 
 from .base import ConfigBasedStateObj
+from .shared import PlayerOwnable
 
 @dataclass(slots=True, kw_only=True)
-class PromissoryNoteState(ConfigBasedStateObj[CanHaveFactionExclusivity, FunctionalTextConfig]):
+class PromissoryNoteState(ConfigBasedStateObj[CanHaveFactionExclusivity, FunctionalTextConfig], PlayerOwnable):
     issuing_player_color: Final[PlayerColor | None] = None
-    current_holder_id: str | None = None
 
     def __post_init__(self):
         if self.issuing_player_color is None and not self.config.is_faction_exclusive:
@@ -24,6 +24,3 @@ class PromissoryNoteState(ConfigBasedStateObj[CanHaveFactionExclusivity, Functio
             return self.text_config.functional_text
         else:
             return self.text_config.functional_text.replace("__PLAYER_COLOR__", self.issuing_player_color.value)
-
-    def assign_owner(self, player_id: str):
-        self.current_holder_id = player_id

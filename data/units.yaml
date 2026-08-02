@@ -25,7 +25,7 @@
   move: 2
   capacity: 8
   ability_ids: [sustain_damage]
-  upgraded_from: advanced_carrier_i
+  upgraded_from_unit_id: advanced_carrier_i
   upgrade_reqs:
   - tech_type: propulsion
     num: 2
@@ -70,7 +70,7 @@
   name: Carrier II
   move: 2
   capacity: 6
-  upgraded_from: carrier_i
+  upgraded_from_unit_id: carrier_i
   upgrade_reqs:
   - tech_type: propulsion
     num: 2
@@ -101,7 +101,7 @@
   combat: 6
   move: 3
   capacity: 1
-  upgraded_from: cruiser_i
+  upgraded_from_unit_id: cruiser_i
   upgrade_reqs:
   - tech_type: biotic
     num: 1
@@ -131,7 +131,7 @@
   - ability_id: anti_fighter_barrage
     combat: 6
     dice: 3
-  upgraded_from: destroyer_i
+  upgraded_from_unit_id: destroyer_i
   upgrade_reqs:
   - tech_type: warfare
     num: 2
@@ -153,7 +153,7 @@
   id: dreadnought_ii
   name: Dreadnought II
   move: 2
-  upgraded_from: dreadnought_i
+  upgraded_from_unit_id: dreadnought_i
   upgrade_reqs:
   - tech_type: propulsion
     num: 2
@@ -190,7 +190,7 @@
   id: exotrireme_ii
   name: Exotrireme II
   move: 2
-  upgraded_from: exotrireme_i
+  upgraded_from_unit_id: exotrireme_i
   upgrade_reqs:
   - tech_type: propulsion
     num: 2
@@ -212,7 +212,7 @@
   name: Fighter II
   combat: 8
   move: 2
-  upgraded_from: fighter_i
+  upgraded_from_unit_id: fighter_i
   upgrade_reqs:
   - tech_type: biotic
     num: 1
@@ -240,7 +240,7 @@
   parameterized_abilities:
   - ability_id: production
     value: 7
-  upgraded_from: floating_factory_i
+  upgraded_from_unit_id: floating_factory_i
   upgrade_reqs:
   - tech_type: cybernetic
     num: 2
@@ -293,7 +293,7 @@
   name: Hybrid Crystal Fighter II
   combat: 7
   move: 2
-  upgraded_from: hybrid_crystal_fighter_i
+  upgraded_from_unit_id: hybrid_crystal_fighter_i
   upgrade_reqs:
   - tech_type: biotic
     num: 1
@@ -314,7 +314,7 @@
   id: infantry_ii
   name: Infantry II
   combat: 7
-  upgraded_from: infantry_i
+  upgraded_from_unit_id: infantry_i
   upgrade_reqs:
   - tech_type: biotic
     num: 2
@@ -362,7 +362,7 @@
   parameterized_abilities:
   - ability_id: production
     value: 2
-  upgraded_from: letani_warrior_i
+  upgraded_from_unit_id: letani_warrior_i
   upgrade_reqs:
   - tech_type: biotic
     num: 2
@@ -412,7 +412,7 @@
   parameterized_abilities:
   - ability_id: space_cannon
     combat: 5
-  upgraded_from: pds_i
+  upgraded_from_unit_id: pds_i
   upgrade_reqs:
   - tech_type: cybernetic
     num: 1
@@ -440,7 +440,7 @@
   name: Prototype War Sun II
   cost: 10
   move: 3
-  upgraded_from: prototype_war_sun_i
+  upgraded_from_unit_id: prototype_war_sun_i
   upgrade_reqs:
   - tech_type: cybernetic
     num: 1
@@ -490,7 +490,7 @@
   parameterized_abilities:
   - ability_id: production
     amt_more_than_rsrc_value_of_planet: 4
-  upgraded_from: space_dock_i
+  upgraded_from_unit_id: space_dock_i
   upgrade_reqs:
   - tech_type: cybernetic
     num: 2
@@ -510,7 +510,7 @@
   id: spec_ops_ii
   name: Spec Ops II
   combat: 6
-  upgraded_from: spec_ops_i
+  upgraded_from_unit_id: spec_ops_i
   upgrade_reqs:
   - tech_type: biotic
     num: 2
@@ -538,7 +538,7 @@
   parameterized_abilities:
   - ability_id: bombardment
     combat: 4
-  upgraded_from: super_dreadnought_i
+  upgraded_from_unit_id: super_dreadnought_i
   upgrade_reqs:
   - tech_type: propulsion
     num: 2
@@ -579,7 +579,7 @@
   - ability_id: bombardment
     combat: 3
     dice: 3
-  upgraded_from: war_sun_i
+  upgraded_from_unit_id: war_sun_i
   upgrade_reqs:
   - tech_type: cybernetic
     num: 1

@@ -1,6 +1,8 @@
-import enum
+from enum import auto
 
-class PlanetTrait(enum.StrEnum):
-    CULTURAL = enum.auto()
-    HAZARDOUS = enum.auto()
-    INDUSTRIAL = enum.auto()
+from app.config.enum import ConfigEnum
+
+class PlanetTrait(ConfigEnum):
+    CULTURAL = auto()
+    HAZARDOUS = auto()
+    INDUSTRIAL = auto()

@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Self
 from uuid import uuid4
 
-from app.config.base import BaseConfigObj, ConfigObj
+from app.config.base import BaseConfigObj, IDConfigObj
 from app.config.text import BaseTextConfigObj
 
 @dataclass(slots=True, kw_only=True)
@@ -26,7 +26,7 @@ class UUIDStateObj[TConfig: BaseConfigObj, TTextConfig: BaseTextConfigObj](BaseS
         return obj
 
 @dataclass(slots=True, kw_only=True)
-class ConfigIDStateObj[TConfig: ConfigObj, TTextConfig: BaseTextConfigObj](BaseStateObj[TConfig, TTextConfig]):
+class ConfigIDStateObj[TConfig: IDConfigObj, TTextConfig: BaseTextConfigObj](BaseStateObj[TConfig, TTextConfig]):
 
     def __post_init__(self):
         self._instance_id = self.config.id

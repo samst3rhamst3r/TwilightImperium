@@ -1,8 +1,10 @@
-import enum
+from enum import auto
 
-class AgendaVoteScenarioType(enum.StrEnum):
-    FOR_AGAINST = enum.auto()
-    ELECT_PLAYER = enum.auto()
-    ELECT_PLANET = enum.auto()
-    ELECT_LAW = enum.auto()
-    ELECT_SCORED_SECRET_OBJECTIVE = enum.auto()
+from app.config.enum import ConfigEnum
+
+class AgendaVoteScenarioType(ConfigEnum):
+    FOR_AGAINST = auto()
+    ELECT_PLAYER = auto()
+    ELECT_PLANET = auto()
+    ELECT_LAW = auto()
+    ELECT_SCORED_SECRET_OBJECTIVE = auto()

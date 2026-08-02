@@ -1,8 +1,10 @@
-import enum
+from enum import auto
 
-class UnitID(enum.StrEnum):
+from app.config.enum import ConfigEnum
+
+class UnitID(ConfigEnum):
     """Unit IDs can be enumerated here if there are unit-specific 
     configurations required that don't belong in YAML config files
     """
-    FLOATING_FACTORY_I = enum.auto()
-    FLOATING_FACTORY_II = enum.auto()
+    FLOATING_FACTORY_I = auto()
+    FLOATING_FACTORY_II = auto()

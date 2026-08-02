@@ -1,6 +1,8 @@
-import enum
+from enum import auto
 
-class ObjectiveType(enum.StrEnum):
-    STAGE_I = enum.auto()
-    STAGE_II = enum.auto()
-    SECRET = enum.auto()
+from app.config.enum import ConfigEnum
+
+class ObjectiveType(ConfigEnum):
+    STAGE_I = auto()
+    STAGE_II = auto()
+    SECRET = auto()

@@ -1,9 +1,11 @@
-import enum
+from enum import auto
 
-class PlayerColor(enum.StrEnum):
-    BLACK = enum.auto()
-    BLUE = enum.auto()
-    GREEN = enum.auto()
-    RED = enum.auto()
-    PURPLE = enum.auto()
-    YELLOW = enum.auto()
+from app.config.enum import GameStrEnum
+
+class PlayerColor(GameStrEnum):
+    BLACK = auto()
+    BLUE = auto()
+    GREEN = auto()
+    RED = auto()
+    PURPLE = auto()
+    YELLOW = auto()

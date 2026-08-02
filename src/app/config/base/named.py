@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
-from .id import ConfigObj
+from .id import IDConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class NamedConfigObj(ConfigObj):
+class NamedConfigObj(IDConfigObj):
     """Configuration object for ID-based entities that have names."""
     name: str
 

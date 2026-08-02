@@ -1,7 +1,9 @@
-import enum
+from enum import auto
 
-class TechType(enum.StrEnum):
-    BIOTIC = enum.auto()
-    WARFARE = enum.auto()
-    PROPULSION = enum.auto()
-    CYBERNETIC = enum.auto()
+from app.config.enum import ConfigEnum
+
+class TechType(ConfigEnum):
+    BIOTIC = auto()
+    WARFARE = auto()
+    PROPULSION = auto()
+    CYBERNETIC = auto()

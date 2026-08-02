@@ -1,7 +1,9 @@
-import enum
+from enum import auto
 
-class Anomaly(enum.StrEnum):
-    ASTEROID_FIELD = enum.auto()
-    NEBULA = enum.auto()
-    SUPERNOVA = enum.auto()
-    GRAVITY_RIFT = enum.auto()
+from app.config.enum import ConfigEnum
+
+class Anomaly(ConfigEnum):
+    ASTEROID_FIELD = auto()
+    NEBULA = auto()
+    SUPERNOVA = auto()
+    GRAVITY_RIFT = auto()

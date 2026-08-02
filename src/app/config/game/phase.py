@@ -1,7 +1,9 @@
-import enum
+from enum import auto
 
-class GamePhase(enum.StrEnum):
-    STRATEGY = enum.auto()
-    ACTION = enum.auto()
-    STATUS = enum.auto()
-    AGENDA = enum.auto()
+from app.config.enum import ConfigEnum
+
+class GamePhase(ConfigEnum):
+    STRATEGY = auto()
+    ACTION = auto()
+    STATUS = auto()
+    AGENDA = auto()

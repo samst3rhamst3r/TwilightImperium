@@ -1,5 +1,7 @@
-import enum
+from enum import auto
 
-class AgendaType(enum.StrEnum):
-    DIRECTIVE = enum.auto()
-    LAW = enum.auto()
+from app.config.enum import ConfigEnum
+
+class AgendaType(ConfigEnum):
+    DIRECTIVE = auto()
+    LAW = auto()

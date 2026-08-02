@@ -2,7 +2,7 @@ from types import MappingProxyType
 
 from .unit_class import UnitClass
 
-UNIT_LIMITATIONS_BY_CLASS: MappingProxyType[UnitClass, int | None] = MappingProxyType({
+_UNIT_LIMITATIONS_BY_CLASS: MappingProxyType[UnitClass, int | None] = MappingProxyType({
     UnitClass.CARRIER: 4,
     UnitClass.CRUISER: 8,
     UnitClass.DESTROYER: 8,
@@ -15,13 +15,13 @@ UNIT_LIMITATIONS_BY_CLASS: MappingProxyType[UnitClass, int | None] = MappingProx
     UnitClass.WAR_SUN: 2,
 })
 
-COMPONENT_LIMITATIONS_BY_CLASS: MappingProxyType[str, int] = MappingProxyType({
+_COMPONENT_LIMITATIONS_BY_CLASS: MappingProxyType[str, int] = MappingProxyType({
     UnitClass.FIGHTER: 10,
     UnitClass.INFANTRY: 12,
 })
 
 def get_unit_limit(unit_class: UnitClass) -> int | None:
-    return UNIT_LIMITATIONS_BY_CLASS[unit_class]
+    return _UNIT_LIMITATIONS_BY_CLASS[unit_class]
 
 def get_component_limit(unit_class: UnitClass) -> int:
-    return COMPONENT_LIMITATIONS_BY_CLASS.get(unit_class, UNIT_LIMITATIONS_BY_CLASS[unit_class])
+    return _COMPONENT_LIMITATIONS_BY_CLASS.get(unit_class, _UNIT_LIMITATIONS_BY_CLASS[unit_class])

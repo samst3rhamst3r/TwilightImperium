@@ -1,6 +1,6 @@
-from app.config.base import ConfigObj
+from app.config.base import IDConfigObj
 
-class Registry[T: ConfigObj]:
+class Registry[T: IDConfigObj]:
 
     def __init__(self):
         self._items: dict[str, T] = {}

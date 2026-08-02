@@ -1,8 +1,10 @@
-import enum
+from enum import auto
 
-class AbilityID(enum.StrEnum):
-    BOMBARDMENT = enum.auto()
-    SUSTAIN_DAMAGE = enum.auto()
-    ANTI_FIGHTER_BARRAGE = enum.auto()
-    SPACE_CANNON = enum.auto()
-    PRODUCTION = enum.auto()
+from app.config.enum import ConfigEnum
+
+class AbilityID(ConfigEnum):
+    BOMBARDMENT = auto()
+    SUSTAIN_DAMAGE = auto()
+    ANTI_FIGHTER_BARRAGE = auto()
+    SPACE_CANNON = auto()
+    PRODUCTION = auto()

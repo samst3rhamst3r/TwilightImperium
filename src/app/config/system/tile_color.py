@@ -1,6 +1,8 @@
-import enum
+from enum import auto
 
-class TileColor(enum.StrEnum):
-    RED = enum.auto()
-    BLUE = enum.auto()
-    GREEN = enum.auto()
+from app.config.enum import ConfigEnum
+
+class TileColor(ConfigEnum):
+    RED = auto()
+    BLUE = auto()
+    GREEN = auto()

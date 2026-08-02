@@ -1,15 +1,16 @@
 from dataclasses import dataclass, field
+from types import MappingProxyType
 
 from app.config.base import NamedConfigObj
 from app.config.game.phase import GamePhase
 
 from .type import ObjectiveType
 
-OBJECTIVE_POINTS_BY_TYPE = {
+_OBJECTIVE_POINTS_BY_TYPE: MappingProxyType[ObjectiveType, int] = MappingProxyType({
     ObjectiveType.STAGE_I: 1,
     ObjectiveType.STAGE_II: 2,
     ObjectiveType.SECRET: 1
-}
+})
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class ObjectiveConfig(NamedConfigObj):
@@ -18,4 +19,4 @@ class ObjectiveConfig(NamedConfigObj):
 
     @property
     def victory_points(self) -> int:
-        return OBJECTIVE_POINTS_BY_TYPE[self.type_]
+        return _OBJECTIVE_POINTS_BY_TYPE[self.type_]

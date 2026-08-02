@@ -7,4 +7,5 @@ class BaseConfigObj:
 
     @classmethod
     def from_raw_config(cls, raw_data: Any):
-        pass
+        # TODO Parse type hints in subclasses to determine how to initialize
+        ...

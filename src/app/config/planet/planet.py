@@ -1,13 +1,12 @@
 from dataclasses import dataclass
 
-from app.config.base import ConfigObj
+from app.config.base import NamedConfigObj
 from app.config.tech import TechType
 
 from .trait import PlanetTrait
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class PlanetConfig(ConfigObj):
-    name: str
+class PlanetConfig(NamedConfigObj):
     system_id: str
     resources: int = 0
     influence: int = 0

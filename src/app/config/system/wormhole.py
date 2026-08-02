@@ -1,6 +1,8 @@
-import enum
+from enum import auto
 
-class Wormhole(enum.StrEnum):
-    ALPHA = enum.auto()
-    BETA = enum.auto()
-    DELTA = enum.auto()
+from app.config.enum import ConfigEnum
+
+class Wormhole(ConfigEnum):
+    ALPHA = auto()
+    BETA = auto()
+    DELTA = auto()

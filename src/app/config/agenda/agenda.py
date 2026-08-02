@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import Optional
 
 from app.config.planet import PlanetTrait
 from app.config.base import NamedConfigObj
@@ -11,7 +10,7 @@ from .vote_scenario_type import AgendaVoteScenarioType
 class AgendaConfig(NamedConfigObj):
     type_: AgendaType = field(metadata={"key": "type"})
     vote_scenario_type: AgendaVoteScenarioType
-    planet_trait: Optional[PlanetTrait] = None
+    planet_trait: PlanetTrait | None = None
 
     def __post_init__(self):
         if self.planet_trait is not None and self.vote_scenario_type is not AgendaVoteScenarioType.ELECT_PLANET:

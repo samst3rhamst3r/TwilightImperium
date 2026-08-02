@@ -1,6 +1,4 @@
-from dataclasses import dataclass, field
-from typing import Optional
-from collections.abc import Sequence
+from dataclasses import dataclass
 
 from ..base import ConfigObj
 from .upgrade_req import TechUpgradeReqConfig
@@ -10,5 +8,5 @@ from .type import TechType
 class TechConfig(ConfigObj):
     name: str
     tech_type: TechType
-    prereqs: Optional[Sequence[TechUpgradeReqConfig]] = field(default_factory=tuple)
+    prereqs: tuple[TechUpgradeReqConfig, ...] = ()
     

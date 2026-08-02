@@ -1,12 +1,11 @@
 from dataclasses import dataclass
-from typing import Optional
 
 class AlreadyOwnedResourceException(Exception): pass
 class NotYetOwnedResourceException(Exception): pass
 
 @dataclass(slots=True, kw_only=True)
 class PlayerOwnable:
-    owned_by_player_id: Optional[str] = None
+    owned_by_player_id: str | None = None
     
     def assign_owner(self, player_id: str) -> None:
         if self.owned_by_player_id is not None:

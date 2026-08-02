@@ -1,2 +1,3 @@
 from .ability import AbilityConfig
-from .parameterized_instance import ParameterizedAbilityInstanceConfig, CombatAbilityInstanceConfig, ProductionAbilityInstanceConfig, PARAMETERIZED_ABILITY_INSTANCE_REGISTRY
+from .parameterized_instance import ParameterizedAbilityInstanceConfig, CombatAbilityInstanceConfig, ProductionAbilityInstanceConfig
+from .ids import AbilityID

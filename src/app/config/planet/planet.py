@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Optional
 
 from app.config.base import ConfigObj
 from app.config.tech import TechType
@@ -12,5 +11,5 @@ class PlanetConfig(ConfigObj):
     system_id: str
     resources: int = 0
     influence: int = 0
-    tech_specialty: Optional[TechType] = None
-    trait: Optional[PlanetTrait] = None
+    tech_specialty: TechType | None = None
+    trait: PlanetTrait | None = None

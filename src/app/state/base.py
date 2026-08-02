@@ -10,6 +10,9 @@ class BaseStateObj[TConfig: BaseConfigObj, TTextConfig: BaseTextConfigObj]:
     """Base class for all state objects."""
     config: TConfig
     text_config: TTextConfig
+
+@dataclass(slots=True, kw_only=True)
+class UUIDStateObj[TConfig: BaseConfigObj, TTextConfig: BaseTextConfigObj](BaseStateObj[TConfig, TTextConfig]):
     _instance_id: str = field(init=False, default_factory=lambda: uuid4().hex)
 
     @property

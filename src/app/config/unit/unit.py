@@ -1,6 +1,4 @@
-from dataclasses import dataclass, field
-from collections.abc import Sequence
-from typing import Optional
+from dataclasses import dataclass
 
 from app.config.ability import ParameterizedAbilityInstanceConfig
 from app.config.base import CanHaveFactionExclusivity
@@ -20,10 +18,10 @@ class UnitConfig(CanHaveFactionExclusivity):
     units_per_cost: int | None = 1
     burst: int | None = 1
 
-    ability_ids: Sequence[str] = field(default_factory=tuple)
-    parameterized_abilities: Sequence[ParameterizedAbilityInstanceConfig] = field(default_factory=tuple)
-    upgraded_from: Optional[str] = None
-    upgrade_reqs: Sequence[TechUpgradeReqConfig] = field(default_factory=tuple)
+    ability_ids: tuple[str, ...] = ()
+    parameterized_abilities: tuple[ParameterizedAbilityInstanceConfig, ...] = ()
+    upgraded_from: str | None = None
+    upgrade_reqs: tuple[TechUpgradeReqConfig, ...] = ()
 
     @property
     def can_move(self) -> bool:

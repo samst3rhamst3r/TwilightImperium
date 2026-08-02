@@ -1,16 +1,16 @@
 from dataclasses import dataclass
-from typing import Final, Optional
+from typing import Final
 
 from app.config.player_color import PlayerColor
 from app.config.base import CanHaveFactionExclusivity
 from app.config.text import FunctionalTextConfig
 
-from .base import BaseStateObj
+from .base import UUIDStateObj
 
 @dataclass(slots=True, kw_only=True)
-class PromissoryNoteState(BaseStateObj[CanHaveFactionExclusivity, FunctionalTextConfig]):
-    issuing_player_color: Final[Optional[PlayerColor]] = None
-    current_holder_id: Optional[str] = None
+class PromissoryNoteState(UUIDStateObj[CanHaveFactionExclusivity, FunctionalTextConfig]):
+    issuing_player_color: Final[PlayerColor | None] = None
+    current_holder_id: str | None = None
 
     def __post_init__(self):
         if self.issuing_player_color is None and not self.config.is_faction_exclusive:

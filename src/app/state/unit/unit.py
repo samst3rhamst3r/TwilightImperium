@@ -1,15 +1,16 @@
 from dataclasses import dataclass, field
-from typing import Optional
 
 from app.config.unit import UnitConfig, UnitLocationType, get_valid_locations_for
 from app.config.text import FunctionalTextConfig
-from app.state.base import BaseStateObj
+from app.config.ability import AbilityID
+from app.state.base import UUIDStateObj
+from app.state.shared import PlayerOwnable
 
 from .location import UnitLocation
 
 @dataclass(slots=True, kw_only=True)
-class UnitState(BaseStateObj[UnitConfig, FunctionalTextConfig]):
-    location: Optional[UnitLocation] = None
+class UnitState(UUIDStateObj[UnitConfig, FunctionalTextConfig], PlayerOwnable):
+    location: UnitLocation | None = None
     current_damage: int = 0
     _sustainable_damage: int = field(init=False)
 
@@ -71,19 +72,19 @@ class UnitState(BaseStateObj[UnitConfig, FunctionalTextConfig]):
 
     @property
     def can_use_anti_fighter_barrage(self) -> bool:
-        return self._does_parameterized_ability_exist('anti_fighter_barrage')
+        return self._does_parameterized_ability_exist(AbilityID.ANTI_FIGHTER_BARRAGE)
 
     @property
     def can_use_space_cannon(self) -> bool:
-        return self._does_parameterized_ability_exist('space_cannon')
+        return self._does_parameterized_ability_exist(AbilityID.SPACE_CANNON)
 
     @property
     def can_use_bombardment(self) -> bool:
-        return self._does_parameterized_ability_exist('bombardment')
+        return self._does_parameterized_ability_exist(AbilityID.BOMBARDMENT)
 
     def _does_standard_ability_exist(self, ability_id: str) -> bool:
         return ability_id in self.config.ability_ids
 
     @property
     def can_sustain_damage(self) -> bool:
-        return self._does_standard_ability_exist('sustain_damage')
+        return self._does_standard_ability_exist(AbilityID.SUSTAIN_DAMAGE)

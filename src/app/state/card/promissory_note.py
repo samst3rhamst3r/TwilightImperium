@@ -5,8 +5,8 @@ from app.config.player_color import PlayerColor
 from app.config.base import CanHaveFactionExclusivity
 from app.config.text import FunctionalTextConfig
 
-from .base import ConfigBasedStateObj
-from .shared import PlayerOwnable
+from ..base import ConfigBasedStateObj
+from ..shared import PlayerOwnable
 
 @dataclass(slots=True, kw_only=True)
 class PromissoryNoteState(ConfigBasedStateObj[CanHaveFactionExclusivity, FunctionalTextConfig], PlayerOwnable):

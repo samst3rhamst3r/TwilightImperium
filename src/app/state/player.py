@@ -1,6 +1,6 @@
 
 from dataclasses import dataclass, field
-from typing import Final
+from typing import Final, Self
 
 from app.config.faction import FactionConfig
 from app.config.unit import UnitClass
@@ -28,6 +28,9 @@ class InvalidTokenRedistributionError(Exception):
 
 _MAX_CONTROL_TOKENS: Final[int] = 17
 _MAX_COMMAND_TOKENS: Final[int] = 16
+_NEW_GAME_DEFAULT_TACTIC_POOL_SIZE: Final[int] = 3
+_NEW_GAME_DEFAULT_FLEET_POOL_SIZE: Final[int] = 3
+_NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 
 @dataclass(slots=True, kw_only=True)
 class Player(BaseStateObj):
@@ -37,10 +40,10 @@ class Player(BaseStateObj):
     researched_tech_ids: set[str] = field(default_factory=set)
     commodities: int = 0
     trade_goods: int = 0
-    victory_pts: int = 0
-    tactic_pool: int = 0
-    fleet_pool: int = 0
-    strategy_pool: int = 0
+    bonus_victory_pts: int = 0
+    tactic_pool: int = _NEW_GAME_DEFAULT_TACTIC_POOL_SIZE
+    fleet_pool: int = _NEW_GAME_DEFAULT_FLEET_POOL_SIZE
+    strategy_pool: int = _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE
     
     unit_reinforcement_pool: dict[UnitClass, int] = field(default_factory=dict)
     control_token_reinforcement_pool: int = _MAX_CONTROL_TOKENS
@@ -52,19 +55,25 @@ class Player(BaseStateObj):
             raise TooManyTokensError(f"Initialization error. {self.tactic_pool} tactic + {self.fleet_pool} fleet + {self.strategy_pool} command tokens exceeds maximum allowed: {_MAX_COMMAND_TOKENS}.")
         self.command_token_reinforcement_pool = _MAX_COMMAND_TOKENS - total_tokens_to_rmv
 
-    def score_objective(self, card_id: str, victory_pts: int) -> None:
+    @classmethod
+    def new_game(cls, name: str, faction: FactionConfig, secret_objective_card_id: str) -> Self:
+        player = cls(name=name, faction=faction)
+        player.secret_objective_card_ids.add(secret_objective_card_id)
+        player.researched_tech_ids.update(faction.starting_tech_ids)
+        return player
+
+    def score_objective(self, card_id: str) -> None:
         if card_id in self.scored_objective_card_ids:
             raise AlreadyScoredObjectiveError(f"Objective with ID {card_id} has already been scored.")
         self.scored_objective_card_ids.add(card_id)
-        self.score_victory_points(victory_pts)
 
-    def score_victory_points(self, pts: int) -> None:
-        self.victory_pts += pts
+    def score_bonus_victory_points(self, pts: int) -> None:
+        self.bonus_victory_pts += pts
 
-    def decrement_victory_points(self, pts: int) -> None:
-        self.victory_pts -= pts
-        if self.victory_pts < 0:
-            self.victory_pts = 0
+    def decrement_bonus_victory_points(self, pts: int) -> None:
+        self.bonus_victory_pts -= pts
+        if self.bonus_victory_pts < 0:
+            self.bonus_victory_pts = 0
 
     def research_tech(self, tech_id: str) -> None:
         if tech_id in self.researched_tech_ids:

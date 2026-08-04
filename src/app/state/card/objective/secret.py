@@ -5,5 +5,5 @@ from app.state.shared import PlayerOwnable
 from .base import ObjectiveCardState
 
 @dataclass(slots=True, kw_only=True)
-class SecretObjectiveState(ObjectiveCardState, PlayerOwnable):
-    pass
+class SecretObjectiveCardState(ObjectiveCardState, PlayerOwnable):
+    scored: bool = False

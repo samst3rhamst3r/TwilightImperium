@@ -9,7 +9,7 @@ from ..base import ConfigBasedStateObj
 from ..shared import PlayerOwnable
 
 @dataclass(slots=True, kw_only=True)
-class PromissoryNoteState(ConfigBasedStateObj[CanHaveFactionExclusivity, FunctionalTextConfig], PlayerOwnable):
+class PromissoryNoteCardState(ConfigBasedStateObj[CanHaveFactionExclusivity, FunctionalTextConfig], PlayerOwnable):
     issuing_player_color: Final[PlayerColor | None] = None
 
     def __post_init__(self):

@@ -6,4 +6,7 @@ from app.state.base import ConfigIDBasedStateObj
 
 @dataclass(slots=True, kw_only=True)
 class ObjectiveCardState(ConfigIDBasedStateObj[ObjectiveConfig, FunctionalTextConfig]):
-    pass
+
+    @property
+    def victory_points(self) -> int:
+        return self.config.victory_points

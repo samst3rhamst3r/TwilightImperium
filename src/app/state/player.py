@@ -1,11 +1,12 @@
 
 from dataclasses import dataclass, field
-from typing import Final
+from typing import Any, Final, Self
+from collections.abc import Sequence, Mapping
 
 from app.config.faction import FactionConfig
 from app.config.unit import UnitClass
 
-from .base import InstancedStateObj
+from .base.state_obj import InstancedStateObj
 from .card.objective import SecretObjectiveCardState
 
 class AlreadyScoredObjectiveError(Exception):
@@ -50,11 +51,70 @@ class PlayerState(InstancedStateObj):
     control_token_reinforcement_pool: int = _MAX_CONTROL_TOKENS
     command_token_reinforcement_pool: int = field(init=False)
 
+    def to_save_dict(self) -> dict[str, Any]:
+        d = super().to_save_dict()
+        return d | {
+            "faction": self.faction.id,
+            "secret_objective_cards": [card.to_save_dict() for card in self.secret_objective_cards],
+            "scored_public_objective_card_ids": self.scored_public_objective_card_ids,
+            "researched_tech_ids": self.researched_tech_ids,
+            "commodities": self.commodities,
+            "trade_goods": self.trade_goods,
+            "bonus_victory_points": self.bonus_victory_points,
+            "tactic_pool": self.tactic_pool,
+            "fleet_pool": self.fleet_pool,
+            "strategy_pool": self.strategy_pool,
+            "unit_reinforcement_pool": {k.value: v for k, v in self.unit_reinforcement_pool.items()},
+            "control_token_reinforcement_pool": self.control_token_reinforcement_pool,
+            # Not needed because it is calculated -> "command_token_reinforcement_pool": self.command_token_reinforcement_pool
+        }
+
+    @classmethod
+    def from_save_dict(
+        cls, 
+        instance_id: str,
+        name: str,
+        faction: FactionConfig, 
+        secret_objective_cards: Sequence[SecretObjectiveCardState], 
+        unit_reinforcement_pool: Mapping[str, int],
+        scored_public_objective_card_ids: Sequence[str],
+        researched_tech_ids: Sequence[str],
+        commodities: int,
+        trade_goods: int,
+        bonus_victory_points: int,
+        tactic_pool: int,
+        fleet_pool: int,
+        strategy_pool: int,
+        control_token_reinforcement_pool: int,
+    ) -> Self:
+
+        return cls(
+            instance_id=instance_id,
+            name=name,
+            faction=faction, 
+            secret_objective_cards=secret_objective_cards, 
+            unit_reinforcement_pool={UnitClass(k): v for k, v in unit_reinforcement_pool.items()},
+            scored_public_objective_card_ids=scored_public_objective_card_ids,
+            researched_tech_ids=researched_tech_ids,
+            commodities=commodities,
+            trade_goods=trade_goods,
+            bonus_victory_points=bonus_victory_points,
+            tactic_pool=tactic_pool,
+            fleet_pool=fleet_pool,
+            strategy_pool=strategy_pool,
+            control_token_reinforcement_pool=control_token_reinforcement_pool
+        )
+    
     def __post_init__(self):
+        super().__post_init__()
+
         total_tokens_to_rmv = self.tactic_pool + self.fleet_pool + self.strategy_pool
         if total_tokens_to_rmv > _MAX_COMMAND_TOKENS:
             raise TooManyTokensError(f"Initialization error. {self.tactic_pool} tactic + {self.fleet_pool} fleet + {self.strategy_pool} command tokens exceeds maximum allowed: {_MAX_COMMAND_TOKENS}.")
         self.command_token_reinforcement_pool = _MAX_COMMAND_TOKENS - total_tokens_to_rmv
+        self.secret_objective_cards = list(self.secret_objective_cards)
+        self.scored_public_objective_card_ids = list(self.scored_public_objective_card_ids)
+        self.researched_tech_ids = list(self.researched_tech_ids)
 
     def score_public_objective(self, card_id: str) -> None:
         if card_id in self.scored_public_objective_card_ids:

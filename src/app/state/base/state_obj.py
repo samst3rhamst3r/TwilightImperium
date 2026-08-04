@@ -1,23 +1,48 @@
 from dataclasses import dataclass, field
-from typing import Final
+from typing import Any, Final, Self, Protocol
 from uuid import uuid4
+from abc import ABC, abstractmethod
 
 from app.config.base import NamedConfigObj, IDConfigObj
 from app.config.text import BaseTextConfigObj
 
 @dataclass(slots=True, kw_only=True)
-class BaseStateObj:
+class BaseStateObj(ABC):
     """Base class for all state objects."""
+
+    @abstractmethod
+    def to_save_dict(self) -> dict[str, Any]:
+        """Convert the state object to a dictionary for saving."""
+        return {}
+
+    @classmethod
+    @abstractmethod
+    def from_save_dict(cls, **kwargs) -> Self:
+        """Create a new instance from a save dictionary."""
 
 @dataclass(slots=True, kw_only=True)
 class InstancedStateObj(BaseStateObj):
     instance_id: Final[str] = field(default_factory=lambda: uuid4().hex)
     name: Final[str | None] = None
 
+    @abstractmethod
+    def to_save_dict(self):
+        d = super().to_save_dict()
+        return d | {
+            "instance_id": self.instance_id,
+            "name": self.name
+        }
+
 @dataclass(slots=True, kw_only=True)
 class ConfigBoundStateObj[TConfig: NamedConfigObj](InstancedStateObj):
     config: TConfig
 
+    def to_save_dict(self):
+        d = super().to_save_dict()
+        return d | {
+            "config": self.config.id
+        }
+    
     def __post_init__(self):
         self.name = self.config.name
 

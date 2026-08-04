@@ -3,8 +3,8 @@ from dataclasses import dataclass, field
 from app.config.unit import UnitConfig, UnitLocationType, get_valid_locations_for
 from app.config.text import FunctionalTextConfig
 from app.config.ability import AbilityID
-from app.state.base import ConfigBoundStateObj, TextBoundStateObjMixin
-from app.state.shared import PlayerOwnable
+from app.state.base.state_obj import ConfigBoundStateObj, TextBoundStateObjMixin
+from app.state.base import PlayerOwnable
 
 from .location import UnitLocation
 

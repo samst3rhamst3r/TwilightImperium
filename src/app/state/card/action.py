@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from app.config.base import NamedConfigObj
 from app.config.text import EventTextConfig
 
-from app.state.shared import PlayerOwnable
+from app.state.base import PlayerOwnable
 
 from .base import CardState
 

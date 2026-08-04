@@ -3,8 +3,8 @@ from dataclasses import dataclass
 from app.config.planet import PlanetConfig
 from app.config.text import PlanetTextConfig
 
-from .base import ConfigIDBasedStateObj, TextBoundStateObjMixin
-from .shared import Exhaustable, PlayerOwnable
+from .base.state_obj import ConfigIDBasedStateObj, TextBoundStateObjMixin
+from .base import Exhaustable, PlayerOwnable
 
 class PlanetAlreadyControlledError(Exception): pass
 class PlanetNotControlledError(Exception): pass

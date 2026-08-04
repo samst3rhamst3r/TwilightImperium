@@ -3,8 +3,8 @@ from typing import Final
 
 from app.config.system import WormholeType
 
-from .base import BaseStateObj
-from .shared import PlayerOwnable
+from .base.state_obj import BaseStateObj
+from .base import PlayerOwnable
 
 @dataclass(slots=True, kw_only=True)
 class NaaluSpecialTokenState(BaseStateObj, PlayerOwnable):

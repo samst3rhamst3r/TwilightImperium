@@ -5,11 +5,11 @@ from app.config.player_color import PlayerColor
 from app.config.base import CanHaveFactionExclusivity
 from app.config.text import FunctionalTextConfig
 
-from ..base import ConfigBasedStateObj
+from ..base import ConfigBoundStateObj, TextBoundStateObjMixin
 from ..shared import PlayerOwnable
 
 @dataclass(slots=True, kw_only=True)
-class PromissoryNoteCardState(ConfigBasedStateObj[CanHaveFactionExclusivity, FunctionalTextConfig], PlayerOwnable):
+class PromissoryNoteCardState(ConfigBoundStateObj[CanHaveFactionExclusivity], TextBoundStateObjMixin[FunctionalTextConfig], PlayerOwnable):
     issuing_player_color: Final[PlayerColor | None] = None
 
     def __post_init__(self):

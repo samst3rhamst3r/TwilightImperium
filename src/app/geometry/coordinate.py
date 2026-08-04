@@ -1,9 +1,7 @@
 from dataclasses import dataclass
 
-from app.config.base import BaseConfigObj
-
 @dataclass(slots=True, frozen=True)
-class HexCoordinate(BaseConfigObj):
+class HexCoordinate:
     q: int
     r: int
 

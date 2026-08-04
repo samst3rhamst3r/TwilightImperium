@@ -2,10 +2,10 @@ from dataclasses import dataclass
 
 from app.config.objective import ObjectiveConfig
 from app.config.text import FunctionalTextConfig
-from app.state.base import ConfigIDBasedStateObj
+from app.state.base import ConfigIDBasedStateObj, TextBoundStateObjMixin
 
 @dataclass(slots=True, kw_only=True)
-class ObjectiveCardState(ConfigIDBasedStateObj[ObjectiveConfig, FunctionalTextConfig]):
+class ObjectiveCardState(ConfigIDBasedStateObj[ObjectiveConfig], TextBoundStateObjMixin[FunctionalTextConfig]):
 
     @property
     def victory_points(self) -> int:

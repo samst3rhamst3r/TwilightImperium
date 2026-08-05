@@ -1,17 +1,27 @@
 from dataclasses import dataclass
-from typing import Final
+from typing import Final, Self
 
 from app.config.system import WormholeType
 
 from .base.state_obj import BaseStateObj
 from .base import PlayerOwnable
 
+class _BaseSpecialTokenState(BaseStateObj, PlayerOwnable):
+
+    def to_save_dict(self) -> dict[str, object]:
+        return  BaseStateObj.to_save_dict(self) | PlayerOwnable.to_save_dict(self)
+
+    @staticmethod
+    def init_from_save_dict(data: dict) -> None:
+        BaseStateObj.init_from_save_dict(data)
+        PlayerOwnable.init_from_save_dict(data)
+
 @dataclass(slots=True, kw_only=True)
-class NaaluSpecialTokenState(BaseStateObj, PlayerOwnable):
+class NaaluSpecialTokenState(_BaseSpecialTokenState):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class SpeakerTokenState(BaseStateObj, PlayerOwnable):
+class SpeakerTokenState(_BaseSpecialTokenState):
 
     def assign_speaker(self, player_id: str) -> None:
         self.assign_owner(player_id)
@@ -33,6 +43,15 @@ class SpeakerTokenState(BaseStateObj, PlayerOwnable):
 class NekroAssimilatorTokenState(BaseStateObj):
     assimilated_faction_tech_id: str | None = None
 
+    def to_save_dict(self) -> dict[str, object]:
+        return {
+            "assimilated_faction_tech_id": self.assimilated_faction_tech_id
+        }
+    
+    @classmethod
+    def from_save_dict(cls, assimilated_faction_tech_id: str | None) -> Self:
+        return cls(assimilated_faction_tech_id = assimilated_faction_tech_id)
+    
     def assimilate_faction_tech_id(self, faction_tech_id: str) -> None:
         self.assimilated_faction_tech_id = faction_tech_id
 
@@ -54,3 +73,16 @@ class CreussWormholeTokenState(BaseStateObj):
     def __post_init__(self):
         if self.wormhole_type not in [WormholeType.ALPHA, WormholeType.BETA]:
             raise InvalidWormholeType(f"Invalid wormhole type {self.wormhole_type} for Creuss token. Valid types are: ALPHA, BETA")
+
+    def to_save_dict(self) -> dict:
+        return {
+            "wormhole_type": self.wormhole_type.value,
+            "active_system_id": self.active_system_id
+        }
+
+    @classmethod
+    def from_save_dict(cls, wormhole_type: str, active_system_id: str | None) -> Self:
+        return cls(
+            wormhole_type=WormholeType(wormhole_type),
+            active_system_id=active_system_id
+        )

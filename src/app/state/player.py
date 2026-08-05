@@ -28,7 +28,6 @@ class DoesNotHaveSecretObjectiveError(Exception):
 class InvalidTokenRedistributionError(Exception):
     pass
 
-_MAX_CONTROL_TOKENS: Final[int] = 17
 _MAX_COMMAND_TOKENS: Final[int] = 16
 _NEW_GAME_DEFAULT_TACTIC_POOL_SIZE: Final[int] = 3
 _NEW_GAME_DEFAULT_FLEET_POOL_SIZE: Final[int] = 3
@@ -48,7 +47,6 @@ class PlayerState(InstancedStateObj):
     strategy_pool: int = _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE
     
     unit_reinforcement_pool: dict[UnitClass, int] = field(default_factory=dict)
-    control_token_reinforcement_pool: int = _MAX_CONTROL_TOKENS
     command_token_reinforcement_pool: int = field(init=False)
 
     def to_save_dict(self) -> dict[str, Any]:
@@ -65,44 +63,25 @@ class PlayerState(InstancedStateObj):
             "fleet_pool": self.fleet_pool,
             "strategy_pool": self.strategy_pool,
             "unit_reinforcement_pool": {k.value: v for k, v in self.unit_reinforcement_pool.items()},
-            "control_token_reinforcement_pool": self.control_token_reinforcement_pool,
-            # Not needed because it is calculated -> "command_token_reinforcement_pool": self.command_token_reinforcement_pool
+
+            # Not needed because it is calculated at initialization 
+            # "command_token_reinforcement_pool": self.command_token_reinforcement_pool
         }
 
     @classmethod
     def from_save_dict(
         cls, 
-        instance_id: str,
-        name: str,
         faction: FactionConfig, 
         secret_objective_cards: Sequence[SecretObjectiveCardState], 
         unit_reinforcement_pool: Mapping[str, int],
-        scored_public_objective_card_ids: Sequence[str],
-        researched_tech_ids: Sequence[str],
-        commodities: int,
-        trade_goods: int,
-        bonus_victory_points: int,
-        tactic_pool: int,
-        fleet_pool: int,
-        strategy_pool: int,
-        control_token_reinforcement_pool: int,
+        **kwargs
     ) -> Self:
-
+        d = super().init_from_save_dict(kwargs)
         return cls(
-            instance_id=instance_id,
-            name=name,
             faction=faction, 
             secret_objective_cards=secret_objective_cards, 
             unit_reinforcement_pool={UnitClass(k): v for k, v in unit_reinforcement_pool.items()},
-            scored_public_objective_card_ids=scored_public_objective_card_ids,
-            researched_tech_ids=researched_tech_ids,
-            commodities=commodities,
-            trade_goods=trade_goods,
-            bonus_victory_points=bonus_victory_points,
-            tactic_pool=tactic_pool,
-            fleet_pool=fleet_pool,
-            strategy_pool=strategy_pool,
-            control_token_reinforcement_pool=control_token_reinforcement_pool
+            **kwargs
         )
     
     def __post_init__(self):
@@ -151,16 +130,6 @@ class PlayerState(InstancedStateObj):
             raise NotEnoughCommoditiesError(f"Only {self.commodities} are available.")
         self.commodities -= amount
         return amount
-
-    def receive_control_tokens(self, amount: int) -> None:
-        if self.control_token_pool + amount > _MAX_CONTROL_TOKENS:
-            raise TooManyTokensError(f"Cannot receive {amount} control tokens; already have {self.control_token_pool}. Maximum allowed is {_MAX_CONTROL_TOKENS}.")
-        self.control_token_pool += amount
-
-    def remove_from_control_token_pool(self, amount: int) -> None:
-        if amount > self.control_token_pool:
-            raise NotEnoughTokensError(f"Only {self.control_token_pool} control tokens are available. Cannot give {amount}.")
-        self.control_token_pool -= amount
 
     def receive_command_tokens(self, amount: int) -> None:
         if self.command_token_pool + amount > _MAX_COMMAND_TOKENS:

@@ -6,6 +6,15 @@ class NotYetOwnedResourceException(Exception): pass
 @dataclass(kw_only=True)
 class PlayerOwnable:
     owned_by_player_id: str | None = None
+
+    def to_save_dict(self):
+        return {
+            "owned_by_player_id": self.owned_by_player_id
+        }
+
+    @staticmethod
+    def init_from_save_dict(data: dict) -> None:
+        return {"owned_by_player_id": data.get("owned_by_player_id")}
     
     def assign_owner(self, player_id: str) -> None:
         if self.owned_by_player_id is not None:

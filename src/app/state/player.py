@@ -49,7 +49,7 @@ class PlayerState(InstancedStateObj):
     unit_reinforcement_pool: dict[UnitClass, int] = field(default_factory=dict)
     command_token_reinforcement_pool: int = field(init=False)
 
-    def to_save_dict(self) -> dict[str, Any]:
+    def to_save_dict(self) -> dict:
         d = super().to_save_dict()
         return d | {
             "faction": self.faction.id,
@@ -76,7 +76,6 @@ class PlayerState(InstancedStateObj):
         unit_reinforcement_pool: Mapping[str, int],
         **kwargs
     ) -> Self:
-        d = super().init_from_save_dict(kwargs)
         return cls(
             faction=faction, 
             secret_objective_cards=secret_objective_cards, 

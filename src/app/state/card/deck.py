@@ -1,6 +1,9 @@
 from dataclasses import dataclass, field
 from random import shuffle
+from typing import Self
+from collections.abc import Iterable
 
+from app.state.base import BaseStateObj
 from .base import CardState
 
 class EmptyCardDeckError(Exception):
@@ -8,7 +11,7 @@ class EmptyCardDeckError(Exception):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class CardDeckState[TCard: CardState]:
+class CardDeckState[TCard: CardState](BaseStateObj):
     deck: list[TCard]
     discard_pile: list[TCard] = field(default_factory=list)
 
@@ -28,4 +31,17 @@ class CardDeckState[TCard: CardState]:
 
     def discard(self, card: TCard) -> None:
         self.discard_pile.append(card)
-    
+
+    def to_save_dict(self):
+        return {
+            "deck": [card.to_save_dict() for card in self.deck],
+            "discard_pile": [card.to_save_dict() for card in self.discard_pile]
+        }
+
+    @classmethod
+    def from_save_dict(cls, deck: Iterable[TCard], discard_pile: Iterable[TCard], **kwargs) -> Self:
+        return cls(
+            deck=list(deck),
+            discard_pile=list(discard_pile),
+            **kwargs
+        )

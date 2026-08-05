@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Final, Self
+from typing import Final, Self
 from uuid import uuid4
 
 from app.config.base import NamedConfigObj, IDConfigObj
@@ -9,21 +9,12 @@ from app.config.text import BaseTextConfigObj
 class BaseStateObj:
     """Base class for all state objects."""
 
-    def to_save_dict(self) -> dict[str, Any]:
-        """Convert the state object to a dictionary for saving."""
-        return {}
+    def to_save_dict(self) -> dict:
+        raise NotImplementedError("Subclasses must implement this method")
 
     @classmethod
-    def from_save_dict(cls, **_) -> Self:
-        """Create a new instance from a save dictionary."""
-
-    @staticmethod
-    def init_from_save_dict(data: dict) -> None:
-        """Used to initialize super class fields from a save dictionary. 
-        Returns the same dictionary if not edit required.
-        Recommended to implement this method in subclasses if initializing super class fields is required.
-        """
-        return data
+    def from_save_dict(cls, data: dict) -> Self:
+        return cls(**data)
     
 @dataclass(slots=True, kw_only=True)
 class InstancedStateObj(BaseStateObj):
@@ -31,8 +22,7 @@ class InstancedStateObj(BaseStateObj):
     name: Final[str | None] = None
 
     def to_save_dict(self):
-        d = super().to_save_dict()
-        return d | {
+        return {
             "instance_id": self.instance_id,
             "name": self.name
         }

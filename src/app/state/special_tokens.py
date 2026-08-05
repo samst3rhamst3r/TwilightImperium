@@ -8,16 +8,11 @@ from .base import PlayerOwnable
 
 class _BaseSpecialTokenState(BaseStateObj, PlayerOwnable):
 
-    def to_save_dict(self) -> dict[str, object]:
-        return  BaseStateObj.to_save_dict(self) | PlayerOwnable.to_save_dict(self)
-
-    @staticmethod
-    def init_from_save_dict(data: dict) -> None:
-        BaseStateObj.init_from_save_dict(data)
-        PlayerOwnable.init_from_save_dict(data)
+    def to_save_dict(self) -> dict:
+        return PlayerOwnable.to_save_dict(self)
 
 @dataclass(slots=True, kw_only=True)
-class NaaluSpecialTokenState(_BaseSpecialTokenState):
+class NaaluTokenState(_BaseSpecialTokenState):
     pass
 
 @dataclass(slots=True, kw_only=True)
@@ -43,14 +38,10 @@ class SpeakerTokenState(_BaseSpecialTokenState):
 class NekroAssimilatorTokenState(BaseStateObj):
     assimilated_faction_tech_id: str | None = None
 
-    def to_save_dict(self) -> dict[str, object]:
+    def to_save_dict(self) -> dict:
         return {
             "assimilated_faction_tech_id": self.assimilated_faction_tech_id
         }
-    
-    @classmethod
-    def from_save_dict(cls, assimilated_faction_tech_id: str | None) -> Self:
-        return cls(assimilated_faction_tech_id = assimilated_faction_tech_id)
     
     def assimilate_faction_tech_id(self, faction_tech_id: str) -> None:
         self.assimilated_faction_tech_id = faction_tech_id
@@ -81,8 +72,8 @@ class CreussWormholeTokenState(BaseStateObj):
         }
 
     @classmethod
-    def from_save_dict(cls, wormhole_type: str, active_system_id: str | None) -> Self:
+    def from_save_dict(cls, wormhole_type: str, **kwargs) -> Self:
         return cls(
             wormhole_type=WormholeType(wormhole_type),
-            active_system_id=active_system_id
+            **kwargs
         )

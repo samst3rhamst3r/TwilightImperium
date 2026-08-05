@@ -3,8 +3,7 @@ from dataclasses import dataclass, field
 from app.config.unit import UnitConfig, UnitLocationType, get_valid_locations_for
 from app.config.text import FunctionalTextConfig
 from app.config.ability import AbilityID
-from app.state.base.state_obj import ConfigBoundStateObj, TextBoundStateObjMixin
-from app.state.base import PlayerOwnable
+from app.state.base import ConfigBoundStateObj, TextBoundStateObjMixin, PlayerOwnable
 
 from .location import UnitLocation
 
@@ -88,3 +87,22 @@ class UnitState(ConfigBoundStateObj[UnitConfig], TextBoundStateObjMixin[Function
     @property
     def can_sustain_damage(self) -> bool:
         return self._does_standard_ability_exist(AbilityID.SUSTAIN_DAMAGE)
+
+    def to_save_dict(self) -> dict:
+        d  = ConfigBoundStateObj[UnitConfig].to_save_dict(self)
+        d |= TextBoundStateObjMixin[FunctionalTextConfig].to_save_dict(self)
+        d |= PlayerOwnable.to_save_dict(self)
+        return d | {
+            "location": self.location.to_save_dict(),
+            "current_damage": self.current_damage,
+            "sustainable_damage": self._sustainable_damage,
+        }
+
+    @classmethod
+    def from_save_dict(cls, config: UnitConfig, text_config: FunctionalTextConfig, location: dict, **kwargs):
+        return cls(
+            config=config,
+            text_config=text_config,
+            location=UnitLocation.from_save_dict(**location),
+            **kwargs
+        )

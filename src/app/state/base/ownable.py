@@ -12,10 +12,6 @@ class PlayerOwnable:
             "owned_by_player_id": self.owned_by_player_id
         }
 
-    @staticmethod
-    def init_from_save_dict(data: dict) -> None:
-        return {"owned_by_player_id": data.get("owned_by_player_id")}
-    
     def assign_owner(self, player_id: str) -> None:
         if self.owned_by_player_id is not None:
             raise AlreadyOwnedResourceException(f'This resource is already owned by player ID {self.owned_by_player_id}.')

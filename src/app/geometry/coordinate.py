@@ -12,7 +12,7 @@ class HexCoordinate:
         return -self.q - self.r
 
     def __str__(self):
-        return f"({self.q},{self.r},{self.s})"
+        return f"[{self.q},{self.r}]"
 
     def __sub__(self, other: Self) -> Self:
         return self.__class__(self.q - other.q, self.r - other.r)

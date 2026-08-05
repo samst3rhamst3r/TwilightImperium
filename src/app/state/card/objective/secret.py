@@ -16,11 +16,3 @@ class SecretObjectiveCardState(ObjectiveCardState, PlayerOwnable):
             "scored": self.scored
         }
     
-    @classmethod
-    def from_save_dict(cls, data: dict) -> Self:
-        return cls(
-            scored=data["scored"],
-            **ObjectiveCardState.init_from_save_dict(data),
-            **PlayerOwnable.init_from_save_dict(data)
-        )
-    

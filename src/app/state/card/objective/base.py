@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app.config.objs.objective import ObjectiveConfig
-from app.config.text import FunctionalTextConfig
+from app.config.text_objs import FunctionalTextConfig
 from app.state.base.state_obj import ConfigIDBasedStateObj, TextBoundStateObjMixin
 
 @dataclass(slots=True, kw_only=True)

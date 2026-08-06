@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Self
 
 from app.config.shared import NamedConfigObj
-from app.config.text import EventTextConfig
+from app.config.text_objs import ActionCardTextConfig
 
 from app.state.base import PlayerOwnable, TextBoundStateObjMixin
 
@@ -11,7 +11,7 @@ from .base import CardState
 class ActionCardOutofBoundsError(IndexError): pass
 
 @dataclass(slots=True, kw_only=True)
-class ActionCardState(CardState[NamedConfigObj], TextBoundStateObjMixin[EventTextConfig], PlayerOwnable):
+class ActionCardState(CardState[NamedConfigObj], TextBoundStateObjMixin[ActionCardTextConfig], PlayerOwnable):
     flavor_text_index: int
 
     def __post_init__(self):
@@ -20,14 +20,14 @@ class ActionCardState(CardState[NamedConfigObj], TextBoundStateObjMixin[EventTex
 
     def to_save_dict(self) -> dict:
         d  = CardState[NamedConfigObj].to_save_dict(self)
-        d |= TextBoundStateObjMixin[EventTextConfig].to_save_dict(self)
+        d |= TextBoundStateObjMixin[ActionCardTextConfig].to_save_dict(self)
         d |= PlayerOwnable.to_save_dict(self)
         return d | {
             "flavor_text_index": self.flavor_text_index
         }
 
     @classmethod
-    def from_save_dict(cls, config: NamedConfigObj, text_config: EventTextConfig, **kwargs) -> Self:
+    def from_save_dict(cls, config: NamedConfigObj, text_config: ActionCardTextConfig, **kwargs) -> Self:
         return cls(config=config, text_config=text_config, **kwargs)
     
     @property

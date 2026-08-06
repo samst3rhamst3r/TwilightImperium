@@ -3,7 +3,7 @@ from typing import Final, Self
 
 from app.config.player_color import PlayerColor
 from app.config.shared import CanHaveFactionExclusivity
-from app.config.text import FunctionalTextConfig
+from app.config.text_objs import FunctionalTextConfig
 
 from app.state.base import ConfigBoundStateObj, TextBoundStateObjMixin, PlayerOwnable
 

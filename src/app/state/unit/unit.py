@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
 from app.config.objs.unit import UnitConfig, UnitLocationType, get_valid_locations_for
-from app.config.text import FunctionalTextConfig
+from app.config.text_objs import FunctionalTextConfig
 from app.config.objs.ability import AbilityID
 from app.state.base import ConfigBoundStateObj, TextBoundStateObjMixin, PlayerOwnable
 

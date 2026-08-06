@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Self
 
 from app.config.objs.planet import PlanetConfig
-from app.config.text import PlanetTextConfig
+from app.config.text_objs import PlanetTextConfig
 
 from .base.state_obj import ConfigIDBasedStateObj, TextBoundStateObjMixin
 from .base import Exhaustable, PlayerOwnable

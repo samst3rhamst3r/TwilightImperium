@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Self
 
 from app.config.objs.strategy_card import StrategyCardConfig
-from app.config.text import StrategyTextConfig
+from app.config.text_objs import StrategyTextConfig
 
 from app.state.base.state_obj import ConfigIDBasedStateObj, TextBoundStateObjMixin
 from app.state.base import Exhaustable, PlayerOwnable

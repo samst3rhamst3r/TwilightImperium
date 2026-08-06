@@ -3,7 +3,7 @@ from typing import Final, Self
 from uuid import uuid4
 
 from app.config.shared import NamedConfigObj, IDConfigObj
-from app.config.text import BaseTextConfigObj
+from app.config.text_objs import BaseTextConfigObj
 
 @dataclass(slots=True, kw_only=True)
 class BaseStateObj:

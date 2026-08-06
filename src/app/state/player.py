@@ -36,7 +36,7 @@ _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 @dataclass(slots=True, kw_only=True)
 class PlayerState(InstancedStateObj):
     name: Final[str]
-    faction_id: str
+    faction_id: Final[str]
     secret_objective_card_ids: list[str] = field(default_factory=list)
     scored_public_objective_card_ids: list[str] = field(default_factory=list)
     researched_tech_ids: list[str] = field(default_factory=list)
@@ -48,13 +48,16 @@ class PlayerState(InstancedStateObj):
     strategy_pool: int = _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE
     
     unit_reinforcement_pool: dict[UnitClass, int] = field(default_factory=dict)
+
+    # Calculated at initialization based upon size of tactic/fleet/strategy pools
     command_token_reinforcement_pool: int = field(init=False)
 
     def to_save_dict(self) -> dict:
         d = super().to_save_dict()
         return d | {
-            "faction": self.faction.id,
-            "secret_objective_cards": [card.to_save_dict() for card in self.secret_objective_cards],
+            "name": self.name,
+            "faction": self.faction_id,
+            "secret_objective_cards": self.secret_objective_card_ids,
             "scored_public_objective_card_ids": self.scored_public_objective_card_ids,
             "researched_tech_ids": self.researched_tech_ids,
             "commodities": self.commodities,
@@ -63,10 +66,7 @@ class PlayerState(InstancedStateObj):
             "tactic_pool": self.tactic_pool,
             "fleet_pool": self.fleet_pool,
             "strategy_pool": self.strategy_pool,
-            "unit_reinforcement_pool": {k.value: v for k, v in self.unit_reinforcement_pool.items()},
-
-            # Not needed because it is calculated at initialization 
-            # "command_token_reinforcement_pool": self.command_token_reinforcement_pool
+            "unit_reinforcement_pool": self.unit_reinforcement_pool,
         }
 
     @classmethod

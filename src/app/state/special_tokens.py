@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Final, Self
+from typing import ClassVar, Final, Self
 
 from app.config.objs.system import WormholeType
 
@@ -61,9 +61,11 @@ class CreussWormholeTokenState(BaseStateObj):
     wormhole_type: Final[WormholeType]
     active_system_id: str | None = None
 
+    _VALID_WORMHOLE_TYPES: ClassVar[tuple[WormholeType, ...]] = (WormholeType.ALPHA, WormholeType.BETA)
+
     def __post_init__(self):
-        if self.wormhole_type not in [WormholeType.ALPHA, WormholeType.BETA]:
-            raise InvalidWormholeType(f"Invalid wormhole type {self.wormhole_type} for Creuss token. Valid types are: ALPHA, BETA")
+        if self.wormhole_type not in self._VALID_WORMHOLE_TYPES:
+            raise InvalidWormholeType(f"Invalid wormhole type {self.wormhole_type} for Creuss token. Valid types are: {', '.join(t.name for t in self._VALID_WORMHOLE_TYPES)}")
 
     def to_save_dict(self) -> dict:
         return {

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Final, Self
 
-from app.config.system import WormholeType
+from app.config.objs.system import WormholeType
 
 from .base.state_obj import BaseStateObj
 from .base import PlayerOwnable

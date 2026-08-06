@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 from app.geometry.coordinate import HexCoordinate
 
-from .base import BaseConfigObj, CanHaveFactionExclusivity
-from .map import MapShape
+from .shared import BaseConfigObj, CanHaveFactionExclusivity
+from .objs.map import MapShape
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class PlayerSetupConfig(BaseConfigObj):

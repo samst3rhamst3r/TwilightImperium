@@ -1,4 +1,4 @@
-from app.config.base import IDConfigObj
+from app.config.shared import IDConfigObj
 
 class Registry[T: IDConfigObj]:
 

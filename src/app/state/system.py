@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Self
 from collections.abc import Iterable
 
-from app.config.system.system import SystemConfig
+from app.config.objs.system.system import SystemConfig
 from app.geometry import HexCoordinate
 from app.state.base.state_obj import ConfigIDBasedStateObj
 

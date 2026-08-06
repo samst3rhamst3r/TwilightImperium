@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Self
 
-from app.config.base import NamedConfigObj
+from app.config.shared import NamedConfigObj
 from app.config.text import EventTextConfig
 
 from app.state.base import PlayerOwnable, TextBoundStateObjMixin

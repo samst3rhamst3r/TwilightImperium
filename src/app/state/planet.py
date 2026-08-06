@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Self
 
-from app.config.planet import PlanetConfig
+from app.config.objs.planet import PlanetConfig
 from app.config.text import PlanetTextConfig
 
 from .base.state_obj import ConfigIDBasedStateObj, TextBoundStateObjMixin

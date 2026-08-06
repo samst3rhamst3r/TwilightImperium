@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.base import IDConfigObj
+from app.config.shared import IDConfigObj
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class BaseTextConfigObj(IDConfigObj):

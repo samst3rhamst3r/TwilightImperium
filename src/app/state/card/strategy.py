@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Self
 
-from app.config.strategy_card import StrategyCardConfig
+from app.config.objs.strategy_card import StrategyCardConfig
 from app.config.text import StrategyTextConfig
 
 from app.state.base.state_obj import ConfigIDBasedStateObj, TextBoundStateObjMixin

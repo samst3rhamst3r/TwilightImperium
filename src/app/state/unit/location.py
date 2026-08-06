@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.unit import UnitLocationType
+from app.config.objs.unit import UnitLocationType
 
 from app.state.base import BaseStateObj
 

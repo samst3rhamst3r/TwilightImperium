@@ -1,24 +1,26 @@
 from dataclasses import dataclass, field
 from collections.abc import Iterable
+from types import MappingProxyType
 
 from .loader import *
 
-from .ability import AbilityConfig
-from .action_card import ActionCardConfig
-from .agenda import AgendaConfig
-from .faction import FactionConfig
-from .objective import ObjectiveConfig
-from .planet import PlanetConfig
-from .promissory_note import PromissoryNoteConfig
+from .objs.ability import AbilityConfig
+from .objs.action_card import ActionCardConfig
+from .objs.agenda import AgendaConfig
+from .objs.faction import FactionConfig
+from .objs.objective import ObjectiveConfig
+from .objs.planet import PlanetConfig
+from .objs.promissory_note import PromissoryNoteConfig
+from .objs.strategy_card import StrategyCardConfig
+from .objs.system import SystemConfig
+from .objs.tech import TechConfig
+from .objs.unit import UnitConfig
+
 from .setup import SetupConfig
-from .strategy_card import StrategyCardConfig
-from .system import SystemConfig
-from .tech import TechConfig
-from .unit import UnitConfig
 
 @dataclass(slots=True, frozen=True)
 class RulesetConfig:
-    ability_data: list[dict[str, Any]] = field(default_factory=list)
+    ability_registry: MappingProxyType[str, AbilityConfig] = field(default_factory=dict)
 
-    @classmethod
-    def new_game(cls, num_players: int)
+    def __post_init__(self):
+        object.__setattr__(self, "ability_registry", MappingProxyType({self.ability_registry}))

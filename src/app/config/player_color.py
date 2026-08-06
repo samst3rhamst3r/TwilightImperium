@@ -1,6 +1,6 @@
 from enum import auto
 
-from app.config.enum import GameStrEnum
+from app.config.shared.enum import GameStrEnum
 
 class PlayerColor(GameStrEnum):
     BLACK = auto()

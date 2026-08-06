@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Self
 
-from app.config.tech import TechConfig
+from app.config.objs.tech import TechConfig
 from app.config.text import FunctionalTextConfig
 
 from app.state.base.state_obj import ConfigBoundStateObj, TextBoundStateObjMixin

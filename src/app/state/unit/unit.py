@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 
-from app.config.unit import UnitConfig, UnitLocationType, get_valid_locations_for
+from app.config.objs.unit import UnitConfig, UnitLocationType, get_valid_locations_for
 from app.config.text import FunctionalTextConfig
-from app.config.ability import AbilityID
+from app.config.objs.ability import AbilityID
 from app.state.base import ConfigBoundStateObj, TextBoundStateObjMixin, PlayerOwnable
 
 from .location import UnitLocation

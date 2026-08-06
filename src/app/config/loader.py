@@ -2,6 +2,20 @@ from yaml import safe_load
 from typing import Final, Any
 from pathlib import Path
 
+from .objs.ability import AbilityConfig
+from .objs.action_card import ActionCardConfig
+from .objs.agenda import AgendaConfig
+from .objs.faction import FactionConfig
+from .objs.objective import ObjectiveConfig
+from .objs.planet import PlanetConfig
+from .objs.promissory_note import PromissoryNoteConfig
+from .objs.strategy_card import StrategyCardConfig
+from .objs.system import SystemConfig
+from .objs.tech import TechConfig
+from .objs.unit import UnitConfig
+
+from .setup import SetupConfig
+
 _BASE_CONFIG_DATA_FOLDER_PATH: Final[Path] = Path(__file__).parent.parent.parent.resolve() / "data"
 
 def _load_data(file_name: str, base_path: Path = _BASE_CONFIG_DATA_FOLDER_PATH, include_text_data: bool = False) -> tuple[list[dict[str, Any]], ...]:

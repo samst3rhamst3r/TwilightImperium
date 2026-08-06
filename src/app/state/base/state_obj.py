@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Final, Self
 from uuid import uuid4
 
-from app.config.base import NamedConfigObj, IDConfigObj
+from app.config.shared import NamedConfigObj, IDConfigObj
 from app.config.text import BaseTextConfigObj
 
 @dataclass(slots=True, kw_only=True)

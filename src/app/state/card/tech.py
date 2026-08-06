@@ -10,8 +10,8 @@ from app.state.base.state_obj import ConfigBoundStateObj, TextBoundStateObjMixin
 class TechnologyCardState(ConfigBoundStateObj[TechConfig], TextBoundStateObjMixin[FunctionalTextConfig]):
 
     def to_save_dict(self):
-        d = ConfigBoundStateObj.to_save_dict(self)
-        d |= TextBoundStateObjMixin.to_save_dict(self)
+        d = ConfigBoundStateObj[TechConfig].to_save_dict(self)
+        d |= TextBoundStateObjMixin[FunctionalTextConfig].to_save_dict(self)
         return d
 
     @classmethod

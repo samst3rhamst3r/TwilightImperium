@@ -18,9 +18,9 @@ class PromissoryNoteCardState(ConfigBoundStateObj[CanHaveFactionExclusivity], Te
             raise ValueError(f"Faction exclusive promissory notes cannot have an issuing player color.\nCOLOR: {self.issuing_player_color}\nCONFIG: {self.config}")
 
     def to_save_dict(self):
-        d  = ConfigBoundStateObj.to_save_dict(self)
+        d  = ConfigBoundStateObj[CanHaveFactionExclusivity].to_save_dict(self)
+        d |= TextBoundStateObjMixin[FunctionalTextConfig].to_save_dict(self)
         d |= PlayerOwnable.to_save_dict(self)
-        d |= TextBoundStateObjMixin.to_save_dict(self)
         return d | {
             "issuing_player_color": self.issuing_player_color
         }

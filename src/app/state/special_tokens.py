@@ -77,3 +77,7 @@ class CreussWormholeTokenState(BaseStateObj):
             wormhole_type=WormholeType(wormhole_type),
             **kwargs
         )
+
+@dataclass(slots=True, kw_only=True)
+class CustodiansTokenState(BaseStateObj):
+    is_on_mecatol_rex: bool = True

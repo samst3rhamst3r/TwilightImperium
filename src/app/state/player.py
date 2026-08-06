@@ -35,8 +35,9 @@ _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 
 @dataclass(slots=True, kw_only=True)
 class PlayerState(InstancedStateObj):
-    faction: FactionConfig
-    secret_objective_cards: list[SecretObjectiveCardState] = field(default_factory=list)
+    name: Final[str]
+    faction_id: str
+    secret_objective_card_ids: list[str] = field(default_factory=list)
     scored_public_objective_card_ids: list[str] = field(default_factory=list)
     researched_tech_ids: list[str] = field(default_factory=list)
     commodities: int = 0

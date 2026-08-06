@@ -7,7 +7,7 @@ from app.state.base import BaseStateObj
 @dataclass(slots=True, frozen=True)
 class UnitLocation(BaseStateObj):
     loc_type: UnitLocationType
-    ref_instance_id: str
+    unit_id: str
 
     @property
     def is_on_planet(self) -> bool:
@@ -24,7 +24,7 @@ class UnitLocation(BaseStateObj):
     def to_save_dict(self) -> dict:
         return {
             "loc_type": self.loc_type.value,
-            "ref_instance_id": self.ref_instance_id,
+            "unit_id": self.unit_id,
         }
 
     @classmethod

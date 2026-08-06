@@ -24,6 +24,7 @@
 
 - id: direct_hit
   name: Direct Hit
+  num_in_deck: 4
 
 - id: diplomacy_rider
   name: Diplomacy Rider
@@ -51,6 +52,7 @@
 
 - id: flank_speed
   name: Flank Speed
+  num_in_deck: 4
 
 - id: focused_research
   name: Focused Research
@@ -90,12 +92,14 @@
 
 - id: maneuvering_jets
   name: Maneuvering Jets
+  num_in_deck: 4
 
 - id: mining_initiative
   name: Mining Initiative
 
 - id: morale_boost
   name: Morale Boost
+  num_in_deck: 4
 
 - id: parley
   name: Parley
@@ -126,12 +130,14 @@
 
 - id: sabotage
   name: Sabotage
+  num_in_deck: 4
 
 - id: salvage
   name: Salvage
 
 - id: shields_holding
   name: Shields Holding
+  num_in_deck: 4
 
 - id: signal_jamming
   name: Signal Jamming

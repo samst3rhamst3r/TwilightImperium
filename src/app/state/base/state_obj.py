@@ -9,17 +9,20 @@ from app.config.text import BaseTextConfigObj
 class BaseStateObj:
     """Base class for all state objects."""
 
-    def to_save_dict(self) -> dict:
-        raise NotImplementedError("Subclasses must implement this method")
+    @classmethod
+    def new_game(cls, **kwargs) -> Self:
+        return cls(**kwargs)
 
     @classmethod
     def from_save_dict(cls, data: dict) -> Self:
         return cls(**data)
     
+    def to_save_dict(self) -> dict:
+        raise NotImplementedError("Subclasses must implement this method")
+
 @dataclass(slots=True, kw_only=True)
 class InstancedStateObj(BaseStateObj):
     instance_id: Final[str] = field(default_factory=lambda: uuid4().hex)
-    name: Final[str | None] = None
 
     def to_save_dict(self):
         return {
@@ -28,17 +31,14 @@ class InstancedStateObj(BaseStateObj):
         }
 
 @dataclass(slots=True, kw_only=True)
-class ConfigBoundStateObj[TConfig: NamedConfigObj](InstancedStateObj):
-    config: TConfig
+class ConfigBoundStateObj(InstancedStateObj):
+    config_id: str
 
     def to_save_dict(self):
         d = super().to_save_dict()
         return d | {
-            "config": self.config.id
+            "config_id": self.config_id
         }
-
-    def __post_init__(self):
-        self.name = self.config.name
 
 @dataclass(slots=True, kw_only=True)
 class ConfigIDBasedStateObj[TConfig: IDConfigObj](ConfigBoundStateObj[TConfig]):

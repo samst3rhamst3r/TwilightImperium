@@ -1,0 +1,32 @@
+- map_shape_id: triangular
+  player_setup:
+  - home_system_coordinates: [-3, 0]
+  - home_system_coordinates: [ 3,-3]
+  - home_system_coordinates: [ 0, 3]
+
+- map_shape_id: standard
+  player_setup:
+  - home_system_coordinates: [-1,-2]
+  - home_system_coordinates: [ 3,-2]
+  - home_system_coordinates: [ 1, 2]
+  - home_system_coordinates: [-3, 2]
+
+- map_shape_id: standard
+  player_setup:
+  - home_system_coordinates: [-1,-2]
+  - home_system_coordinates: [ 3,-3]
+    trade_good_bonus: 2
+  - home_system_coordinates: [ 3, 0]
+    trade_good_bonus: 4
+  - home_system_coordinates: [ 0, 3]
+    trade_good_bonus: 2
+  - home_system_coordinates: [-3, 2]
+  
+- map_shape_id: standard
+  player_setup:
+  - home_system_coordinates: [ 0,-3]
+  - home_system_coordinates: [ 3,-3]
+  - home_system_coordinates: [ 3, 0]
+  - home_system_coordinates: [ 0, 3]
+  - home_system_coordinates: [-3, 3]
+  - home_system_coordinates: [-3, 0]

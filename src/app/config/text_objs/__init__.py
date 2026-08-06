@@ -1,23 +1,23 @@
 from .text_objs import (
-    AbilityCardTextConfig,
+    ActionTextConfig,
     ActionCardTextConfig,
     AgendaTextConfig,
     ObjectiveCardTextConfig,
     PlanetTextConfig,
     PromissoryNoteTextConfig,
-    StrategyTextConfig,
+    StrategyCardTextConfig,
     TechTextConfig,
     UnitTextConfig
 )
 
 __all__ = [
-    "AbilityCardTextConfig",
+    "ActionTextConfig",
     "ActionCardTextConfig",
     "AgendaTextConfig",
     "ObjectiveCardTextConfig",
     "PlanetTextConfig",
     "PromissoryNoteTextConfig",
-    "StrategyTextConfig",
+    "StrategyCardTextConfig",
     "TechTextConfig",
     "UnitTextConfig"
 ]

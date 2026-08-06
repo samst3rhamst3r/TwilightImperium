@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from .base import BaseTextConfigObj, OnlyFunctionalTextConfig, FunctionalWithFlavorTextOptionsConfig, OnlyFlavorTextConfig
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class AbilityCardTextConfig(OnlyFunctionalTextConfig):
+class ActionTextConfig(OnlyFunctionalTextConfig):
     pass
 
 @dataclass(slots=True, frozen=True, kw_only=True)
@@ -27,7 +27,7 @@ class PromissoryNoteTextConfig(OnlyFunctionalTextConfig):
     pass
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class StrategyTextConfig(BaseTextConfigObj):
+class StrategyCardTextConfig(BaseTextConfigObj):
     primary_ability_text: str
     secondary_ability_text: str
 

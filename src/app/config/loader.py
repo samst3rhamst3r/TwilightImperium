@@ -1,7 +1,7 @@
 from yaml import safe_load
 from typing import Any
-from collections.abc import Iterable
 from pathlib import Path
+from collections.abc import Generator
 
 from .objs.ability import AbilityConfig
 from .objs.action_card import ActionCardConfig
@@ -16,59 +16,80 @@ from .objs.system import SystemConfig
 from .objs.tech import TechConfig
 from .objs.unit import UnitConfig
 
-from .text_objs import (
-    ActionTextConfig,
-    ActionCardTextConfig,
-    AgendaTextConfig,
-    ObjectiveCardTextConfig,
-    PlanetTextConfig,
-    PromissoryNoteTextConfig,
-    StrategyCardTextConfig,
-    TechTextConfig,
-    UnitTextConfig
-)
-
 from .setup import SetupConfig
 
-def _load_data(config_path: Path) -> Any:
-    with open(config_path) as f:
+_CONFIG_OBJ_DATA_PATH = Path("objs")
+_TEXT_CONFIG_OBJ_DATA_PATH = Path("text_objs")
+
+def _load_data(config_data_file_path: Path) -> dict | list[dict]:
+    with open(config_data_file_path) as f:
         return safe_load(f)
 
-def load_ability_data(config_path: Path, text_config_path: Path) -> tuple[tuple[AbilityConfig, ...], tuple[ActionTextConfig, ...]]:
-    return tuple(AbilityConfig(**config) for config in _load_data(config_path)), tuple(ActionTextConfig(**text_config) for text_config in _load_data(text_config_path))
+def _load_config_obj_data(root_path: Path, file_name: str) -> list[dict]:
+    return _load_data(root_path / _CONFIG_OBJ_DATA_PATH / file_name)
 
-def load_action_card_data(config_path: Path, text_config_path: Path) -> tuple[tuple[ActionCardConfig, ...], tuple[ActionCardTextConfig, ...]]:
-    return tuple(ActionCardConfig(**config) for config in _load_data(config_path)), tuple(ActionCardTextConfig(**text_config) for text_config in _load_data(text_config_path))
+def _load_text_data_into_config_by_id(root_path: Path, file_name: str) -> list[dict]:
 
-def load_agenda_data(config_path: Path, text_config_path: Path) -> tuple[tuple[AgendaConfig, ...], tuple[AgendaTextConfig, ...]]:
-    return tuple(AgendaConfig(**config) for config in _load_data(config_path)), tuple(AgendaTextConfig(**text_config) for text_config in _load_data(text_config_path))
+    config_data: list[dict] = _load_config_obj_data(root_path, file_name)
 
-def load_faction_data(config_path: Path) -> tuple[FactionConfig, ...]:
-    return tuple(FactionConfig(**config) for config in _load_data(config_path))
+    text_config_data = {config.pop("id"): config for config in _load_data(root_path / _TEXT_CONFIG_OBJ_DATA_PATH / file_name)}
 
-def load_map_data(config_paths: Iterable[Path]) -> tuple[MapConfig, ...]:
-    return tuple(_load_data(path) for path in config_paths)
+    for config_dict in config_data:
+        if config_dict["id"] not in text_config_data.keys():
+            raise KeyError(f"Text config ID {config_dict['id']} not found in configuration: {config_dict}")
+        config_dict.update(text_config_data[config_dict["id"]])
 
-def load_setup_data(config_path: Path) -> tuple[SetupConfig, ...]:
-    return tuple(SetupConfig(**config) for config in _load_data(config_path))
+    return config_data
 
-def load_objective_data(config_path: Path, text_config_path: Path) -> tuple[tuple[ObjectiveConfig], tuple[ObjectiveCardTextConfig]]:
-    return tuple(ObjectiveConfig(**config) for config in _load_data(config_path)), tuple(ObjectiveCardTextConfig(**text_config) for text_config in _load_data(text_config_path))
+def load_ability_data(root_data_path: Path) -> Generator[AbilityConfig]:
+    for config in _load_text_data_into_config_by_id(root_data_path, "abilities.yaml"):
+        yield AbilityConfig(**config)
 
-def load_planet_data(config_path: Path, text_config_path: Path) -> tuple[tuple[PlanetConfig], tuple[PlanetTextConfig]]:
-    return tuple(PlanetConfig(**config) for config in _load_data(config_path)), tuple(PlanetTextConfig(**text_config) for text_config in _load_data(text_config_path))
+def load_action_card_data(root_data_path: Path) -> Generator[ActionCardConfig]:
+    for config in _load_text_data_into_config_by_id(root_data_path, "action_cards.yaml"):
+        yield ActionCardConfig(**config)
 
-def load_promissory_note_data(config_path: Path, text_config_path: Path) -> tuple[tuple[PromissoryNoteConfig], tuple[PromissoryNoteTextConfig]]:
-    return tuple(PromissoryNoteConfig(**config) for config in _load_data(config_path)), tuple(PromissoryNoteTextConfig(**text_config) for text_config in _load_data(text_config_path))
+def load_agenda_data(root_data_path: Path) -> Generator[AgendaConfig]:
+    for config in _load_text_data_into_config_by_id(root_data_path, "agendas.yaml"):
+        yield AgendaConfig(**config)
 
-def load_strategy_card_data(config_path: Path, text_config_path: Path) -> tuple[tuple[StrategyCardConfig], tuple[StrategyCardTextConfig]]:
-    return tuple(StrategyCardConfig(**config) for config in _load_data(config_path)), tuple(StrategyCardTextConfig(**text_config) for text_config in _load_data(text_config_path))
+def load_faction_data(root_data_path: Path) -> Generator[FactionConfig]:
+    for config in _load_config_obj_data(root_data_path, "factions.yaml"):
+        yield FactionConfig(**config)
 
-def load_system_data(config_path: Path) -> tuple[SystemConfig]:
-    return tuple(SystemConfig(**config) for config in _load_data(config_path))
+def load_map_data(root_data_path: Path) -> Generator[MapConfig]:
+    base_path = root_data_path / _CONFIG_OBJ_DATA_PATH / "map"
+    for path in base_path.iterdir():
+        yield MapConfig(**_load_data(path))
 
-def load_tech_data(config_path: Path, text_config_path: Path) -> tuple[tuple[TechConfig], tuple[TechTextConfig]]:
-    return tuple(TechConfig(**config) for config in _load_data(config_path)), tuple(TechTextConfig(**text_config) for text_config in _load_data(text_config_path))
+def load_setup_data(root_data_path: Path) -> Generator[SetupConfig]:
+    for config in _load_data(root_data_path / "setup.yaml"):
+        yield SetupConfig(**config)
 
-def load_unit_data(config_path: Path, text_config_path: Path) -> tuple[tuple[UnitConfig], tuple[UnitTextConfig]]:
-    return tuple(UnitConfig(**config) for config in _load_data(config_path)), tuple(UnitTextConfig(**text_config) for text_config in _load_data(text_config_path))
+def load_objective_data(root_data_path: Path) -> Generator[ObjectiveConfig]:
+    for config in _load_text_data_into_config_by_id(root_data_path, "objectives.yaml"):
+        yield ObjectiveConfig(**config)
+
+def load_planet_data(root_data_path: Path) -> Generator[PlanetConfig]:
+    for config in _load_text_data_into_config_by_id(root_data_path, "planets.yaml"):
+        yield PlanetConfig(**config)
+
+def load_promissory_note_data(root_data_path: Path) -> Generator[PromissoryNoteConfig]:
+    for config in _load_text_data_into_config_by_id(root_data_path, "promissory_notes.yaml"):
+        yield PromissoryNoteConfig(**config)
+
+def load_strategy_card_data(root_data_path: Path) -> Generator[StrategyCardConfig]:
+    for config in _load_text_data_into_config_by_id(root_data_path, "strategy_cards.yaml"):
+        yield StrategyCardConfig(**config)
+
+def load_system_data(root_data_path: Path) -> Generator[SystemConfig]:
+    for config in _load_config_obj_data(root_data_path, "systems.yaml"):
+        yield SystemConfig(**config)
+
+def load_tech_data(root_data_path: Path) -> Generator[TechConfig]:
+    for config in _load_text_data_into_config_by_id(root_data_path, "techs.yaml"):
+        yield TechConfig(**config)
+
+def load_unit_data(root_data_path: Path) -> Generator[UnitConfig]:
+    for config in _load_text_data_into_config_by_id(root_data_path, "units.yaml"):
+        yield UnitConfig(**config)

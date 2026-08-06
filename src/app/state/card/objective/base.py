@@ -1,16 +1,7 @@
 from dataclasses import dataclass
 
-from app.config.objs.objective import ObjectiveConfig
-from app.config.text_objs import FunctionalTextConfig
-from app.state.base.state_obj import ConfigIDBasedStateObj, TextBoundStateObjMixin
+from app.state.base.state_obj import ConfigIDBasedStateObj
 
 @dataclass(slots=True, kw_only=True)
-class ObjectiveCardState(ConfigIDBasedStateObj[ObjectiveConfig], TextBoundStateObjMixin[FunctionalTextConfig]):
-
-    def to_save_dict(self):
-        d = ConfigIDBasedStateObj[ObjectiveConfig].to_save_dict(self)
-        return d | TextBoundStateObjMixin[FunctionalTextConfig].to_save_dict(self)
-
-    @property
-    def victory_points(self) -> int:
-        return self.config.victory_points
+class ObjectiveCardState(ConfigIDBasedStateObj):
+    pass

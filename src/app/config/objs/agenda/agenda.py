@@ -1,13 +1,14 @@
 from dataclasses import dataclass, field
 
 from app.config.objs.planet import PlanetTrait
+from app.config.shared.text_objs import RequiresFunctionalText
 from app.config.shared import NamedConfigObj
 
 from .type import AgendaType
 from .vote_scenario_type import AgendaVoteScenarioType
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class AgendaConfig(NamedConfigObj):
+class AgendaConfig(NamedConfigObj, RequiresFunctionalText):
     type_: AgendaType = field(metadata={"key": "type"})
     vote_scenario_type: AgendaVoteScenarioType
     planet_trait: PlanetTrait | None = None

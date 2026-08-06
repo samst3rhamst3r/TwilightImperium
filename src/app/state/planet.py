@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from typing import Self
 
 from app.config.objs.planet import PlanetConfig
-from app.config.text_objs import PlanetTextConfig
 
 from .base.state_obj import ConfigIDBasedStateObj, TextBoundStateObjMixin
 from .base import Exhaustable, PlayerOwnable
@@ -11,7 +10,7 @@ class PlanetAlreadyControlledError(Exception): pass
 class PlanetNotControlledError(Exception): pass
 
 @dataclass(slots=True, kw_only=True)
-class PlanetState(ConfigIDBasedStateObj[PlanetConfig], TextBoundStateObjMixin[PlanetTextConfig], Exhaustable, PlayerOwnable):
+class PlanetState(ConfigIDBasedStateObj[PlanetConfig], Exhaustable, PlayerOwnable):
 
     def to_save_dict(self) -> dict:
         d = ConfigIDBasedStateObj.to_save_dict(self)
@@ -21,8 +20,8 @@ class PlanetState(ConfigIDBasedStateObj[PlanetConfig], TextBoundStateObjMixin[Pl
         return d
 
     @classmethod
-    def from_save_dict(cls, config: PlanetConfig, text_config: PlanetTextConfig, **kwargs) -> Self:
-        return cls(config=config, text_config=text_config, **kwargs)
+    def from_save_dict(cls, config: PlanetConfig, **kwargs) -> Self:
+        return cls(config=config, **kwargs)
     
     def assign_control(self, player_id: str) -> None:
         self.assign_owner(player_id)

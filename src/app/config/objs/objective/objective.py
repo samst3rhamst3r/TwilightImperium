@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from types import MappingProxyType
 
+from app.config.shared.text_objs import RequiresFunctionalText
 from app.config.shared import NamedConfigObj
 from app.config.game_phase import GamePhase
 
@@ -13,7 +14,7 @@ _OBJECTIVE_POINTS_BY_TYPE: MappingProxyType[ObjectiveType, int] = MappingProxyTy
 })
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class ObjectiveConfig(NamedConfigObj):
+class ObjectiveConfig(NamedConfigObj, RequiresFunctionalText):
     type_: ObjectiveType = field(metadata={"key": "type"})
     phase: GamePhase
 

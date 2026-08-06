@@ -2,8 +2,7 @@ from dataclasses import dataclass, field
 from typing import Final, Self
 from uuid import uuid4
 
-from app.config.shared import NamedConfigObj, IDConfigObj
-from app.config.text_objs import BaseTextConfigObj
+from app.config.shared import IDConfigObj
 
 @dataclass(slots=True, kw_only=True)
 class BaseStateObj:
@@ -41,18 +40,8 @@ class ConfigBoundStateObj(InstancedStateObj):
         }
 
 @dataclass(slots=True, kw_only=True)
-class ConfigIDBasedStateObj[TConfig: IDConfigObj](ConfigBoundStateObj[TConfig]):
+class ConfigIDBasedStateObj(ConfigBoundStateObj):
 
     def __post_init__(self):
         super().__post_init__()
-        self.instance_id = self.config.id
-
-@dataclass(slots=True, kw_only=True)
-class TextBoundStateObjMixin[TTextConfig: BaseTextConfigObj]:
-    """Independent Generic Mixin for text configuration."""
-    text_config: TTextConfig
-
-    def to_save_dict(self):
-        return {
-            "text_config": self.text_config.id
-        }
+        self.instance_id = self.config_id

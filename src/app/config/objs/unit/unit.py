@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 
-from app.config.objs.ability import ParameterizedAbilityInstanceConfig
-from app.config.shared.text_objs import RequiresFunctionalText
 from app.config.shared import CanHaveFactionExclusivity
+from app.config.shared.text_objs import RequiresFunctionalText
+
+from app.config.objs.ability import ParameterizedAbilityInstanceConfig
 from app.config.objs.tech import TechUpgradeReqConfig
 
 from .unit_class import UnitClass

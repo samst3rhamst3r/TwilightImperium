@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from app.geometry.coordinate import HexCoordinate
 
-from .shared import BaseConfigObj, CanHaveFactionExclusivity
+from .shared import BaseConfigObj
 from .objs.map import MapShape
 
 @dataclass(slots=True, frozen=True, kw_only=True)
@@ -11,6 +11,6 @@ class PlayerSetupConfig(BaseConfigObj):
     trade_good_bonus: int = 0
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class SetupConfig(CanHaveFactionExclusivity):
+class SetupConfig(BaseConfigObj):
     map_shape_id: MapShape
     player_setup: tuple[PlayerSetupConfig, ...]

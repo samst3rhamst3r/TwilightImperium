@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 
-from app.config.objs.planet import PlanetTrait
-from app.config.shared.text_objs import RequiresFunctionalText
 from app.config.shared import NamedConfigObj
+from app.config.shared.text_objs import RequiresFunctionalText
+from app.config.objs.planet import PlanetTrait
 
 from .type import AgendaType
 from .vote_scenario_type import AgendaVoteScenarioType

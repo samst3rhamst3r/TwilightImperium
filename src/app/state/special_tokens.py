@@ -1,15 +1,13 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import ClassVar, Final, Self
 
 from app.config.objs.system import WormholeType
+from app.state.base.ownable import PlayerOwnable
 
 from .base.state_obj import BaseStateObj
-from .base import PlayerOwnable
 
-class _BaseSpecialTokenState(BaseStateObj, PlayerOwnable):
-
-    def to_save_dict(self) -> dict:
-        return PlayerOwnable.to_save_dict(self)
+class _BaseSpecialTokenState(BaseStateObj):
+    ownable_obj: PlayerOwnable = field(default_factory=PlayerOwnable)
 
 @dataclass(slots=True, kw_only=True)
 class NaaluTokenState(_BaseSpecialTokenState):
@@ -19,27 +17,27 @@ class NaaluTokenState(_BaseSpecialTokenState):
 class SpeakerTokenState(_BaseSpecialTokenState):
 
     def assign_speaker(self, player_id: str) -> None:
-        self.assign_owner(player_id)
+        self.ownable_obj.assign_owner(player_id)
 
     def reassign_speaker(self, player_id: str) -> str:
-        return self.reassign_owner(player_id)
+        return self.ownable_obj.reassign_owner(player_id)
 
     def release_speaker(self) -> str:
-        return self.release_owner()
+        return self.ownable_obj.release_owner()
 
     def is_player_speaker(self, player_id: str) -> bool:
-        return self.is_owned_by_player(player_id)
+        return self.ownable_obj.is_owned_by_player(player_id)
 
     @property
     def speaker_player_id(self) -> str | None:
-        return self.owned_by_player_id
+        return self.ownable_obj.owned_by_player_id
 
 @dataclass(slots=True, kw_only=True)
 class NekroAssimilatorTokenState(BaseStateObj):
     assimilated_faction_tech_id: str | None = None
 
     def to_save_dict(self) -> dict:
-        return {
+        return super().to_save_dict() | {
             "assimilated_faction_tech_id": self.assimilated_faction_tech_id
         }
     
@@ -68,13 +66,14 @@ class CreussWormholeTokenState(BaseStateObj):
             raise InvalidWormholeType(f"Invalid wormhole type {self.wormhole_type} for Creuss token. Valid types are: {', '.join(t.name for t in self._VALID_WORMHOLE_TYPES)}")
 
     def to_save_dict(self) -> dict:
-        return {
+        return super().to_save_dict() | {
             "wormhole_type": self.wormhole_type.value,
             "active_system_id": self.active_system_id
         }
 
     @classmethod
     def from_save_dict(cls, wormhole_type: str, **kwargs) -> Self:
+        cls.init_from_save_dict(kwargs)
         return cls(
             wormhole_type=WormholeType(wormhole_type),
             **kwargs
@@ -83,3 +82,8 @@ class CreussWormholeTokenState(BaseStateObj):
 @dataclass(slots=True, kw_only=True)
 class CustodiansTokenState(BaseStateObj):
     is_on_mecatol_rex: bool = True
+
+    def to_save_dict(self) -> dict:
+        return super().to_save_dict() | {
+            "is_on_mecatol_rex": self.is_on_mecatol_rex
+        }

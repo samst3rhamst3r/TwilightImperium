@@ -1,12 +1,13 @@
 from dataclasses import dataclass
-from typing import Final, Self
+from typing import Final
 
 from app.config.player_color import PlayerColor
 
-from app.state.base import ConfigBoundStateObj, PlayerOwnable
+from app.state.base import InstancedStateObj
+from app.state.base.protocols import Loadable
 
 @dataclass(slots=True, kw_only=True)
-class PromissoryNoteCardState(ConfigBoundStateObj, PlayerOwnable):
+class PromissoryNoteCardState(InstancedStateObj, Loadable):
     issuing_player_color: Final[PlayerColor | None] = None
 
     @property
@@ -17,15 +18,19 @@ class PromissoryNoteCardState(ConfigBoundStateObj, PlayerOwnable):
         return self.issuing_player_color == player_color
 
     def to_save_dict(self):
-        d  = ConfigBoundStateObj.to_save_dict(self)
-        d |= PlayerOwnable.to_save_dict(self)
+        d  = super().to_save_dict()
         return d | {
             "issuing_player_color": self.issuing_player_color
         }
 
-    @classmethod
-    def from_save_dict(cls, issuing_player_color: str | None, **kwargs) -> Self:
+    @staticmethod
+    def init_from_save_dict(data: dict):
+        issuing_player_color = data.get("issuing_player_color")
         if issuing_player_color is not None:
-            issuing_player_color = PlayerColor(issuing_player_color)
-        return cls(issuing_player_color=issuing_player_color, **kwargs)
-    
+            data["issuing_player_color"] = PlayerColor(issuing_player_color)
+        return data
+
+    @classmethod
+    def from_save_dict(cls, issuing_player_color: str | None, **kwargs):
+        kwargs = cls.init_from_save_dict(kwargs)
+        return cls(**kwargs)

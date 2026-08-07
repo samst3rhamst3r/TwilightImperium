@@ -1,12 +1,13 @@
 from dataclasses import dataclass
 
-from app.config.objs.unit import UnitConfig, UnitLocationType
-from app.state.base import ConfigBoundStateObj, PlayerOwnable
+from app.config.objs.unit import UnitLocationType
+from app.state.base import InstancedStateObj
+from app.state.base.protocols import Loadable
 
 from .location import UnitLocation
 
 @dataclass(slots=True, kw_only=True)
-class UnitState(ConfigBoundStateObj[UnitConfig], PlayerOwnable):
+class UnitState(InstancedStateObj, Loadable):
     location: UnitLocation | None = None
     current_damage: int = 0
 
@@ -76,12 +77,10 @@ class UnitState(ConfigBoundStateObj[UnitConfig], PlayerOwnable):
     #     return self._does_standard_ability_exist(AbilityID.SUSTAIN_DAMAGE)
 
     def to_save_dict(self) -> dict:
-        d  = ConfigBoundStateObj[UnitConfig].to_save_dict(self)
-        d |= PlayerOwnable.to_save_dict(self)
+        d  = super().to_save_dict(self)
         return d | {
             "location": self.location.to_save_dict(),
             "current_damage": self.current_damage,
-            "sustainable_damage": self._sustainable_damage,
         }
 
     @classmethod

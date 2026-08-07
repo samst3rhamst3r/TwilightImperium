@@ -1,10 +1,12 @@
 from dataclasses import dataclass
 
+from app.state.base.protocols import MixinInitializer, Savable
+
 class AlreadyOwnedResourceException(Exception): pass
 class NotYetOwnedResourceException(Exception): pass
 
-@dataclass(kw_only=True)
-class PlayerOwnable:
+@dataclass(slots=True, kw_only=True)
+class PlayerOwnable(Savable, MixinInitializer):
     owned_by_player_id: str | None = None
 
     def to_save_dict(self):

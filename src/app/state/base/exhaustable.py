@@ -1,13 +1,15 @@
 from dataclasses import dataclass
 
+from app.state.base.protocols import MixinInitializer, Savable
+
 class ExhaustableAlreadyExhausted(Exception):
     pass
 
 class ExhaustableAlreadyReadied(Exception):
     pass
 
-@dataclass(kw_only=True)
-class Exhaustable:
+@dataclass(slots=True, kw_only=True)
+class Exhaustable(Savable, MixinInitializer):
     exhausted: bool = False
 
     def to_save_dict(self) -> dict:

@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.shared import CanHaveFactionExclusivity
-from app.config.shared.text_objs import RequiresFunctionalText
+from app.config.shared import NamedConfigObj, RequiresFunctionalText, CanHaveFactionExclusivity
 
 from app.config.objs.ability import ParameterizedAbilityInstanceConfig
 from app.config.objs.tech import TechUpgradeReqConfig
@@ -9,7 +8,7 @@ from app.config.objs.tech import TechUpgradeReqConfig
 from .unit_class import UnitClass
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class UnitConfig(CanHaveFactionExclusivity, RequiresFunctionalText):
+class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity, RequiresFunctionalText):
 
     unit_class: UnitClass
 

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app.config.shared import NamedConfigObj
-from app.config.shared.text_objs import RequiresFunctionalText
+from app.config.shared.mixins import RequiresFunctionalText
 
 from .type import TechType
 from .upgrade_req import TechUpgradeReqConfig

@@ -16,3 +16,7 @@ class RequiresFlavorText:
 class PrimarySecondaryAbilityTextConfig:
     primary_ability_text: str
     secondary_ability_text: str
+
+@dataclass(slots=True, frozen=True, kw_only=True)
+class CanHaveFactionExclusivity:
+    faction_exclusive_id: str | None = None

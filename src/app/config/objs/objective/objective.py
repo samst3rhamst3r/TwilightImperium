@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from types import MappingProxyType
 
 from app.config.shared import NamedConfigObj
-from app.config.shared.text_objs import RequiresFunctionalText
+from app.config.shared.mixins import RequiresFunctionalText
 from app.config.game_phase import GamePhase
 
 from .type import ObjectiveType

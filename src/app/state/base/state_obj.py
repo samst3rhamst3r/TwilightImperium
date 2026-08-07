@@ -2,8 +2,6 @@ from dataclasses import dataclass, field
 from typing import Final, Self
 from uuid import uuid4
 
-from app.config.shared import IDConfigObj
-
 @dataclass(slots=True, kw_only=True)
 class BaseStateObj:
     """Base class for all state objects."""

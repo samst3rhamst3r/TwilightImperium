@@ -1,5 +1,7 @@
 from typing import Protocol, Self
 
+from app.state.base.ownable import PlayerOwnable
+
 class Savable(Protocol):
     """Protocol that can be used in many objects to gather any saveable data.
     
@@ -34,3 +36,22 @@ class Loadable(MixinInitializer):
     def from_save_dict(cls, input_dict: dict) -> Self:
         input_dict = cls.init_from_save_dict(input_dict)
         return cls(**input_dict)
+
+class PlayerAssignable(Protocol):
+    ownable_obj: PlayerOwnable
+
+    def assign_owner(self, player_id: str) -> None:
+        self.ownable_obj.assign_owner(player_id)
+
+    def reassign_owner(self, player_id: str) -> str:
+        return self.ownable_obj.reassign_owner(player_id)
+
+    def release_owner(self) -> str:
+        return self.ownable_obj.release_owner()
+
+    @property
+    def is_owned(self) -> bool:
+        return self.ownable_obj.is_owned
+
+    def is_owned_by_player(self, player_id: str) -> bool:
+        return self.ownable_obj.is_owned_by_player(player_id)

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Final, Self
+from typing import Final
 from uuid import uuid4
 
 from .exhaustable import Exhaustable
@@ -8,23 +8,19 @@ from .protocols import Savable, MixinInitializer
 
 @dataclass(slots=True, kw_only=True)
 class BaseStateObj(Savable, MixinInitializer):
-    exhaustable_obj: Exhaustable | None = None
-    ownable_obj: PlayerOwnable | None = None
+    exhaustable_obj: Exhaustable = field(default_factory=Exhaustable)
+    ownable_obj: PlayerOwnable = field(default_factory=PlayerOwnable)
 
     @staticmethod
     def init_from_save_dict(data: dict) -> dict:
-        if "exhaustable_obj" in data:
-            data["exhaustable_obj"] = Exhaustable.init_from_save_dict(data["exhaustable_obj"])
-        if "ownable_obj" in data:
-            data["ownable_obj"] = PlayerOwnable.init_from_save_dict(data["ownable_obj"])
+        data["exhaustable_obj"] = Exhaustable.init_from_save_dict(data["exhaustable_obj"])
+        data["ownable_obj"] = PlayerOwnable.init_from_save_dict(data["ownable_obj"])
         return data
 
     def to_save_dict(self) -> dict:
         d = {}
-        if self.exhaustable_obj is not None:
-            d["exhaustable_obj"] = self.exhaustable_obj.to_save_dict()
-        if self.ownable_obj is not None:
-            d["ownable_obj"] = self.ownable_obj.to_save_dict()
+        d["exhaustable_obj"] = self.exhaustable_obj.to_save_dict()
+        d["ownable_obj"] = self.ownable_obj.to_save_dict()
         return d
 
 @dataclass(slots=True, kw_only=True)

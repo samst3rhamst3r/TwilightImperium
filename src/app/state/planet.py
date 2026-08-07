@@ -1,6 +1,5 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
-from app.state.base.exhaustable import Exhaustable
 from app.state.base.protocols import Loadable
 
 from .base.state_obj import ConfigIDBasedStateObj
@@ -12,7 +11,6 @@ class PlanetNotControlledError(Exception):
 
 @dataclass(slots=True, kw_only=True)
 class PlanetState(ConfigIDBasedStateObj, Loadable):
-    exhaustable_obj: Exhaustable = field(default_factory=Exhaustable)
 
     def assign_control(self, player_id: str) -> None:
         self.ownable_obj.assign_owner(player_id)

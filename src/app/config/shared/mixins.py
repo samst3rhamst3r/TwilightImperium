@@ -13,11 +13,6 @@ class RequiresFlavorText:
     flavor_text: str
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class PrimarySecondaryAbilityTextConfig:
-    primary_ability_text: str
-    secondary_ability_text: str
-
-@dataclass(slots=True, frozen=True, kw_only=True)
 class CanHaveFactionExclusivity:
     faction_exclusive_id: str | None = None
 
@@ -27,3 +22,14 @@ class CanHaveFactionExclusivity:
 
     def is_exclusive_to(self, faction_id: str) -> bool:
         return self.faction_exclusive_id == faction_id
+
+@dataclass(slots=True, frozen=True, kw_only=True)
+class CanBeExhaustable:
+    exhaustable: bool = False
+
+@dataclass(slots=True, frozen=True, kw_only=True)
+class IsExhaustable(CanBeExhaustable):
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.exhaustable = True

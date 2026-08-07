@@ -9,11 +9,12 @@ from app.state.base import ConfigBoundStateObj, PlayerOwnable
 class PromissoryNoteCardState(ConfigBoundStateObj, PlayerOwnable):
     issuing_player_color: Final[PlayerColor | None] = None
 
-    # def __post_init__(self):
-    #     if self.issuing_player_color is None and not self.config.is_faction_exclusive:
-    #         raise ValueError(f"Non-faction exclusive promissory notes must have an issuing player color.\nCONFIG: {self.config}")
-    #     if self.issuing_player_color is not None and self.config.is_faction_exclusive:
-    #         raise ValueError(f"Faction exclusive promissory notes cannot have an issuing player color.\nCOLOR: {self.issuing_player_color}\nCONFIG: {self.config}")
+    @property
+    def is_issued_to_player(self) -> bool:
+        return self.issuing_player_color is not None
+
+    def is_issued_to(self, player_color: PlayerColor) -> bool:
+        return self.issuing_player_color == player_color
 
     def to_save_dict(self):
         d  = ConfigBoundStateObj.to_save_dict(self)
@@ -28,9 +29,3 @@ class PromissoryNoteCardState(ConfigBoundStateObj, PlayerOwnable):
             issuing_player_color = PlayerColor(issuing_player_color)
         return cls(issuing_player_color=issuing_player_color, **kwargs)
     
-    # @property
-    # def functional_text(self) -> str:
-    #     if self.issuing_player_color is None:
-    #         return self.text_config.functional_text
-    #     else:
-    #         return self.text_config.functional_text.replace("__PLAYER_COLOR__", self.issuing_player_color.value)

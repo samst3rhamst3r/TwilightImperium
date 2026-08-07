@@ -3,7 +3,7 @@ from typing import Self
 
 from app.config.objs.planet import PlanetConfig
 
-from .base.state_obj import ConfigIDBasedStateObj, TextBoundStateObjMixin
+from .base.state_obj import ConfigIDBasedStateObj
 from .base import Exhaustable, PlayerOwnable
 
 class PlanetAlreadyControlledError(Exception): pass
@@ -14,7 +14,6 @@ class PlanetState(ConfigIDBasedStateObj[PlanetConfig], Exhaustable, PlayerOwnabl
 
     def to_save_dict(self) -> dict:
         d = ConfigIDBasedStateObj.to_save_dict(self)
-        d |= TextBoundStateObjMixin.to_save_dict(self)
         d |= Exhaustable.to_save_dict(self)
         d |= PlayerOwnable.to_save_dict(self)
         return d

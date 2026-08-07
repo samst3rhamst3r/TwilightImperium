@@ -3,6 +3,9 @@ from dataclasses import dataclass
 class ExhaustableAlreadyExhausted(Exception):
     pass
 
+class ExhaustableAlreadyReadied(Exception):
+    pass
+
 @dataclass(kw_only=True)
 class Exhaustable:
     exhausted: bool = False
@@ -18,5 +21,7 @@ class Exhaustable:
     
     def ready(self):
         """Ready the object."""
+        if not self.exhausted:
+            raise ExhaustableAlreadyReadied('Cannot ready an already readied object.')
         self.exhausted = False
     

@@ -3,11 +3,9 @@ from dataclasses import dataclass, field
 from typing import Final, Self
 from collections.abc import Sequence, Mapping
 
-from app.config.objs.faction import FactionConfig
 from app.config.objs.unit import UnitClass
 
 from .base.state_obj import InstancedStateObj
-from .card.objective import SecretObjectiveCardState
 
 class AlreadyScoredObjectiveError(Exception):
     pass

@@ -20,3 +20,10 @@ class PrimarySecondaryAbilityTextConfig:
 @dataclass(slots=True, frozen=True, kw_only=True)
 class CanHaveFactionExclusivity:
     faction_exclusive_id: str | None = None
+
+    @property
+    def is_faction_exclusive(self) -> bool:
+        return self.faction_exclusive_id is not None
+
+    def is_exclusive_to(self, faction_id: str) -> bool:
+        return self.faction_exclusive_id == faction_id

@@ -4,7 +4,7 @@ from uuid import uuid4
 from .state_obj import StateObj
 
 @dataclass(kw_only=True)
-class UUIDInstancedMixin(StateObj):
+class UUIDInstancedStateObj(StateObj):
     instance_id: str = field(init=False, default_factory=lambda: uuid4().hex)
 
     def to_save_dict(self):
@@ -17,7 +17,7 @@ class UUIDInstancedMixin(StateObj):
         self.instance_id = data["instance_id"]
 
 @dataclass(kw_only=True)
-class ConfigIDMixin(StateObj):
+class UUIDandConfigIDStateObj(UUIDInstancedStateObj):
     config_id: str
 
     def to_save_dict(self):
@@ -30,14 +30,10 @@ class ConfigIDMixin(StateObj):
         self.config_id = data["config_id"]
 
 @dataclass(kw_only=True)
-class UUIDandConfigIDMixin(UUIDInstancedMixin, ConfigIDMixin):
-    pass
-
-@dataclass(kw_only=True)
-class ConfigIDInstanceMixin(UUIDandConfigIDMixin):
+class ConfigIDInstancedStateObj(UUIDandConfigIDStateObj):
 
     def __post_init__(self):
         super().__post_init__()
         if self.config_id is None:
-            raise ValueError("This ConfigIDInstanceMixin must have a config_id supplied.")
+            raise ValueError("This ConfigIDInstancedStateObj must have a config_id supplied.")
         self.instance_id = self.config_id

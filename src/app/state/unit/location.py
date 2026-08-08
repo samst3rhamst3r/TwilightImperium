@@ -22,14 +22,13 @@ class UnitLocation(StateObj):
         return self.loc_type is UnitLocationType.SHIP
 
     def to_save_dict(self) -> dict:
-        return {
+        return super().to_save_dict() | {
             "loc_type": self.loc_type.value,
             "unit_id": self.unit_id,
         }
 
-    @classmethod
-    def from_save_dict(cls, loc_type: str, **kwargs):
-        return cls(
-            loc_type=UnitLocationType(loc_type),
-            **kwargs,
-        )
+    def init_from_save(self, data: dict) -> None:
+        super().init_from_save()
+        self.location = UnitLocationType(data["loc_type"])
+        self.current_damage = data["current_damage"]
+        

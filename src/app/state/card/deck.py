@@ -1,17 +1,26 @@
 from dataclasses import dataclass, field
 from random import shuffle
-from typing import Self
-from collections.abc import Iterable
+from types import MappingProxyType
 
 from app.state.base import StateObj
-from .base import CardDeckCardState
+from app.state.base.mixins import UUIDandConfigIDStateObj
+from .action import ActionCardState
+from .objective import PublicObjectiveCardState, SecretObjectiveCardState
 
 class EmptyCardDeckError(Exception):
     """Raised when trying to draw from an empty card deck."""
     pass
 
+_CLASS_TYPE_DICT_KEY = "$type"
+
+_TYPE_REGISTRY: MappingProxyType[str, UUIDandConfigIDStateObj] = MappingProxyType({
+    ActionCardState.__name__: ActionCardState,
+    PublicObjectiveCardState.__name__: PublicObjectiveCardState,
+    SecretObjectiveCardState.__name__: SecretObjectiveCardState
+})
+
 @dataclass(slots=True, kw_only=True)
-class CardDeckState[TCard: StateObj](StateObj):
+class CardDeckState[TCard: UUIDandConfigIDStateObj](StateObj):
     deck: list[TCard]
     discard_pile: list[TCard] = field(default_factory=list)
 
@@ -32,16 +41,13 @@ class CardDeckState[TCard: StateObj](StateObj):
     def discard(self, card: TCard) -> None:
         self.discard_pile.append(card)
 
-    def to_save_dict(self):
-        return {
-            "deck": [card.to_save_dict() for card in self.deck],
-            "discard_pile": [card.to_save_dict() for card in self.discard_pile]
+    def to_save_dict(self) -> dict:
+        return super().to_save_dict() | {
+            "deck": [{_CLASS_TYPE_DICT_KEY: card.__class__.__name__} | card.to_save_dict() for card in self.deck],
+            "discard_pile": [{_CLASS_TYPE_DICT_KEY: card.__class__.__name__} | card.to_save_dict() for card in self.discard_pile]
         }
 
-    @classmethod
-    def from_save_dict(cls, deck: Iterable[TCard], discard_pile: Iterable[TCard], **kwargs) -> Self:
-        return cls(
-            deck=list(deck),
-            discard_pile=list(discard_pile),
-            **kwargs
-        )
+    def init_from_save(self, data: dict) -> None:
+        super().init_from_save(data)
+        self.deck = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].from_save_dict(**card_data) for card_data in data["deck"]]
+        self.discard_pile = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].from_save_dict(**card_data) for card_data in data["discard_pile"]]

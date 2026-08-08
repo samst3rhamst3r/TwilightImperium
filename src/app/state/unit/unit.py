@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 
 from app.config.objs.unit import UnitLocationType
-from app.state.base.mixins import UUIDandConfigIDMixin
+from app.state.base.mixins import UUIDandConfigIDStateObj
 
 from .location import UnitLocation
 
 @dataclass(slots=True, kw_only=True)
-class UnitState(UUIDandConfigIDMixin):
+class UnitState(UUIDandConfigIDStateObj):
     location: UnitLocation | None = None
     current_damage: int = 0
 
@@ -82,5 +82,6 @@ class UnitState(UUIDandConfigIDMixin):
         }
 
     def init_from_save(self, data: dict) -> None:
+        super().init_from_save(data)
         self.location = UnitLocation.from_save_dict(**data["location"])
         self.current_damage = data["current_damage"]

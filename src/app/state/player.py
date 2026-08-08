@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from typing import Final
 
 from app.config.objs.unit import UnitClass
-from app.state.base.mixins import UUIDInstancedMixin
+from app.state.base.mixins import UUIDInstancedStateObj
 
 class AlreadyScoredObjectiveError(Exception):
     pass
@@ -30,7 +30,7 @@ _NEW_GAME_DEFAULT_FLEET_POOL_SIZE: Final[int] = 3
 _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 
 @dataclass(slots=True, kw_only=True)
-class PlayerState(UUIDInstancedMixin):
+class PlayerState(UUIDInstancedStateObj):
     name: Final[str]
     faction_id: Final[str]
     secret_objective_card_ids: set[str] = field(default_factory=set)

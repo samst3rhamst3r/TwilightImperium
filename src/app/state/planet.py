@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from .base.ownable import PlayerOwnableMixin
-from .base.mixins import ConfigIDInstanceMixin
+from .base.mixins import ConfigIDInstancedStateObj
 
 class PlanetAlreadyControlledError(Exception): 
     pass
@@ -9,7 +9,7 @@ class PlanetNotControlledError(Exception):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class PlanetState(ConfigIDInstanceMixin, PlayerOwnableMixin):
+class PlanetState(ConfigIDInstancedStateObj, PlayerOwnableMixin):
 
     def assign_control(self, player_id: str) -> None:
         self.ownable.assign_owner(player_id)

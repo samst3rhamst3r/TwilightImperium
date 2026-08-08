@@ -1,39 +1,36 @@
-from dataclasses import dataclass, field
-from typing import ClassVar, Final, Self
+from dataclasses import dataclass
+from typing import ClassVar, Final
 
 from app.config.objs.system import WormholeType
-from app.state.base.ownable import PlayerOwnable
+from app.state.base.ownable import PlayerOwnableWithConvenienceProtocol, PlayerOwnableMixin
 
-from .base.state_obj import BaseStateObj
-
-class _BaseSpecialTokenState(BaseStateObj):
-    ownable_obj: PlayerOwnable = field(default_factory=PlayerOwnable)
+from .base.state_obj import StateObj
 
 @dataclass(slots=True, kw_only=True)
-class NaaluTokenState(_BaseSpecialTokenState):
+class NaaluTokenState(StateObj, PlayerOwnableWithConvenienceProtocol):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class SpeakerTokenState(_BaseSpecialTokenState):
+class SpeakerTokenState(StateObj, PlayerOwnableMixin):
 
     def assign_speaker(self, player_id: str) -> None:
-        self.ownable_obj.assign_owner(player_id)
+        self.ownable.assign_owner(player_id)
 
     def reassign_speaker(self, player_id: str) -> str:
-        return self.ownable_obj.reassign_owner(player_id)
+        return self.ownable.reassign_owner(player_id)
 
     def release_speaker(self) -> str:
-        return self.ownable_obj.release_owner()
+        return self.ownable.release_owner()
 
     def is_player_speaker(self, player_id: str) -> bool:
-        return self.ownable_obj.is_owned_by_player(player_id)
+        return self.ownable.is_owned_by_player(player_id)
 
     @property
     def speaker_player_id(self) -> str | None:
-        return self.ownable_obj.owned_by_player_id
+        return self.ownable.owned_by_player_id
 
 @dataclass(slots=True, kw_only=True)
-class NekroAssimilatorTokenState(BaseStateObj):
+class NekroAssimilatorTokenState(StateObj):
     assimilated_faction_tech_id: str | None = None
 
     def to_save_dict(self) -> dict:
@@ -41,6 +38,9 @@ class NekroAssimilatorTokenState(BaseStateObj):
             "assimilated_faction_tech_id": self.assimilated_faction_tech_id
         }
     
+    def init_from_save(self, data: dict) -> None:
+        self.assimilated_faction_tech_id = data["assimilated_faction_tech_id"]
+
     def assimilate_faction_tech_id(self, faction_tech_id: str) -> None:
         self.assimilated_faction_tech_id = faction_tech_id
 
@@ -55,7 +55,7 @@ class InvalidWormholeType(ValueError):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class CreussWormholeTokenState(BaseStateObj):
+class CreussWormholeTokenState(StateObj):
     wormhole_type: Final[WormholeType]
     active_system_id: str | None = None
 
@@ -71,19 +71,18 @@ class CreussWormholeTokenState(BaseStateObj):
             "active_system_id": self.active_system_id
         }
 
-    @classmethod
-    def from_save_dict(cls, wormhole_type: str, **kwargs) -> Self:
-        cls.init_from_save_dict(kwargs)
-        return cls(
-            wormhole_type=WormholeType(wormhole_type),
-            **kwargs
-        )
+    def init_from_save(self, data: dict) -> None:
+        self.wormhole_type = WormholeType(data["wormhole_type"])
+        self.active_system_id = data["active_system_id"]
 
 @dataclass(slots=True, kw_only=True)
-class CustodiansTokenState(BaseStateObj):
+class CustodiansTokenState(StateObj):
     is_on_mecatol_rex: bool = True
 
     def to_save_dict(self) -> dict:
         return super().to_save_dict() | {
             "is_on_mecatol_rex": self.is_on_mecatol_rex
         }
+
+    def init_from_save(self, data: dict) -> None:
+        self.is_on_mecatol_rex = data["is_on_mecatol_rex"]

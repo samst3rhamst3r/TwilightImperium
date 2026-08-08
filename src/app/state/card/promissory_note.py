@@ -24,7 +24,7 @@ class PromissoryNoteCardState(InstancedStateObj, Loadable):
         }
 
     @staticmethod
-    def init_from_save_dict(data: dict):
+    def init_from_save(data: dict):
         issuing_player_color = data.get("issuing_player_color")
         if issuing_player_color is not None:
             data["issuing_player_color"] = PlayerColor(issuing_player_color)
@@ -32,5 +32,5 @@ class PromissoryNoteCardState(InstancedStateObj, Loadable):
 
     @classmethod
     def from_save_dict(cls, issuing_player_color: str | None, **kwargs):
-        kwargs = cls.init_from_save_dict(kwargs)
+        kwargs = cls.init_from_save(kwargs)
         return cls(**kwargs)

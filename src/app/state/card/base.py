@@ -1,4 +1,4 @@
-from app.state.base.state_obj import ConfigIDBasedStateObj
+from app.state.base.state_obj import ConfigIDInstanceMixin
 
-class CardState(ConfigIDBasedStateObj):
+class CardState(ConfigIDInstanceMixin):
     pass

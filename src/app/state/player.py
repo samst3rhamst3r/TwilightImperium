@@ -1,11 +1,11 @@
 
 from dataclasses import dataclass, field
-from typing import Final, Self
-from collections.abc import Sequence, Mapping
+from typing import Final
 
 from app.config.objs.unit import UnitClass
+from app.state.base.mixins import UUIDInstancedMixin
 
-from .base.state_obj import InstancedStateObj
+from .base.state_obj import StateObj
 
 class AlreadyScoredObjectiveError(Exception):
     pass
@@ -32,7 +32,7 @@ _NEW_GAME_DEFAULT_FLEET_POOL_SIZE: Final[int] = 3
 _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 
 @dataclass(slots=True, kw_only=True)
-class PlayerState(InstancedStateObj):
+class PlayerState(StateObj, UUIDInstancedMixin):
     name: Final[str]
     faction_id: Final[str]
     secret_objective_card_ids: set[str] = field(default_factory=set)
@@ -51,13 +51,12 @@ class PlayerState(InstancedStateObj):
     command_token_reinforcement_pool: int = field(init=False)
 
     def to_save_dict(self) -> dict:
-        d = super().to_save_dict()
-        return d | {
+        return super().to_save_dict() | {
             "name": self.name,
             "faction_id": self.faction_id,
-            "secret_objective_card_ids": self.secret_objective_card_ids,
-            "scored_public_objective_card_ids": self.scored_public_objective_card_ids,
-            "researched_tech_ids": self.researched_tech_ids,
+            "secret_objective_card_ids": list(self.secret_objective_card_ids),
+            "scored_public_objective_card_ids": list(self.scored_public_objective_card_ids),
+            "researched_tech_ids": list(self.researched_tech_ids),
             "commodities": self.commodities,
             "trade_goods": self.trade_goods,
             "bonus_victory_points": self.bonus_victory_points,
@@ -67,22 +66,21 @@ class PlayerState(InstancedStateObj):
             "unit_reinforcement_pool": self.unit_reinforcement_pool,
         }
 
-    @classmethod
-    def from_save_dict(
-        cls, 
-        secret_objective_card_ids: Sequence[str], 
-        scored_public_objective_card_ids: Sequence[str],
-        researched_tech_ids: Sequence[str],
-        unit_reinforcement_pool: Mapping[str, int],
-        **kwargs
-    ) -> Self:
-        return cls(
-            secret_objective_card_ids=set(secret_objective_card_ids),
-            scored_public_objective_card_ids=set(scored_public_objective_card_ids),
-            researched_tech_ids=set(researched_tech_ids),
-            unit_reinforcement_pool={UnitClass(k): v for k, v in unit_reinforcement_pool.items()},
-            **kwargs
-        )
+    def init_from_save(self, data: dict) -> None:
+        super().init_from_save(data)
+
+        self.name = data["name"]
+        self.faction_id = data["faction_id"]
+        self.secret_objective_card_ids = set(data["secret_objective_card_ids"])
+        self.scored_public_objective_card_ids = set(data["scored_public_objective_card_ids"])
+        self.researched_tech_ids = set(data["researched_tech_ids"])
+        self.commodities = data["commodities"]
+        self.trade_goods = data["trade_goods"]
+        self.bonus_victory_points = data["bonus_victory_points"]
+        self.tactic_pool = data["tactic_pool"]
+        self.fleet_pool = data["fleet_pool"]
+        self.strategy_pool = data["strategy_pool"]
+        self.unit_reinforcement_pool = {UnitClass(k): v for k, v in data["unit_reinforcement_pool"].items()}
     
     def __post_init__(self):
         super().__post_init__()

@@ -1,7 +1,7 @@
 from typing import Protocol
 
 from app.config.shared import RequiresFunctionalText, RequiresFlavorText, RequiresFlavorTextOptions, CanHaveFactionExclusivity
-from app.state.base import Exhaustable, PlayerOwnable
+from app.state.base import Exhaustible, PlayerOwnable
 
 class ResolvedFunctionalTextMixin(Protocol):
     config: RequiresFunctionalText
@@ -38,8 +38,8 @@ class CanHaveFactionExclusivityMixin(Protocol):
     def is_exclusive_to(self, faction_id: str) -> bool:
         return self.config.is_exclusive_to(faction_id)
 
-class ExhaustableMixin(Protocol):
-    config: Exhaustable
+class ExhaustibleMixin(Protocol):
+    config: Exhaustible
 
     def exhaust(self):
         self.config.exhaust()

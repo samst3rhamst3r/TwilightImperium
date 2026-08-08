@@ -1,44 +1,16 @@
-from dataclasses import dataclass, field
-from typing import Final
-from uuid import uuid4
+from dataclasses import dataclass
 
-from .exhaustable import Exhaustable
-from .ownable import PlayerOwnable
-from .protocols import Savable, MixinInitializer
+from app.state.base.protocols import Loadable
 
-@dataclass(slots=True, kw_only=True)
-class BaseStateObj(Savable, MixinInitializer):
-    exhaustable_obj: Exhaustable = field(default_factory=Exhaustable)
-    ownable_obj: PlayerOwnable = field(default_factory=PlayerOwnable)
-
-    @staticmethod
-    def init_from_save_dict(data: dict) -> dict:
-        data["exhaustable_obj"] = Exhaustable.init_from_save_dict(data["exhaustable_obj"])
-        data["ownable_obj"] = PlayerOwnable.init_from_save_dict(data["ownable_obj"])
-        return data
+@dataclass(kw_only=True)
+class StateObj(Loadable):
+    """Top-level class used for type-checkers and to provide a common interface for all state objects.
+    The Loadable Protocol ends at this point by no longer calling super() in to_save_dict and
+    init_from_save.
+    """
 
     def to_save_dict(self) -> dict:
-        d = {}
-        d["exhaustable_obj"] = self.exhaustable_obj.to_save_dict()
-        d["ownable_obj"] = self.ownable_obj.to_save_dict()
-        return d
+        return {}
 
-@dataclass(slots=True, kw_only=True)
-class InstancedStateObj(BaseStateObj):
-    instance_id: Final[str] = field(default_factory=lambda: uuid4().hex)
-    config_id: str | None = None
-
-    def to_save_dict(self):
-        return super().to_save_dict() | {
-            "instance_id": self.instance_id,
-            "config_id": self.config_id
-        }
-
-@dataclass(slots=True, kw_only=True)
-class ConfigIDBasedStateObj(InstancedStateObj):
-
-    def __post_init__(self):
-        super().__post_init__()
-        if self.config_id is None:
-            raise ValueError("This ConfigIDBasedStateObj must have a config_id supplied.")
-        self.instance_id = self.config_id
+    def init_from_save(self, _: dict) -> None:
+        pass

@@ -24,12 +24,12 @@ class CanHaveFactionExclusivity:
         return self.faction_exclusive_id == faction_id
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class CanBeExhaustable:
-    exhaustable: bool = False
+class CanBeExhaustible:
+    exhaustible: bool = False
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class IsExhaustable(CanBeExhaustable):
+class IsExhaustible(CanBeExhaustible):
 
     def __post_init__(self):
         super().__post_init__()
-        self.exhaustable = True
+        self.exhaustible = True

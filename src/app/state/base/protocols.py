@@ -1,57 +1,42 @@
 from typing import Protocol, Self
 
-from app.state.base.ownable import PlayerOwnable
-
-class Savable(Protocol):
+class _Dumpable(Protocol):
     """Protocol that can be used in many objects to gather any saveable data.
     
     It is recommended to implement this in any dataclass that has savable fields, even
     if the data is primitive. By keeping the interface consistent, we can ensure that
     all saveable objects can be serialized and deserialized in a uniform manner.
     """
+
     def to_save_dict(self) -> dict:
-        return {}
+        raise NotImplementedError(f"The {self.__class__.__name__} class does not implement the 'to_save_dict' method. Please implement it.")
 
-class MixinInitializer(Protocol):
-    """Provides a static method for initializing objects from a save dictionary.
-    If a class requires specialized initialization logic beyond raw serializable values,
-    it can override this method.
-
-    It is recommended to inherit into any class that has savable fields even if there is
-    no override, then to call this method from containing objects.
-    """
-    @staticmethod
-    def init_from_save_dict(data: dict) -> dict:
-        return data
-
-class Loadable(MixinInitializer):
+class _Initializable(Protocol):
     """Protocol for objects that can be initialized from a save dictionary.
-    Leaf classes are most likely the only ones to implement this.
+
+    This should get implemented in any subclass that has fields to initialize 
+    after object creation via save data. Must be implemented if used as a mixin.
+    Raises NotImplementedError otherwise.
+    """
+    def init_from_save(self, data: dict) -> None:
+        raise NotImplementedError(f"The {self.__class__.__name__} class does not implement the 'init_from_save' method. Please implement it.")
+
+class Savable(_Dumpable, _Initializable, Protocol):
+    """Protocol for objects that can be saved and re-initialized.
     
-    Super classes should implement the MixinInitializer instead, then have
-    the leaf classes call the MixinInitializer method from this method to initialize the input
-    dictionary.
+    Useful for type-checkers.
+    """
+
+class Loadable(Savable, Protocol):
+    """Protocol for objects that can be initialized from a save dictionary.
+    Leaf classes should not need to override from_save_dict. Inheriting from Loadable
+    should be enough to provide the boilerplate machinery.
+    
+    Sub classes would then implement just the Initializable portion (init_from_save)
+    as the variable initialization portion specific to their class.
     """
     @classmethod
-    def from_save_dict(cls, input_dict: dict) -> Self:
-        input_dict = cls.init_from_save_dict(input_dict)
-        return cls(**input_dict)
-
-class PlayerAssignable(Protocol):
-    ownable_obj: PlayerOwnable
-
-    def assign_owner(self, player_id: str) -> None:
-        self.ownable_obj.assign_owner(player_id)
-
-    def reassign_owner(self, player_id: str) -> str:
-        return self.ownable_obj.reassign_owner(player_id)
-
-    def release_owner(self) -> str:
-        return self.ownable_obj.release_owner()
-
-    @property
-    def is_owned(self) -> bool:
-        return self.ownable_obj.is_owned
-
-    def is_owned_by_player(self, player_id: str) -> bool:
-        return self.ownable_obj.is_owned_by_player(player_id)
+    def from_save_dict(cls, data: dict) -> Self:
+        obj = cls.__new__(cls)
+        obj.init_from_save(data)
+        return obj

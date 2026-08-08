@@ -4,10 +4,10 @@ from app.config.objs.strategy_card import StrategyCardConfig
 from app.state.card import StrategyCardState
 
 from .base import BaseResolvedObj
-from .shared.protocols import ExhaustableMixin, PlayerOwnableMixin
+from .shared.protocols import ExhaustibleMixin, PlayerOwnableMixin
 
 @dataclass(slots=True, frozen=True)
-class ResolvedStrategyCard(BaseResolvedObj[StrategyCardState, StrategyCardConfig], ExhaustableMixin, PlayerOwnableMixin):
+class ResolvedStrategyCard(BaseResolvedObj[StrategyCardState, StrategyCardConfig], ExhaustibleMixin, PlayerOwnableMixin):
 
     # Forwarded to PrimarySecondaryAbilityTextConfig, but didn't create Mixin Protocol like other classes because it's a one-off for this class
 

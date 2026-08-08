@@ -1,3 +1,3 @@
-from .exhaustable import Exhaustable
+from .exhaustible import Exhaustible
 from .ownable import PlayerOwnable
-from .state_obj import BaseStateObj, InstancedStateObj, ConfigIDBasedStateObj
+from .state_obj import StateObj, InstancedStateObj, ConfigIDInstanceMixin

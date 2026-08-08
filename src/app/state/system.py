@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from typing import Any, Self
-from collections.abc import Iterable
+from typing import Any
 
 from app.geometry import HexCoordinate
-from app.state.base.state_obj import ConfigIDBasedStateObj
+from app.state.base.mixins import ConfigIDInstanceMixin
+from app.state.base.state_obj import StateObj
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SystemState(ConfigIDBasedStateObj):
+class SystemState(StateObj, ConfigIDInstanceMixin):
     map_hex_coordinate: HexCoordinate
 
     def to_save_dict(self) -> dict[str, Any]:
@@ -14,6 +14,6 @@ class SystemState(ConfigIDBasedStateObj):
             "map_hex_coordinate": [self.map_hex_coordinate.q, self.map_hex_coordinate.r]
         }
 
-    @classmethod
-    def from_save_dict(cls, map_hex_coordinate: Iterable[int], **kwargs) -> Self:
-        return cls(map_hex_coordinate=HexCoordinate(*map_hex_coordinate), **kwargs)
+    def init_from_save(self, data: dict[str, Any]) -> None:
+        self.map_hex_coordinate = HexCoordinate(*data["map_hex_coordinate"])
+        

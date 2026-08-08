@@ -6,10 +6,10 @@ from app.state.planet import PlanetState
 from .base import BaseResolvedObj
 
 # Does not need PlayerOwnableMixin because it will forward to State object which resolves that forwarding already
-from .shared.protocols import ExhaustableMixin
+from .shared.protocols import ExhaustibleMixin
 
 @dataclass(slots=True, kw_only=True)
-class ResolvedPlanet(BaseResolvedObj[PlanetState, PlanetConfig], ExhaustableMixin):
+class ResolvedPlanet(BaseResolvedObj[PlanetState, PlanetConfig], ExhaustibleMixin):
 
     def assign_control(self, player_id: str) -> None:
         self.state.assign_control(player_id)

@@ -3,7 +3,7 @@ from random import shuffle
 from typing import Self
 from collections.abc import Iterable
 
-from app.state.base import BaseStateObj
+from app.state.base import StateObj
 from .base import CardState
 
 class EmptyCardDeckError(Exception):
@@ -11,7 +11,7 @@ class EmptyCardDeckError(Exception):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class CardDeckState[TCard: CardState](BaseStateObj):
+class CardDeckState[TCard: CardState](StateObj):
     deck: list[TCard]
     discard_pile: list[TCard] = field(default_factory=list)
 

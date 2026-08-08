@@ -2,10 +2,10 @@ from dataclasses import dataclass
 
 from app.config.objs.unit import UnitLocationType
 
-from app.state.base import BaseStateObj
+from app.state.base import StateObj
 
 @dataclass(slots=True, frozen=True)
-class UnitLocation(BaseStateObj):
+class UnitLocation(StateObj):
     loc_type: UnitLocationType
     unit_id: str
 

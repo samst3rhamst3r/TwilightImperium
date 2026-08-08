@@ -6,12 +6,12 @@ class NotLowerCasedValueError(ValueError):
 class MissingEnumMemberError(ValueError):
     pass
 
-class GameStrEnum(StrEnum):
+class SerializableEnum(StrEnum):
 
     def __repr__(self):
         return f"{self.__class__.__name__}.{self.name}"
 
-class ConfigEnum(GameStrEnum):
+class ConfigEnum(SerializableEnum):
 
     @classmethod
     def _missing_(cls, value):

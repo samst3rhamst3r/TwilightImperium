@@ -1,6 +1,8 @@
-import enum
+from enum import auto
 
-class UnitLocationType(enum.Enum):
-    PLANET = enum.auto()
-    SYSTEM = enum.auto()
-    SHIP = enum.auto()
+from app.config.shared.enum import SerializableEnum
+
+class UnitLocationType(SerializableEnum):
+    PLANET = auto()
+    SYSTEM = auto()
+    SHIP = auto()

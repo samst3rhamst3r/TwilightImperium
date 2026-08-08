@@ -1,8 +1,8 @@
 from enum import auto
 
-from app.config.shared.enum import GameStrEnum
+from app.config.shared.enum import SerializableEnum
 
-class PlayerColor(GameStrEnum):
+class PlayerColor(SerializableEnum):
     BLACK = auto()
     BLUE = auto()
     GREEN = auto()

@@ -3,11 +3,10 @@ from typing import Final
 
 from app.config.player_color import PlayerColor
 
-from app.state.base import InstancedStateObj
-from app.state.base.protocols import Loadable
+from app.state.base.mixins import UUIDandConfigIDMixin
 
 @dataclass(slots=True, kw_only=True)
-class PromissoryNoteCardState(InstancedStateObj, Loadable):
+class PromissoryNoteCardState(UUIDandConfigIDMixin):
     issuing_player_color: Final[PlayerColor | None] = None
 
     @property
@@ -18,19 +17,10 @@ class PromissoryNoteCardState(InstancedStateObj, Loadable):
         return self.issuing_player_color == player_color
 
     def to_save_dict(self):
-        d  = super().to_save_dict()
-        return d | {
+        return super().to_save_dict() | {
             "issuing_player_color": self.issuing_player_color
         }
 
-    @staticmethod
-    def init_from_save(data: dict):
-        issuing_player_color = data.get("issuing_player_color")
-        if issuing_player_color is not None:
-            data["issuing_player_color"] = PlayerColor(issuing_player_color)
-        return data
-
-    @classmethod
-    def from_save_dict(cls, issuing_player_color: str | None, **kwargs):
-        kwargs = cls.init_from_save(kwargs)
-        return cls(**kwargs)
+    def init_from_save(self, data: dict) -> None:
+        super().init_from_save(data)
+        self.issuing_player_color = PlayerColor(data["issuing_player_color"])

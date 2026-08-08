@@ -4,14 +4,14 @@ from typing import Self
 from collections.abc import Iterable
 
 from app.state.base import StateObj
-from .base import CardState
+from .base import CardDeckCardState
 
 class EmptyCardDeckError(Exception):
     """Raised when trying to draw from an empty card deck."""
     pass
 
 @dataclass(slots=True, kw_only=True)
-class CardDeckState[TCard: CardState](StateObj):
+class CardDeckState[TCard: StateObj](StateObj):
     deck: list[TCard]
     discard_pile: list[TCard] = field(default_factory=list)
 

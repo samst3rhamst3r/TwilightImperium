@@ -7,11 +7,11 @@ from app.state.base.ownable import PlayerOwnableWithConvenienceProtocol, PlayerO
 from .base.state_obj import StateObj
 
 @dataclass(slots=True, kw_only=True)
-class NaaluTokenState(StateObj, PlayerOwnableWithConvenienceProtocol):
+class NaaluTokenState(PlayerOwnableWithConvenienceProtocol):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class SpeakerTokenState(StateObj, PlayerOwnableMixin):
+class SpeakerTokenState(PlayerOwnableMixin):
 
     def assign_speaker(self, player_id: str) -> None:
         self.ownable.assign_owner(player_id)

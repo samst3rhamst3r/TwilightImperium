@@ -1,11 +1,9 @@
 from dataclasses import dataclass
 
-from app.state.base.protocols import Loadable
-
-from .base import CardState
+from app.state.base.mixins import UUIDandConfigIDMixin
 
 @dataclass(slots=True, kw_only=True)
-class ActionCardState(CardState, Loadable):
+class ActionCardState(UUIDandConfigIDMixin):
     flavor_text_index: int
 
     def to_save_dict(self) -> dict:

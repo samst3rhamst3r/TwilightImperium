@@ -1,13 +1,12 @@
 from dataclasses import dataclass
 
 from app.config.objs.unit import UnitLocationType
-from app.state.base import InstancedStateObj
-from app.state.base.protocols import Loadable
+from app.state.base.mixins import UUIDandConfigIDMixin
 
 from .location import UnitLocation
 
 @dataclass(slots=True, kw_only=True)
-class UnitState(InstancedStateObj, Loadable):
+class UnitState(UUIDandConfigIDMixin):
     location: UnitLocation | None = None
     current_damage: int = 0
 
@@ -77,15 +76,11 @@ class UnitState(InstancedStateObj, Loadable):
     #     return self._does_standard_ability_exist(AbilityID.SUSTAIN_DAMAGE)
 
     def to_save_dict(self) -> dict:
-        d  = super().to_save_dict(self)
-        return d | {
+        return super().to_save_dict() | {
             "location": self.location.to_save_dict(),
             "current_damage": self.current_damage,
         }
 
-    @classmethod
-    def from_save_dict(cls, location: dict, **kwargs):
-        return cls(
-            location=UnitLocation.from_save_dict(**location),
-            **kwargs
-        )
+    def init_from_save(self, data: dict) -> None:
+        self.location = UnitLocation.from_save_dict(**data["location"])
+        self.current_damage = data["current_damage"]

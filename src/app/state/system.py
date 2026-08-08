@@ -3,10 +3,9 @@ from typing import Any
 
 from app.geometry import HexCoordinate
 from app.state.base.mixins import ConfigIDInstanceMixin
-from app.state.base.state_obj import StateObj
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SystemState(StateObj, ConfigIDInstanceMixin):
+class SystemState(ConfigIDInstanceMixin):
     map_hex_coordinate: HexCoordinate
 
     def to_save_dict(self) -> dict[str, Any]:

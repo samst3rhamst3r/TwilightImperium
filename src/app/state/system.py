@@ -9,10 +9,11 @@ class SystemState(ConfigIDInstancedStateObj):
     map_hex_coordinate: HexCoordinate
 
     def to_save_dict(self) -> dict[str, Any]:
-        return {
+        return super().to_save_dict() | {
             "map_hex_coordinate": [self.map_hex_coordinate.q, self.map_hex_coordinate.r]
         }
 
     def init_from_save(self, data: dict[str, Any]) -> None:
+        super().init_from_save(data)
         self.map_hex_coordinate = HexCoordinate(*data["map_hex_coordinate"])
         

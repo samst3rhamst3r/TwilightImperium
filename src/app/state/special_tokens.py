@@ -39,6 +39,7 @@ class NekroAssimilatorTokenState(StateObj):
         }
     
     def init_from_save(self, data: dict) -> None:
+        super().init_from_save(data)
         self.assimilated_faction_tech_id = data["assimilated_faction_tech_id"]
 
     def assimilate_faction_tech_id(self, faction_tech_id: str) -> None:
@@ -72,6 +73,7 @@ class CreussWormholeTokenState(StateObj):
         }
 
     def init_from_save(self, data: dict) -> None:
+        super().init_from_save(data)
         self.wormhole_type = WormholeType(data["wormhole_type"])
         self.active_system_id = data["active_system_id"]
 
@@ -85,4 +87,5 @@ class CustodiansTokenState(StateObj):
         }
 
     def init_from_save(self, data: dict) -> None:
+        super().init_from_save(data)
         self.is_on_mecatol_rex = data["is_on_mecatol_rex"]

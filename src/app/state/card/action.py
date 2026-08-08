@@ -7,7 +7,7 @@ class ActionCardState(UUIDandConfigIDStateObj):
     flavor_text_index: int
 
     def to_save_dict(self) -> dict:
-        return super().to_save_dict(self) | {
+        return super().to_save_dict() | {
             "flavor_text_index": self.flavor_text_index
         }
 

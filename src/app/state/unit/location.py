@@ -28,7 +28,6 @@ class UnitLocation(StateObj):
         }
 
     def init_from_save(self, data: dict) -> None:
-        super().init_from_save()
+        super().init_from_save(data)
         self.location = UnitLocationType(data["loc_type"])
         self.current_damage = data["current_damage"]
-        

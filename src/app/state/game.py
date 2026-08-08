@@ -35,6 +35,8 @@ class GameState(StateObj):
     creuss_wormhole_tokens: tuple[CreussWormholeTokenState, CreussWormholeTokenState] = ()
 
     def init_from_save(self, data: dict):
+        super().init_from_save(data)
+        
         self.players =                      {id: PlayerState.from_save_dict(player_data) for id, player_data in data["players"].items()}
         self.systems =                      {id: SystemState.from_save_dict(system_data) for id, system_data in data["systems"].items()}
         self.planets =                      {id: PlanetState.from_save_dict(planet_data) for id, planet_data in data["planets"].items()}
@@ -52,7 +54,7 @@ class GameState(StateObj):
         self.creuss_wormhole_tokens =       tuple(CreussWormholeTokenState.from_save_dict(token) for token in data["creuss_wormhole_tokens"])
 
     def to_save_dict(self) -> dict:
-        return {
+        return super().to_save_dict() | {
             "players": {id: player.to_save_dict() for id, player in self.players.items()},
             "systems": {id: system.to_save_dict() for id, system in self.systems.items()},
             "planets": {id: planet.to_save_dict() for id, planet in self.planets.items()},

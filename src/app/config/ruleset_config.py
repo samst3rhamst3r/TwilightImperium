@@ -3,7 +3,7 @@ from types import MappingProxyType
 from pathlib import Path
 from typing import Self
 
-from .loader import *
+from .yaml_loader import *
 
 from .objs.ability import AbilityConfig
 from .objs.action_card import ActionCardConfig

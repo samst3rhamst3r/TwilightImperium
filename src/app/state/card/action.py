@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
-from app.state.base.mixins import UUIDandConfigIDStateObj
+from app.state.base.mixins import UUIDInstancedStateObj
 
 @dataclass(slots=True, kw_only=True)
-class ActionCardState(UUIDandConfigIDStateObj):
+class ActionCardState(UUIDInstancedStateObj):
     flavor_text_index: int
 
     def save(self) -> dict:

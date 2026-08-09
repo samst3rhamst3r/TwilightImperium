@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 
 from app.config.objs.unit import UnitLocationType
-from app.state.base.mixins import UUIDandConfigIDStateObj
+from app.state.base.mixins import UUIDInstancedStateObj
 
 from .location import UnitLocation
 
 @dataclass(slots=True, kw_only=True)
-class UnitState(UUIDandConfigIDStateObj):
+class UnitState(UUIDInstancedStateObj):
     location: UnitLocation | None = None
     current_damage: int = 0
 

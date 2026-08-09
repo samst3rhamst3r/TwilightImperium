@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 from random import shuffle
 from types import MappingProxyType
 
-from app.state.base import StateObj
-from app.state.base.mixins import UUIDandConfigIDStateObj
+from app.state.base import Serializable
+from app.state.base.mixins import UUIDInstancedStateObj
 from .action import ActionCardState
 from .objective import PublicObjectiveCardState, SecretObjectiveCardState
 
@@ -13,14 +13,14 @@ class EmptyCardDeckError(Exception):
 
 _CLASS_TYPE_DICT_KEY = "$type"
 
-_TYPE_REGISTRY: MappingProxyType[str, UUIDandConfigIDStateObj] = MappingProxyType({
+_TYPE_REGISTRY: MappingProxyType[str, UUIDInstancedStateObj] = MappingProxyType({
     ActionCardState.__name__: ActionCardState,
     PublicObjectiveCardState.__name__: PublicObjectiveCardState,
     SecretObjectiveCardState.__name__: SecretObjectiveCardState
 })
 
 @dataclass(slots=True, kw_only=True)
-class CardDeckState[TCard: UUIDandConfigIDStateObj](StateObj):
+class CardDeckState[TCard: UUIDInstancedStateObj](Serializable):
     deck: list[TCard]
     discard_pile: list[TCard] = field(default_factory=list)
 

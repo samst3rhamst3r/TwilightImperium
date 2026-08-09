@@ -2,10 +2,10 @@ from dataclasses import dataclass
 from typing import Any
 
 from app.geometry import HexCoordinate
-from app.state.base.mixins import ConfigIDInstancedStateObj
+from app.state.base.mixins import ConfigIDStateObj
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SystemState(ConfigIDInstancedStateObj):
+class SystemState(ConfigIDStateObj):
     map_hex_coordinate: HexCoordinate
 
     def save(self) -> dict[str, Any]:

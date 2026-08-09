@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Protocol
 
-from app.state.base import StateObj
+from app.state.base import Serializable
 
 class AlreadyOwnedResourceException(Exception): 
     pass
@@ -9,7 +9,7 @@ class NotYetOwnedResourceException(Exception):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class _PlayerOwnable(StateObj):
+class _PlayerOwnable(Serializable):
     """Contains the state logic regarding validation of player ownership of a resource.
     
     The other classes in this module allow for semantic distinction between various classes.
@@ -66,7 +66,7 @@ class _PlayerOwnable(StateObj):
         return self.is_owned and self.owned_by_player_id == player_id
 
 @dataclass(kw_only=True)
-class PlayerOwnableMixin(StateObj):
+class PlayerOwnableMixin(Serializable):
     """This Mixin provides one layer of indirection to enable semantically distinct but functionally similar objects.
     
     Together with the _PlayerAssignableConvenienceProtocol, calling entities can inherit common functionality. If

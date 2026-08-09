@@ -1,9 +1,11 @@
 
 from dataclasses import dataclass, field
-from typing import Final
+from typing import Final, Self
 
 from app.config.objs.unit import UnitClass
-from app.state.base.mixins import UUIDInstancedStateObj
+from app.config.player_color import PlayerColor
+from app.state.base.mixins import IDedStateObj
+from app.state.base.serializable import Serializable
 
 class AlreadyScoredObjectiveError(Exception):
     pass
@@ -30,7 +32,8 @@ _NEW_GAME_DEFAULT_FLEET_POOL_SIZE: Final[int] = 3
 _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 
 @dataclass(slots=True, kw_only=True)
-class PlayerState(UUIDInstancedStateObj):
+class PlayerState(Serializable):
+    color: Final[PlayerColor]
     name: Final[str]
     faction_id: Final[str]
     secret_objective_card_ids_in_hand: set[str] = field(default_factory=set)
@@ -48,8 +51,13 @@ class PlayerState(UUIDInstancedStateObj):
     # Calculated at initialization based upon size of tactic/fleet/strategy pools
     command_token_reinforcement_pool: int = field(init=False)
 
+    @property
+    def obj_id(self) -> str:
+        return self.color.value
+    
     def save(self) -> dict:
         return super().save() | {
+            "color": self.color,
             "name": self.name,
             "faction_id": self.faction_id,
             "secret_objective_card_ids_in_hand": list(self.secret_objective_card_ids_in_hand),
@@ -67,6 +75,7 @@ class PlayerState(UUIDInstancedStateObj):
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
 
+        self.color = PlayerColor(data["color"])
         self.name = data["name"]
         self.faction_id = data["faction_id"]
         self.secret_objective_card_ids_in_hand = set(data["secret_objective_card_ids_in_hand"])
@@ -79,10 +88,11 @@ class PlayerState(UUIDInstancedStateObj):
         self.fleet_pool = data["fleet_pool"]
         self.strategy_pool = data["strategy_pool"]
         self.unit_reinforcement_pool = {UnitClass(k): v for k, v in data["unit_reinforcement_pool"].items()}
-    
+
     def __post_init__(self):
         super().__post_init__()
 
+        self.color = PlayerColor(self.color)
         total_tokens_to_rmv = self.tactic_pool + self.fleet_pool + self.strategy_pool
         if total_tokens_to_rmv > _MAX_COMMAND_TOKENS:
             raise TooManyTokensError(f"Initialization error. {self.tactic_pool} tactic + {self.fleet_pool} fleet + {self.strategy_pool} command tokens exceeds maximum allowed: {_MAX_COMMAND_TOKENS}.")

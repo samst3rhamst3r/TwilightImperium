@@ -3,10 +3,10 @@ from typing import Final
 
 from app.config.player_color import PlayerColor
 
-from app.state.base.mixins import UUIDandConfigIDStateObj
+from app.state.base.mixins import UUIDInstancedStateObj
 
 @dataclass(slots=True, kw_only=True)
-class PromissoryNoteCardState(UUIDandConfigIDStateObj):
+class PromissoryNoteCardState(UUIDInstancedStateObj):
     issuing_player_color: Final[PlayerColor | None] = None
 
     @property

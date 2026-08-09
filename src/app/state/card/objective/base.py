@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from typing import Protocol
 
-from app.state.base.mixins import ConfigIDInstancedStateObj
+from app.state.base.mixins import ConfigIDStateObj
 
 @dataclass(slots=True, kw_only=True)
-class ObjectiveCardState(ConfigIDInstancedStateObj):
+class ObjectiveCardState(ConfigIDStateObj):
     pass
 
 class Revealable(Protocol):

@@ -4,7 +4,7 @@ from typing import ClassVar, Final
 from app.config.objs.system import WormholeType
 from app.state.base.ownable import PlayerOwnableWithConvenienceProtocol, PlayerOwnableMixin
 
-from .base.state_obj import StateObj
+from .base.serializable import Serializable
 
 @dataclass(slots=True, kw_only=True)
 class NaaluTokenState(PlayerOwnableWithConvenienceProtocol):
@@ -30,7 +30,7 @@ class SpeakerTokenState(PlayerOwnableMixin):
         return self.ownable.owned_by_player_id
 
 @dataclass(slots=True, kw_only=True)
-class NekroAssimilatorTokenState(StateObj):
+class NekroAssimilatorTokenState(Serializable):
     assimilated_faction_tech_id: str | None = None
 
     def save(self) -> dict:
@@ -56,7 +56,7 @@ class InvalidWormholeType(ValueError):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class CreussWormholeTokenState(StateObj):
+class CreussWormholeTokenState(Serializable):
     wormhole_type: Final[WormholeType]
     active_system_id: str | None = None
 
@@ -78,7 +78,7 @@ class CreussWormholeTokenState(StateObj):
         self.active_system_id = data["active_system_id"]
 
 @dataclass(slots=True, kw_only=True)
-class CustodiansTokenState(StateObj):
+class CustodiansTokenState(Serializable):
     is_on_mecatol_rex: bool = True
 
     def save(self) -> dict:

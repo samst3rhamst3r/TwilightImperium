@@ -1,7 +1,8 @@
 from dataclasses import dataclass, field
 from types import MappingProxyType
+from typing import Self
 
-from .base import StateObj
+from .base import Serializable
 
 from .planet import PlanetState
 from .player import PlayerState
@@ -12,7 +13,7 @@ from .special_tokens import NaaluTokenState, NekroAssimilatorTokenState, CreussW
 from .card import CardDeckState, PublicObjectiveCardState, SecretObjectiveCardState, ActionCardState, PromissoryNoteCardState, StrategyCardState
 
 @dataclass(slots=True, kw_only=True)
-class GameState(StateObj):
+class GameState(Serializable):
     players: MappingProxyType[str, PlayerState]
     systems: MappingProxyType[str, SystemState]
     planets: MappingProxyType[str, PlanetState]

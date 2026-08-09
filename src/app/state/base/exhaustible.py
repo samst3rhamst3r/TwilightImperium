@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.state.base.state_obj import StateObj
+from app.state.base.serializable import Serializable
 
 class ExhaustibleAlreadyExhausted(Exception):
     pass
@@ -12,7 +12,7 @@ class ObjectNotExhaustible(Exception):
     pass
 
 @dataclass(slots=True, kw_only=True)
-class Exhaustible(StateObj):
+class Exhaustible(Serializable):
     exhausted: bool | None = None
 
     def save(self) -> dict:
@@ -43,4 +43,3 @@ class Exhaustible(StateObj):
         if not self.exhausted:
             raise ExhaustibleAlreadyReadied('Cannot ready an already readied object.')
         self.exhausted = False
-    

@@ -2,10 +2,10 @@ from dataclasses import dataclass
 
 from app.config.objs.unit import UnitLocationType
 
-from app.state.base import StateObj
+from app.state.base import Serializable
 
 @dataclass(slots=True, frozen=True)
-class UnitLocation(StateObj):
+class UnitLocation(Serializable):
     loc_type: UnitLocationType
     unit_id: str
 

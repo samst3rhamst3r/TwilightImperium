@@ -26,10 +26,3 @@ class CanHaveFactionExclusivity:
 @dataclass(slots=True, frozen=True, kw_only=True)
 class CanBeExhaustible:
     exhaustible: bool = False
-
-@dataclass(slots=True, frozen=True, kw_only=True)
-class IsExhaustible(CanBeExhaustible):
-
-    def __post_init__(self):
-        super().__post_init__()
-        self.exhaustible = True

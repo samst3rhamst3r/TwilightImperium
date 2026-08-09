@@ -33,8 +33,8 @@ class SpeakerTokenState(PlayerOwnableMixin):
 class NekroAssimilatorTokenState(StateObj):
     assimilated_faction_tech_id: str | None = None
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
+    def save(self) -> dict:
+        return super().save() | {
             "assimilated_faction_tech_id": self.assimilated_faction_tech_id
         }
     
@@ -66,8 +66,8 @@ class CreussWormholeTokenState(StateObj):
         if self.wormhole_type not in self._VALID_WORMHOLE_TYPES:
             raise InvalidWormholeType(f"Invalid wormhole type {self.wormhole_type} for Creuss token. Valid types are: {', '.join(t.name for t in self._VALID_WORMHOLE_TYPES)}")
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
+    def save(self) -> dict:
+        return super().save() | {
             "wormhole_type": self.wormhole_type.value,
             "active_system_id": self.active_system_id
         }
@@ -81,8 +81,8 @@ class CreussWormholeTokenState(StateObj):
 class CustodiansTokenState(StateObj):
     is_on_mecatol_rex: bool = True
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
+    def save(self) -> dict:
+        return super().save() | {
             "is_on_mecatol_rex": self.is_on_mecatol_rex
         }
 

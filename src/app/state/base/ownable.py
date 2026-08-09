@@ -30,8 +30,8 @@ class _PlayerOwnable(StateObj):
     """
     owned_by_player_id: str | None = None
 
-    def to_save_dict(self):
-        return super().to_save_dict() | {
+    def save(self):
+        return super().save() | {
             "owned_by_player_id": self.owned_by_player_id
         }
 
@@ -77,14 +77,14 @@ class PlayerOwnableMixin(StateObj):
     """
     ownable: _PlayerOwnable = field(default_factory=_PlayerOwnable)
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
-            "ownable": self.ownable.to_save_dict()
+    def save(self) -> dict:
+        return super().save() | {
+            "ownable": self.ownable.save()
         }
 
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
-        self.ownable = _PlayerOwnable.from_save_dict(data["ownable"])
+        self.ownable = _PlayerOwnable.load(data["ownable"])
 
 class _PlayerAssignableConvenienceProtocol(Protocol):
     ownable: _PlayerOwnable

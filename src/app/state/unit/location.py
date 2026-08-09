@@ -21,8 +21,8 @@ class UnitLocation(StateObj):
     def is_on_ship(self) -> bool:
         return self.loc_type is UnitLocationType.SHIP
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
+    def save(self) -> dict:
+        return super().save() | {
             "loc_type": self.loc_type.value,
             "unit_id": self.unit_id,
         }

@@ -7,8 +7,8 @@ from .state_obj import StateObj
 class UUIDInstancedStateObj(StateObj):
     instance_id: str = field(init=False, default_factory=lambda: uuid4().hex)
 
-    def to_save_dict(self):
-        return super().to_save_dict() | {
+    def save(self):
+        return super().save() | {
             "instance_id": self.instance_id,
         }
 
@@ -20,8 +20,8 @@ class UUIDInstancedStateObj(StateObj):
 class UUIDandConfigIDStateObj(UUIDInstancedStateObj):
     config_id: str
 
-    def to_save_dict(self):
-        return super().to_save_dict() | {
+    def save(self):
+        return super().save() | {
             "config_id": self.config_id,
         }
 

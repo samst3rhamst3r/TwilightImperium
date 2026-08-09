@@ -36,18 +36,18 @@ class CardDeckState[TCard: UUIDandConfigIDStateObj](StateObj):
     def draw(self) -> TCard:
         if self.deck:
             return self.deck.pop()
-        raise EmptyCardDeckError(f"Cannot draw from empty {TCard.__name__} card deck")
+        raise EmptyCardDeckError(f"Cannot draw from empty card deck")
 
     def discard(self, card: TCard) -> None:
         self.discard_pile.append(card)
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
-            "deck": [{_CLASS_TYPE_DICT_KEY: card.__class__.__name__} | card.to_save_dict() for card in self.deck],
-            "discard_pile": [{_CLASS_TYPE_DICT_KEY: card.__class__.__name__} | card.to_save_dict() for card in self.discard_pile]
+    def save(self) -> dict:
+        return super().save() | {
+            "deck": [{_CLASS_TYPE_DICT_KEY: card.__class__.__name__} | card.save() for card in self.deck],
+            "discard_pile": [{_CLASS_TYPE_DICT_KEY: card.__class__.__name__} | card.save() for card in self.discard_pile]
         }
 
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
-        self.deck = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].from_save_dict(**card_data) for card_data in data["deck"]]
-        self.discard_pile = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].from_save_dict(**card_data) for card_data in data["discard_pile"]]
+        self.deck = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].load(**card_data) for card_data in data["deck"]]
+        self.discard_pile = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].load(**card_data) for card_data in data["discard_pile"]]

@@ -33,8 +33,8 @@ _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 class PlayerState(UUIDInstancedStateObj):
     name: Final[str]
     faction_id: Final[str]
-    secret_objective_card_ids: set[str] = field(default_factory=set)
-    scored_public_objective_card_ids: set[str] = field(default_factory=set)
+    secret_objective_card_ids_in_hand: set[str] = field(default_factory=set)
+    scored_objective_card_ids: set[str] = field(default_factory=set)
     researched_tech_ids: set[str] = field(default_factory=set)
     commodities: int = 0
     trade_goods: int = 0
@@ -48,12 +48,12 @@ class PlayerState(UUIDInstancedStateObj):
     # Calculated at initialization based upon size of tactic/fleet/strategy pools
     command_token_reinforcement_pool: int = field(init=False)
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
+    def save(self) -> dict:
+        return super().save() | {
             "name": self.name,
             "faction_id": self.faction_id,
-            "secret_objective_card_ids": list(self.secret_objective_card_ids),
-            "scored_public_objective_card_ids": list(self.scored_public_objective_card_ids),
+            "secret_objective_card_ids_in_hand": list(self.secret_objective_card_ids_in_hand),
+            "scored_objective_card_ids": list(self.scored_objective_card_ids),
             "researched_tech_ids": list(self.researched_tech_ids),
             "commodities": self.commodities,
             "trade_goods": self.trade_goods,
@@ -69,8 +69,8 @@ class PlayerState(UUIDInstancedStateObj):
 
         self.name = data["name"]
         self.faction_id = data["faction_id"]
-        self.secret_objective_card_ids = set(data["secret_objective_card_ids"])
-        self.scored_public_objective_card_ids = set(data["scored_public_objective_card_ids"])
+        self.secret_objective_card_ids_in_hand = set(data["secret_objective_card_ids_in_hand"])
+        self.scored_objective_card_ids = set(data["scored_objective_card_ids"])
         self.researched_tech_ids = set(data["researched_tech_ids"])
         self.commodities = data["commodities"]
         self.trade_goods = data["trade_goods"]
@@ -87,14 +87,14 @@ class PlayerState(UUIDInstancedStateObj):
         if total_tokens_to_rmv > _MAX_COMMAND_TOKENS:
             raise TooManyTokensError(f"Initialization error. {self.tactic_pool} tactic + {self.fleet_pool} fleet + {self.strategy_pool} command tokens exceeds maximum allowed: {_MAX_COMMAND_TOKENS}.")
         self.command_token_reinforcement_pool = _MAX_COMMAND_TOKENS - total_tokens_to_rmv
-        self.secret_objective_card_ids = set(self.secret_objective_card_ids)
-        self.scored_public_objective_card_ids = set(self.scored_public_objective_card_ids)
+        self.secret_objective_card_ids_in_hand = set(self.secret_objective_card_ids_in_hand)
+        self.scored_objective_card_ids = set(self.scored_objective_card_ids)
         self.researched_tech_ids = set(self.researched_tech_ids)
 
     def score_public_objective(self, card_id: str) -> None:
-        if card_id in self.scored_public_objective_card_ids:
+        if card_id in self.scored_objective_card_ids:
             raise AlreadyScoredObjectiveError(f"Public objective with ID {card_id} has already been scored.")
-        self.scored_public_objective_card_ids.add(card_id)
+        self.scored_objective_card_ids.add(card_id)
 
     def score_bonus_victory_points(self, pts: int) -> None:
         self.bonus_victory_points += pts
@@ -143,17 +143,17 @@ class PlayerState(UUIDInstancedStateObj):
         self.command_token_pool -= amount
 
     def add_secret_objective(self, card_id: str) -> None:
-        if card_id in self.secret_objective_card_ids:
+        if card_id in self.secret_objective_card_ids_in_hand:
             raise AlreadyHaveSecretObjectiveError(f"Player already has the secret objective with ID {card_id}.")
-        self.secret_objective_card_ids.add(card_id)
+        self.secret_objective_card_ids_in_hand.add(card_id)
 
     def remove_secret_objective(self, card_id: str) -> None:
         if not self.has_secret_objective(card_id):
             raise DoesNotHaveSecretObjectiveError(f"Player does not have the secret objective with ID {card_id}.")
-        self.secret_objective_card_ids.remove(card_id)
+        self.secret_objective_card_ids_in_hand.remove(card_id)
 
     def has_secret_objective(self, card_id: str) -> bool:
-        return card_id in self.secret_objective_card_ids
+        return card_id in self.secret_objective_card_ids_in_hand
 
     def redistribute_command_tokens(self, tactic_pool: int, fleet_pool: int, strategy_pool: int) -> None:
         existing = self.tactic_pool + self.fleet_pool + self.strategy_pool

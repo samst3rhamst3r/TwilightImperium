@@ -6,8 +6,8 @@ from app.state.base.mixins import UUIDandConfigIDStateObj
 class ActionCardState(UUIDandConfigIDStateObj):
     flavor_text_index: int
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
+    def save(self) -> dict:
+        return super().save() | {
             "flavor_text_index": self.flavor_text_index
         }
 

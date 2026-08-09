@@ -16,8 +16,8 @@ class PromissoryNoteCardState(UUIDandConfigIDStateObj):
     def is_issued_to(self, player_color: PlayerColor) -> bool:
         return self.issuing_player_color == player_color
 
-    def to_save_dict(self):
-        return super().to_save_dict() | {
+    def save(self):
+        return super().save() | {
             "issuing_player_color": self.issuing_player_color
         }
 

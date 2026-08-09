@@ -1,7 +1,25 @@
 from dataclasses import dataclass
 
-from .base import ObjectiveCardState
+from .base import InvalidStateTransition, ObjectiveCardState
 
 @dataclass(slots=True, kw_only=True)
 class PublicObjectiveCardState(ObjectiveCardState):
-    pass
+    _revealed: bool = False
+
+    @property
+    def is_revealed(self) -> bool:
+        return self._revealed
+
+    def reveal(self) -> None:
+        if self.is_revealed:
+            raise InvalidStateTransition("This public objective is already revealed.")
+        self._revealed = True
+
+    def save(self):
+        return super().save() | {
+            "_revealed": self._revealed
+        }
+
+    def init_from_save(self, data: dict) -> None:
+        super().init_from_save(data)
+        self._revealed = data["_revealed"]

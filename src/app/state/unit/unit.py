@@ -75,13 +75,13 @@ class UnitState(UUIDandConfigIDStateObj):
     # def can_sustain_damage(self) -> bool:
     #     return self._does_standard_ability_exist(AbilityID.SUSTAIN_DAMAGE)
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
-            "location": self.location.to_save_dict(),
+    def save(self) -> dict:
+        return super().save() | {
+            "location": self.location.save(),
             "current_damage": self.current_damage,
         }
 
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
-        self.location = UnitLocation.from_save_dict(**data["location"])
+        self.location = UnitLocation.load(**data["location"])
         self.current_damage = data["current_damage"]

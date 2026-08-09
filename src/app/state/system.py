@@ -8,8 +8,8 @@ from app.state.base.mixins import ConfigIDInstancedStateObj
 class SystemState(ConfigIDInstancedStateObj):
     map_hex_coordinate: HexCoordinate
 
-    def to_save_dict(self) -> dict[str, Any]:
-        return super().to_save_dict() | {
+    def save(self) -> dict[str, Any]:
+        return super().save() | {
             "map_hex_coordinate": [self.map_hex_coordinate.q, self.map_hex_coordinate.r]
         }
 

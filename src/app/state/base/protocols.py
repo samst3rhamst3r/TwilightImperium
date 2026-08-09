@@ -8,8 +8,8 @@ class _Dumpable(Protocol):
     all saveable objects can be serialized and deserialized in a uniform manner.
     """
 
-    def to_save_dict(self) -> dict:
-        raise NotImplementedError(f"The {self.__class__.__name__} class does not implement the 'to_save_dict' method. Please implement it.")
+    def save(self) -> dict:
+        raise NotImplementedError(f"The {self.__class__.__name__} class does not implement the 'save' method. Please implement it.")
 
 class _Initializable(Protocol):
     """Protocol for objects that can be initialized from a save dictionary.
@@ -29,14 +29,14 @@ class Savable(_Dumpable, _Initializable, Protocol):
 
 class Loadable(Savable, Protocol):
     """Protocol for objects that can be initialized from a save dictionary.
-    Leaf classes should not need to override from_save_dict. Inheriting from Loadable
+    Leaf classes should not need to override load. Inheriting from Loadable
     should be enough to provide the boilerplate machinery.
     
     Sub classes would then implement just the Initializable portion (init_from_save)
     as the variable initialization portion specific to their class.
     """
     @classmethod
-    def from_save_dict(cls, data: dict) -> Self:
+    def load(cls, data: dict) -> Self:
         obj = cls.__new__(cls)
         obj.init_from_save(data)
         return obj

@@ -15,8 +15,8 @@ class ObjectNotExhaustible(Exception):
 class Exhaustible(StateObj):
     exhausted: bool | None = None
 
-    def to_save_dict(self) -> dict:
-        return super().to_save_dict() | {
+    def save(self) -> dict:
+        return super().save() | {
             "exhausted": self.exhausted
         }
 

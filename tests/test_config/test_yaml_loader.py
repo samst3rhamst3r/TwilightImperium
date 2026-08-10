@@ -19,7 +19,7 @@ from app.config.objs.planet import PlanetConfig
 from app.config.objs.promissory_note import PromissoryNoteConfig
 from app.config.objs.strategy_card import StrategyCardConfig
 from app.config.objs.system import SystemConfig
-from app.config.objs.tech import TechConfig
+from app.config.objs.tech import AssimilatorTechConfig, StandardTechConfig, TechConfig, TechID
 from app.config.objs.unit import UnitConfig
 from app.config.setup import SetupConfig
 
@@ -50,11 +50,26 @@ def test_loader_imports_every_real_data_entry_into_the_right_type(
     for item in items:
         assert isinstance(item, expected_type)
 
-def test_every_loaded_id_is_unique_within_its_type(data_dir) -> None:
-    for loader_fn in _LOADER_TO_EXPECTED_TYPE:
-        ids = [item.id for item in loader_fn(data_dir)]
-        duplicates = {id_ for id_ in ids if ids.count(id_) > 1}
-        assert not duplicates, f"{loader_fn.__name__} produced duplicate ids: {duplicates}"
+# SetupConfig has no `id` field at all - see test_setup_variants_are_unique_by_shape_and_player_count
+# below for its own (different-shaped) uniqueness check.
+_ID_BASED_LOADERS = {
+    fn: expected_type for fn, expected_type in _LOADER_TO_EXPECTED_TYPE.items() if fn is not yaml_loader.load_setup_data
+}
+
+@pytest.mark.parametrize("loader_fn", _ID_BASED_LOADERS.keys(), ids=[fn.__name__ for fn in _ID_BASED_LOADERS])
+def test_loaded_ids_are_unique_within_their_type(data_dir, loader_fn) -> None:
+    ids = [item.id for item in loader_fn(data_dir)]
+    duplicates = {id_ for id_ in ids if ids.count(id_) > 1}
+    assert not duplicates, f"{loader_fn.__name__} produced duplicate ids: {duplicates}"
+
+def test_setup_variants_are_unique_by_shape_and_player_count(data_dir) -> None:
+    """SetupConfig has no id - map_shape_id repeats across player-count
+    variants (see data/setup.yaml) - so uniqueness is judged by the
+    (map_shape_id, player count) pair instead."""
+    setups = list(yaml_loader.load_setup_data(data_dir))
+    keys = [(setup.map_shape_id, len(setup.player_setup)) for setup in setups]
+    duplicates = {key for key in keys if keys.count(key) > 1}
+    assert not duplicates, f"load_setup_data produced duplicate (map_shape_id, player count) variants: {duplicates}"
 
 def test_text_data_is_merged_by_id_not_left_as_a_separate_lookup(data_dir) -> None:
     """Spot check that _load_text_data_into_config_by_id actually merged the
@@ -62,3 +77,24 @@ def test_text_data_is_merged_by_id_not_left_as_a_separate_lookup(data_dir) -> No
     than the merge silently doing nothing."""
     abilities = list(yaml_loader.load_ability_data(data_dir))
     assert any(ability.functional_text for ability in abilities)
+
+def test_unit_text_is_optional_but_still_merged_when_present(data_dir) -> None:
+    units = list(yaml_loader.load_unit_data(data_dir))
+    assert any(unit.functional_text is None for unit in units), (
+        "expected at least one unit with no functional_text (e.g. a basic Cruiser) - "
+        "if this fails, the text_required=False path may no longer be exercised by real data"
+    )
+    assert any(unit.functional_text for unit in units), (
+        "expected at least one unit with functional_text actually merged in"
+    )
+
+def test_tech_loader_splits_assimilator_ids_into_the_right_subclass(data_dir) -> None:
+    techs = {tech.id: tech for tech in yaml_loader.load_tech_data(data_dir)}
+    assert isinstance(techs[TechID.VALEFAR_ASSIMILATOR_X], AssimilatorTechConfig)
+    assert isinstance(techs[TechID.VALEFAR_ASSIMILATOR_Y], AssimilatorTechConfig)
+    non_assimilator_techs = [
+        tech for id_, tech in techs.items()
+        if id_ not in (TechID.VALEFAR_ASSIMILATOR_X, TechID.VALEFAR_ASSIMILATOR_Y)
+    ]
+    assert non_assimilator_techs, "expected at least one real (non-assimilator) tech in the data"
+    assert all(isinstance(tech, StandardTechConfig) for tech in non_assimilator_techs)

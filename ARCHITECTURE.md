@@ -46,6 +46,63 @@ sanctioned access point.
   value type, not a data-coupling.
 - Naming: settled on **`RulesetConfig`**, not `GameConfig` — signals "static ruleset,"
   not "belongs to one game."
+- **`slots=True` is not used on Config (or State) dataclasses.** Verified: combining
+  two `slots=True` trait mixins via multiple inheritance raises
+  `TypeError: multiple bases have instance lay-out conflicts`. Slotting only the
+  leaf class while mixins stay unslotted avoids the error but delivers **zero**
+  memory benefit — the instance still gets a `__dict__` the moment *any* class in
+  the MRO lacks `__slots__`. Since nearly every Config class is composed from 2+
+  trait mixins, there is no configuration that both avoids the conflict and
+  actually saves memory without abandoning the mixin-composition pattern.
+  Measured savings would be ~288 bytes/instance if it worked at all — at a
+  realistic few-thousand-instance ruleset, well under 1MB total. Not worth
+  restructuring around; omit `slots=True` everywhere for consistency.
+
+### Optional-but-structural fields: subclass/trait split, not `Optional`
+
+Use `Optional[X] = None` only when `None` means "legitimately unknown/unset,
+but the field's concept still applies to this instance." When a field's
+*concept itself* doesn't apply to some subset of instances (not "unknown
+value," but "this question doesn't make sense here"), that's a signal for a
+trait split (matching the `RequiresFlavorText`/`RequiresFlavorTextOptions`
+pattern), not a nullable field — otherwise you get an illegal state that's
+*representable* (`None` where it shouldn't be) and can only be caught by a
+test enforcing "everything except these N special cases has a value," rather
+than being structurally impossible to construct wrong.
+
+**Worked example: Technology `tech_type`.** Every technology has a static
+`TechType` (biotic/propulsion/cybernetic/warfare) — except the two Valefar
+Assimilator technologies, which have no fixed type at all; they take on
+whichever type the technology they're placed on has. Modeled as:
+
+```python
+class HasTechType(Protocol):
+    tech_type: TechType
+
+@dataclass(frozen=True, kw_only=True)
+class TechnologyConfig:
+    id: str
+    name: str
+    prerequisites: tuple[TechType, ...] = ()
+    # no tech_type field here — not universal
+
+@dataclass(frozen=True, kw_only=True)
+class StandardTechnologyConfig(TechnologyConfig, HasTechType):
+    tech_type: TechType   # required, not nullable
+
+@dataclass(frozen=True, kw_only=True)
+class AssimilatorTechnologyConfig(TechnologyConfig):
+    pass   # structurally has no tech_type — matches the domain truth exactly
+```
+
+`load_technology_configs` picks the subclass per YAML entry (via an explicit
+discriminator, not by checking whether `tech_type` happens to be null). The
+*live, current* type of an in-play Assimilator (derived from whichever
+`TechnologyState` it's currently placed on — see §6 rule 5, Valefar Assimilator
+token) is a Resolved-layer concern, not Config — `AssimilatorTechnologyConfig`
+correctly has no field for it at all. A `HasCurrentTechType`-style Resolved
+Protocol can unify the query (`current_tech_type`) across both subclasses, each
+resolving it differently underneath — same shape as `Revealable` in §6.
 
 ## 3. State layer
 

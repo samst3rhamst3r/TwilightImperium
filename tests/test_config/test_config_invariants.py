@@ -15,7 +15,17 @@ def test_config_dataclass_is_frozen(config_dataclass: type) -> None:
         f"{config_dataclass.__name__} must be a frozen dataclass"
     )
 
+_KW_ONLY_EXEMPT_DATACLASS_NAMES = frozenset({
+    # MapConfig's `tiles` shape is encoded in YAML as a bare positional list
+    # of [q, r] pairs (see data/objs/map/*.yaml) to keep the hex-grid layout
+    # readable in the file - kw_only=True would be inconsistent with that
+    # positional-friendly YAML shape. Deliberate exception, confirmed.
+    "MapConfig",
+})
+
 def test_config_dataclass_is_kw_only(config_dataclass: type) -> None:
+    if config_dataclass.__qualname__ in _KW_ONLY_EXEMPT_DATACLASS_NAMES:
+        return
     params = config_dataclass.__dataclass_params__
     if not params.init:
         return  # no generated __init__ (e.g. BaseConfigObj) - kw_only is moot

@@ -30,7 +30,7 @@ class RulesetConfig:
     objectives: MappingProxyType[str, ObjectiveConfig] = field(default_factory=dict)
     planets: MappingProxyType[str, PlanetConfig] = field(default_factory=dict)
     promissory_notes: MappingProxyType[str, PromissoryNoteConfig] = field(default_factory=dict)
-    setup: MappingProxyType[str, SetupConfig] = field(default_factory=dict)
+    setup: tuple[SetupConfig, ...] = ()
     strategy_cards: MappingProxyType[str, StrategyCardConfig] = field(default_factory=dict)
     systems: MappingProxyType[str, SystemConfig] = field(default_factory=dict)
     techs: MappingProxyType[str, TechConfig] = field(default_factory=dict)
@@ -45,7 +45,6 @@ class RulesetConfig:
         object.__setattr__(self, "objectives", MappingProxyType(self.objectives))
         object.__setattr__(self, "planets", MappingProxyType(self.planets))
         object.__setattr__(self, "promissory_notes", MappingProxyType(self.promissory_notes))
-        object.__setattr__(self, "setup", MappingProxyType(self.setup))
         object.__setattr__(self, "strategy_cards", MappingProxyType(self.strategy_cards))
         object.__setattr__(self, "systems", MappingProxyType(self.systems))
         object.__setattr__(self, "techs", MappingProxyType(self.techs))
@@ -63,7 +62,7 @@ class RulesetConfig:
             objectives = {objective.id: objective for objective in load_objective_data(config_dir)},
             planets = {planet.id: planet for planet in load_planet_data(config_dir)},
             promissory_notes = {promissory_note.id: promissory_note for promissory_note in load_promissory_note_data(config_dir)},
-            setup = {setup.id: setup for setup in load_setup_data(config_dir)},
+            setup = tuple(load_setup_data(config_dir)),
             strategy_cards = {strategy_card.id: strategy_card for strategy_card in load_strategy_card_data(config_dir)},
             systems = {system.id: system for system in load_system_data(config_dir)},
             techs = {tech.id: tech for tech in load_tech_data(config_dir)},

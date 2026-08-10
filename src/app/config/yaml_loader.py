@@ -13,7 +13,7 @@ from .objs.planet import PlanetConfig
 from .objs.promissory_note import PromissoryNoteConfig
 from .objs.strategy_card import StrategyCardConfig
 from .objs.system import SystemConfig
-from .objs.tech import TechConfig
+from .objs.tech import AssimilatorTechConfig, StandardTechConfig, TechConfig, TechID
 from .objs.unit import UnitConfig
 
 from .setup import SetupConfig
@@ -28,7 +28,7 @@ def _load_data(config_data_file_path: Path) -> dict | list[dict]:
 def _load_config_obj_data(root_path: Path, file_name: str) -> list[dict]:
     return _load_data(root_path / _CONFIG_OBJ_DATA_PATH / file_name)
 
-def _load_text_data_into_config_by_id(root_path: Path, file_name: str) -> list[dict]:
+def _load_text_data_into_config_by_id(root_path: Path, file_name: str, *, text_required: bool = True) -> list[dict]:
 
     config_data: list[dict] = _load_config_obj_data(root_path, file_name)
 
@@ -36,7 +36,9 @@ def _load_text_data_into_config_by_id(root_path: Path, file_name: str) -> list[d
 
     for config_dict in config_data:
         if config_dict["id"] not in text_config_data.keys():
-            raise KeyError(f"Text config ID {config_dict['id']} not found in configuration: {config_dict}")
+            if text_required:
+                raise KeyError(f"Text config ID {config_dict['id']} not found in configuration: {config_dict}")
+            continue
         config_dict.update(text_config_data[config_dict["id"]])
 
     return config_data
@@ -88,8 +90,11 @@ def load_system_data(root_data_path: Path) -> Generator[SystemConfig]:
 
 def load_tech_data(root_data_path: Path) -> Generator[TechConfig]:
     for config in _load_text_data_into_config_by_id(root_data_path, "techs.yaml"):
-        yield TechConfig(**config)
+        if config["id"] in (TechID.VALEFAR_ASSIMILATOR_X, TechID.VALEFAR_ASSIMILATOR_Y):
+            yield AssimilatorTechConfig(**config)
+        else:
+            yield StandardTechConfig(**config)
 
 def load_unit_data(root_data_path: Path) -> Generator[UnitConfig]:
-    for config in _load_text_data_into_config_by_id(root_data_path, "units.yaml"):
+    for config in _load_text_data_into_config_by_id(root_data_path, "units.yaml", text_required=False):
         yield UnitConfig(**config)

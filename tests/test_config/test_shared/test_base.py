@@ -1,19 +1,13 @@
-import pytest
-from pathlib import Path
+"""Mirrors src/app/config/shared/base.py."""
+import dataclasses
 
-from app.config.shared import *
+from app.config.shared.base import BaseConfigObj
 
-@pytest.fixture
-def data_dir():
-    return Path("data")
+def test_base_config_obj_is_a_frozen_dataclass_with_no_generated_init() -> None:
+    assert dataclasses.is_dataclass(BaseConfigObj)
+    params = BaseConfigObj.__dataclass_params__
+    assert params.frozen
+    assert not params.init  # init=False - a marker/root, never constructed directly
 
-@pytest.fixture
-def data_objs_dir(data_dir):
-    return data_dir / "objs"
-
-@pytest.fixture
-def text_objs_dir(data_dir):
-    return data_dir / "text_objs"
-
-def test_path(text_objs_dir):
-    assert BaseConfigObj() is not None
+def test_base_config_obj_declares_no_fields_of_its_own() -> None:
+    assert dataclasses.fields(BaseConfigObj) == ()

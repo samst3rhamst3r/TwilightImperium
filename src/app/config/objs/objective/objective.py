@@ -16,7 +16,7 @@ _OBJECTIVE_POINTS_BY_TYPE: MappingProxyType[ObjectiveType, int] = MappingProxyTy
 @dataclass(slots=True, frozen=True, kw_only=True)
 class ObjectiveConfig(NamedConfigObj, RequiresFunctionalText):
     objective_type: ObjectiveType
-    phase: GamePhase
+    game_phase: GamePhase
 
     @property
     def victory_points(self) -> int:

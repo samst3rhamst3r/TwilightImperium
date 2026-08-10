@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.shared import NamedConfigObj, RequiresFunctionalText, CanHaveFactionExclusivity
+from app.config.shared import NamedConfigObj, CanHaveFactionExclusivity
 
 from app.config.objs.ability import ParameterizedAbilityInstanceConfig
 from app.config.objs.tech import TechUpgradeReqConfig
@@ -8,7 +8,10 @@ from app.config.objs.tech import TechUpgradeReqConfig
 from .unit_class import UnitClass
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity, RequiresFunctionalText):
+class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity):
+    """Unlike most Config types, functional_text is optional here (not the
+    mandatory RequiresFunctionalText mixin) - plenty of units (e.g. basic
+    Cruisers, Destroyers) have no special ability text at all."""
 
     unit_class: UnitClass
 
@@ -18,6 +21,8 @@ class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity, RequiresFunctionalTe
     capacity: int | None
     units_per_cost: int | None = 1
     burst: int | None = 1
+
+    functional_text: str | None = None
 
     ability_ids: tuple[str, ...] = ()
     parameterized_abilities: tuple[ParameterizedAbilityInstanceConfig, ...] = ()

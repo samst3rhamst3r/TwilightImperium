@@ -1,199 +1,199 @@
 - id: expand_borders
   name: Expand Borders
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: lead_from_front
   name: Lead from the Front
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: diversify_research
   name: Diversify Research
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: intimidate_council
   name: Intimidate the Council
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: sway_council
   name: Sway the Council
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: erect_monument
   name: Erect a Monument
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: develop_weaponry
   name: Develop Weaponry
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: corner_market
   name: Corner the Market
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: found_research_outposts
   name: Found Research Outposts
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: negotiate_trade_routes
   name: Negotiate Trade Routes
-  type: public_stage_i
+  objective_type: public_stage_i
   game_phase: status
 
 - id: revolutionize_warfare
   name: Revolutionize Warfare
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: centralize_galactic_trade
   name: Centralize Galactic Trade
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: unify_colonies
   name: Unify the Colonies
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: subdue_galaxy
   name: Subdue the Galaxy
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: conquer_weak
   name: Conquer the Weak
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: galvanize_people
   name: Galvanize the People
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: form_galactic_brain_trust
   name: Form Galactic Brain Trust
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: manipulate_galactic_law
   name: Manipulate Galactic Law
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: found_golden_age
   name: Found a Golden Age
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: master_sciences
   name: Master the Sciences
-  type: public_stage_ii
+  objective_type: public_stage_ii
   game_phase: status
 
 - id: spark_rebellion
   name: Spark a Rebellion
-  type: secret
+  objective_type: secret
   game_phase: action
 
 - id: form_spy_network
   name: Form a Spy Network
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: become_gatekeeper
   name: Become the Gatekeeper
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: turn_their_fleets_to_dust
   name: Turn Their Fleets to Dust
-  type: secret
+  objective_type: secret
   game_phase: action
 
 - id: make_example_of_their_world
   name: Make an Example of Their World
-  type: secret
+  objective_type: secret
   game_phase: action
 
 - id: forge_alliance
   name: Forge an Alliance
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: establish_perimeter
   name: Establish a Perimeter
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: occupy_seat_of_empire
   name: Occupy the Seat of the Empire
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: control_the_region
   name: Control the Region
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: monopolize_production
   name: Monopolize Production
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: unveil_flagship
   name: Unveil Flagship
-  type: secret
+  objective_type: secret
   game_phase: action
 
 - id: threaten_enemies
   name: Threaten Enemies
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: master_the_laws_of_physics
   name: Master the Laws of Physics
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: fuel_the_war_machine
   name: Fuel the War Machine
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: mine_rare_metals
   name: Mine Rare Metals
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: adapt_new_strategies
   name: Adapt New Strategies
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: gather_mighty_fleet
   name: Gather a Mighty Fleet
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: cut_supply_lines
   name: Cut Supply Lines
-  type: secret
+  objective_type: secret
   game_phase: status
 
 - id: destroy_their_greatest_ship
   name: Destroy Their Greatest Ship
-  type: secret
+  objective_type: secret
   game_phase: action
 
 - id: learn_secrets_of_the_cosmos
   name: Learn Secrets of the Cosmos
-  type: secret
+  objective_type: secret
   game_phase: status

@@ -5,4 +5,4 @@ from app.config.shared.mixins import RequiresFlavorTextOptions, RequiresFunction
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class ActionCardConfig(NamedConfigObj, RequiresFunctionalText, RequiresFlavorTextOptions):
-    pass
+    num_in_deck: int = 1

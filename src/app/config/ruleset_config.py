@@ -20,7 +20,7 @@ from .objs.unit import UnitConfig
 
 from .setup import SetupConfig
 
-@dataclass(slots=True, frozen=True)
+@dataclass(slots=True, frozen=True, kw_only=True)
 class RulesetConfig:
     abilities: MappingProxyType[str, AbilityConfig] = field(default_factory=dict)
     action_cards: MappingProxyType[str, ActionCardConfig] = field(default_factory=dict)

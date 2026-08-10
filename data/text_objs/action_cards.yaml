@@ -243,7 +243,6 @@
     The missile - an insignificant spark against the darkness - struck the hull of the dreadnought. Moments later, the starboard flank erupted in flames.
 
 - id: maneuvering_jets
-  num_in_deck: 4
   functional_text: |-
     Before you assign hits produced by another player's SPACE CANNON roll:
     Cancel 1 hit.

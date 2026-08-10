@@ -4,7 +4,7 @@ from app.config.shared import IDConfigObj
 
 from app.geometry.coordinate import HexCoordinate
 
-@dataclass(slots=True, frozen=True)
+@dataclass(frozen=True)
 class MapConfig(IDConfigObj):
     tiles: tuple[HexCoordinate, ...]
     

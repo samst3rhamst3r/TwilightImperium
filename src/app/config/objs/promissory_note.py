@@ -3,7 +3,7 @@ from typing import ClassVar, Final
 
 from app.config.shared import NamedConfigObj, RequiresFunctionalText, CanHaveFactionExclusivity
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class PromissoryNoteConfig(NamedConfigObj, CanHaveFactionExclusivity, RequiresFunctionalText):
 
     PLAYER_COLOR_REPLACE_STRING: ClassVar[Final[str]] = "__PLAYER_COLOR__"

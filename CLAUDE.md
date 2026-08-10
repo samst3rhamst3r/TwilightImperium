@@ -22,8 +22,11 @@ For anything touching more than one file, or where the approach isn't obvious:
 Skip the spec for single-file, obvious-diff changes (typo fixes, renames, etc.).
 
 ## Code style
-- `kw_only=True` on every `state/`/`config/` dataclass (see ARCHITECTURE.md
-  field-ordering notes on mixed default/non-default fields).
+- `kw_only=True` on every `state/`/`config/` dataclass, with one deliberate
+  exception: `MapConfig` — its `tiles` shape is encoded as a bare positional
+  list of `[q, r]` pairs in `data/objs/map/*.yaml` to keep the hex-grid
+  layout readable in the file, so `kw_only=True` would fight that shape.
+  Don't "fix" this back to `kw_only=True`.
 - Apply the mixin decision test in ARCHITECTURE.md §3 (dataclass mixin vs.
   Protocol vs. ABC) before adding any new trait — don't default to Protocol
   out of habit.
@@ -32,5 +35,14 @@ Skip the spec for single-file, obvious-diff changes (typo fixes, renames, etc.).
 
 ## Testing
 Run tests before considering any implementation task complete.
-Usage:
-  On any OS, starting from the top-level directory of this workspace: "python tests"
+
+Usage, from the top-level directory of this workspace: `pytest tests/test_config`
+(use the explicit `test_config` target, not a bare `pytest` — `tests/test_state`
+currently fails at collection on a pre-existing circular import, which would
+otherwise block collecting everything else too).
+
+<!-- TODO(next session): flesh this section out further - a lot was learned
+this session (2026-08-09) about effective testing procedures for this repo
+(loader-isolation tests, real-data spot checks via a session-scoped fixture,
+recursive runtime-immutability checks, parametrized structural sweeps over
+discovered dataclasses/enums) that's worth generalizing here. -->

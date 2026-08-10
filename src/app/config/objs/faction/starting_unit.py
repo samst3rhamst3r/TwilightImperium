@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from app.config.shared import BaseConfigObj
 from app.config.objs.unit import UnitClass
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class FactionStartingUnitConfig(BaseConfigObj):
     unit_class: UnitClass
     num: int

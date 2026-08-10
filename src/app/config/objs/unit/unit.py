@@ -7,7 +7,7 @@ from app.config.objs.tech import TechUpgradeReqConfig
 
 from .unit_class import UnitClass
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity):
     """Unlike most Config types, functional_text is optional here (not the
     mandatory RequiresFunctionalText mixin) - plenty of units (e.g. basic

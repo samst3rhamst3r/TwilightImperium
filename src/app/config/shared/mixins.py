@@ -1,13 +1,15 @@
 from dataclasses import dataclass
 
-# NOTE: these mixins are deliberately NOT slots=True. CPython's multiple
+# NOTE: these mixins are deliberately NOT slots=True - and neither is any
+# other Config dataclass (see ARCHITECTURE.md §2). CPython's multiple
 # inheritance only tolerates one base class in the MRO contributing real
-# (non-empty) __slots__; since concrete Config classes combine two or more of
-# these mixins with NamedConfigObj/IDConfigObj (which *is* slotted), giving
-# every mixin its own slots raises "TypeError: multiple bases have instance
-# lay-out conflict" at class-definition time. These are tiny, load-once
-# config objects - the __dict__ memory cost of leaving mixins unslotted is
-# negligible next to correctness.
+# (non-empty) __slots__, so combining two or more slotted mixins raises
+# "TypeError: multiple bases have instance lay-out conflict" at
+# class-definition time. Slotting only some classes in a hierarchy doesn't
+# even buy anything - the instance still gets a __dict__ the moment any
+# class in its MRO lacks __slots__ - so once mixin composition ruled out
+# slotting everything, omitting slots=True everywhere was the only
+# configuration that's both correct and consistent.
 
 @dataclass(frozen=True, kw_only=True)
 class RequiresFunctionalText:

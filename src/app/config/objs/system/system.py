@@ -6,7 +6,7 @@ from .anomaly import AnomalyType
 from .wormhole import WormholeType
 from .tile_color import TileColor
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class SystemConfig(IDConfigObj):
     back_color: TileColor | None # Mecatol Rex is the sole exception of no tile back color. Field is still required to force explicit usage of None
     anomaly: AnomalyType | None = None

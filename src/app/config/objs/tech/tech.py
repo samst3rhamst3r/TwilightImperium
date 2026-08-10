@@ -6,16 +6,16 @@ from app.config.shared.mixins import CanBeExhaustible, CanHaveFactionExclusivity
 from .type import TechType
 from .upgrade_req import TechUpgradeReqConfig
 
-@dataclass(frozen=True, kw_only=True, slots=True)
+@dataclass(frozen=True, kw_only=True)
 class TechConfig(NamedConfigObj, RequiresFunctionalText, CanHaveFactionExclusivity, CanBeExhaustible):
     prereqs: tuple[TechUpgradeReqConfig, ...] = ()
 
-@dataclass(frozen=True, kw_only=True, slots=True)
+@dataclass(frozen=True, kw_only=True)
 class StandardTechConfig(TechConfig):
     """A real technology - has a fixed tech_type from the moment it's drawn/owned."""
     tech_type: TechType
 
-@dataclass(frozen=True, kw_only=True, slots=True)
+@dataclass(frozen=True, kw_only=True)
 class AssimilatorTechConfig(TechConfig):
     """Nekro Virus's Valefar Assimilator X/Y tokens (see TechID). These aren't a
     technology in their own right - they take on whatever tech_type the

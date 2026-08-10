@@ -2,16 +2,16 @@ from dataclasses import dataclass
 
 from app.config.shared import IDConfigObj
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class ParameterizedAbilityInstanceConfig(IDConfigObj):
     pass
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class CombatAbilityInstanceConfig(ParameterizedAbilityInstanceConfig):
     combat: int
     dice: int = 1
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class ProductionAbilityInstanceConfig(ParameterizedAbilityInstanceConfig):
     value: int | None = None
     amt_more_than_rsrc_value_of_planet: int | None = None

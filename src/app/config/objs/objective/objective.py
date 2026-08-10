@@ -13,7 +13,7 @@ _OBJECTIVE_POINTS_BY_TYPE: MappingProxyType[ObjectiveType, int] = MappingProxyTy
     ObjectiveType.SECRET: 1
 })
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class ObjectiveConfig(NamedConfigObj, RequiresFunctionalText):
     objective_type: ObjectiveType
     game_phase: GamePhase

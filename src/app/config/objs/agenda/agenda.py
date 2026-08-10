@@ -7,7 +7,7 @@ from app.config.objs.planet import PlanetTrait
 from .type import AgendaType
 from .vote_scenario_type import AgendaVoteScenarioType
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class AgendaConfig(NamedConfigObj, RequiresFunctionalText, CanBeExhaustible):
     agenda_type: AgendaType
     vote_scenario_type: AgendaVoteScenarioType

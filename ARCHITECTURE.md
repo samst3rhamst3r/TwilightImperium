@@ -55,12 +55,12 @@ classmethod, not `__post_init__`.
 - `RulesetConfig` is the static-data aggregate: loaded once (`RulesetConfig.load(config_dir)`),
   shared across every concurrent `GameState`, independent of any specific game
   (independent of player count, factions chosen, etc.). Frozen/immutable.
-- Per-type loader functions (`load_strategy_card_configs`, etc.) live in
-  `config/loader.py`, each returning a list of **already-typed Config objects**
+- Per-type loader functions (`load_strategy_card_data`, etc.) live in
+  `config/yaml_loader.py`, each returning **already-typed Config objects**
   (never raw dicts) — loaders own "YAML shape → typed object," `RulesetConfig.load`
   only composes the results.
 - **The loader owns *all* nested/composed type conversion, not just the outer
-  object.** E.g. `MapConfig.coordinates: tuple[HexCoordinate, ...]` — the loader
+  object.** E.g. `MapConfig.tiles: tuple[HexCoordinate, ...]` — the loader
   builds fully-formed `HexCoordinate` instances from the raw `list[list[int]]`
   YAML shape itself; `MapConfig`'s constructor only ever receives already-typed
   `HexCoordinate` objects, never raw ints/lists it would need to coerce itself.
@@ -76,8 +76,11 @@ classmethod, not `__post_init__`.
   for O(1) lookup, alongside the ordered tuple form if needed.
 - Config classes use trait mixins for optional fields (`RequiresFunctionalText`,
   `RequiresFlavorText`, `RequiresFlavorTextOptions`) — composed per card type as needed.
-- Enums (`UnitClass`, `TechnologyType`, etc.) live in `config/enums.py` — static
-  vocabulary, imported freely by State/Resolved without violating layering.
+- Enums (`UnitClass`, `TechType`, etc.) live alongside the Config class that
+  owns their vocabulary (e.g. `config/objs/unit/unit_class.py`), each
+  subclassing the shared `ConfigEnum`/`SerializableEnum` bases in
+  `config/shared/enum.py` — static vocabulary, imported freely by
+  State/Resolved without violating layering.
 - `HexCoordinate` (from `geometry/`) is imported into Config the same way — a shared
   value type, not a data-coupling.
 - Naming: settled on **`RulesetConfig`**, not `GameConfig` — signals "static ruleset,"
@@ -112,33 +115,31 @@ Assimilator technologies, which have no fixed type at all; they take on
 whichever type the technology they're placed on has. Modeled as:
 
 ```python
-class HasTechType(Protocol):
-    tech_type: TechType
-
 @dataclass(frozen=True, kw_only=True)
-class TechnologyConfig:
-    id: str
-    name: str
-    prerequisites: tuple[TechType, ...] = ()
+class TechConfig(NamedConfigObj, RequiresFunctionalText, CanHaveFactionExclusivity, CanBeExhaustible):
+    prereqs: tuple[TechUpgradeReqConfig, ...] = ()
     # no tech_type field here — not universal
 
 @dataclass(frozen=True, kw_only=True)
-class StandardTechnologyConfig(TechnologyConfig, HasTechType):
+class StandardTechConfig(TechConfig):
     tech_type: TechType   # required, not nullable
 
 @dataclass(frozen=True, kw_only=True)
-class AssimilatorTechnologyConfig(TechnologyConfig):
+class AssimilatorTechConfig(TechConfig):
     pass   # structurally has no tech_type — matches the domain truth exactly
 ```
 
-`load_technology_configs` picks the subclass per YAML entry (via an explicit
-discriminator, not by checking whether `tech_type` happens to be null). The
-*live, current* type of an in-play Assimilator (derived from whichever
-`TechnologyState` it's currently placed on — see §6 rule 5, Valefar Assimilator
-token) is a Resolved-layer concern, not Config — `AssimilatorTechnologyConfig`
-correctly has no field for it at all. A `HasCurrentTechType`-style Resolved
-Protocol can unify the query (`current_tech_type`) across both subclasses, each
-resolving it differently underneath — same shape as `Revealable` in §6.
+`load_tech_data` picks the subclass per YAML entry — by id, checking against
+the two known `TechID.VALEFAR_ASSIMILATOR_X`/`_Y` values in
+`config/objs/tech/ids.py` (a `discriminator id → subclass` check, not by
+checking whether `tech_type` happens to be null). The *live, current* type of
+an in-play Assimilator (derived from whichever tech State it's currently
+placed on — see §6 rule 5, Valefar Assimilator token) is a Resolved-layer
+concern, not Config — `AssimilatorTechConfig` correctly has no field for it
+at all. A `HasCurrentTechType`-style Resolved Protocol could unify that query
+(`current_tech_type`) across both subclasses once the Resolved layer reaches
+Tech, each resolving it differently underneath — same shape as `Revealable`
+in §6. (Not built yet — Resolved-layer Tech support doesn't exist yet.)
 
 ## 3. State layer
 

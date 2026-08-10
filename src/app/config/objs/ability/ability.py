@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from app.config.shared import NamedConfigObj, RequiresFunctionalText, CanHaveFactionExclusivity
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class AbilityConfig(NamedConfigObj, CanHaveFactionExclusivity, RequiresFunctionalText):
     # TODO: Add trigger fields for ability objects as they are defined
     # trigger: AbilityTrigger

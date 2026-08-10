@@ -6,7 +6,7 @@ from app.config.objs.tech import TechType
 
 from .trait import PlanetTrait
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class PlanetConfig(NamedConfigObj, RequiresFlavorText):
     system_id: str
     resources: int = 0

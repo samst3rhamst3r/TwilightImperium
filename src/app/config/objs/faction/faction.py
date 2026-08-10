@@ -4,7 +4,7 @@ from app.config.shared import NamedConfigObj
 
 from .starting_unit import FactionStartingUnitConfig
 
-@dataclass(slots=True, frozen=True, kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class FactionConfig(NamedConfigObj):
     max_commodities: int
     home_system_id: str

@@ -71,16 +71,6 @@ def test_index_mappings_reject_item_assignment(ruleset_config: RulesetConfig) ->
         with pytest.raises(TypeError):
             index["__should_not_be_settable__"] = None
 
-@pytest.mark.xfail(
-    reason="KNOWN GAP (deferred, not yet fixed): Config(**raw_dict) never coerces raw YAML "
-    "lists into the tuple[...] fields declared on Config classes (flavor_text_options, "
-    "ability_ids, parameterized_abilities, upgrade_reqs, prereqs, starting_units, tiles, "
-    "player_setup, ...) - they hold plain lists at runtime instead. Same root cause as the "
-    "MapConfig.tiles / AgendaConfig enum-coercion gaps; see BaseConfigObj.from_raw_config. "
-    "This test documents the gap so a real fix flips it back to passing instead of "
-    "silently going unnoticed.",
-    strict=True,
-)
 def test_ruleset_config_object_graph_is_frozen_all_the_way_down(
     ruleset_config: RulesetConfig, runtime_mutability_violations
 ) -> None:

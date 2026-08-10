@@ -8,3 +8,6 @@ from .type import TechType
 class TechUpgradeReqConfig(BaseConfigObj):
     tech_type: TechType
     num: int
+
+    def __post_init__(self):
+        object.__setattr__(self, "tech_type", TechType(self.tech_type))

@@ -29,6 +29,9 @@ class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity):
     upgraded_from_unit_id: str | None = None
     upgrade_reqs: tuple[TechUpgradeReqConfig, ...] = ()
 
+    def __post_init__(self):
+        object.__setattr__(self, "unit_class", UnitClass(self.unit_class))
+
     @property
     def can_move(self) -> bool:
         return self.move is not None and self.move > 0

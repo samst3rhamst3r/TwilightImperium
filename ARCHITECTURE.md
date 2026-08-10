@@ -27,6 +27,29 @@ calls `Resolved*` objects and Domain Services. `GameState`'s containers are
 effectively private; `GameState.resolved_*()` factory methods are the only
 sanctioned access point.
 
+### Who owns what, and why — the dividing lines
+
+The boundaries between layers get murky in the moment (mid-design, a field or
+a method can plausibly "belong" in more than one place). This table is the
+condensed answer arrived at, layer by layer, plus the one-line test that
+settles the murky cases.
+
+| Layer | Owns | Never owns | One-line test |
+|---|---|---|---|
+| `data/` (YAML) | Raw static content, nothing else | Any typed shape, any logic | — |
+| `config/` | The complete, final **typed** shape of static ruleset data; **all** conversion from raw YAML into that shape, including nested/composed value types (§2) | Anything per-game or live; any decision that depends on which game is being played | "Is this true independent of any specific game being played?" → Config. "Only true in the context of one ongoing match?" → State. |
+| `state/` | Live, mutable, per-game data; identity (`instance_id`); self-contained mutation taking **primitives**, never Config objects; references to Config/other State **by id only** (§6 derive-don't-store rules) | Config *values* (only `config_id`); decisions requiring Config; cross-entity coordination; setup decisions requiring external context (that's `new_game()`'s job, not the class's fields/shape) | "Does this field/method need only this object's own already-known data?" → State. "Does it need to look up or reason about Config content?" → not State. |
+| `resolved/` | Binding one live State + its resolved Config, for the duration of one operation; single-entity Config-aware queries/decisions | Storage (never persisted — §4); cross-entity coordination | "Does answering this need only *this one entity's* State + Config?" → Resolved. "Needs another entity too?" → Service. |
+| `services/` | Cross-entity rules logic; decisions composing multiple `Resolved*` objects | Sequencing/turn order; raw State/Config manipulation (delegates down to Resolved/State) | "Does this require reasoning about 2+ entities together?" → Service. |
+| `orchestration/` | Sequencing/flow: *when* an operation fires, in response to what trigger, during what phase | The rule mechanics themselves (what's legal, what happens) — those live in Services/Resolved | "Is this deciding *whether/when* to call a rule, or *being* the rule?" — deciding when → orchestration; being the rule → Service/Resolved. |
+| `geometry/` | Pure hex-coordinate math, zero game-concept awareness | Any assumption that a caller knows about game rules | — |
+
+Construction-specific dividing line (§3 has the full version): *"Is this
+value invariant across every possible way the object gets built?"* → belongs
+in `__post_init__`. *"Does it vary depending on which classmethod
+(`new_game`/`load`) is doing the constructing?"* → belongs in that
+classmethod, not `__post_init__`.
+
 ## 2. Config layer
 
 - `RulesetConfig` is the static-data aggregate: loaded once (`RulesetConfig.load(config_dir)`),
@@ -36,6 +59,19 @@ sanctioned access point.
   `config/loader.py`, each returning a list of **already-typed Config objects**
   (never raw dicts) — loaders own "YAML shape → typed object," `RulesetConfig.load`
   only composes the results.
+- **The loader owns *all* nested/composed type conversion, not just the outer
+  object.** E.g. `MapConfig.coordinates: tuple[HexCoordinate, ...]` — the loader
+  builds fully-formed `HexCoordinate` instances from the raw `list[list[int]]`
+  YAML shape itself; `MapConfig`'s constructor only ever receives already-typed
+  `HexCoordinate` objects, never raw ints/lists it would need to coerce itself.
+  Splitting this (loader builds the outer container, the Config class coerces
+  the inner values) would smear a single responsibility across two places and
+  make the Config class harder to construct directly in tests/fixtures.
+  Corollary: no generic reflection-based "auto-coerce dicts to `MappingProxyType`
+  by inspecting type hints" helper — the field's declared type
+  (`tuple[...]`, `MappingProxyType[...]`) already *is* the immutability
+  contract on a frozen dataclass; the loader just needs to construct that type
+  once, explicitly, same as everything else it builds.
 - `RulesetConfig` builds `MappingProxyType` indices (ID → object) in `__post_init__`
   for O(1) lookup, alongside the ordered tuple form if needed.
 - Config classes use trait mixins for optional fields (`RequiresFunctionalText`,

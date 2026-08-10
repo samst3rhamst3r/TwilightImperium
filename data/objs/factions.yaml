@@ -247,6 +247,7 @@
     num: 1
   - unit_class: pds
     num: 1
+  starting_tech_ids: []
 
 - id: xxcha_kingdom
   name: The Xxcha Kingdom

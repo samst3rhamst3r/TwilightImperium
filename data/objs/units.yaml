@@ -1,4 +1,4 @@
-- id: 0_0_1
+- id: "0_0_1"
   name: "[0.0.1]"
   unit_class: flagship
   faction_exclusive_id: l1z1x_mindnet
@@ -468,7 +468,7 @@
   capacity: 3
   ability_ids: [sustain_damage]
   parameterized_abilities:
-  - ability_id: anti_fighter_barage
+  - ability_id: anti_fighter_barrage
     combat: 6
     dice: 4
 

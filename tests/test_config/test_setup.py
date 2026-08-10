@@ -1,6 +1,4 @@
 """Mirrors src/app/config/setup.py."""
-import pytest
-
 from app.config.objs.map import MapShape
 from app.config.setup import PlayerSetupConfig, SetupConfig
 from app.config.shared import BaseConfigObj
@@ -24,14 +22,6 @@ def test_real_setup_data_has_multiple_player_count_variants_per_shape(ruleset_co
     standard_variants = [s for s in ruleset_config.setup if s.map_shape_id == MapShape.STANDARD]
     assert len({len(s.player_setup) for s in standard_variants}) > 1
 
-@pytest.mark.xfail(
-    reason="KNOWN GAP (deferred, same root cause tracked in test_ruleset_config."
-    "test_ruleset_config_object_graph_is_frozen_all_the_way_down): SetupConfig.player_setup "
-    "holds raw dicts, not PlayerSetupConfig instances, because Config(**raw_dict) never "
-    "recursively coerces nested list-of-dict fields.",
-    raises=AttributeError,
-    strict=True,
-)
 def test_only_five_player_setups_ever_grant_a_trade_good_bonus(ruleset_config) -> None:
     """Real TI4 rule: trade good bonuses on starting positions only exist to
     balance 5-player games (an odd number of players around an otherwise

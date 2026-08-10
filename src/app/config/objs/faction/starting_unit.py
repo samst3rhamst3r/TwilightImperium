@@ -7,3 +7,6 @@ from app.config.objs.unit import UnitClass
 class FactionStartingUnitConfig(BaseConfigObj):
     unit_class: UnitClass
     num: int
+
+    def __post_init__(self):
+        object.__setattr__(self, "unit_class", UnitClass(self.unit_class))

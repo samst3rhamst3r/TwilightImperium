@@ -1,6 +1,7 @@
 - id: antimass_deflectors
   name: Antimass Deflectors
   tech_type: propulsion
+  prereqs: []
 
 - id: assault_cannon
   name: Assault Cannon
@@ -179,6 +180,7 @@
 - id: neural_motivator
   name: Neural Motivator
   tech_type: biotic
+  prereqs: []
 
 - id: neuroglaive
   name: Neuroglaive
@@ -207,6 +209,7 @@
 - id: plasma_scoring
   name: Plasma Scoring
   tech_type: warfare
+  prereqs: []
 
 - id: production_biomes
   name: Production Biomes
@@ -235,6 +238,7 @@
 - id: sarween_tools
   name: Sarween Tools
   tech_type: cybernetic
+  prereqs: []
 
 - id: spacial_conduit_cylinder
   name: Spacial Conduit Cylinder
@@ -262,6 +266,7 @@
 - id: valefar_assimilator_x
   name: Valefar Assimilator X
   faction_exclusive_id: nekro_virus
+  prereqs: []
 
 - id: valkyrie_particle_weave
   name: Valkyrie Particle Weave
@@ -274,6 +279,7 @@
 - id: valefar_assimilator_y
   name: Valefar Assimilator Y
   faction_exclusive_id: nekro_virus
+  prereqs: []
 
 - id: wormhole_generator
   name: Wormhole Generator

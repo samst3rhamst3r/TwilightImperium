@@ -18,7 +18,7 @@ class HexCoordinate:
         return self.__class__(self.q - other.q, self.r - other.r)
     
     @property
-    def neighbors(self) -> tuple[Self]:
+    def neighbors(self) -> tuple[Self, ...]:
         return (
             self.__class__(self.q + 1, self.r - 1),
             self.__class__(self.q + 1, self.r),

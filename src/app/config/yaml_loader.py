@@ -3,6 +3,13 @@ from typing import Any
 from pathlib import Path
 from collections.abc import Generator
 
+from app.config.objs.ability import AbilityID
+from app.config.objs.ability.dispatch import PARAMETERIZED_ABILITY_INSTANCE_REGISTRY
+from app.config.objs.faction.starting_unit import FactionStartingUnitConfig
+from app.config.objs.map.shape import MapShape
+from app.config.objs.tech.upgrade_req import TechUpgradeReqConfig
+from app.geometry.coordinate import HexCoordinate
+
 from .objs.ability import AbilityConfig
 from .objs.action_card import ActionCardConfig
 from .objs.agenda import AgendaConfig
@@ -16,7 +23,7 @@ from .objs.system import SystemConfig
 from .objs.tech import AssimilatorTechConfig, StandardTechConfig, TechConfig, TechID
 from .objs.unit import UnitConfig
 
-from .setup import SetupConfig
+from .setup import PlayerSetupConfig, SetupConfig
 
 _CONFIG_OBJ_DATA_PATH = Path("objs")
 _TEXT_CONFIG_OBJ_DATA_PATH = Path("text_objs")
@@ -49,6 +56,7 @@ def load_ability_data(root_data_path: Path) -> Generator[AbilityConfig]:
 
 def load_action_card_data(root_data_path: Path) -> Generator[ActionCardConfig]:
     for config in _load_text_data_into_config_by_id(root_data_path, "action_cards.yaml"):
+        config["flavor_text_options"] = tuple(config["flavor_text_options"])
         yield ActionCardConfig(**config)
 
 def load_agenda_data(root_data_path: Path) -> Generator[AgendaConfig]:
@@ -57,16 +65,26 @@ def load_agenda_data(root_data_path: Path) -> Generator[AgendaConfig]:
 
 def load_faction_data(root_data_path: Path) -> Generator[FactionConfig]:
     for config in _load_config_obj_data(root_data_path, "factions.yaml"):
+        config["starting_tech_ids"] = tuple(config["starting_tech_ids"])
+        config["starting_units"] = tuple(FactionStartingUnitConfig(**unit_config) for unit_config in config["starting_units"])
         yield FactionConfig(**config)
 
 def load_map_data(root_data_path: Path) -> Generator[MapConfig]:
     base_path = root_data_path / _CONFIG_OBJ_DATA_PATH / "map"
     for path in base_path.iterdir():
-        yield MapConfig(**_load_data(path))
+        data: dict = _load_data(path)
+        data["tiles"] = tuple(HexCoordinate(*tile_coordinate) for tile_coordinate in data["tiles"])
+        yield MapConfig(**data)
 
 def load_setup_data(root_data_path: Path) -> Generator[SetupConfig]:
     for config in _load_data(root_data_path / "setup.yaml"):
-        yield SetupConfig(**config)
+        yield SetupConfig(
+            map_shape_id = MapShape(config["map_shape_id"]),
+            player_setup = tuple(PlayerSetupConfig(
+                home_system_coordinates = HexCoordinate(*player_setup["home_system_coordinates"]),
+                trade_good_bonus = player_setup.get("trade_good_bonus", 0)
+            ) for player_setup in config["player_setup"])
+        )
 
 def load_objective_data(root_data_path: Path) -> Generator[ObjectiveConfig]:
     for config in _load_text_data_into_config_by_id(root_data_path, "objectives.yaml"):
@@ -90,6 +108,7 @@ def load_system_data(root_data_path: Path) -> Generator[SystemConfig]:
 
 def load_tech_data(root_data_path: Path) -> Generator[TechConfig]:
     for config in _load_text_data_into_config_by_id(root_data_path, "techs.yaml"):
+        config["prereqs"] = tuple(TechUpgradeReqConfig(**prereq_config) for prereq_config in config["prereqs"])
         if config["id"] in (TechID.VALEFAR_ASSIMILATOR_X, TechID.VALEFAR_ASSIMILATOR_Y):
             yield AssimilatorTechConfig(**config)
         else:
@@ -97,4 +116,15 @@ def load_tech_data(root_data_path: Path) -> Generator[TechConfig]:
 
 def load_unit_data(root_data_path: Path) -> Generator[UnitConfig]:
     for config in _load_text_data_into_config_by_id(root_data_path, "units.yaml", text_required=False):
+        config["ability_ids"] = tuple(config.get("ability_ids", ()))
+        config["upgrade_reqs"] = tuple(
+            TechUpgradeReqConfig(**prereq_config) for prereq_config in config.get("upgrade_reqs", ())
+        )
+        config["parameterized_abilities"] = tuple(
+            PARAMETERIZED_ABILITY_INSTANCE_REGISTRY[AbilityID(ability_config["ability_id"])](
+                id=ability_config["ability_id"],
+                **{key: value for key, value in ability_config.items() if key != "ability_id"},
+            )
+            for ability_config in config.get("parameterized_abilities", ())
+        )
         yield UnitConfig(**config)

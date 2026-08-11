@@ -31,7 +31,7 @@ _NEW_GAME_DEFAULT_TACTIC_POOL_SIZE: Final[int] = 3
 _NEW_GAME_DEFAULT_FLEET_POOL_SIZE: Final[int] = 3
 _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class PlayerState(Serializable):
     color: Final[PlayerColor]
     name: Final[str]
@@ -90,8 +90,6 @@ class PlayerState(Serializable):
         self.unit_reinforcement_pool = {UnitClass(k): v for k, v in data["unit_reinforcement_pool"].items()}
 
     def __post_init__(self):
-        super().__post_init__()
-
         self.color = PlayerColor(self.color)
         total_tokens_to_rmv = self.tactic_pool + self.fleet_pool + self.strategy_pool
         if total_tokens_to_rmv > _MAX_COMMAND_TOKENS:
@@ -143,14 +141,14 @@ class PlayerState(Serializable):
         self.trade_goods += amount
 
     def receive_command_tokens(self, amount: int) -> None:
-        if self.command_token_pool + amount > _MAX_COMMAND_TOKENS:
-            raise TooManyTokensError(f"Cannot receive {amount} command tokens; already have {self.command_token_pool}. Maximum allowed is {_MAX_COMMAND_TOKENS}.")
-        self.command_token_pool += amount
+        if self.command_token_reinforcement_pool + amount > _MAX_COMMAND_TOKENS:
+            raise TooManyTokensError(f"Cannot receive {amount} command tokens; already have {self.command_token_reinforcement_pool}. Maximum allowed is {_MAX_COMMAND_TOKENS}.")
+        self.command_token_reinforcement_pool += amount
 
     def remove_from_command_token_pool(self, amount: int) -> None:
-        if amount > self.command_token_pool:
-            raise NotEnoughTokensError(f"Only {self.command_token_pool} command tokens are available. Cannot give {amount}.")
-        self.command_token_pool -= amount
+        if amount > self.command_token_reinforcement_pool:
+            raise NotEnoughTokensError(f"Only {self.command_token_reinforcement_pool} command tokens are available. Cannot give {amount}.")
+        self.command_token_reinforcement_pool -= amount
 
     def add_secret_objective(self, card_id: str) -> None:
         if card_id in self.secret_objective_card_ids_in_hand:

@@ -36,13 +36,75 @@ Skip the spec for single-file, obvious-diff changes (typo fixes, renames, etc.).
 ## Testing
 Run tests before considering any implementation task complete.
 
-Usage, from the top-level directory of this workspace: `pytest tests/test_config`
-(use the explicit `test_config` target, not a bare `pytest` — `tests/test_state`
-currently fails at collection on a pre-existing circular import, which would
-otherwise block collecting everything else too).
+Usage, from the top-level directory of this workspace: `pytest` (bare, from
+repo root) collects and runs both `tests/test_config` and `tests/test_state`
+cleanly. While iterating on one layer, `pytest tests/test_config` or
+`pytest tests/test_state` individually gives faster feedback and keeps
+failures attributable to the layer you're actually changing.
 
-<!-- TODO(next session): flesh this section out further - a lot was learned
-this session (2026-08-09) about effective testing procedures for this repo
-(loader-isolation tests, real-data spot checks via a session-scoped fixture,
-recursive runtime-immutability checks, parametrized structural sweeps over
-discovered dataclasses/enums) that's worth generalizing here. -->
+### Test layout
+Test packages mirror their source package one-for-one (`tests/test_config/objs/test_unit/`
+↔ `app/config/objs/unit/`, etc.) — a per-class test module sits next to the
+class it covers, for behavior reflection can't check (mixin semantics,
+`__post_init__` validation, real-data spot checks). A single suite-wide
+`test_<layer>_invariants.py` (see `test_config_invariants.py`) covers
+structural rules that must hold for *every* class in the layer, via the
+sweep pattern below — it doesn't mirror a source file because it isn't
+about one class.
+
+### Fixtures (`conftest.py`)
+- **Session-scoped real-data fixture** — load the actual `data/` tree once
+  per test session (`ruleset_config`, via `RulesetConfig.load(data_dir)`),
+  rather than hand-built fixture data. Catches drift between real YAML
+  content and the typed shape that hand-rolled fixtures would miss, at
+  near-zero cost since it's loaded once and shared.
+- **Discovery fixtures** — walk the package under test with `pkgutil.walk_packages`
+  + `inspect.getmembers` to collect every dataclass/enum actually defined
+  there (`all_config_dataclasses`, `all_config_enums`), rather than a
+  hand-maintained list. New classes get swept automatically.
+- **Factory fixtures, not asserting fixtures** — a fixture returns a
+  *callable* that computes and returns a result (e.g. a list of violation
+  strings, empty if clean); the `assert` itself always lives in the `test_`
+  function, never inside a fixture. Keeps failure messages attributable to
+  a specific test and keeps fixtures reusable across different assertions.
+
+### Loader isolation
+Test each per-type loader function (`load_unit_data`, `load_tech_data`, etc.)
+individually against the real data tree, in addition to (not instead of) a
+full `RulesetConfig.load()` test. A composed-only test means one malformed
+field in one YAML file fails the *entire* suite's worth of downstream
+assertions instead of just that loader's — isolating the loader calls keeps
+failures attributable to the actual broken piece.
+
+### Structural sweeps via `pytest_generate_tests`
+For invariants that must hold across *every* class in a layer (frozen,
+`kw_only=True`, no mutable-container fields, unique field names, …), use
+`pytest_generate_tests` in `conftest.py` to parametrize a test function over
+the discovery fixtures' results (one test-id per discovered class), rather
+than writing one hand-copied test per class. A new Config/State class is
+covered automatically the moment it's added to the package — no one has to
+remember to write its structural test. Reserve hand-written per-class tests
+for behavior the sweep can't express (see Test layout above).
+
+### Runtime immutability, not just declared types
+Two complementary checks, both needed — a correct type hint doesn't
+guarantee a correct runtime value:
+- **Declared-type check** — walk a dataclass's `get_type_hints()` and flag
+  any bare `dict`/`list`/`set` (including nested inside `tuple[...]`/
+  `MappingProxyType[...]`), since only `tuple`/`MappingProxyType` are
+  allowed for sequence/mapping fields.
+- **Runtime object-graph check** — recursively walk an actual *instance*
+  (dataclass fields → tuple elements → `MappingProxyType` keys/values),
+  flagging any real `list`/`dict`/`set` encountered anywhere in the graph,
+  with cycle protection via a `seen: set[id(...)]`. Catches a loader that
+  declares the right type hint but forgets to convert a nested raw list
+  before construction — a bug the declared-type check alone can't see.
+
+### General principles
+- Prefer exercising real `data/` content over synthetic fixtures wherever
+  feasible — this repo's Config/State shapes are meant to match real game
+  data exactly, so synthetic data can pass while real data fails.
+- A discovery-sweep test suite should include one sanity check on the
+  discovery mechanism itself (e.g. `assert len(all_config_dataclasses) > 10`)
+  — if discovery silently starts returning zero classes, every parametrized
+  test in the sweep silently passes on nothing instead of failing loudly.

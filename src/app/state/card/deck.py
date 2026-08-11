@@ -19,7 +19,7 @@ _TYPE_REGISTRY: MappingProxyType[str, UUIDInstancedStateObj] = MappingProxyType(
     SecretObjectiveCardState.__name__: SecretObjectiveCardState
 })
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class CardDeckState[TCard: UUIDInstancedStateObj](Serializable):
     deck: list[TCard]
     discard_pile: list[TCard] = field(default_factory=list)
@@ -49,5 +49,5 @@ class CardDeckState[TCard: UUIDInstancedStateObj](Serializable):
 
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
-        self.deck = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].load(**card_data) for card_data in data["deck"]]
-        self.discard_pile = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].load(**card_data) for card_data in data["discard_pile"]]
+        self.deck = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].load(card_data) for card_data in data["deck"]]
+        self.discard_pile = [_TYPE_REGISTRY[card_data[_CLASS_TYPE_DICT_KEY]].load(card_data) for card_data in data["discard_pile"]]

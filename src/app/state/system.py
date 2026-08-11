@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Final
 
 from app.geometry import HexCoordinate
 from app.state.base.mixins import ConfigIDStateObj
 
-@dataclass(slots=True, kw_only=True, frozen=True)
+@dataclass(kw_only=True)
 class SystemState(ConfigIDStateObj):
-    map_hex_coordinate: HexCoordinate
+    map_hex_coordinate: Final[HexCoordinate]
 
     def save(self) -> dict[str, Any]:
         return super().save() | {

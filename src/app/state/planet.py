@@ -10,7 +10,7 @@ class PlanetAlreadyControlledError(Exception):
 class PlanetNotControlledError(Exception): 
     pass
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class PlanetState(ConfigIDStateObj, Exhaustible, PlayerOwnableMixin):
     exhausted: bool = False
 

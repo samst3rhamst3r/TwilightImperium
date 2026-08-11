@@ -12,7 +12,7 @@ class SecretObjectiveZone(SerializableEnum):
     SCORED = auto()
     REVEALED = auto()
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class SecretObjectiveCardState(ObjectiveCardState, PlayerOwnableMixin, Revealable):
     zone: SecretObjectiveZone = SecretObjectiveZone.IN_DECK
 

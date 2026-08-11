@@ -5,7 +5,7 @@ from app.state.base.mixins import UUIDInstancedStateObj
 
 from .location import UnitLocation
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class UnitState(UUIDInstancedStateObj):
     location: UnitLocation | None = None
     current_damage: int = 0
@@ -19,13 +19,13 @@ class UnitState(UUIDInstancedStateObj):
     #             raise ValueError(f"Invalid location types for unit of class {config_cls}: {self.location.loc_type.name}\nValid location types include: {', '.join(loc.name for loc in valid_locs)}")
 
     def place_on_ship(self, ship_instance_id: str) -> None:
-        self.location = UnitLocation(UnitLocationType.SHIP, ship_instance_id)
+        self.location = UnitLocation(loc_type=UnitLocationType.SHIP, unit_id=ship_instance_id)
 
     def place_on_planet(self, planet_id: str) -> None:
-        self.location = UnitLocation(UnitLocationType.PLANET, planet_id)
+        self.location = UnitLocation(loc_type=UnitLocationType.PLANET, unit_id=planet_id)
 
     def place_in_system(self, system_id: str) -> None:
-        self.location = UnitLocation(UnitLocationType.SYSTEM, system_id)
+        self.location = UnitLocation(loc_type=UnitLocationType.SYSTEM, unit_id=system_id)
 
     # def move_to_system(self, system_id: str) -> None:
     #     if self.can_move:
@@ -83,5 +83,5 @@ class UnitState(UUIDInstancedStateObj):
 
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
-        self.location = UnitLocation.load(**data["location"])
+        self.location = UnitLocation.load(data["location"])
         self.current_damage = data["current_damage"]

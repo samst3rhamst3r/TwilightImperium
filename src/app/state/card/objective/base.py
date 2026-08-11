@@ -3,7 +3,7 @@ from typing import Protocol
 
 from app.state.base.mixins import ConfigIDStateObj
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class ObjectiveCardState(ConfigIDStateObj):
     pass
 

@@ -1,9 +1,7 @@
 from yaml import safe_load
-from typing import Any
 from pathlib import Path
 from collections.abc import Generator
 
-from app.config.objs.ability import AbilityID
 from app.config.objs.ability.dispatch import PARAMETERIZED_ABILITY_INSTANCE_REGISTRY
 from app.config.objs.faction.starting_unit import FactionStartingUnitConfig
 from app.config.objs.map.shape import MapShape
@@ -121,7 +119,7 @@ def load_unit_data(root_data_path: Path) -> Generator[UnitConfig]:
             TechUpgradeReqConfig(**prereq_config) for prereq_config in config.get("upgrade_reqs", ())
         )
         config["parameterized_abilities"] = tuple(
-            PARAMETERIZED_ABILITY_INSTANCE_REGISTRY[AbilityID(ability_config["ability_id"])](
+            PARAMETERIZED_ABILITY_INSTANCE_REGISTRY[ability_config["ability_id"]](
                 id=ability_config["ability_id"],
                 **{key: value for key, value in ability_config.items() if key != "ability_id"},
             )

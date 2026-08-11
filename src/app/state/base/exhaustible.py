@@ -11,7 +11,7 @@ class ExhaustibleAlreadyReadied(Exception):
 class ObjectNotExhaustible(Exception):
     pass
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class Exhaustible(Serializable):
     exhausted: bool | None = None
 

@@ -12,7 +12,7 @@ from .special_tokens import NaaluTokenState, NekroAssimilatorTokenState, CreussW
 
 from .card import CardDeckState, PublicObjectiveCardState, SecretObjectiveCardState, ActionCardState, PromissoryNoteCardState, StrategyCardState
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class GameState(Serializable):
     players: MappingProxyType[str, PlayerState]
     systems: MappingProxyType[str, SystemState]

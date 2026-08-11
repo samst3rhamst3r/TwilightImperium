@@ -6,11 +6,11 @@ from app.state.base.ownable import PlayerOwnableWithConvenienceProtocol, PlayerO
 
 from .base.serializable import Serializable
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class NaaluTokenState(PlayerOwnableWithConvenienceProtocol):
     pass
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class SpeakerTokenState(PlayerOwnableMixin):
 
     def assign_speaker(self, player_id: str) -> None:
@@ -29,7 +29,7 @@ class SpeakerTokenState(PlayerOwnableMixin):
     def speaker_player_id(self) -> str | None:
         return self.ownable.owned_by_player_id
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class NekroAssimilatorTokenState(Serializable):
     assimilated_faction_tech_id: str | None = None
 
@@ -55,7 +55,7 @@ class NekroAssimilatorTokenState(Serializable):
 class InvalidWormholeType(ValueError):
     pass
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class CreussWormholeTokenState(Serializable):
     wormhole_type: Final[WormholeType]
     active_system_id: str | None = None
@@ -77,7 +77,7 @@ class CreussWormholeTokenState(Serializable):
         self.wormhole_type = WormholeType(data["wormhole_type"])
         self.active_system_id = data["active_system_id"]
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class CustodiansTokenState(Serializable):
     is_on_mecatol_rex: bool = True
 

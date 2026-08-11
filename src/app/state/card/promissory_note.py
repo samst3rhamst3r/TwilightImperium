@@ -5,7 +5,7 @@ from app.config.player_color import PlayerColor
 
 from app.state.base.mixins import UUIDInstancedStateObj
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class PromissoryNoteCardState(UUIDInstancedStateObj):
     issuing_player_color: Final[PlayerColor | None] = None
 
@@ -23,4 +23,5 @@ class PromissoryNoteCardState(UUIDInstancedStateObj):
 
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
-        self.issuing_player_color = PlayerColor(data["issuing_player_color"])
+        issuing_player_color = data["issuing_player_color"]
+        self.issuing_player_color = PlayerColor(issuing_player_color) if issuing_player_color is not None else None

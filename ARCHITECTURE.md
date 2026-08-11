@@ -154,6 +154,29 @@ in §6. (Not built yet — Resolved-layer Tech support doesn't exist yet.)
     pass a plain value it needs, not the Config object.
 - StrEnums (not raw strings) for closed categorical fields (`PlayerColor`, `GamePhase`,
   etc.) — type safety, exhaustiveness checking, no stringly-typed bugs.
+- **`slots=True` is not used on State dataclasses** — same rationale as
+  Config (§2): combining 2+ `slots=True` trait mixins via multiple
+  inheritance raises `TypeError: multiple bases have instance lay-out
+  conflict`, and slotting only the leaf class while its mixins stay unslotted
+  still gets a `__dict__` from the first unslotted class in the MRO,
+  delivering zero memory benefit. State's mixin composition
+  (`ConfigIDStateObj`/`UUIDInstancedStateObj`, `Exhaustible`,
+  `PlayerOwnableMixin`, etc.) hits the identical conflict; omit `slots=True`
+  everywhere in `state/` for the same reason.
+- **`frozen=True` is not used on State dataclasses** — structurally
+  incompatible with `Serializable.load()`'s `cls.__new__(cls)` + mutate
+  pattern: a frozen dataclass overrides `__setattr__` to always raise
+  `FrozenInstanceError`, regardless of the `__new__` bypass used to
+  construct the instance, and Python additionally requires `frozen` to
+  match consistently up a dataclass inheritance chain — a `frozen=True`
+  leaf can't inherit from a non-frozen shared base like `ConfigIDStateObj`
+  or `Serializable` without one or the other giving way. Every State class
+  must support the `load()` path, so none may be `frozen=True`. Fields that
+  are conceptually immutable after construction (e.g.
+  `SystemState.map_hex_coordinate`, `PromissoryNoteCardState`'s issuing
+  color) are typed `Final[...]` instead — a static/convention-level
+  contract, not a dataclass-enforced one — matching the pattern already
+  used for `PlayerState.color`/`name`/`faction_id`.
 
 ### Mixin pattern: dataclass mixin vs. Protocol vs. ABC
 
@@ -188,29 +211,37 @@ names* shouldn't leak onto the leaf class's public surface:
   both the storage mixin *and* the convenience Protocol; leaf classes needing
   custom vocab inherit only the storage mixin and write their own forward.
 
-### `StateBase` — single shared terminal / ABC root
+### `Serializable` — single shared terminal / ABC root
 
 - All per-field "cooperative super() chains" (save/load) terminate at one shared
-  `StateBase`, not multiple competing terminal classes. Consolidating into one
+  `Serializable`, not multiple competing terminal classes. Consolidating into one
   avoids silently-incomplete chains (a mixin's `super()` call reaching an
   unintended, differently-scoped terminal).
-- `StateBase` implements `Savable`/`MixinInitializer`'s contract concretely
-  (`to_save_dict`, `init_from_save_dict`) — as **`ABC` + `@abstractmethod`**, not
-  `Protocol`, since every State-layer class already shares this one common
-  ancestor (real inheritance tree, not cross-hierarchy structural typing).
+- `Serializable` implements the save/load contract concretely (`save`,
+  `init_from_save`) — as **`ABC` + `@abstractmethod`**, not `Protocol`, since
+  every State-layer class already shares this one common ancestor (real
+  inheritance tree, not cross-hierarchy structural typing). Both abstract
+  methods still carry a real no-op terminal body (`save` returns `{}`;
+  `init_from_save` is a no-op `pass`) rather than `...` — every leaf's
+  `super().save() | {...}` chain needs an actual `dict` to merge into at the
+  top (`None | {...}` raises `TypeError`); `@abstractmethod` alone still
+  forces every concrete class to provide its own override.
 - **`Loadable` was retired** — its one implementation (`load`: `cls.__new__(cls)`
-  + `obj.init_from_save_dict(data)`) never varies per class, so it's just a plain
-  concrete method on `StateBase`, not a separate Protocol.
-- `to_save_dict`/`init_from_save_dict` **do** stay as genuinely overridden,
+  + `obj.init_from_save(data)`) never varies per class, so it's just a plain
+  concrete `classmethod` on `Serializable`, not a separate Protocol.
+- `save`/`init_from_save` **do** stay as genuinely overridden,
   cooperative (`super()`-chained) methods — each trait mixin and leaf class
-  contributes its own slice, chaining up through `StateBase`'s no-op terminal.
-  This is real per-class variation, unlike `load`.
+  contributes its own slice, chaining up through `Serializable`'s no-op
+  terminal. This is real per-class variation, unlike `load`. `__post_init__`
+  is *not* part of this cooperative chain today — `Serializable` has no
+  `__post_init__` of its own, so leaf classes must not call
+  `super().__post_init__()` unless/until a shared base actually defines one.
 
 ### `new_game` vs. `load` — different problems, different mechanisms
 
 - **`load(data: dict)`**: needs `cls.__new__(cls)` (bypasses `__init__` entirely)
   because it receives an **opaque nested dict** that must be unpacked/reconstructed
-  per-field — cooperative `init_from_save_dict` chaining is real, necessary work here.
+  per-field — cooperative `init_from_save` chaining is real, necessary work here.
 - **`new_game(...)`**: called with **already-typed, named arguments** at the call
   site. Once every required field (e.g. `config_id`) is a real, explicit parameter,
   plain `cls(config_id=..., ...)` works directly — **no `__new__` bypass or
@@ -252,7 +283,7 @@ doesn't belong in `__post_init__`.
   caller might legitimately need to construct with an explicit value e.g. for
   `load`/tests).
 - Caveat: `__post_init__`-computed fields are **not** automatically recomputed
-  on the `load()` (`__new__`-bypass) path — `init_from_save_dict` must decide
+  on the `load()` (`__new__`-bypass) path — `init_from_save` must decide
   whether to trust the saved value directly or explicitly recompute for defensive
   consistency.
 

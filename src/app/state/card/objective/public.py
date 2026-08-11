@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from .base import InvalidStateTransition, ObjectiveCardState
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class PublicObjectiveCardState(ObjectiveCardState):
     _revealed: bool = False
 

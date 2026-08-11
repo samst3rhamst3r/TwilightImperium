@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from app.state.base.mixins import UUIDInstancedStateObj
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class ActionCardState(UUIDInstancedStateObj):
     flavor_text_index: int
 

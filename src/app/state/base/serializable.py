@@ -9,10 +9,12 @@ class Serializable(ABC):
     """
 
     @abstractmethod
-    def save(self) -> dict: ...
+    def save(self) -> dict:
+        return {}
 
     @abstractmethod
-    def init_from_save(self, data: dict) -> None: ...
+    def init_from_save(self, data: dict) -> None:
+        pass
 
     @classmethod
     def load(cls, data: dict) -> Self:

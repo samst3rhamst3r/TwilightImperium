@@ -1,14 +1,14 @@
 from dataclasses import dataclass, field
 from typing import Protocol
 
-from app.state.base import Serializable
+from .serializable import Serializable
 
 class AlreadyOwnedResourceException(Exception): 
     pass
 class NotYetOwnedResourceException(Exception): 
     pass
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(kw_only=True)
 class _PlayerOwnable(Serializable):
     """Contains the state logic regarding validation of player ownership of a resource.
     
@@ -105,5 +105,5 @@ class _PlayerAssignableConvenienceProtocol(Protocol):
     def is_owned_by_player(self, player_id: str) -> bool:
         return self.ownable.is_owned_by_player(player_id)
 
-class PlayerOwnableWithConvenienceProtocol(PlayerOwnableMixin, _PlayerAssignableConvenienceProtocol, Protocol):
+class PlayerOwnableWithConvenienceProtocol(PlayerOwnableMixin, _PlayerAssignableConvenienceProtocol):
     pass

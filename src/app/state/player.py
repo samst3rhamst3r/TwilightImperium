@@ -5,7 +5,6 @@ from typing import Final, Self
 from app.config.objs.unit import UnitClass
 from app.config.player_color import PlayerColor
 from app.state.base.mixins import IDedStateObj
-from app.state.base.serializable import Serializable
 
 class AlreadyScoredObjectiveError(Exception):
     pass
@@ -14,8 +13,6 @@ class AlreadyResearchedTechError(Exception):
 class NotEnoughCommoditiesError(Exception):
     pass
 class InvalidTradeGoodsToGiveError(Exception):
-    pass
-class NotEnoughTokensError(Exception):
     pass
 class TooManyTokensError(Exception):
     pass
@@ -32,10 +29,14 @@ _NEW_GAME_DEFAULT_FLEET_POOL_SIZE: Final[int] = 3
 _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 
 @dataclass(kw_only=True)
-class PlayerState(Serializable):
-    color: Final[PlayerColor]
+class PlayerState(IDedStateObj):
+    # PlayerColor is a SerializableEnum (StrEnum), so it already satisfies
+    # IDedStateObj.obj_id's `-> str` contract directly - no separate `.value`
+    # unwrap needed, matching how ConfigIDStateObj.config_id/UUIDInstancedStateObj.instance_id
+    # each provide obj_id from their own identifying field.
+    id: Final[PlayerColor]
     name: Final[str]
-    faction_id: Final[str]
+    faction_config_id: Final[str]
     secret_objective_card_ids_in_hand: set[str] = field(default_factory=set)
     scored_objective_card_ids: set[str] = field(default_factory=set)
     researched_tech_ids: set[str] = field(default_factory=set)
@@ -48,18 +49,22 @@ class PlayerState(Serializable):
     
     unit_reinforcement_pool: dict[UnitClass, int] = field(default_factory=dict)
 
-    # Calculated at initialization based upon size of tactic/fleet/strategy pools
-    command_token_reinforcement_pool: int = field(init=False)
-
     @property
     def obj_id(self) -> str:
-        return self.color.value
-    
+        return self.id
+
+    @property
+    def command_token_reinforcement_pool(self) -> int:
+        """Derived, not stored - always the printed max minus whatever's
+        currently placed across the three command-sheet pools, so it can
+        never drift out of sync with them (nothing to save/restore either)."""
+        return _MAX_COMMAND_TOKENS - self.tactic_pool - self.fleet_pool - self.strategy_pool
+
     def save(self) -> dict:
         return super().save() | {
-            "color": self.color,
+            "id": self.id,
             "name": self.name,
-            "faction_id": self.faction_id,
+            "faction_config_id": self.faction_config_id,
             "secret_objective_card_ids_in_hand": list(self.secret_objective_card_ids_in_hand),
             "scored_objective_card_ids": list(self.scored_objective_card_ids),
             "researched_tech_ids": list(self.researched_tech_ids),
@@ -75,9 +80,9 @@ class PlayerState(Serializable):
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
 
-        self.color = PlayerColor(data["color"])
+        self.id = PlayerColor(data["id"])
         self.name = data["name"]
-        self.faction_id = data["faction_id"]
+        self.faction_config_id = data["faction_config_id"]
         self.secret_objective_card_ids_in_hand = set(data["secret_objective_card_ids_in_hand"])
         self.scored_objective_card_ids = set(data["scored_objective_card_ids"])
         self.researched_tech_ids = set(data["researched_tech_ids"])
@@ -90,11 +95,10 @@ class PlayerState(Serializable):
         self.unit_reinforcement_pool = {UnitClass(k): v for k, v in data["unit_reinforcement_pool"].items()}
 
     def __post_init__(self):
-        self.color = PlayerColor(self.color)
-        total_tokens_to_rmv = self.tactic_pool + self.fleet_pool + self.strategy_pool
-        if total_tokens_to_rmv > _MAX_COMMAND_TOKENS:
+        self.id = PlayerColor(self.id)
+        total_tokens_placed = self.tactic_pool + self.fleet_pool + self.strategy_pool
+        if total_tokens_placed > _MAX_COMMAND_TOKENS:
             raise TooManyTokensError(f"Initialization error. {self.tactic_pool} tactic + {self.fleet_pool} fleet + {self.strategy_pool} command tokens exceeds maximum allowed: {_MAX_COMMAND_TOKENS}.")
-        self.command_token_reinforcement_pool = _MAX_COMMAND_TOKENS - total_tokens_to_rmv
         self.secret_objective_card_ids_in_hand = set(self.secret_objective_card_ids_in_hand)
         self.scored_objective_card_ids = set(self.scored_objective_card_ids)
         self.researched_tech_ids = set(self.researched_tech_ids)
@@ -139,16 +143,6 @@ class PlayerState(Serializable):
         if amount < 1:
             raise InvalidTradeGoodsToGiveError("Number of trade goods to give must be at least 1.")
         self.trade_goods += amount
-
-    def receive_command_tokens(self, amount: int) -> None:
-        if self.command_token_reinforcement_pool + amount > _MAX_COMMAND_TOKENS:
-            raise TooManyTokensError(f"Cannot receive {amount} command tokens; already have {self.command_token_reinforcement_pool}. Maximum allowed is {_MAX_COMMAND_TOKENS}.")
-        self.command_token_reinforcement_pool += amount
-
-    def remove_from_command_token_pool(self, amount: int) -> None:
-        if amount > self.command_token_reinforcement_pool:
-            raise NotEnoughTokensError(f"Only {self.command_token_reinforcement_pool} command tokens are available. Cannot give {amount}.")
-        self.command_token_reinforcement_pool -= amount
 
     def add_secret_objective(self, card_id: str) -> None:
         if card_id in self.secret_objective_card_ids_in_hand:

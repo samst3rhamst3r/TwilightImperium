@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
-from .base import InvalidStateTransition, ObjectiveCardState
+from .base import InvalidStateTransition, ObjectiveCardState, Revealable
 
 @dataclass(kw_only=True)
-class PublicObjectiveCardState(ObjectiveCardState):
+class PublicObjectiveCardState(ObjectiveCardState, Revealable):
     _revealed: bool = False
 
     @property

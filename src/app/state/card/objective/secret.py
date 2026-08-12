@@ -52,6 +52,10 @@ class SecretObjectiveCardState(ObjectiveCardState, PlayerOwnableMixin, Revealabl
         self.zone = SecretObjectiveZone.IN_HAND
 
     def release_owner_and_score(self) -> str:
+        # NOTE: open question (see specs/STATE_OBJS.md "Secret objective
+        # scored-ownership") - this releases owner_player_id on scoring,
+        # relying on PlayerState.scored_objective_card_ids as the sole record
+        # of who scored it. Deliberately not changed here.
         self.zone = SecretObjectiveZone.SCORED
         return self.ownable.release_owner() # Being now scored, the reference will be stored in the player's scored_objective_card_ids list
 

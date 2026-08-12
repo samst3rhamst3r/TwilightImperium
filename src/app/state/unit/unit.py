@@ -7,7 +7,11 @@ from .location import UnitLocation
 
 @dataclass(kw_only=True)
 class UnitState(UUIDInstancedStateObj):
-    location: UnitLocation | None = None
+    # A deployed unit always occupies exactly one place on the board - there is
+    # no "exists but nowhere" state. A unit that has no location has been
+    # destroyed and removed from GameState.deployed_units entirely, not left
+    # behind with location=None.
+    location: UnitLocation
     current_damage: int = 0
 
     # def _validate_location(self):
@@ -19,13 +23,13 @@ class UnitState(UUIDInstancedStateObj):
     #             raise ValueError(f"Invalid location types for unit of class {config_cls}: {self.location.loc_type.name}\nValid location types include: {', '.join(loc.name for loc in valid_locs)}")
 
     def place_on_ship(self, ship_instance_id: str) -> None:
-        self.location = UnitLocation(loc_type=UnitLocationType.SHIP, unit_id=ship_instance_id)
+        self.location = UnitLocation(loc_type=UnitLocationType.SHIP, location_id=ship_instance_id)
 
     def place_on_planet(self, planet_id: str) -> None:
-        self.location = UnitLocation(loc_type=UnitLocationType.PLANET, unit_id=planet_id)
+        self.location = UnitLocation(loc_type=UnitLocationType.PLANET, location_id=planet_id)
 
     def place_in_system(self, system_id: str) -> None:
-        self.location = UnitLocation(loc_type=UnitLocationType.SYSTEM, unit_id=system_id)
+        self.location = UnitLocation(loc_type=UnitLocationType.SYSTEM, location_id=system_id)
 
     # def move_to_system(self, system_id: str) -> None:
     #     if self.can_move:

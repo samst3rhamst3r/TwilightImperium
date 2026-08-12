@@ -12,7 +12,6 @@ class PlanetNotControlledError(Exception):
 
 @dataclass(kw_only=True)
 class PlanetState(ConfigIDStateObj, Exhaustible, PlayerOwnableMixin):
-    exhausted: bool = False
 
     def assign_control(self, player_id: str) -> None:
         self.ownable.assign_owner(player_id)

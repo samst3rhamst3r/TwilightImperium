@@ -12,5 +12,5 @@ class Revealable(Protocol):
     def is_revealed(self) -> bool: ...
     def reveal(self) -> None: ...
 
-class InvalidStateTransition:
+class InvalidStateTransition(Exception):
     pass

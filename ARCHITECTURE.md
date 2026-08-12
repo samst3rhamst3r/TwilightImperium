@@ -141,6 +141,47 @@ at all. A `HasCurrentTechType`-style Resolved Protocol could unify that query
 Tech, each resolving it differently underneath — same shape as `Revealable`
 in §6. (Not built yet — Resolved-layer Tech support doesn't exist yet.)
 
+**Refinement — scale and existing discriminators matter, not just whether
+`None` is ambiguous in the abstract.** The subclass-split answer above is
+right for `tech_type` (2 exceptions out of ~90, no existing discriminator to
+lean on). It is **not** automatically right for every optional-but-structural
+field — weigh it against how many instances are affected, and whether a
+discriminator already exists elsewhere that every caller is already required
+to check.
+
+**Worked example: Agenda `target_id`.** Of 50 Agenda cards, ~9 attach to a
+planet and ~13 attach to a player (mutually exclusive — a card is always
+exactly one `AgendaVoteType`: `FOR_AGAINST`, `ELECT_PLAYER`, `ELECT_PLANET`,
+`ELECT_LAW`, `ELECT_SCORE_SECRET_OBJECTIVE`). Splitting into subclasses here
+would mean 22/50 cards moving to specialized types, real `yaml_loader`/
+`save`/`new_game` complexity across ~5 shapes, to guard against an ambiguity
+that's already resolved by a field Config *already has*:
+
+```python
+@dataclass(frozen=True, kw_only=True)
+class AgendaConfig(NamedConfigObj, CanBeExhaustible):
+    vote_type: AgendaVoteType
+```
+
+```python
+@dataclass(kw_only=True)
+class AgendaCardState(ExhaustableStateMixin):
+    target_id: str | None = None   # elected player_id or planet_id — meaning
+                                     # determined by Config's vote_type, never
+                                     # read without checking it first
+```
+
+Every `instance_id` in the whole State model is a globally-unique `uuid4()`,
+so one field can safely hold "whichever kind of entity `vote_type` says this
+card elects" — same trick that let `PlayerState.scored_objective_ids` unify
+Public/Secret objective IDs (§6). `target_id` is only ever read after checking
+`ruleset_config.agenda(card.config_id).vote_type` — same Config-gated access
+discipline already used for `exhaustable` legality, extended to a second field.
+**Rule of thumb:** reach for a subclass split when the field is rare (small
+fraction of instances) *and* there's no existing enum every caller already
+checks; reach for a flat nullable field, gated by an existing discriminator,
+when neither condition holds.
+
 ## 3. State layer
 
 - State objects are mutable, per-game data containers, referencing Config only by
@@ -176,7 +217,7 @@ in §6. (Not built yet — Resolved-layer Tech support doesn't exist yet.)
   `SystemState.map_hex_coordinate`, `PromissoryNoteCardState`'s issuing
   color) are typed `Final[...]` instead — a static/convention-level
   contract, not a dataclass-enforced one — matching the pattern already
-  used for `PlayerState.color`/`name`/`faction_id`.
+  used for `PlayerState.id`/`name`/`faction_config_id`.
 
 ### Mixin pattern: dataclass mixin vs. Protocol vs. ABC
 
@@ -210,6 +251,24 @@ names* shouldn't leak onto the leaf class's public surface:
   forwarding methods (`assign_owner`) — leaf classes needing generic vocab inherit
   both the storage mixin *and* the convenience Protocol; leaf classes needing
   custom vocab inherit only the storage mixin and write their own forward.
+
+**Worked example: `exhausted` must never be `bool | None`.** Only some Tech
+(and some Agenda) cards are exhaustible — the temptation is to make the State
+field `bool | None` to represent "doesn't apply." Don't: `exhausted=False` is
+never ambiguous, even for a card that can *never* be exhausted — it's simply,
+harmlessly true ("not currently exhausted"). The "is this exhaustible at all"
+fact belongs on **Config**, not State: `TechConfig` already composes
+`CanBeExhaustible` (per §2) for exactly this reason, and `AgendaConfig` should
+too. Every `TechCardState`/`AgendaCardState` composes `ExhaustableStateMixin`
+**unconditionally**, with a plain `exhausted: bool = False` — no `Optional`,
+no per-card conditional field, no subclass split. Legality (can this specific
+card actually be exhausted) is checked once, at the Resolved-layer `exhaust()`
+method, against `config.exhaustable`/the `CanBeExhaustible` mixin data —
+never by inspecting whether the State field happens to be `None`. This is the
+simplest point on the same spectrum as the `tech_type` and `target_id`
+examples above: a plain unconditional field, gated by Config, needs neither
+`Optional` nor a subclass — reach for those only when the field's *meaning*
+(not just its legality) genuinely varies per instance.
 
 ### `Serializable` — single shared terminal / ABC root
 

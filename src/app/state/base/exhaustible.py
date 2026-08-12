@@ -8,12 +8,14 @@ class ExhaustibleAlreadyExhausted(Exception):
 class ExhaustibleAlreadyReadied(Exception):
     pass
 
-class ObjectNotExhaustible(Exception):
-    pass
-
 @dataclass(kw_only=True)
 class Exhaustible(Serializable):
-    exhausted: bool | None = None
+    # Whether a class can be exhausted at all is a structural property of
+    # composing this mixin, not a per-instance question - so `exhausted` is
+    # a plain bool, never None (matching ARCHITECTURE.md section 2's
+    # trait-split principle: don't use Optional for "this concept doesn't
+    # apply here", the mixin's presence/absence already encodes that).
+    exhausted: bool = False
 
     def save(self) -> dict:
         return super().save() | {
@@ -24,22 +26,14 @@ class Exhaustible(Serializable):
         super().init_from_save(data)
         self.exhausted = data["exhausted"]
 
-    @property
-    def can_be_exhausted(self):
-        return self.exhausted is not None
-
     def exhaust(self):
         """Exhaust the object."""
-        if not self.can_be_exhausted:
-            raise ObjectNotExhaustible('This object is not exhaustible.')
         if self.exhausted:
             raise ExhaustibleAlreadyExhausted('Cannot exhaust an already exhausted object.')
         self.exhausted = True
-    
+
     def ready(self):
         """Ready the object."""
-        if not self.can_be_exhausted:
-            raise ObjectNotExhaustible('This object is not exhaustible.')
         if not self.exhausted:
             raise ExhaustibleAlreadyReadied('Cannot ready an already readied object.')
         self.exhausted = False

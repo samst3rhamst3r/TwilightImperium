@@ -11,6 +11,9 @@ ARCHITECTURE.md section 3). Both layers require ``kw_only=True`` and no
 deliberate ``MapConfig`` case).
 """
 import dataclasses
+from typing import get_type_hints
+
+from app.state.base.exhaustible import Exhaustible
 
 def test_state_dataclass_is_not_frozen(state_dataclass: type) -> None:
     assert not state_dataclass.__dataclass_params__.frozen, (
@@ -48,3 +51,16 @@ def test_at_least_one_state_dataclass_was_discovered(all_state_dataclasses: list
 
 def test_at_least_one_state_enum_was_discovered(all_state_enums: list[type]) -> None:
     assert len(all_state_enums) >= 1
+
+def test_exhaustible_subclass_exhausted_field_is_plain_bool(state_dataclass: type) -> None:
+    """Locks in the ARCHITECTURE.md section 2 trait-split principle applied to
+    Exhaustible: whether a class can be exhausted is encoded by composing the
+    mixin at all, not by an Optional/None escape hatch on `exhausted` - so a
+    future Exhaustible subclass can't reintroduce `bool | None`."""
+    if not (issubclass(state_dataclass, Exhaustible) and state_dataclass is not Exhaustible):
+        return
+    hints = get_type_hints(state_dataclass)
+    assert hints["exhausted"] is bool, (
+        f"{state_dataclass.__name__}.exhausted must be typed plain bool, not "
+        f"{hints['exhausted']!r} - see Exhaustible's docstring/ARCHITECTURE.md section 2."
+    )

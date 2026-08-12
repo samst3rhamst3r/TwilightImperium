@@ -3,6 +3,7 @@ from typing import ClassVar, Final
 
 from app.config.objs.system import WormholeType
 from app.state.base.ownable import PlayerOwnableWithConvenienceProtocol, PlayerOwnableMixin
+from app.state.base.mixins import ConfigIDStateObj
 
 from .base.serializable import Serializable
 
@@ -30,7 +31,9 @@ class SpeakerTokenState(PlayerOwnableMixin):
         return self.ownable.owned_by_player_id
 
 @dataclass(kw_only=True)
-class NekroAssimilatorTokenState(Serializable):
+class NekroAssimilatorTokenState(ConfigIDStateObj):
+    """One of the two Valefar Assimilator tokens (config_id identifies X vs Y -
+    see TechID.VALEFAR_ASSIMILATOR_X/_Y, ARCHITECTURE.md section 2)."""
     assimilated_faction_tech_id: str | None = None
 
     def save(self) -> dict:

@@ -28,6 +28,29 @@ should never be frozen, but rather accessible, queriable, mutable, and serializa
 
 ## Open questions
 - I am not sure about whether the usage of `Final` on frozen dataclass attributes is relevant. There are some attributes that don't change after object creation, but the dataclasses cannot leverage `frozen=True` because mutable state elsewhere in the dataclass is required. A more robust mechanism may be required, as `Final` only helps with static type-checkers, not runtime enforceability
+- **Secret objective scored-ownership**: Should `SecretObjectiveCardState.owner_player_id`
+  be retained permanently once set (per ARCHITECTURE.md section 6's worked example) or
+  released on scoring (current code, `release_owner_and_score`)? There is a game effect
+  that converts a scored secret objective into a publicly-scoreable one, at which point
+  per-player ownership becomes meaningless — but this needs to be weighed against the
+  common-case (~99%) states: held in a player's hand, scored by a player, or sitting in
+  the deck. Unresolved; code currently releases ownership on score, relying on
+  `PlayerState.scored_objective_card_ids` as the sole record of who scored it.
+- **Agenda/Tech card population strategy**: `GameState.agenda_cards`/`tech_cards`
+  (`MappingProxyType[str, AgendaCardState | TechCardState]`, holding only the mutable
+  `exhausted` state a subset of Agenda/Tech cards can have per `data/text_objs/{agendas,techs}.yaml`)
+  — should these be populated *sparsely* (only entries for cards that have actually been
+  exhausted at some point) or *densely* (one entry per Agenda/Tech `config_id` that exists
+  in `RulesetConfig`, from game start)? Related: unlike Tech (never "drawn"), Agenda cards
+  are physically drawn from a real deck each Agenda phase in the rulebook — whether
+  `agenda_cards` eventually needs `CardDeckState`-style deck/discard semantics instead of
+  (or alongside) a flat `MappingProxyType` is the same category of unresolved shape
+  question. This reverses half of an earlier decision (commit `c875fcb`, "a tech card has
+  no state at all") — that commit's *ownership* conclusion (tech ownership belongs on
+  `PlayerState.researched_tech_ids`, many:many) remains correct and is unchanged; only its
+  "no state at all" claim is reversed here, given the real per-card exhaustion effects that
+  commit didn't account for. Leave both questions unresolved until `new_game()` design
+  settles them.
 
 ## Verification
 The concrete, end-to-end check that proves this works. Not "looks correct" —

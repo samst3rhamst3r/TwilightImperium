@@ -8,7 +8,7 @@ from app.state.base import Serializable
 @dataclass(kw_only=True)
 class UnitLocation(Serializable):
     loc_type: UnitLocationType
-    unit_id: Final[str]
+    location_id: Final[str]
 
     @property
     def is_on_planet(self) -> bool:
@@ -25,10 +25,10 @@ class UnitLocation(Serializable):
     def save(self) -> dict:
         return super().save() | {
             "loc_type": self.loc_type.value,
-            "unit_id": self.unit_id,
+            "location_id": self.location_id,
         }
 
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
         self.loc_type = UnitLocationType(data["loc_type"])
-        self.unit_id = data["unit_id"]
+        self.location_id = data["location_id"]

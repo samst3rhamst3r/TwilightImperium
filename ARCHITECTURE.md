@@ -217,7 +217,7 @@ when neither condition holds.
   `SystemState.map_hex_coordinate`, `PromissoryNoteCardState`'s issuing
   color) are typed `Final[...]` instead — a static/convention-level
   contract, not a dataclass-enforced one — matching the pattern already
-  used for `PlayerState.id`/`name`/`faction_config_id`.
+  used for `PlayerState.color`/`name`/`faction_config_id`.
 
 ### Mixin pattern: dataclass mixin vs. Protocol vs. ABC
 

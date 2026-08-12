@@ -17,7 +17,7 @@ from app.state.player import (
 @pytest.fixture
 def player_factory():
     def _make(**overrides) -> PlayerState:
-        defaults = {"id": PlayerColor.RED, "name": "Sam", "faction_config_id": "sol"}
+        defaults = {"color": PlayerColor.RED, "name": "Sam", "faction_config_id": "sol"}
         return PlayerState(**(defaults | overrides))
     return _make
 
@@ -129,7 +129,7 @@ def test_redistribute_command_tokens_changing_the_total_raises(player_factory) -
         player.redistribute_command_tokens(tactic_pool=4, fleet_pool=4, strategy_pool=4)
 
 def test_player_state_save_load_round_trip(player_factory, declared_immutable_field_violations) -> None:
-    player = player_factory(id=PlayerColor.BLUE, name="Sam", faction_config_id="sol")
+    player = player_factory(color=PlayerColor.BLUE, name="Sam", faction_config_id="sol")
     player.score_public_objective("card-1")
     player.research_tech("tech-1")
     player.add_secret_objective("secret-1")
@@ -140,7 +140,7 @@ def test_player_state_save_load_round_trip(player_factory, declared_immutable_fi
 
     reloaded = PlayerState.load(player.save())
 
-    assert reloaded.id is PlayerColor.BLUE
+    assert reloaded.color is PlayerColor.BLUE
     assert reloaded.name == "Sam"
     assert reloaded.faction_config_id == "sol"
     assert reloaded.scored_objective_card_ids == {"card-1"}

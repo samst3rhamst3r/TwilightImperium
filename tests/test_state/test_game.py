@@ -61,7 +61,7 @@ def test_game_state_constructs_with_no_special_tokens_by_default(game_state_fact
 
 def test_game_state_save_load_round_trip_with_no_special_tokens(game_state_factory, declared_immutable_field_violations) -> None:
     game = game_state_factory(
-        players=MappingProxyType({"red": PlayerState(id=PlayerColor.RED, name="Sam", faction_config_id="sol")}),
+        players=MappingProxyType({"red": PlayerState(color=PlayerColor.RED, name="Sam", faction_config_id="sol")}),
         systems=MappingProxyType({"sys_18": SystemState(config_id="sys_18", map_hex_coordinate=HexCoordinate(0, 0))}),
         planets=MappingProxyType({"mecatol_rex": PlanetState(config_id="mecatol_rex")}),
         agenda_cards=MappingProxyType({"holy_planet_of_ixth": AgendaCardState(config_id="holy_planet_of_ixth")}),

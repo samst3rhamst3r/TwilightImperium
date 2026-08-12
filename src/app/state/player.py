@@ -1,6 +1,6 @@
 
 from dataclasses import dataclass, field
-from typing import Final, Self
+from typing import Final
 
 from app.config.objs.unit import UnitClass
 from app.config.player_color import PlayerColor
@@ -34,7 +34,7 @@ class PlayerState(IDedStateObj):
     # IDedStateObj.obj_id's `-> str` contract directly - no separate `.value`
     # unwrap needed, matching how ConfigIDStateObj.config_id/UUIDInstancedStateObj.instance_id
     # each provide obj_id from their own identifying field.
-    id: Final[PlayerColor]
+    color: Final[PlayerColor]
     name: Final[str]
     faction_config_id: Final[str]
     secret_objective_card_ids_in_hand: set[str] = field(default_factory=set)
@@ -51,7 +51,7 @@ class PlayerState(IDedStateObj):
 
     @property
     def obj_id(self) -> str:
-        return self.id
+        return self.color
 
     @property
     def command_token_reinforcement_pool(self) -> int:
@@ -62,7 +62,7 @@ class PlayerState(IDedStateObj):
 
     def save(self) -> dict:
         return super().save() | {
-            "id": self.id,
+            "color": self.color,
             "name": self.name,
             "faction_config_id": self.faction_config_id,
             "secret_objective_card_ids_in_hand": list(self.secret_objective_card_ids_in_hand),
@@ -80,7 +80,7 @@ class PlayerState(IDedStateObj):
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
 
-        self.id = PlayerColor(data["id"])
+        self.color = PlayerColor(data["color"])
         self.name = data["name"]
         self.faction_config_id = data["faction_config_id"]
         self.secret_objective_card_ids_in_hand = set(data["secret_objective_card_ids_in_hand"])
@@ -95,7 +95,7 @@ class PlayerState(IDedStateObj):
         self.unit_reinforcement_pool = {UnitClass(k): v for k, v in data["unit_reinforcement_pool"].items()}
 
     def __post_init__(self):
-        self.id = PlayerColor(self.id)
+        self.color = PlayerColor(self.color)
         total_tokens_placed = self.tactic_pool + self.fleet_pool + self.strategy_pool
         if total_tokens_placed > _MAX_COMMAND_TOKENS:
             raise TooManyTokensError(f"Initialization error. {self.tactic_pool} tactic + {self.fleet_pool} fleet + {self.strategy_pool} command tokens exceeds maximum allowed: {_MAX_COMMAND_TOKENS}.")

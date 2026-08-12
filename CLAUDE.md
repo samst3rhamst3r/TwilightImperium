@@ -108,3 +108,6 @@ guarantee a correct runtime value:
   discovery mechanism itself (e.g. `assert len(all_config_dataclasses) > 10`)
   — if discovery silently starts returning zero classes, every parametrized
   test in the sweep silently passes on nothing instead of failing loudly.
+- When doing any ingestion of file content, always ignore folders and files
+  enumerated in .gitignore. If there is every a conflict, please AskUserQuestion
+  to query an exception to this rule.s

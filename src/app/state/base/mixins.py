@@ -10,14 +10,14 @@ class IDedStateObj(Serializable):
 
     @property
     @abstractmethod
-    def obj_id(self) -> str: ...
+    def id(self) -> str: ...
 
 @dataclass(kw_only=True)
 class ConfigIDStateObj(IDedStateObj):
     config_id: str
 
     @property
-    def obj_id(self) -> str:
+    def id(self) -> str:
         return self.config_id
     
     def save(self):
@@ -34,7 +34,7 @@ class UUIDInstancedStateObj(ConfigIDStateObj):
     instance_id: str = field(init=False, default_factory=lambda: uuid4().hex)
 
     @property
-    def obj_id(self) -> str:
+    def id(self) -> str:
         return self.instance_id
     
     def save(self):

@@ -31,9 +31,9 @@ _NEW_GAME_DEFAULT_STRATEGY_POOL_SIZE: Final[int] = 2
 @dataclass(kw_only=True)
 class PlayerState(IDedStateObj):
     # PlayerColor is a SerializableEnum (StrEnum), so it already satisfies
-    # IDedStateObj.obj_id's `-> str` contract directly - no separate `.value`
+    # IDedStateObj.id's `-> str` contract directly - no separate `.value`
     # unwrap needed, matching how ConfigIDStateObj.config_id/UUIDInstancedStateObj.instance_id
-    # each provide obj_id from their own identifying field.
+    # each provide id from their own identifying field.
     color: Final[PlayerColor]
     name: Final[str]
     faction_config_id: Final[str]
@@ -50,7 +50,7 @@ class PlayerState(IDedStateObj):
     unit_reinforcement_pool: dict[UnitClass, int] = field(default_factory=dict)
 
     @property
-    def obj_id(self) -> str:
+    def id(self) -> str:
         return self.color
 
     @property

@@ -204,6 +204,97 @@ When adapting a rulebook's setup procedure into Init objects, expect most
 steps to collapse this way — resist the instinct to give every numbered step
 its own field or DTO.
 
+**`SetupConfig` (and `MapConfig`) live separately from `RulesetConfig`, not
+as fields on it — worked example.** `RulesetConfig` is held by
+`GameStateResolver` for the *entire game*, resolving `config_id → Config` on
+every gameplay query, repeatedly, for the game's whole duration.
+`SetupConfig` (home coordinates, advanced-setup tile counts per player
+count) and `MapConfig` (map shapes) have a categorically different
+lifetime — consumed only during `new_game()`/`GameSetupSession`, never again
+once `GameState.systems` exists with each `SystemState.map_hex_coordinate`
+baked in directly. Bundling them into `RulesetConfig` costs nothing
+functionally, but misrepresents their lifetime and means every
+`GameStateResolver` (and everything holding one) carries data it will never
+use again after setup completes.
+
+```python
+@dataclass(frozen=True, kw_only=True)
+class SetupConfig:
+    map_shape_id: MapShape
+    player_setup: tuple[PlayerSetupConfig, ...]
+    maps: MappingProxyType[str, MapConfig]              # moved from RulesetConfig.maps
+    advanced_tile_counts: MappingProxyType[int, int]     # player_count -> tiles dealt
+
+    @classmethod
+    def load(cls, config_dir: Path) -> "SetupConfig": ...
+```
+
+**This produces a clean symmetry worth stating as a general rule**, not just
+a one-off fix: whether an object needs a Config reference at all follows
+from whether it's a **one-shot construction** or an **ongoing/resolving
+process**, not from which layer it happens to sit in.
+
+| | Construction-only (no Config needed) | Ongoing/resolving (holds Config) |
+|---|---|---|
+| Gameplay | `GameState` — consumes already-decided IDs once, at `new_game()` | `GameStateResolver` — resolves `config_id → Config` repeatedly, for the whole game |
+| Setup | `GameSetup` — the finalized, immutable output; never resolves anything itself | `GameSetupSession` — interactive; needs `SetupConfig` repeatedly as players join, colors are picked, tiles are dealt |
+
+`GameSetupSession` holds `setup_config: SetupConfig` for its whole
+interactive lifetime, exactly as `GameStateResolver` holds `ruleset_config`
+— both are the "ongoing" half of their respective pair. `GameState` and
+`GameSetup` are both the "one-shot" half, and neither holds Config, for the
+same underlying reason.
+
+**Setup phases: one enum-gated session class, not a `Phase1`/`Phase2` class
+split — worked example.** Some setup data has a real *dependency order* (the
+player count must be confirmed before advanced-setup tile counts can be
+looked up), which might suggest splitting `GameSetupSession` into separate
+classes per phase. Don't — this is the same "not yet complete" shape
+`GameSetupSession` already has, just with an intermediate checkpoint added,
+not a fundamentally different terminal shape the way
+`FirstGameSetup`/`CompleteGameSetup` genuinely are (§1). A `StrEnum` phase
+gate on the *same* session class, mirroring `SecretObjectiveZone`'s
+"illegal combinations should be unrepresentable" principle (§6) applied to
+setup instead of gameplay state:
+
+```python
+class SetupPhase(StrEnum):
+    JOINING = "joining"                 # players adding/removing, names, colors
+    ROSTER_LOCKED = "roster_locked"      # player count confirmed — setup lookups now resolvable
+
+@dataclass
+class GameSetupSession:
+    setup_config: SetupConfig
+    players: dict[str, PlayerSetupDraft] = field(default_factory=dict)
+    phase: SetupPhase = SetupPhase.JOINING
+
+    def add_player(self, player_id: str, name: str) -> None:
+        if self.phase != SetupPhase.JOINING:
+            raise InvalidSetupTransition("roster is locked")
+        self.players[player_id] = {"name": name}
+
+    def confirm_roster(self) -> None:
+        if self.phase != SetupPhase.JOINING:
+            raise InvalidSetupTransition("roster already locked")
+        if not (3 <= len(self.players) <= 6):
+            raise ValueError(f"invalid player count: {len(self.players)}")
+        self.phase = SetupPhase.ROSTER_LOCKED
+
+    @property
+    def player_setup_config(self) -> PlayerSetupConfig:
+        if self.phase == SetupPhase.JOINING:
+            raise InvalidSetupTransition("roster not yet locked")
+        return self.setup_config.player_setup[len(self.players)]
+```
+
+**No separate `confirmed_player_count: int` field** — that would be the same
+redundant-storage pattern §6 exists to prevent, just recurring at setup time.
+Once `phase >= ROSTER_LOCKED`, mutation methods are guarded against further
+changes to `players`, so `len(self.players)` stays reliable on its own;
+there's nothing to store that isn't already derivable, and the phase gate is
+precisely what makes that derivation *safe* to rely on (the count can't
+silently change out from under a caller after being read).
+
 ### Who owns what, and why — the dividing lines
 
 The boundaries between layers get murky in the moment (mid-design, a field or

@@ -42,8 +42,8 @@
 
 - id: devotion
   functional_text: |-
-    After each space battle round, you may destroy 1 of your cruisers or destroyers in the active system
-    to produce 1 hit and assign it to 1 of your opponent's ships in that system.
+    After each space battle round, you may destroy 1 of your cruisers or destroyers in the active system to 
+    produce 1 hit and assign it to 1 of your opponent’s ships in that system.
 
 - id: foresight
   functional_text: |-
@@ -71,8 +71,8 @@
 
 - id: harrow
   functional_text: |-
-    At the end of each round of ground combat, your ships in the active system may use their BOMBARDMENT
-    against your opponent's ground forces on the planet.
+    At the end of each round of ground combat, your ships in the active system 
+    may use their bombardment abilities against your opponent's ground forces on the planet.
 
 - id: indoctrination
   functional_text: |-

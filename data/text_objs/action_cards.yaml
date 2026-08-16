@@ -16,8 +16,7 @@
 
 - id: bribery
   functional_text: |-
-    After the speaker votes on an agenda:
-    Spend any number of trade goods. For each trade good spent, cast 1 additional vote for an outcome on which you voted.
+    After the speaker votes on an agenda: Spend any number of trade goods. For each trade good spent, cast 1 additional vote for the outcome on which you voted.
   flavor_text_options:  
   - |-
     "We think that this initiative would spell disaster for the galaxy, not just the Creuss," Taivra said, quietly slipping Z'eu an envelope. "Don't you agree?"
@@ -63,7 +62,7 @@
 
 - id: direct_hit
   functional_text: |-
-    After another player's ship uses SUSTAIN DAMAGE to cancel a hit produced by your units or abilities:
+    After another player's ship uses 'Sustain Damage' to cancel a hit produced by your units or abilities:
     Destroy that ship.
   flavor_text_options:
   - |-

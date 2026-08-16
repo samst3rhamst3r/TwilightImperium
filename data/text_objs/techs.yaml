@@ -61,8 +61,8 @@
 
 - id: hegemonic_trade_policy
   functional_text: |-
-    Exhaust this card when 1 or more of your units use PRODUCTION; swap the resource
-    and influence values of 1 planet you control until the end of your turn.
+    Exhaust this card when 1 or more of your units use PRODUCTION; swap the resource and influence
+    values of 1 planet you control during that use of PRODUCTION.
 
 - id: hyper_metabolism
   functional_text: |-

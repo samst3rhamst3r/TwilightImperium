@@ -24,8 +24,185 @@ not coupling to *data*, so it doesn't violate the boundary.
 
 **The orchestrator never touches raw `GameState` containers directly.** It only
 calls `Resolved*` objects and Domain Services. `GameState`'s containers are
-effectively private; `GameState.resolved_*()` factory methods are the only
-sanctioned access point.
+effectively private.
+
+**Correction — the `resolved_*()` factories live in `resolved/`, not on
+`GameState` itself.** An earlier draft of this doc put `resolved_unit()`-style
+factory methods directly on `GameState`. That's backwards: `state/` is not
+allowed to import from `resolved/` (dependency direction is strictly
+`resolved → state`, never the reverse — see above), and a method like
+`GameState.resolved_unit()` would require exactly that import, creating a
+circular dependency between the two modules. The fix: a `GameStateResolver`
+object lives in `resolved/`, holds a `GameState` + `RulesetConfig` reference,
+and is the thing that constructs `Resolved*` objects on demand:
+
+```python
+# resolved/game_state_resolver.py
+class GameStateResolver:
+    def __init__(self, game_state: GameState, ruleset_config: RulesetConfig):
+        self.game_state = game_state
+        self.ruleset_config = ruleset_config
+
+    def resolved_unit(self, unit_id: str) -> ResolvedUnit:
+        state = self.game_state.units[unit_id]
+        config = self.ruleset_config.unit(state.config_id)
+        return ResolvedUnit(state, config)
+```
+
+Services and the orchestrator hold/use a `GameStateResolver`, never a raw
+`GameState` — that's the actual sanctioned access point. `GameState.units`/etc.
+remain accessible *to `resolved/` code* (that's the normal, sanctioned
+downward reach), just not constructed-from *inside* `state/` itself. This
+doesn't reopen the "never cache `Resolved*` objects" rule (§4) — a
+`GameStateResolver` instance is fine to hold for a whole session, since it only
+holds stable references (`game_state`, `ruleset_config`) and still constructs
+a fresh `Resolved*` binding on every call; nothing about the bound pair itself
+is cached.
+
+### Setup vs. play: `GameState` is constructed atomically, never incrementally
+
+`GameState.new_game(game_setup)` is called **exactly once**,
+with a complete, already-finalized `GameSetup` — never built up field-by-field
+as player choices trickle in. This follows from decisions already made
+elsewhere in this doc: every `new_game()` classmethod takes required,
+concrete parameters (no placeholder/`None`-until-later fields), and
+`__post_init__`-derived invariants (e.g. `command_token_reinforcement_pool`,
+conditional special-token existence) assume complete, valid input from the
+first moment the object exists. A partially-populated `GameState` would
+either violate those invariants or force them to tolerate incompleteness —
+degrading a guarantee that's deliberately load-bearing elsewhere.
+
+**`GameState.new_game` takes only `GameSetup`, not `RulesetConfig`.** Verified
+against the actual `GameState` class: it holds no `ruleset_config` field, and
+per Principle IV (Config Immutability / State Mutability), no State class
+holds a direct Config reference anywhere. Construction only ever consumes
+already-*decided* identifiers (`faction_config_id`, `map_layout_id`) — it
+never needs to *resolve* what those identifiers mean; that's exclusively the
+Resolved layer's job, via `GameStateResolver` (below), which is why
+`RulesetConfig` lives there instead. If a bootstrap layer wants to validate a
+`GameSetup`'s IDs actually exist in the ruleset before constructing
+`GameState`, that check belongs in the bootstrap layer itself, against
+`RulesetConfig`, *before* calling `new_game` — not inside `new_game`.
+
+
+The messy, in-progress part of setup (players still joining, still picking
+factions/colors/drafting systems) lives entirely **outside** the State model,
+in a separate, deliberately-partial structure that never pretends to be valid
+`Serializable` game state:
+
+```python
+@dataclass
+class GameSetupSession:
+    player_faction_ids: dict[str, str] = field(default_factory=dict)
+    drafted_system_ids: dict[str, list[str]] = field(default_factory=dict)
+    map_layout_id: str | None = None   # genuinely "unknown so far" here — the
+                                         # right place for that ambiguity to live
+
+    def is_complete(self) -> bool: ...
+
+    def finalize(self) -> GameSetup:
+        if not self.is_complete():
+            raise ValueError("setup incomplete")
+        return GameSetup(player_faction_ids=self.player_faction_ids, ...)
+```
+
+Only `GameSetupSession.finalize()` succeeding produces a real `GameSetup`, and
+only then does `GameState.new_game(...)` get called — once, by a
+bootstrap/setup layer sitting above everything else (not Config, State,
+Resolved, Services, or the gameplay Orchestrator — a distinct pre-game setup
+process), producing a fully-valid `GameState` from its very first instant.
+
+### `setup/` — a dedicated layer for pre-game data, distinct from `state/`, `resolved/`, and everything else
+
+Lives as its own top-level package, sibling to `config/`/`state/`/`resolved/`,
+in the dependency chain `config/` (+ `geometry/`) → `setup/` → `state/` →
+`resolved/` → `services/` → `orchestration/`. Not `resolved/` (nothing here
+binds State+Config for gameplay queries — this is pure construction input,
+before any State exists at all). Not `state/` (`GameSetupSession` is
+deliberately incomplete/mutable and never `Serializable`; even the finalized
+`GameSetup` has no business living alongside classes that carry State's
+save/load/`new_game` invariants).
+
+**Per-entity setup data gets its own small, explicit DTO once it has 2+
+related fields that travel together** (`NewGamePlayerInit`: `player_id`,
+`color`, `faction_config_id`, `name`) — the alternative, N parallel dicts all
+independently keyed by the same ID (`player_colors: dict[str, PlayerColor]`,
+`player_faction_ids: dict[str, str]`, ...), is the same "one entity split
+across containers" anti-pattern the derive-don't-store rules (§6) exist to
+prevent, just recurring at setup time. A setup value that's genuinely just
+one value per key (e.g. `system_id → HexCoordinate` placements) doesn't need
+a wrapper DTO — a plain `MappingProxyType` already says everything there is
+to say; reach for a DTO when there's a *record*, not for every mapping.
+
+**`GameSetupSession`'s mutable containers don't need a mutable mirror of
+every immutable DTO used in the finalized `GameSetup`.** Same reasoning as
+the YAML loader building typed `Config` objects from raw dicts: transient,
+in-progress data doesn't need type safety, because it gets validated and
+typed exactly once, at a single boundary (`finalize()`). A plain
+`dict[str, dict[str, ...]]`, or a `TypedDict` for a little static-checking
+without any runtime class overhead, is the right shape for the session —
+building `MutableNewGamePlayerInit` alongside `NewGamePlayerInit` would mean
+keeping *three* things in sync (mutable version, immutable version, whatever
+consumes the immutable one) instead of two. One exception: value types that
+are cheap, immutable, and already shared vocabulary (`HexCoordinate`) should
+still be constructed for real the moment the raw decision is captured, not
+deferred as raw ints until `finalize()` — same "loader owns full nested
+conversion" principle from §2, just relocated to whatever code captures a
+setup decision instead of a YAML loader.
+
+**Setup *mode* is a discriminated split, not optional fields on one shape —
+worked example: First-Game vs. Complete Setup.** The rulebook's simplified
+First-Game Setup (preset map by player count, a restricted 6-faction pool, no
+promissory notes) and the full Complete Setup (drafted system-tile
+placement, full faction roster, promissory notes included) aren't
+independent toggles — they always travel together as one of two coherent
+modes, so mixing traits from each (preset map + promissory notes, say) isn't
+a valid game state. Same principle as Config's mutually-exclusive trait
+splits (§2's `tech_type`/Assimilator example) applied to `setup/`:
+
+```python
+@dataclass(frozen=True, kw_only=True)
+class FirstGameSetup:
+    players: tuple[NewGamePlayerInit, ...]   # seating order, clockwise from speaker
+    speaker_player_id: str
+    map_layout_id: str   # preset diagram by player count
+
+@dataclass(frozen=True, kw_only=True)
+class CompleteGameSetup:
+    players: tuple[NewGamePlayerInit, ...]
+    speaker_player_id: str
+    system_placements: MappingProxyType[str, HexCoordinate]   # drafted tiles
+
+GameSetup = FirstGameSetup | CompleteGameSetup
+```
+
+`GameState.new_game()` pattern-matches on which variant it received to decide
+**whether** a construction step runs at all — not to fill in different data.
+E.g. promissory notes (*"four that match their player color, and one
+faction-specific"*) need no dedicated Init field in either mode — they're
+fully derivable from `NewGamePlayerInit.color`/`.faction_config_id`, data
+already identical across both variants. The only thing that varies between
+modes is whether `GameState.new_game()` runs that construction step at all;
+mode governs *behavior*, not *data shape*. The restricted First-Game faction
+pool is a `GameSetupSession`-level (lobby/UI) constraint on what gets
+*offered* — never a field anywhere in the finalized `GameSetup` or beyond;
+downstream code only ever sees a valid `faction_config_id` and has no reason
+to know which pool it was drawn from.
+
+**Most of a rulebook's numbered setup steps turn out not to need Init data at
+all** — worked example: Twilight Imperium's 12-step First-Game Setup. Walking
+through each step against the "is this a genuine per-game decision, or a
+fixed/derivable default" test (same test as §3's `__post_init__` dividing
+line, applied to setup instead of construction) leaves only 3 of 12 steps
+producing real setup data (speaker, per-player faction+color, map). Everything
+else — component counts, starting units/tech (derivable from
+`faction_config_id` via `RulesetConfig`), deck contents (every matching
+Config entry), pool sizes, VP-track start, objective draws — is either a
+universal constant belonging in the relevant `StateObj.new_game()` default,
+or randomness resolved at construction time, never setup data to capture.
+When adapting a rulebook's setup procedure into Init objects, expect most
+steps to collapse this way — resist the instinct to give every numbered step
+its own field or DTO.
 
 ### Who owns what, and why — the dividing lines
 
@@ -39,7 +216,7 @@ settles the murky cases.
 | `data/` (YAML) | Raw static content, nothing else | Any typed shape, any logic | — |
 | `config/` | The complete, final **typed** shape of static ruleset data; **all** conversion from raw YAML into that shape, including nested/composed value types (§2) | Anything per-game or live; any decision that depends on which game is being played | "Is this true independent of any specific game being played?" → Config. "Only true in the context of one ongoing match?" → State. |
 | `state/` | Live, mutable, per-game data; identity (`instance_id`); self-contained mutation taking **primitives**, never Config objects; references to Config/other State **by id only** (§6 derive-don't-store rules) | Config *values* (only `config_id`); decisions requiring Config; cross-entity coordination; setup decisions requiring external context (that's `new_game()`'s job, not the class's fields/shape) | "Does this field/method need only this object's own already-known data?" → State. "Does it need to look up or reason about Config content?" → not State. |
-| `resolved/` | Binding one live State + its resolved Config, for the duration of one operation; single-entity Config-aware queries/decisions | Storage (never persisted — §4); cross-entity coordination | "Does answering this need only *this one entity's* State + Config?" → Resolved. "Needs another entity too?" → Service. |
+| `resolved/` | Binding one live State + its resolved Config, for the duration of one operation; single-entity Config-aware queries/decisions; `GameStateResolver` is the sanctioned entry point for constructing `Resolved*` objects (holds `GameState` + `RulesetConfig`) | Storage (never persisted — §4); cross-entity coordination | "Does answering this need only *this one entity's* State + Config?" → Resolved. "Needs another entity too?" → Service. |
 | `services/` | Cross-entity rules logic; decisions composing multiple `Resolved*` objects | Sequencing/turn order; raw State/Config manipulation (delegates down to Resolved/State) | "Does this require reasoning about 2+ entities together?" → Service. |
 | `orchestration/` | Sequencing/flow: *when* an operation fires, in response to what trigger, during what phase | The rule mechanics themselves (what's legal, what happens) — those live in Services/Resolved | "Is this deciding *whether/when* to call a rule, or *being* the rule?" — deciding when → orchestration; being the rule → Service/Resolved. |
 | `geometry/` | Pure hex-coordinate math, zero game-concept awareness | Any assumption that a caller knows about game rules | — |
@@ -217,7 +394,7 @@ when neither condition holds.
   `SystemState.map_hex_coordinate`, `PromissoryNoteCardState`'s issuing
   color) are typed `Final[...]` instead — a static/convention-level
   contract, not a dataclass-enforced one — matching the pattern already
-  used for `PlayerState.color`/`name`/`faction_config_id`.
+  used for `PlayerState.color`/`name`/`faction_id`.
 
 ### Mixin pattern: dataclass mixin vs. Protocol vs. ABC
 

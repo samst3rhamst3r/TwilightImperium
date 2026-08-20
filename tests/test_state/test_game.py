@@ -46,6 +46,8 @@ def game_state_factory():
             public_objective_ii_deck=CardDeckState(deck=[]),
             secret_objective_deck=CardDeckState(deck=[]),
             action_card_deck=CardDeckState(deck=[]),
+            agenda_card_deck=CardDeckState(deck=[]),
+            tech_card_deck=CardDeckState(deck=[]),
         )
         return GameState(**(defaults | overrides))
     return _make

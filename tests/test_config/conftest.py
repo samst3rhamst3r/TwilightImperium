@@ -30,7 +30,9 @@ from typing import Union, get_args, get_origin, get_type_hints
 import pytest
 
 import app.config as app_config_pkg
+from app.config import yaml_loader
 from app.config.ruleset_config import RulesetConfig
+from app.config.setup import SetupConfig
 from app.config.shared.enum import ConfigEnum, SerializableEnum
 
 # ---------------------------------------------------------------------------
@@ -53,6 +55,17 @@ def text_objs_dir(data_dir: Path) -> Path:
 def ruleset_config(data_dir: Path) -> RulesetConfig:
     """The full ruleset, loaded once from the real data/ tree."""
     return RulesetConfig.load(data_dir)
+
+@pytest.fixture(scope="session")
+def setup_configs(data_dir: Path) -> tuple[SetupConfig, ...]:
+    """Every real SetupConfig variant (data/setup/setup.yaml), loaded once.
+
+    Deliberately NOT a RulesetConfig field - see ARCHITECTURE.md section 1
+    ("SetupConfig live separately from RulesetConfig, not as fields on it")
+    - so this is its own session-scoped fixture rather than
+    ``ruleset_config.setup``.
+    """
+    return tuple(yaml_loader.load_setup_data(data_dir))
 
 # ---------------------------------------------------------------------------
 # Discovery: every dataclass / enum actually defined under app.config

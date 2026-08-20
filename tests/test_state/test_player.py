@@ -21,8 +21,8 @@ def player_factory():
         return PlayerState(**(defaults | overrides))
     return _make
 
-def test_player_state_obj_id_is_the_color(player_factory) -> None:
-    assert player_factory().obj_id == PlayerColor.RED
+def test_player_state_id_is_the_color(player_factory) -> None:
+    assert player_factory().id == PlayerColor.RED
 
 def test_command_token_reinforcement_pool_computed_from_the_three_pools(player_factory) -> None:
     player = player_factory(tactic_pool=3, fleet_pool=3, strategy_pool=2)

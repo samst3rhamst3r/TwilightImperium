@@ -151,9 +151,9 @@ conversion" principle from §2, just relocated to whatever code captures a
 setup decision instead of a YAML loader.
 
 **Setup *mode* is a discriminated split, not optional fields on one shape —
-worked example: First-Game vs. Complete Setup.** The rulebook's simplified
+worked example: First-Game vs. Advanced Setup.** The rulebook's simplified
 First-Game Setup (preset map by player count, a restricted 6-faction pool, no
-promissory notes) and the full Complete Setup (drafted system-tile
+promissory notes) and the full Advanced Setup (drafted system-tile
 placement, full faction roster, promissory notes included) aren't
 independent toggles — they always travel together as one of two coherent
 modes, so mixing traits from each (preset map + promissory notes, say) isn't
@@ -168,12 +168,12 @@ class FirstGameSetup:
     map_layout_id: str   # preset diagram by player count
 
 @dataclass(frozen=True, kw_only=True)
-class CompleteGameSetup:
+class AdvancedGameSetup:
     players: tuple[NewGamePlayerInit, ...]
     speaker_player_id: str
     system_placements: MappingProxyType[str, HexCoordinate]   # drafted tiles
 
-GameSetup = FirstGameSetup | CompleteGameSetup
+GameSetup = FirstGameSetup | AdvancedGameSetup
 ```
 
 `GameState.new_game()` pattern-matches on which variant it received to decide
@@ -252,7 +252,7 @@ looked up), which might suggest splitting `GameSetupSession` into separate
 classes per phase. Don't — this is the same "not yet complete" shape
 `GameSetupSession` already has, just with an intermediate checkpoint added,
 not a fundamentally different terminal shape the way
-`FirstGameSetup`/`CompleteGameSetup` genuinely are (§1). A `StrEnum` phase
+`FirstGameSetup`/`AdvancedGameSetup` genuinely are (§1). A `StrEnum` phase
 gate on the *same* session class, mirroring `SecretObjectiveZone`'s
 "illegal combinations should be unrepresentable" principle (§6) applied to
 setup instead of gameplay state:

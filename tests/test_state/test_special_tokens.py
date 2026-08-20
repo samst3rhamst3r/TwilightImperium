@@ -60,7 +60,7 @@ def test_speaker_token_state_save_load_round_trip() -> None:
 
 def test_nekro_assimilator_token_state_is_config_identified_and_starts_inactive() -> None:
     token = NekroAssimilatorTokenState(config_id="valefar_assimilator_x")
-    assert token.obj_id == "valefar_assimilator_x"
+    assert token.id == "valefar_assimilator_x"
     assert not token.is_active
 
 def test_nekro_assimilator_token_state_assimilate_and_reset() -> None:

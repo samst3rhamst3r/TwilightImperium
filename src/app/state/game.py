@@ -1,6 +1,9 @@
-from dataclasses import dataclass
+from collections.abc import Sequence
+from dataclasses import dataclass, field
 from types import MappingProxyType
 from typing import Self
+
+from app.geometry.coordinate import HexCoordinate
 
 from .base import Serializable
 
@@ -50,12 +53,28 @@ class GameState(Serializable):
     public_objective_ii_deck: CardDeckState[PublicObjectiveCardState]
     secret_objective_deck: CardDeckState[SecretObjectiveCardState]
     action_card_deck: CardDeckState[ActionCardState]
+    agenda_card_deck: CardDeckState[AgendaCardState]
+    tech_card_deck: CardDeckState[TechCardState]
 
     # Special tokens - only present when the relevant faction (Naalu/Nekro/Creuss)
     # is in play this game.
     naalu_token: NaaluTokenState | None = None
     nekro_assimilator_tokens: tuple[NekroAssimilatorTokenState, NekroAssimilatorTokenState] | None = None
     creuss_wormhole_tokens: tuple[CreussWormholeTokenState, CreussWormholeTokenState] | None = None
+
+    _hex_coordinate_index: MappingProxyType[HexCoordinate, str] = field(init=False, repr=False)
+
+    def __post_init__(self):
+        self._hex_coordinate_index = MappingProxyType({
+            s.map_hex_coordinate: s.id for s in self.systems.values()
+        })
+
+    def system_at(self, hex_coordinate: HexCoordinate) -> SystemState | None:
+        """Return the system at the given hex coordinate, or None if there is no system there."""
+        system_id = self._hex_coordinate_index.get(hex_coordinate)
+        if system_id is None:
+            return None
+        return self.systems[system_id]
 
     def save(self) -> dict:
         return super().save() | {
@@ -74,6 +93,8 @@ class GameState(Serializable):
             "public_objective_ii_deck": self.public_objective_ii_deck.save(),
             "secret_objective_deck": self.secret_objective_deck.save(),
             "action_card_deck": self.action_card_deck.save(),
+            "agenda_card_deck": self.agenda_card_deck.save(),
+            "tech_card_deck": self.tech_card_deck.save(),
             "naalu_token": self.naalu_token.save() if self.naalu_token else None,
             "nekro_assimilator_tokens": [token.save() for token in self.nekro_assimilator_tokens] if self.nekro_assimilator_tokens else None,
             "creuss_wormhole_tokens": [token.save() for token in self.creuss_wormhole_tokens] if self.creuss_wormhole_tokens else None,
@@ -97,6 +118,43 @@ class GameState(Serializable):
         self.public_objective_ii_deck =     CardDeckState[PublicObjectiveCardState].load(data["public_objective_ii_deck"])
         self.secret_objective_deck =        CardDeckState[SecretObjectiveCardState].load(data["secret_objective_deck"])
         self.action_card_deck =             CardDeckState[ActionCardState].load(data["action_card_deck"])
+        self.agenda_card_deck =             CardDeckState[AgendaCardState].load(data["agenda_card_deck"])
+        self.tech_card_deck =               CardDeckState[TechCardState].load(data["tech_card_deck"])
         self.naalu_token =                  NaaluTokenState.load(data["naalu_token"]) if data["naalu_token"] else None
         self.nekro_assimilator_tokens =     tuple(NekroAssimilatorTokenState.load(token) for token in data["nekro_assimilator_tokens"]) if data["nekro_assimilator_tokens"] else None
         self.creuss_wormhole_tokens =       tuple(CreussWormholeTokenState.load(token) for token in data["creuss_wormhole_tokens"]) if data["creuss_wormhole_tokens"] else None
+
+        # __post_init__ isn't part of the load() cooperative chain (see
+        # ARCHITECTURE.md section 3's __post_init__ caveat) - recompute
+        # explicitly so system_at() works on a loaded GameState too.
+        self._hex_coordinate_index = MappingProxyType({
+            s.map_hex_coordinate: s.id for s in self.systems.values()
+        })
+
+    @classmethod
+    def new_game(
+        cls,
+        players: Sequence[PlayerState],
+        systems: Sequence[SystemState],
+        planets: Sequence[PlanetState],
+    ) -> Self:
+        """Create a new game state with the given players and default values for all other attributes."""
+        return cls(
+            players=MappingProxyType({player.id: player for player in players}),
+            systems=MappingProxyType({}),
+            planets=MappingProxyType({}),
+            speaker_token=SpeakerTokenState(),
+            custodians_token=CustodiansTokenState(),
+            deployed_units={},
+            strategy_cards=MappingProxyType({}),
+            promissory_notes=MappingProxyType({}),
+            revealed_public_objectives={},
+            agenda_cards=MappingProxyType({}),
+            tech_cards=MappingProxyType({}),
+            public_objective_i_deck=CardDeckState[PublicObjectiveCardState](),
+            public_objective_ii_deck=CardDeckState[PublicObjectiveCardState](),
+            secret_objective_deck=CardDeckState[SecretObjectiveCardState](),
+            action_card_deck=CardDeckState[ActionCardState](),
+            agenda_card_deck=CardDeckState[AgendaCardState](),
+            tech_card_deck=CardDeckState[TechCardState](),
+        )

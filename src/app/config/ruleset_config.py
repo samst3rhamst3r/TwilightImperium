@@ -18,8 +18,6 @@ from .objs.system import SystemConfig
 from .objs.tech import TechConfig
 from .objs.unit import UnitConfig
 
-from .setup import SetupConfig
-
 @dataclass(frozen=True, kw_only=True)
 class RulesetConfig:
     abilities: MappingProxyType[str, AbilityConfig]
@@ -30,7 +28,6 @@ class RulesetConfig:
     objectives: MappingProxyType[str, ObjectiveConfig]
     planets: MappingProxyType[str, PlanetConfig]
     promissory_notes: MappingProxyType[str, PromissoryNoteConfig]
-    setup: tuple[SetupConfig, ...] = ()
     strategy_cards: MappingProxyType[str, StrategyCardConfig]
     systems: MappingProxyType[str, SystemConfig]
     techs: MappingProxyType[str, TechConfig]
@@ -48,7 +45,6 @@ class RulesetConfig:
             objectives = MappingProxyType({objective.id: objective for objective in load_objective_data(config_dir)}),
             planets = MappingProxyType({planet.id: planet for planet in load_planet_data(config_dir)}),
             promissory_notes = MappingProxyType({promissory_note.id: promissory_note for promissory_note in load_promissory_note_data(config_dir)}),
-            setup = tuple(load_setup_data(config_dir)),
             strategy_cards = MappingProxyType({strategy_card.id: strategy_card for strategy_card in load_strategy_card_data(config_dir)}),
             systems = MappingProxyType({system.id: system for system in load_system_data(config_dir)}),
             techs = MappingProxyType({tech.id: tech for tech in load_tech_data(config_dir)}),

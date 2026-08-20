@@ -1,0 +1,30 @@
+- num_players: 3
+  setup_tiles_per_player:
+  - tile_color: blue
+    num_tiles: 6
+  - tile_color: red
+    num_tiles: 2
+
+- num_players: 4
+  setup_tiles_per_player:
+  - tile_color: blue
+    num_tiles: 5
+  - tile_color: red
+    num_tiles: 3
+
+- num_players: 5
+  setup_tiles_per_player:
+  - tile_color: blue
+    num_tiles: 4
+  - tile_color: red
+    num_tiles: 2
+  extra_setup_tiles:
+  - tile_color: red
+    num_tiles: 1
+
+- num_players: 6
+  setup_tiles_per_player:
+  - tile_color: blue
+    num_tiles: 3
+  - tile_color: red
+    num_tiles: 2

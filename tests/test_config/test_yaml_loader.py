@@ -71,6 +71,42 @@ def test_setup_variants_are_unique_by_shape_and_player_count(data_dir) -> None:
     duplicates = {key for key in keys if keys.count(key) > 1}
     assert not duplicates, f"load_setup_data produced duplicate (map_shape_id, player count) variants: {duplicates}"
 
+@pytest.mark.parametrize("num_players", [3, 4, 5, 6])
+def test_first_game_system_tile_mapping_length_matches_its_map_shape(
+    data_dir, ruleset_config, num_players: int
+) -> None:
+    """First-Game Setup uses a preset map diagram by player count - 3
+    players use the (smaller) triangular map, 4-6 players use the standard
+    map - so the mapping's length must match that map's tile count exactly,
+    positionally (see MapConfig.tiles, which the mapping is zipped against
+    in game_setup_session.py)."""
+    map_shape_id = "triangular" if num_players == 3 else "standard"
+    expected_length = len(ruleset_config.maps[map_shape_id].tiles)
+
+    mapping = yaml_loader.load_first_game_system_tile_mapping(data_dir, num_players)
+    assert len(mapping) == expected_length
+
+@pytest.mark.parametrize("num_players", [3, 4, 5, 6])
+def test_first_game_system_tile_mapping_non_null_entries_are_real_system_ids(
+    data_dir, ruleset_config, num_players: int
+) -> None:
+    mapping = yaml_loader.load_first_game_system_tile_mapping(data_dir, num_players)
+    non_null = [system_id for system_id in mapping if system_id is not None]
+    assert non_null, f"expected at least one placed system in the {num_players}-player mapping"
+    for system_id in non_null:
+        assert system_id in ruleset_config.systems, (
+            f"{num_players}-player first-game mapping references unknown system id {system_id!r}"
+        )
+
+@pytest.mark.parametrize("num_players", [3, 4, 5, 6])
+def test_first_game_system_tile_mapping_has_no_duplicate_system_placements(
+    data_dir, num_players: int
+) -> None:
+    mapping = yaml_loader.load_first_game_system_tile_mapping(data_dir, num_players)
+    non_null = [system_id for system_id in mapping if system_id is not None]
+    duplicates = {system_id for system_id in non_null if non_null.count(system_id) > 1}
+    assert not duplicates, f"{num_players}-player mapping places the same system twice: {duplicates}"
+
 def test_text_data_is_merged_by_id_not_left_as_a_separate_lookup(data_dir) -> None:
     """Spot check that _load_text_data_into_config_by_id actually merged the
     flavor/functional text fields onto the config objects it returns, rather

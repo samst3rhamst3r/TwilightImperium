@@ -24,6 +24,7 @@ from .objs.unit import UnitConfig
 from .setup import PlayerSetupConfig, SetupConfig
 
 _CONFIG_OBJ_DATA_PATH = Path("objs")
+_SETUP_CONFIG_DATA_PATH = Path("setup")
 _TEXT_CONFIG_OBJ_DATA_PATH = Path("text_objs")
 
 def _load_data(config_data_file_path: Path) -> dict | list[dict]:
@@ -68,14 +69,14 @@ def load_faction_data(root_data_path: Path) -> Generator[FactionConfig]:
         yield FactionConfig(**config)
 
 def load_map_data(root_data_path: Path) -> Generator[MapConfig]:
-    base_path = root_data_path / _CONFIG_OBJ_DATA_PATH / "map"
+    base_path = root_data_path / _SETUP_CONFIG_DATA_PATH / "map"
     for path in base_path.iterdir():
         data: dict = _load_data(path)
         data["tiles"] = tuple(HexCoordinate(*tile_coordinate) for tile_coordinate in data["tiles"])
         yield MapConfig(**data)
 
 def load_setup_data(root_data_path: Path) -> Generator[SetupConfig]:
-    for config in _load_data(root_data_path / "setup.yaml"):
+    for config in _load_data(root_data_path / _SETUP_CONFIG_DATA_PATH / "setup.yaml"):
         yield SetupConfig(
             map_shape_id = MapShape(config["map_shape_id"]),
             player_setup = tuple(PlayerSetupConfig(
@@ -83,6 +84,11 @@ def load_setup_data(root_data_path: Path) -> Generator[SetupConfig]:
                 trade_good_bonus = player_setup.get("trade_good_bonus", 0)
             ) for player_setup in config["player_setup"])
         )
+
+def load_first_game_system_tile_mapping(root_data_path: Path, num_players: int) -> tuple[str | None]:
+    return tuple(
+        _load_data(root_data_path / _SETUP_CONFIG_DATA_PATH / "first_game_system_tile_mapping" / f"{num_players}_player.yaml")
+    )
 
 def load_objective_data(root_data_path: Path) -> Generator[ObjectiveConfig]:
     for config in _load_text_data_into_config_by_id(root_data_path, "objectives.yaml"):

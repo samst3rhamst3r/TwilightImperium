@@ -18,5 +18,5 @@ class AdvancedMapSetupTileConfig(BaseConfigObj):
 
 @dataclass(frozen=True, kw_only=True)
 class AdvancedSetupConfig(SetupConfig):
-    advanced_map_setup_tiles_per_player: tuple[AdvancedMapSetupTileConfig, ...]
-    extra_advanced_map_setup_tiles: tuple[AdvancedMapSetupTileConfig, ...] = ()
+    setup_tiles_per_player: tuple[AdvancedMapSetupTileConfig, ...]
+    extra_setup_tiles: tuple[AdvancedMapSetupTileConfig, ...] = ()

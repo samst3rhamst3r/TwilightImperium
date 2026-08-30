@@ -634,8 +634,59 @@ doesn't belong in `__post_init__`.
   Config-layer mixin composition 1:1).
 - Config-dependent **decisions** belong at this layer (or Services), not in State:
   e.g. `Exhaustable` legality (`config.exhaustable: bool`, since it varies per
-  specific card, not per class) is checked in the Resolved-layer `exhaust()`
-  method before forwarding to the State mutation.
+  specific card, not per class). Reading `config.exhaustable` is precisely the
+  Config-aware justification that earns a Resolved-layer `exhaust()` method under
+  Rule 2 below — a legality check is not a pure forward. Absent any such
+  Config-aware check (an operation that only mutates State), no Resolved method
+  is written and the Service reaches the mutation via `resolved.state.<method>()`
+  instead. See the two-rule pair immediately below for the full boundary.
+
+### Two rules that together define the access boundary and the Resolved interface
+
+These are complementary, not contradictory — the first governs *how Services
+reach State*, the second governs *what a `Resolved*` object exposes*. State
+them together so neither gets misread in isolation.
+
+**Rule 1 — access is uniform: Services and Orchestration reach State *only*
+through `GameStateResolver`, never `GameState` directly.** There is exactly
+one access path, with no "does this operation happen to need Config" branch at
+the call site. The resolver returns a `Resolved*` binding where the entity has
+an associated Config, and plain State (via a plainly-named accessor, e.g.
+`resolver.player(player_id) -> PlayerState`, *not* dressed up as a fake
+`resolved_*` call) where the entity genuinely has no Config to bind. Either
+way the Service never touches a `GameState` container itself — "does this
+entity have Config" is an implementation detail the resolver's interface
+absorbs, not a branch that leaks into Service code. This is what keeps the
+"nothing above `resolved/` touches raw containers" boundary structurally true
+rather than a per-call judgment call.
+
+**Rule 2 — a `Resolved*` method earns its place only by reading `self.config`.**
+A pure, Config-free state mutation (`exhaust`, `ready`, `assign_control`) does
+**not** get wrapped in a redundant Resolved-layer method that just forwards to
+State — the Service reaches it via `resolved.state.exhaust()` on the resolved
+object it already holds. A `Resolved*` method is justified only when it does
+something raw State can't: read `self.config` for a legality check
+(`config.exhaustable` before exhausting), a derived value, or a Config-aware
+query (`is_exhaustible`, `can_exhaust`). Wrapping pure forwards makes the
+Resolved layer a second, redundant copy of the State interface — the exact
+redundancy that motivated this rule.
+
+**How they interact (the point that resolves the apparent tension):** because
+Rule 1 makes *every* Service access go through the resolver and land on a
+`Resolved*` object, `resolved.state.exhaust()` *is* the uniform path for pure
+mutations — there is no competing "grab raw State from `GameState`" path for it
+to be inconsistent with. Config-aware operations go through a real `Resolved*`
+method on that same object; pure mutations go through `.state` on that same
+object. One access path (Rule 1), two kinds of operation on the object it
+returns (Rule 2). Corollary: the Resolved-layer *forwarding* Protocols for
+pure mutations (a `ResolvedExhaustibleProtocol` that only forwards
+`exhaust`/`ready`, a Resolved-layer `PlayerOwnable` convenience protocol that
+only forwards `assign_owner`) should not be built until a Service actually
+needs a Config-aware version — at which point the method stops being a pure
+forward and earns the wrapper. The domain-vocabulary methods at the *State*
+layer (`assign_control`/`assign_speaker` forwarding to `ownable.assign_owner`)
+stay regardless — they serve direct-State callers (tests, save/load) that
+never touch the Resolved layer at all.
 
 ## 5. Domain Services
 

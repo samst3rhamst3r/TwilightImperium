@@ -150,34 +150,37 @@ deferred as raw ints until `finalize()` — same "loader owns full nested
 conversion" principle from §2, just relocated to whatever code captures a
 setup decision instead of a YAML loader.
 
-**Setup *mode* is a discriminated split, not optional fields on one shape —
-worked example: First-Game vs. Advanced Setup.** The rulebook's simplified
-First-Game Setup (preset map by player count, a restricted 6-faction pool, no
-promissory notes) and the full Advanced Setup (drafted system-tile
-placement, full faction roster, promissory notes included) aren't
-independent toggles — they always travel together as one of two coherent
-modes, so mixing traits from each (preset map + promissory notes, say) isn't
-a valid game state. Same principle as Config's mutually-exclusive trait
-splits (§2's `tech_type`/Assimilator example) applied to `setup/`:
+**Setup mode governs behavior, not data shape — worked example: First-Game
+vs. Advanced Setup, and a correction along the way.** An earlier draft of
+this doc split First-Game and Advanced/Complete Setup into two separate
+finalized classes (`FirstGameSetup`/`CompleteGameSetup`), reasoning by
+analogy to Config's mutually-exclusive trait splits (§2's `tech_type`
+example) — different setup *procedures*, so seemingly different output
+*shapes*. That was wrong, caught during design review: **First-Game's preset
+map still resolves to the identical `system_id → HexCoordinate` shape as
+Advanced's drafted placement** — it's a table lookup by player count instead
+of an interactive process, but the *result* is structurally the same data
+either way. The lesson generalizes: before splitting a type over a
+mode/procedure difference, trace each field to its **resolved** form, not
+its setup-time representation — `tech_type` genuinely has no resolved value
+for the two Assimilator techs (nothing to converge to); `map_layout_id`
+turns out to fully resolve to the same shape both modes already need.
 
 ```python
+class SetupMode(StrEnum):
+    FIRST_GAME = "first_game"
+    ADVANCED = "advanced"
+
 @dataclass(frozen=True, kw_only=True)
-class FirstGameSetup:
+class GameSetup:
     players: tuple[NewGamePlayerInit, ...]   # seating order, clockwise from speaker
     speaker_player_id: str
-    map_layout_id: str   # preset diagram by player count
-
-@dataclass(frozen=True, kw_only=True)
-class AdvancedGameSetup:
-    players: tuple[NewGamePlayerInit, ...]
-    speaker_player_id: str
-    system_placements: MappingProxyType[str, HexCoordinate]   # drafted tiles
-
-GameSetup = FirstGameSetup | AdvancedGameSetup
+    system_placements: MappingProxyType[str, HexCoordinate]   # same shape, either mode
+    game_mode: SetupMode
 ```
 
-`GameState.new_game()` pattern-matches on which variant it received to decide
-**whether** a construction step runs at all — not to fill in different data.
+`GameState.new_game()` switches on `game_mode` to decide **whether** a
+construction step runs at all — not to fill in different data.
 E.g. promissory notes (*"four that match their player color, and one
 faction-specific"*) need no dedicated Init field in either mode — they're
 fully derivable from `NewGamePlayerInit.color`/`.faction_config_id`, data
@@ -251,9 +254,10 @@ player count must be confirmed before advanced-setup tile counts can be
 looked up), which might suggest splitting `GameSetupSession` into separate
 classes per phase. Don't — this is the same "not yet complete" shape
 `GameSetupSession` already has, just with an intermediate checkpoint added,
-not a fundamentally different terminal shape the way
-`FirstGameSetup`/`AdvancedGameSetup` genuinely are (§1). A `StrEnum` phase
-gate on the *same* session class, mirroring `SecretObjectiveZone`'s
+not a fundamentally different terminal shape the way distinct `game_mode`
+values might suggest at first glance (see above — they resolve to the same
+`GameSetup` shape, just gated by an enum field, not a class split). A
+`StrEnum` phase gate on the *same* session class, mirroring `SecretObjectiveZone`'s
 "illegal combinations should be unrepresentable" principle (§6) applied to
 setup instead of gameplay state:
 
@@ -294,6 +298,118 @@ changes to `players`, so `len(self.players)` stays reliable on its own;
 there's nothing to store that isn't already derivable, and the phase gate is
 precisely what makes that derivation *safe* to rely on (the count can't
 silently change out from under a caller after being read).
+
+**Session classes split by mode even though the finalized `GameSetup` no
+longer does — worked example: `FirstGameSetupSession` /
+`AdvancedGameSetupSession`.** The `SetupMode` correction above collapses the
+*output* to one class, but the two setup **procedures** still genuinely
+differ in what's legal to do while building toward that output — Advanced
+Setup has real tile-placement operations (with adjacency/legality checks)
+that First-Game has no equivalent of at all, not a simplified version of.
+That's process/legal-operations divergence *during construction*, a
+different question from whether the *resolved data shape* converges (it
+does — see above), so it gets a different answer: a real subclass split, on
+the mutable session side only.
+
+This is also a case where the field/mixin scale test from §2 (`target_id`
+vs. `tech_type`) points the other way than it did there: mode is decided
+**once, upfront, by exactly one caller context** (the lobby/bootstrap flow
+choosing which session to construct), never re-examined by unpredictable
+future call sites the way `vote_type` is checked by many different card
+resolvers over a card's whole lifetime. A single well-known
+mode-selection point makes a structural (type-level) split cheap to get and
+worth taking, rather than a runtime check nobody was ever at risk of
+skipping.
+
+```python
+@dataclass(kw_only=True)
+class GameSetupSession(ABC):
+    setup_config: SetupConfig
+    players: dict[str, PlayerSetupDraft] = field(default_factory=dict)
+    phase: SetupPhase = SetupPhase.JOINING
+    speaker_player_id: str | None = None
+
+    def add_player(self, player_id: str, name: str) -> None: ...
+    def set_color(self, player_id: str, color: PlayerColor) -> None: ...
+    def set_faction(self, player_id: str, faction_config_id: str) -> None: ...
+    def confirm_roster(self) -> None: ...
+
+    @abstractmethod
+    def finalize(self) -> GameSetup: ...
+
+
+@dataclass(kw_only=True)
+class FirstGameSetupSession(GameSetupSession):
+    def finalize(self) -> GameSetup:
+        # map isn't a choice at all here — a lookup once roster is locked
+        system_placements = self.setup_config.player_setup[len(self.players)].preset_placements
+        return GameSetup(
+            players=self._player_inits(), speaker_player_id=self.speaker_player_id,
+            system_placements=system_placements, game_mode=SetupMode.FIRST_GAME,
+        )
+
+
+@dataclass(kw_only=True)
+class AdvancedGameSetupSession(GameSetupSession):
+    system_placements: dict[str, HexCoordinate] = field(default_factory=dict)
+
+    def place_tile(self, system_id: str, coordinate: HexCoordinate) -> None:
+        if self.phase != SetupPhase.ROSTER_LOCKED:
+            raise InvalidSetupTransition("place tiles after roster is locked")
+        ...
+
+    def finalize(self) -> GameSetup:
+        return GameSetup(
+            players=self._player_inits(), speaker_player_id=self.speaker_player_id,
+            system_placements=MappingProxyType(self.system_placements), game_mode=SetupMode.ADVANCED,
+        )
+```
+
+`ABC` + `@abstractmethod finalize()` mirrors `Serializable` (ADR 0003) — a
+session subclass missing `finalize()` fails at construction, not silently.
+`FirstGameSetupSession` adds no new fields or methods, only overriding
+`finalize()` — correct, not a smell: it reflects that First-Game genuinely
+is the simpler variant, with nothing beyond a derived Config lookup once the
+roster is locked. **Net rule:** session classes split on
+*process*/legal-operations differences; the finalized DTO splits only when
+*resolved field shape* genuinely differs — trace each field to its resolved
+form (per the correction above) before assuming the two must move together.
+
+**Shared base + thin extension when *some* fields diverge but most converge —
+worked example: `AdvancedSetupConfig(SetupConfig)`.** Standard and advanced
+setup *config* share most of their shape (`map_shape_id`, per-player
+`home_system_coordinates` + `trade_good_bonus` — the 5-player balance bonus
+applies regardless of mode). Advanced adds two fields with no standard-mode
+counterpart at all: `tiles_per_player` (how many tiles each player drafts)
+and the 5-player-only pre-placed extra tiles. This is neither a full split
+(most fields converge — duplicating them into a parallel class is the
+copy-paste trap) nor a flat class with optionals (`tiles_per_player` is
+structurally meaningless in standard mode, the `tech_type`/Assimilator §2
+case). The middle path — a shared base plus a subclass adding only the
+genuinely-divergent fields — mirrors `TechConfig`/`AssimilatorTechConfig`:
+
+```python
+@dataclass(frozen=True, kw_only=True)
+class SetupConfig(BaseConfigObj):
+    map_shape_id: MapShape
+    player_setup: tuple[PlayerSetupConfig, ...]
+
+@dataclass(frozen=True, kw_only=True)
+class AdvancedSetupConfig(SetupConfig):
+    tiles_per_player: int
+    pre_placed_extra_tile_ids: tuple[str, ...] = ()   # empty except 5-player
+```
+
+The 5-player-only extra tiles stay a **defaulted-empty tuple inside advanced**,
+not a further sub-split: `()` unambiguously means "no pre-placed tiles" (a
+harmless-vacuous default, like `exhausted: bool = False` in §3 — not the
+ambiguous `None` of the `tech_type` case), so it doesn't justify an
+`AdvancedFivePlayerSetupConfig`. **Decision ladder for a diverging field**:
+all-fields-shared → one class; a-few-fields-structurally-absent-for-a-subset
+→ shared base + thin subclass (this case); field-present-but-value-sometimes-
+inapplicable-and-unambiguously-defaultable → flat field with a vacuous default
+(the extra tiles); field-whose-very-concept-is-absent-with-no-safe-default →
+full split (`tech_type`).
 
 ### Who owns what, and why — the dividing lines
 

@@ -51,7 +51,7 @@ class PlayerState(IDedStateObj):
 
     @property
     def id(self) -> str:
-        return self.color
+        return str(self.color)
 
     @property
     def command_token_reinforcement_pool(self) -> int:

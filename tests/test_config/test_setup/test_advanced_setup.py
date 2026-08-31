@@ -29,7 +29,7 @@ def test_advanced_setup_config_requires_no_player_setup_change() -> None:
     config = AdvancedSetupConfig(
         map_shape_id=MapShape.STANDARD,
         player_setup=(),
-        advanced_map_setup_tiles_per_player=(_tile(),),
+        setup_tiles_per_player=(_tile(),),
     )
     assert config.map_shape_id == MapShape.STANDARD
     assert config.player_setup == ()
@@ -38,9 +38,9 @@ def test_advanced_setup_config_extra_tiles_defaults_to_empty() -> None:
     config = AdvancedSetupConfig(
         map_shape_id=MapShape.STANDARD,
         player_setup=(),
-        advanced_map_setup_tiles_per_player=(_tile(),),
+        setup_tiles_per_player=(_tile(),),
     )
-    assert config.extra_advanced_map_setup_tiles == ()
+    assert config.extra_setup_tiles == ()
 
 @pytest.mark.parametrize("num_tiles", [0, -1])
 def test_advanced_map_setup_tile_config_rejects_non_positive_tile_counts(num_tiles: int) -> None:

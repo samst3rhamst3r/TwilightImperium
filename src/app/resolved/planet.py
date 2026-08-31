@@ -5,6 +5,6 @@ from app.state.planet import PlanetState
 
 from .base import BaseResolvedObj
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(slots=True, frozen=True)
 class ResolvedPlanet(BaseResolvedObj[PlanetState, PlanetConfig]):
     pass

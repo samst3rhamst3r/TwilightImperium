@@ -86,8 +86,7 @@ class PlayerOwnableMixin(Serializable):
         super().init_from_save(data)
         self.ownable = _PlayerOwnable.load(data["ownable"])
 
-class _PlayerAssignableConvenienceProtocol(Protocol):
-    ownable: _PlayerOwnable
+class PlayerOwnableWithConvenienceProtocol(PlayerOwnableMixin):
 
     def assign_owner(self, player_id: str) -> None:
         self.ownable.assign_owner(player_id)
@@ -104,6 +103,3 @@ class _PlayerAssignableConvenienceProtocol(Protocol):
 
     def is_owned_by_player(self, player_id: str) -> bool:
         return self.ownable.is_owned_by_player(player_id)
-
-class PlayerOwnableWithConvenienceProtocol(PlayerOwnableMixin, _PlayerAssignableConvenienceProtocol):
-    pass

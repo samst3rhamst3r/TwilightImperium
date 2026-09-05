@@ -128,3 +128,42 @@ def test_game_state_deployed_units_and_decks_round_trip(game_state_factory) -> N
     assert reloaded.action_card_deck.deck[0].config_id == "direct_hit"
     assert reloaded.public_objective_i_deck.deck[0].config_id == "mecatol_rex"
     assert reloaded.secret_objective_deck.deck[0].config_id == "destroy_their_greatest_ship"
+
+def test_units_in_system_is_empty_for_a_system_with_no_units(game_state_factory) -> None:
+    game = game_state_factory()
+    assert game.units_in_system("sys_18") == ()
+
+def test_units_in_system_returns_exactly_the_units_located_there(game_state_factory) -> None:
+    in_system = UnitState(
+        config_id="infantry",
+        location=UnitLocation(loc_type=UnitLocationType.SYSTEM, location_id="sys_18"),
+    )
+    elsewhere = UnitState(
+        config_id="infantry",
+        location=UnitLocation(loc_type=UnitLocationType.SYSTEM, location_id="sys_25"),
+    )
+    game = game_state_factory(deployed_units={
+        in_system.instance_id: in_system,
+        elsewhere.instance_id: elsewhere,
+    })
+
+    assert game.units_in_system("sys_18") == (in_system,)
+
+def test_units_in_system_ignores_units_on_a_planet_or_ship_with_a_matching_location_id(game_state_factory) -> None:
+    """A location_id coincidentally equal to a system_id (e.g. a planet or
+    ship instance sharing the same string) must not be mistaken for
+    occupying that system - loc_type must also match."""
+    on_planet = UnitState(
+        config_id="infantry",
+        location=UnitLocation(loc_type=UnitLocationType.PLANET, location_id="sys_18"),
+    )
+    on_ship = UnitState(
+        config_id="infantry",
+        location=UnitLocation(loc_type=UnitLocationType.SHIP, location_id="sys_18"),
+    )
+    game = game_state_factory(deployed_units={
+        on_planet.instance_id: on_planet,
+        on_ship.instance_id: on_ship,
+    })
+
+    assert game.units_in_system("sys_18") == ()

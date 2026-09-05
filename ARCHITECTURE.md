@@ -812,6 +812,44 @@ never touch the Resolved layer at all.
   — eliminates repeated `ruleset_config.unit(state.config_id)` boilerplate at
   every call site.
 
+### Worked example: `MovementService` — the first Domain Service, setting the pattern
+
+`MovementService.move_unit(*, unit_id, destination_system_id,
+requesting_player_id)` (specs/003-single-unit-movement) is the first
+concrete Domain Service built against the rules above, and its shape is the
+intended template for the ones after it (`CombatService`, etc.), not a
+one-off:
+
+- **One exception hierarchy per Service, one subclass per distinguishable
+  rejection reason.** A shared `MovementError` base plus `UnknownUnitError`,
+  `UnknownSystemError`, `UnitOwnershipError`, `SelfMoveError`,
+  `IllegalDestinationError` — never a single exception carrying a
+  string/enum "reason" field. This lets a caller catch broadly
+  (`except MovementError`) or narrowly by type, and keeps each rejection
+  path's identity a real Python type instead of a stringly-typed
+  discriminator (the same instinct behind `StrEnum` over raw strings in
+  State, applied to failure modes instead of data).
+- **Guard-clause ordering: existence, then identity/authorization, then
+  domain legality, then mutate — in that fixed order, every time.**
+  `move_unit` resolves the unit and destination first (unknown id →
+  `Unknown*Error`, via the resolver's own `KeyError` translated at the
+  Service boundary — the resolver itself stays a plain uniform lookup, per
+  Rule 1 above), only *then* checks ownership, only *then* checks
+  domain-specific legality (self-move, hex-adjacency), and mutates last.
+  Existence must come first because every later check is meaningless
+  against an id that doesn't resolve to anything; a more specific rejection
+  (`SelfMoveError`) is checked before a more general one
+  (`IllegalDestinationError`) it would otherwise also, correctly but less
+  informatively, satisfy — order guard clauses from "cheapest/most certain
+  to short-circuit" to "most specific before more general," not
+  arbitrarily.
+- **A `Resolved*` object earning its place ahead of a Config-reading method
+  (Rule 2 above) generalizes past single-entity cases.** `ResolvedSystem`
+  was added by this feature with a `pass`-only body — no method on it reads
+  `self.config` yet — justified the same way `ResolvedUnit` was in §4:
+  a real, near-term need already exists (this Service, today), even though
+  the first consumer only needs `self.state`.
+
 ## 6. State-to-state relationship rules ("derive, don't store both sides")
 
 Pick exactly **one side** to store a reference on — never both, never store a

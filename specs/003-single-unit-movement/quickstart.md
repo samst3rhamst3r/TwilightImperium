@@ -58,11 +58,23 @@ pytest
 
 ## Done when
 
-- [ ] Every row above is a passing test.
-- [ ] `pytest` (bare, from repo root) passes cleanly, including
+- [X] Every row above is a passing test — see
+      `tests/test_services/test_movement.py`'s 8 tests, one (or more) per
+      row: `test_move_to_adjacent_system_succeeds_and_changes_nothing_else`
+      (US1 Scenario 1), `test_move_updates_units_in_system` (US1 Scenario 2),
+      `test_move_by_non_owner_raises_unit_ownership_error_and_changes_nothing`
+      (US2 Scenario 1), `test_move_to_non_adjacent_system_raises_illegal_destination_error_and_changes_nothing`
+      (US3 Scenario 1), `test_move_unknown_destination_raises_unknown_system_error`,
+      `test_move_unknown_unit_raises_unknown_unit_error`,
+      `test_self_move_raises_self_move_error`,
+      `test_multi_hop_chain_is_not_a_legal_one_move_path`. All 8 pass.
+- [X] `pytest` (bare, from repo root) passes cleanly, including
       `tests/test_config` and `tests/test_state` (constitution Principle V
-      gate) plus the new `tests/test_resolved` and `tests/test_services`.
-- [ ] A failed move (any exception row above) leaves `game_state` bit-for-bit
+      gate) plus the new `tests/test_resolved` and `tests/test_services` —
+      661 passed, 0 failed.
+- [X] A failed move (any exception row above) leaves `game_state` bit-for-bit
       unchanged except nothing — verified by an explicit before/after
-      comparison in at least one rejection test, not asserted only by
-      omission.
+      `game_state.save()` diff in
+      `test_move_by_non_owner_raises_unit_ownership_error_and_changes_nothing`
+      and `test_move_to_non_adjacent_system_raises_illegal_destination_error_and_changes_nothing`,
+      not asserted only by omission.

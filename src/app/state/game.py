@@ -76,6 +76,15 @@ class GameState(Serializable):
             return None
         return self.systems[system_id]
 
+    def units_in_system(self, system_id: str) -> tuple[UnitState, ...]:
+        """Derived, not stored - every unit currently located directly in the
+        given system. Mirrors system_at()'s existing derive-on-demand shape;
+        SystemState itself stores no unit list (see ARCHITECTURE.md section 6)."""
+        return tuple(
+            unit for unit in self.deployed_units.values()
+            if unit.location.is_in_system and unit.location.location_id == system_id
+        )
+
     def save(self) -> dict:
         return super().save() | {
             "players": {id: player.save() for id, player in self.players.items()},

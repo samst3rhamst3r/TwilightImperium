@@ -7,6 +7,7 @@ location=None (see class docstring)."""
 import pytest
 
 from app.config.objs.unit import UnitLocationType
+from app.state.base.ownable import AlreadyOwnedResourceException, NotYetOwnedResourceException
 from app.state.unit.location import UnitLocation
 from app.state.unit.unit import UnitState
 
@@ -66,4 +67,41 @@ def test_unit_state_save_load_round_trip(unit_factory, declared_immutable_field_
     assert reloaded.current_damage == 1
     assert reloaded.location.loc_type is unit.location.loc_type
     assert reloaded.location.location_id == "mecatol_rex"
+    assert not declared_immutable_field_violations(reloaded)
+
+def test_unit_state_defaults_to_unowned(unit_factory) -> None:
+    unit = unit_factory()
+    assert not unit.is_owned
+
+def test_assign_owner(unit_factory) -> None:
+    unit = unit_factory()
+    unit.assign_owner("red")
+    assert unit.is_owned
+    assert unit.is_owned_by_player("red")
+
+def test_assign_owner_when_already_owned_raises(unit_factory) -> None:
+    unit = unit_factory()
+    unit.assign_owner("red")
+    with pytest.raises(AlreadyOwnedResourceException):
+        unit.assign_owner("blue")
+
+def test_reassign_owner_swaps_owner(unit_factory) -> None:
+    unit = unit_factory()
+    unit.assign_owner("red")
+    released = unit.reassign_owner("blue")
+    assert released == "red"
+    assert unit.is_owned_by_player("blue")
+
+def test_release_owner_when_unowned_raises(unit_factory) -> None:
+    unit = unit_factory()
+    with pytest.raises(NotYetOwnedResourceException):
+        unit.release_owner()
+
+def test_unit_state_save_load_round_trip_preserves_ownership(unit_factory, declared_immutable_field_violations) -> None:
+    unit = unit_factory()
+    unit.assign_owner("red")
+
+    reloaded = UnitState.load(unit.save())
+
+    assert reloaded.is_owned_by_player("red")
     assert not declared_immutable_field_violations(reloaded)

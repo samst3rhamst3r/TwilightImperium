@@ -2,11 +2,12 @@ from dataclasses import dataclass
 
 from app.config.objs.unit import UnitLocationType
 from app.state.base.mixins import UUIDInstancedStateObj
+from app.state.base.ownable import PlayerOwnableWithConvenienceProtocol
 
 from .location import UnitLocation
 
 @dataclass(kw_only=True)
-class UnitState(UUIDInstancedStateObj):
+class UnitState(UUIDInstancedStateObj, PlayerOwnableWithConvenienceProtocol):
     # A deployed unit always occupies exactly one place on the board - there is
     # no "exists but nowhere" state. A unit that has no location has been
     # destroyed and removed from GameState.deployed_units entirely, not left

@@ -6,6 +6,7 @@ from app.state.game import GameState
 from .player import ResolvedPlayer
 from .unit import ResolvedUnit
 from .planet import ResolvedPlanet
+from .system import ResolvedSystem
 
 class GameStateResolver:
 
@@ -27,3 +28,8 @@ class GameStateResolver:
         planet_state = self._game_state.planets[planet_id]
         planet_config = self._ruleset_config.planets[planet_state.config_id]
         return ResolvedPlanet(planet_state, planet_config)
+
+    def resolved_system(self, system_id: str) -> ResolvedSystem:
+        system_state = self._game_state.systems[system_id]
+        system_config = self._ruleset_config.systems[system_state.config_id]
+        return ResolvedSystem(system_state, system_config)

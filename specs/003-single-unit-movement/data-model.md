@@ -8,27 +8,39 @@ shape included for context.
 ## `UnitState` (`src/app/state/unit/unit.py`) — MODIFIED
 
 ```python
+class UnitOwnershipError(OwnershipError):
+    """Raised when a requesting player doesn't own the unit being acted on."""
+    entity_name: str = "unit"
+
 @dataclass(kw_only=True)
-class UnitState(UUIDInstancedStateObj, PlayerOwnableWithConvenienceProtocol):
+class UnitState(UUIDInstancedStateObj, PlayerOwnableMixin):
     location: UnitLocation
     current_damage: int = 0
-    # NEW (via PlayerOwnableWithConvenienceProtocol): ownable: _PlayerOwnable
-    #   -> .assign_owner(player_id) / .is_owned_by_player(player_id) / etc.
+    # NEW (via PlayerOwnableMixin): ownable: _PlayerOwnable
+    #   -> .ownable.set_owner(player_id) / .ownable.is_owned_by_player(player_id) / etc.
+    # No forwarding methods on UnitState itself - reached via .ownable.*
+    # uniformly, same as every other ownable leaf (see research.md Decision 1's
+    # amendment: the PlayerOwnableWithConvenienceProtocol this section
+    # originally specified was removed from the codebase).
 ```
 
 - **Relationship**: a `PlayerState` owns many `UnitState`s (1:many). Per
   ARCHITECTURE.md §6 rule 1, the reference is stored on the "many" side —
   `UnitState.ownable.owned_by_player_id`, via the existing
-  `PlayerOwnableWithConvenienceProtocol` mixin (no new field type
-  introduced; reuses `_PlayerOwnable`).
-- **Validation**: unchanged from the mixin's existing behavior —
-  `assign_owner` raises `AlreadyOwnedResourceException` if called twice
-  without a `release_owner`/`reassign_owner` in between. This feature does
-  not call `assign_owner` from any production code path itself (no
-  "assign a new unit's owner at construction" flow exists yet in this
-  codebase); it's exercised directly in test fixtures, the same way
-  `PlanetState.assign_control` and `StrategyCardState`'s ownership fields
-  are exercised only in tests today.
+  `PlayerOwnableMixin` (no new field type introduced; reuses `_PlayerOwnable`).
+- **Validation**: `_PlayerOwnable.set_owner` is unconditional (no
+  already-owned guard — that's a change from the original design; see
+  research.md Decision 1's amendment). `release_owner()` still raises
+  `NotYetOwnedResourceException` if the unit isn't currently owned. This
+  feature does not call `.ownable.set_owner(...)` from any production code
+  path itself (no "assign a new unit's owner at construction" flow exists
+  yet in this codebase); it's exercised directly in test fixtures, the same
+  way `PlanetState.assign_control` and `StrategyCardState`'s ownership
+  fields are exercised only in tests today.
+- **`UnitOwnershipError`** lives here, next to `UnitState`, rather than in
+  `services/movement.py` — see data-model.md's `MovementService` section and
+  research.md Decision 3 for why: it's a reusable "this player doesn't own
+  this unit" type, not movement-specific.
 - **No state transition beyond the existing one**: `location` already
   transitions via `place_in_system`/`place_on_planet`/`place_on_ship`; this
   feature calls the existing `place_in_system(system_id)` from
@@ -64,26 +76,54 @@ class ResolvedSystem(BaseResolvedObj[SystemState, SystemConfig]):
 ## `GameStateResolver` (`src/app/resolved/game_state_resolver.py`) — MODIFIED
 
 ```python
-def resolved_system(self, system_id: str) -> ResolvedSystem:
-    system_state = self._game_state.systems[system_id]
-    system_config = self._ruleset_config.systems[system_state.config_id]
-    return ResolvedSystem(system_state, system_config)
+class UnknownEntityError(GameError):
+    """Base for every "no entity with this id exists" resolver failure."""
+    entity_type: ClassVar[str] = "entity"
+
+    def __init__(self, entity_id: str):
+        super().__init__(f"No {self.entity_type} with id {entity_id!r} exists in this game.")
+
+class UnknownSystemStateError(UnknownEntityError):
+    entity_type: ClassVar[str] = "system state object"
+
+class UnknownSystemConfigError(UnknownEntityError):
+    entity_type: ClassVar[str] = "system config"
+
+# ...plus UnknownPlayerError, UnknownDeployedUnitError, UnknownUnitConfigError,
+# UnknownPlanetStateError, UnknownPlanetConfigError, UnknownFactionError -
+# one pair per resolver method, not specific to this feature.
+
+class GameStateResolver:
+    def _get[T](self, entity_dict: Mapping[str, T], entity_id: str, error_cls: type[UnknownEntityError]) -> T:
+        try:
+            return entity_dict[entity_id]
+        except KeyError:
+            raise error_cls(entity_id) from None
+
+    def resolved_system(self, system_id: str) -> ResolvedSystem:
+        system_state = self._get(self._game_state.systems, system_id, UnknownSystemStateError)
+        system_config = self._get(self._ruleset_config.systems, system_state.config_id, UnknownSystemConfigError)
+        return ResolvedSystem(system_state, system_config)
 ```
 
-- Same shape as the three existing `resolved_*` methods — a `KeyError`
-  propagates on an unknown `system_id`, caught and translated by
-  `MovementService` (not by the resolver itself, consistent with how
-  `resolved_unit`/`resolved_planet` behave today).
+> **Amendment (post-implementation)**: This originally specified
+> `resolved_system` raising a bare `KeyError` on an unknown id, "caught and
+> translated by `MovementService`." A follow-up pass instead generalized
+> this to every `resolved_*` method via the shared `_get` helper above and
+> the `UnknownEntityError` hierarchy — see research.md Decision 3. The
+> resolver itself now raises the typed error; `MovementService` no longer
+> catches anything for unknown ids.
 
-## `MovementService` (`src/app/services/movement.py`) — MODIFIED (currently an empty stub)
+## `MovementService` (`src/app/services/movement.py`) — MODIFIED (originally an empty stub)
 
 ```python
+# app/services/movement.py
 class MovementError(Exception):
-    """Base for every rejection MovementService.move_unit can raise."""
+    """Base for every rejection MovementService.move_unit can raise that's
+    genuinely movement-specific (contrast UnknownDeployedUnitError/
+    UnknownSystemStateError/UnitOwnershipError below, which generalized past
+    this Service - see research.md Decision 3)."""
 
-class UnknownUnitError(MovementError): ...
-class UnknownSystemError(MovementError): ...
-class UnitOwnershipError(MovementError): ...
 class SelfMoveError(MovementError): ...
 class IllegalDestinationError(MovementError): ...
 
@@ -95,14 +135,23 @@ class MovementService(BaseService):
         destination_system_id: str,
         requesting_player_id: str,
     ) -> None:
+        resolved_unit = self._resolver.resolved_unit(unit_id)
+        destination_system = self._resolver.resolved_system(destination_system_id)
+        self._require_ownership(resolved_unit.state, requesting_player_id, UnitOwnershipError)
         ...
 ```
 
+`UnknownDeployedUnitError`/`UnknownSystemStateError` come from
+`app.resolved.game_state_resolver`; `UnitOwnershipError` comes from
+`app.state.unit`; `_require_ownership` comes from `BaseService`
+(`app.services.base`) — none of the three live in `movement.py` itself. See
+research.md Decision 3 for the full rationale.
+
 **Preconditions** (checked in this order — see research.md Decision 4):
 
-1. `unit_id` resolves via `self._resolver.resolved_unit(unit_id)` → else `UnknownUnitError`.
-2. `destination_system_id` resolves via `self._resolver.resolved_system(...)` → else `UnknownSystemError`.
-3. `resolved_unit.state.is_owned_by_player(requesting_player_id)` → else `UnitOwnershipError`.
+1. `unit_id` resolves via `self._resolver.resolved_unit(unit_id)` → else `UnknownDeployedUnitError` (raised by the resolver itself).
+2. `destination_system_id` resolves via `self._resolver.resolved_system(...)` → else `UnknownSystemStateError` (raised by the resolver itself).
+3. `self._require_ownership(resolved_unit.state, requesting_player_id, UnitOwnershipError)` → else `UnitOwnershipError`.
 4. `destination_system_id != resolved_unit.state.location.location_id` → else `SelfMoveError`.
 5. `destination_system.state.map_hex_coordinate` is in
    `origin_system.state.map_hex_coordinate.neighbors` → else `IllegalDestinationError`.

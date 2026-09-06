@@ -5,6 +5,11 @@ pre-existing resolved_player/resolved_unit/resolved_planet methods have no
 test coverage of their own yet (tracked in
 specs/002-resolved-layer/plan.md's open Principle V item), which is not
 this feature's job to close.
+
+Unknown ids now raise a typed UnknownEntityError subclass (UnknownSystemStateError)
+rather than a bare KeyError - the resolver itself translates the lookup
+failure via its generic _get(...) helper, so callers (MovementService, etc.)
+no longer need to catch KeyError themselves.
 """
 from types import MappingProxyType
 
@@ -12,7 +17,7 @@ import pytest
 
 from app.config.ruleset_config import RulesetConfig
 from app.geometry import HexCoordinate
-from app.resolved.game_state_resolver import GameStateResolver
+from app.resolved.game_state_resolver import GameStateResolver, UnknownSystemStateError
 from app.resolved.system import ResolvedSystem
 from app.state.card.action import ActionCardState
 from app.state.card.agenda import AgendaCardState
@@ -57,8 +62,8 @@ def test_resolved_system_resolves_a_real_system(game_state_with_one_system: Game
     assert resolved.state is game_state_with_one_system.systems["01"]
     assert resolved.config.id == "01"
 
-def test_resolved_system_raises_key_error_for_unknown_system_id(game_state_with_one_system: GameState, ruleset_config: RulesetConfig) -> None:
+def test_resolved_system_raises_unknown_system_state_error_for_unknown_system_id(game_state_with_one_system: GameState, ruleset_config: RulesetConfig) -> None:
     resolver = GameStateResolver(game_state_with_one_system, ruleset_config)
 
-    with pytest.raises(KeyError):
+    with pytest.raises(UnknownSystemStateError):
         resolver.resolved_system("does-not-exist")

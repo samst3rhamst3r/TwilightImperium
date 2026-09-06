@@ -7,33 +7,48 @@ translating the spec into a plan against the current, as-built state of
 `src/app/{state,resolved,services}` (verified by reading the actual files,
 not assumed from ARCHITECTURE.md alone).
 
-## Decision 1: Unit ownership doesn't exist yet — add it via the existing `PlayerOwnableWithConvenienceProtocol`
+## Decision 1: Unit ownership doesn't exist yet — add it via `PlayerOwnableMixin`
 
 **Finding**: `UnitState` (`src/app/state/unit/unit.py`) currently has no
 owner field at all — only `config_id`/`instance_id` (via
 `UUIDInstancedStateObj`), `location`, `current_damage`. FR-004 ("the Service
 itself verifies the mover owns the unit") is unimplementable without one.
 
-**Decision**: Compose `UnitState` with `PlayerOwnableWithConvenienceProtocol`
-(`app.state.base.ownable`), the same way `StrategyCardState` already does —
-not `PlayerOwnableMixin` + bespoke forwarding methods (the way `PlanetState`
-does with "control", or `SpeakerTokenState` does with "speaker").
+**Decision**: Compose `UnitState` with `PlayerOwnableMixin`
+(`app.state.base.ownable`), the same way `StrategyCardState`, `PlanetState`,
+`SecretObjectiveCardState`, and the special tokens all do.
 
-**Rationale**: ARCHITECTURE.md §3's mixin decision test for vocabulary:
-compose with hand-written forwarding methods only when the domain
-vocabulary *diverges* from generic "owner" language. A unit's owner is
-already called "owner" everywhere in the spec and rules text — there's no
-"controls"/"is assigned" distinction to protect, exactly the situation
-`PlayerOwnableWithConvenienceProtocol` exists for (`StrategyCardState` is
-the direct precedent, composing it with zero extra code).
+> **Amendment (post-implementation)**: The original version of this decision
+> composed a `PlayerOwnableWithConvenienceProtocol` that forwarded generic
+> `assign_owner`/`is_owned_by_player`/etc. directly onto the leaf class, on
+> the theory that "owner" vocabulary never diverges enough to need it. That
+> Protocol was removed from the codebase in a later pass: it turned out to
+> be the *only* consumer of the convenience-forwarding idea (every other
+> ownable leaf either has bespoke vocabulary already, like `PlanetState`'s
+> "control", or is fine reached via `.ownable.*` directly), so keeping a
+> whole extra mixin alive for one case wasn't worth it. The uniform access
+> pattern that replaced it — every ownable leaf, bespoke vocabulary or not,
+> exposes ownership through its own `.ownable: _PlayerOwnable` field, and
+> callers (including `MovementService`, via the new shared
+> `BaseService._require_ownership` helper) always go through `.ownable.*`
+> rather than through a leaf-level convenience method — is simpler and more
+> consistent, so `UnitState` follows it too: no forwarding methods of its
+> own, just `PlayerOwnableMixin` and direct `.ownable.*` access.
+
+**Rationale**: ARCHITECTURE.md §3's mixin decision test for vocabulary still
+applies to the underlying choice (compose, don't inherit, when leaf classes
+might want divergent vocabulary) — `UnitState` doesn't need bespoke
+vocabulary any more than it originally did, it just now reaches the shared
+mechanism the same uniform way every other ownable leaf does, rather than
+through a since-removed convenience layer.
 
 **Alternatives considered**:
-- Bespoke `assign_owner_player`/forwarding methods on `UnitState` — rejected,
+- Bespoke `assign_unit_owner`/forwarding methods on `UnitState` — rejected,
   pure boilerplate with no vocabulary to protect.
 - A new field `owner_player_id: str` with hand-rolled logic, bypassing
-  `_PlayerOwnable` entirely — rejected, duplicates validation
-  (`AlreadyOwnedResourceException` etc.) `_PlayerOwnable` already provides,
-  and would be the first entity in the codebase not to reuse it.
+  `_PlayerOwnable` entirely — rejected, would duplicate the single canonical
+  `owned_by_player_id`/`is_owned_by_player` lookup `_PlayerOwnable` already
+  provides, and would be the first entity in the codebase not to reuse it.
 - Storing ownership as a reverse list on `PlayerState` (`unit_ids: set[str]`)
   — rejected outright by ARCHITECTURE.md §6 rule 1 (1:many → store on the
   "many" side, i.e. on each unit, not a synced list on the player).
@@ -80,38 +95,72 @@ rules) will need `SystemConfig` for immediately.
 ## Decision 3: Custom exception hierarchy, one type per distinguishable rejection
 
 **Finding**: FR-008 requires FR-003 through FR-006 to each be "surfaced as
-distinguishable, catchable failures." The existing `GameStateResolver`
-methods (`resolved_unit`, etc.) rely on plain dict `KeyError` for unknown
-ids — not distinguishable enough on its own (a `KeyError` for an unknown
-unit and a `KeyError` for an unknown system look identical to a caller
-without inspecting the message).
+distinguishable, catchable failures." `GameStateResolver`'s methods relied on
+plain dict `KeyError` for unknown ids — not distinguishable enough on its
+own (a `KeyError` for an unknown unit and a `KeyError` for an unknown system
+look identical to a caller without inspecting the message).
 
-**Decision**: `src/app/services/movement.py` defines one `MovementError`
-base exception plus five concrete subclasses:
+**Decision** *(post-implementation amendment — see note below)*: The
+hierarchy ended up split across three modules instead of living entirely in
+`movement.py`, because two of the five rejection reasons generalized past
+this one Service once they were actually implemented:
 
-| Exception | Raised when | FR |
-|---|---|---|
-| `UnknownUnitError` | `unit_id` isn't in `game_state.deployed_units` | FR-006 |
-| `UnknownSystemError` | `destination_system_id` isn't in `game_state.systems` | FR-006 |
-| `UnitOwnershipError` | requesting player doesn't own the unit | FR-004 |
-| `SelfMoveError` | destination is the unit's own current system | FR-005 |
-| `IllegalDestinationError` | destination exists, isn't the unit's own system, but isn't hex-adjacent | FR-003 |
+- **`src/app/errors.py`** (new) — `GameError(Exception)`, an app-wide base.
+  Everything below inherits it, including `MovementError` itself (fixed
+  after an initial pass briefly left it extending plain `Exception`).
+- **`src/app/resolved/game_state_resolver.py`** — `UnknownEntityError(GameError)`
+  (a `ClassVar[str] entity_type`, message built from `entity_id` alone), plus
+  one subclass per (container, id-namespace) pair across *every* resolver
+  method, not just this feature's two: `UnknownPlayerError`,
+  `UnknownDeployedUnitError`, `UnknownUnitConfigError`,
+  `UnknownSystemStateError`, `UnknownSystemConfigError`,
+  `UnknownPlanetStateError`, `UnknownPlanetConfigError`, `UnknownFactionError`.
+  A generic `GameStateResolver._get[T](entity_dict, entity_id, error_cls)`
+  helper does the lookup and raises `error_cls(entity_id)` on `KeyError`;
+  every `resolved_*` method (including `resolved_system`) now uses it, so
+  `MovementService` no longer catches anything for unknown ids at all — it
+  just calls `resolved_unit`/`resolved_system` and lets
+  `UnknownDeployedUnitError`/`UnknownSystemStateError` propagate.
+- **`src/app/state/base/ownable.py`** — `OwnershipError(GameError)`, a
+  generic "wrong owner" type taking `(entity_id, actual_owner_id)`.
+- **`src/app/state/unit/unit.py`** — `UnitOwnershipError(OwnershipError)`
+  (`entity_name = "unit"`), the concrete type raised for FR-004. It lives
+  next to `UnitState`, not in `movement.py`, since "is this unit owned by
+  this player" is reusable by any future Service, not movement-specific.
+- **`src/app/services/base.py`** — `BaseService._require_ownership(entity, player_id, error_cls)`,
+  a shared helper: checks `entity.ownable.is_owned_by_player(player_id)` and
+  raises `error_cls(entity.id, entity.ownable.owned_by_player_id)` if not.
+  `move_unit` calls
+  `self._require_ownership(resolved_unit.state, requesting_player_id, UnitOwnershipError)`.
+- **`src/app/services/movement.py`** now defines only what's genuinely
+  movement-specific: `MovementError` (base) plus `SelfMoveError` and
+  `IllegalDestinationError`.
 
-`MovementService.move_unit` catches the `KeyError`s from
-`GameStateResolver.resolved_unit`/`resolved_system` at the boundary and
-re-raises the matching typed error (`raise UnknownUnitError(...) from None`)
-rather than letting a raw `KeyError` escape.
+| Exception | Lives in | Raised when | FR |
+|---|---|---|---|
+| `UnknownDeployedUnitError` | `app.resolved.game_state_resolver` | `unit_id` isn't in `game_state.deployed_units` | FR-006 |
+| `UnknownSystemStateError` | `app.resolved.game_state_resolver` | a system id (destination, or the unit's own current system) isn't in `game_state.systems` | FR-006 |
+| `UnitOwnershipError` | `app.state.unit` | requesting player doesn't own the unit | FR-004 |
+| `SelfMoveError` | `app.services.movement` | destination is the unit's own current system | FR-005 |
+| `IllegalDestinationError` | `app.services.movement` | destination exists, isn't the unit's own system, but isn't hex-adjacent | FR-003 |
 
-**Rationale**: A shared `MovementError` base lets a caller catch "any
-movement rejection" in one clause when it doesn't care why, while each
-subclass lets it branch on the specific reason when it does — exactly what
-FR-008 asks for. Splitting FR-006 into two types (`UnknownUnitError` /
-`UnknownSystemError`) rather than one shared `UnknownEntityError` costs
-nothing and gives a strictly more useful signal to the caller than the spec
-strictly requires (the spec only requires unknown-vs-outside-legal-set
-distinguishability, not unit-vs-system).
+**Rationale**: The original design put all five types in `movement.py`
+under one `MovementError` base so a caller could catch "any movement
+rejection" in one clause. Once actually built, two of the five turned out to
+answer a question every `resolved_*` call has (not just movement's two), so
+generalizing them to the resolver layer — the one place every Service
+already goes through (Rule 1) — avoided re-solving "unknown id" per-Service
+the moment a second Service needed it. `UnitOwnershipError` generalizes the
+same way, paired with the shared `_require_ownership` helper, since "does
+this player own this unit" is not a movement-only question either (a future
+`CombatService` checking the same thing would otherwise need its own copy).
+The trade-off: a caller can no longer catch "any movement rejection" with a
+single `except MovementError` — the five types are no longer siblings under
+one base. FR-008's actual requirement (each reason distinguishable and
+independently catchable) still holds; it's satisfied by five cross-cutting
+types now instead of five siblings.
 
-**Alternatives considered**:
+**Alternatives considered** (unchanged from the original decision):
 - Let `KeyError` propagate for unknown ids — rejected, not a distinguishable
   domain type, and indistinguishable from any other accidental `KeyError`
   bug in the call chain.
@@ -121,11 +170,29 @@ distinguishability, not unit-vs-system).
   over string discrimination) and are harder for a caller to `except` on
   selectively.
 
+**Note on this amendment**: Revised after initial implementation, once a
+follow-up pass generalized unknown-id and ownership handling across the
+resolver/state layers (see `src/app/errors.py`'s introduction in the
+project's git history). This section now reflects the as-built shape rather
+than the original Phase-0 plan, per this project's "specs are source of
+truth, not scratch notes" convention (constitution, Principle I).
+
 ## Decision 4: Check ordering inside `move_unit`
 
 **Decision**: unit exists → destination system exists → requester owns the
 unit → destination isn't the unit's current system → destination is
 hex-adjacent to the current system → mutate.
+
+> **Amendment (post-implementation)**: The first two checks are no longer
+> explicit `try`/`except` blocks inside `move_unit` — per Decision 3, they're
+> now enforced automatically by `GameStateResolver.resolved_unit`/
+> `resolved_system` themselves. `move_unit` just calls
+> `self._resolver.resolved_unit(unit_id)` and
+> `self._resolver.resolved_system(destination_system_id)` unconditionally at
+> the top and lets `UnknownDeployedUnitError`/`UnknownSystemStateError`
+> propagate. The *order* is unchanged (existence still precedes
+> ownership/legality) — only the mechanism moved from Service-level
+> `try`/`except` + re-raise to resolver-level built-in behavior.
 
 **Rationale**: Existence checks must precede everything else (ownership and
 adjacency are meaningless to evaluate against ids that don't resolve to

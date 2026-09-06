@@ -2,12 +2,16 @@ from dataclasses import dataclass
 
 from app.config.objs.unit import UnitLocationType
 from app.state.base.mixins import UUIDInstancedStateObj
-from app.state.base.ownable import PlayerOwnableWithConvenienceProtocol
+from app.state.base.ownable import PlayerOwnableMixin, OwnershipError
 
 from .location import UnitLocation
 
+class UnitOwnershipError(OwnershipError):
+    """Raised when trying to assign ownership of a unit that is already owned by another player."""
+    entity_name: str = "unit"
+
 @dataclass(kw_only=True)
-class UnitState(UUIDInstancedStateObj, PlayerOwnableWithConvenienceProtocol):
+class UnitState(UUIDInstancedStateObj, PlayerOwnableMixin):
     # A deployed unit always occupies exactly one place on the board - there is
     # no "exists but nowhere" state. A unit that has no location has been
     # destroyed and removed from GameState.deployed_units entirely, not left

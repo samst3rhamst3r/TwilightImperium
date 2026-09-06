@@ -95,11 +95,11 @@ def test_game_state_save_load_round_trip_with_all_special_tokens_present(game_st
             CreussWormholeTokenState(wormhole_type=WormholeType.BETA),
         ),
     )
-    game.naalu_token.assign_owner("red")
+    game.naalu_token.ownable.set_owner("red")
 
     reloaded = GameState.load(game.save())
 
-    assert reloaded.naalu_token.is_owned_by_player("red")
+    assert reloaded.naalu_token.ownable.is_owned_by_player("red")
     assert [t.config_id for t in reloaded.nekro_assimilator_tokens] == [
         "valefar_assimilator_x",
         "valefar_assimilator_y",

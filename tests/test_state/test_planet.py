@@ -1,7 +1,7 @@
 """Tests for app.state.planet.PlanetState."""
 import pytest
 
-from app.state.base.ownable import AlreadyOwnedResourceException, NotYetOwnedResourceException
+from app.state.base.ownable import NotYetOwnedResourceException
 from app.state.planet import PlanetState
 
 @pytest.fixture
@@ -22,17 +22,12 @@ def test_assign_control(planet_factory) -> None:
     assert planet.is_controlled
     assert planet.is_controlled_by_player("red")
 
-def test_assign_control_when_already_controlled_raises(planet_factory) -> None:
+def test_assign_control_overwrites_an_existing_controller(planet_factory) -> None:
+    """assign_control forwards to the now-unconditional _PlayerOwnable.set_owner
+    - no AlreadyOwnedResourceException guard anymore."""
     planet = planet_factory()
     planet.assign_control("red")
-    with pytest.raises(AlreadyOwnedResourceException):
-        planet.assign_control("blue")
-
-def test_reassign_control_swaps_controller(planet_factory) -> None:
-    planet = planet_factory()
-    planet.assign_control("red")
-    released = planet.reassign_control("blue")
-    assert released == "red"
+    planet.assign_control("blue")
     assert planet.is_controlled_by_player("blue")
 
 def test_release_control_when_uncontrolled_raises(planet_factory) -> None:

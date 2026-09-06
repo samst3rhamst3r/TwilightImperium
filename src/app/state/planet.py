@@ -14,10 +14,7 @@ class PlanetNotControlledError(Exception):
 class PlanetState(ConfigIDStateObj, Exhaustible, PlayerOwnableMixin):
 
     def assign_control(self, player_id: str) -> None:
-        self.ownable.assign_owner(player_id)
-
-    def reassign_control(self, player_id: str) -> str:
-        return self.ownable.reassign_owner(player_id)
+        self.ownable.set_owner(player_id)
 
     def release_control(self) -> str:
         return self.ownable.release_owner()

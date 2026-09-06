@@ -1,11 +1,28 @@
 from dataclasses import dataclass, field
+from typing import ClassVar, Protocol
+
+from app.errors import GameError
 
 from .serializable import Serializable
 
-class AlreadyOwnedResourceException(Exception): 
-    pass
-class NotYetOwnedResourceException(Exception): 
-    pass
+class OwnershipError(GameError):
+    entity_name: ClassVar[str] = "resource"
+
+    def __init__(self, entity_id: str, actual_owner_id: str | None):
+        super().__init__(
+            f"{self.entity_name.capitalize()} {entity_id!r} is not owned by the requesting player "
+            f"(owned by {actual_owner_id!r})"
+        )
+
+class AlreadyOwnedResourceException(Exception):
+    """Raised when trying to assign ownership of a resource that is already owned by another player."""
+
+class NotYetOwnedResourceException(Exception):
+    """Raised when trying to release ownership of a resource that is not yet
+    owned by any player. Unlike OwnershipError's other uses (a requesting
+    player vs. actual-owner mismatch), there is no "actual owner" to report
+    here, so this overrides OwnershipError's two-argument __init__ instead
+    of inheriting it."""
 
 @dataclass(kw_only=True)
 class _PlayerOwnable(Serializable):
@@ -38,17 +55,8 @@ class _PlayerOwnable(Serializable):
         super().init_from_save(data)
         self.owned_by_player_id = data["owned_by_player_id"]
 
-    def assign_owner(self, player_id: str) -> None:
-        if self.is_owned:
-            raise AlreadyOwnedResourceException(f'This resource is already owned by player ID {self.owned_by_player_id}.')
+    def set_owner(self, player_id: str) -> None:
         self.owned_by_player_id = player_id
-
-    def reassign_owner(self, player_id: str) -> str:
-        if not self.is_owned:
-            raise NotYetOwnedResourceException('This resource is not yet owned by any player. Cannot reassign a non-owned resource.')
-        released_player_id = self.release_owner()
-        self.assign_owner(player_id)
-        return released_player_id
 
     def release_owner(self) -> str:
         if not self.is_owned:
@@ -85,20 +93,9 @@ class PlayerOwnableMixin(Serializable):
         super().init_from_save(data)
         self.ownable = _PlayerOwnable.load(data["ownable"])
 
-class PlayerOwnableWithConvenienceProtocol(PlayerOwnableMixin):
-
-    def assign_owner(self, player_id: str) -> None:
-        self.ownable.assign_owner(player_id)
-
-    def reassign_owner(self, player_id: str) -> str:
-        return self.ownable.reassign_owner(player_id)
-
-    def release_owner(self) -> str:
-        return self.ownable.release_owner()
+class OwnableEntity(Protocol):
+    """This Protocol is used to provide a common interface for all entities that are ownable by a player."""
+    ownable: _PlayerOwnable
 
     @property
-    def is_owned(self) -> bool:
-        return self.ownable.is_owned
-
-    def is_owned_by_player(self, player_id: str) -> bool:
-        return self.ownable.is_owned_by_player(player_id)
+    def id(self) -> str: ...

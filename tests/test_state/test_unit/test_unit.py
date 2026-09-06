@@ -7,7 +7,7 @@ location=None (see class docstring)."""
 import pytest
 
 from app.config.objs.unit import UnitLocationType
-from app.state.base.ownable import AlreadyOwnedResourceException, NotYetOwnedResourceException
+from app.state.base.ownable import NotYetOwnedResourceException
 from app.state.unit.location import UnitLocation
 from app.state.unit.unit import UnitState
 
@@ -71,37 +71,33 @@ def test_unit_state_save_load_round_trip(unit_factory, declared_immutable_field_
 
 def test_unit_state_defaults_to_unowned(unit_factory) -> None:
     unit = unit_factory()
-    assert not unit.is_owned
+    assert not unit.ownable.is_owned
 
-def test_assign_owner(unit_factory) -> None:
+def test_set_owner(unit_factory) -> None:
     unit = unit_factory()
-    unit.assign_owner("red")
-    assert unit.is_owned
-    assert unit.is_owned_by_player("red")
+    unit.ownable.set_owner("red")
+    assert unit.ownable.is_owned
+    assert unit.ownable.is_owned_by_player("red")
 
-def test_assign_owner_when_already_owned_raises(unit_factory) -> None:
+def test_set_owner_overwrites_an_existing_owner(unit_factory) -> None:
+    """set_owner is unconditional - no already-owned guard; a caller wanting
+    swap-with-the-old-owner-returned semantics uses release_owner() +
+    set_owner() explicitly (see PlanetState.reassign_control)."""
     unit = unit_factory()
-    unit.assign_owner("red")
-    with pytest.raises(AlreadyOwnedResourceException):
-        unit.assign_owner("blue")
-
-def test_reassign_owner_swaps_owner(unit_factory) -> None:
-    unit = unit_factory()
-    unit.assign_owner("red")
-    released = unit.reassign_owner("blue")
-    assert released == "red"
-    assert unit.is_owned_by_player("blue")
+    unit.ownable.set_owner("red")
+    unit.ownable.set_owner("blue")
+    assert unit.ownable.is_owned_by_player("blue")
 
 def test_release_owner_when_unowned_raises(unit_factory) -> None:
     unit = unit_factory()
     with pytest.raises(NotYetOwnedResourceException):
-        unit.release_owner()
+        unit.ownable.release_owner()
 
 def test_unit_state_save_load_round_trip_preserves_ownership(unit_factory, declared_immutable_field_violations) -> None:
     unit = unit_factory()
-    unit.assign_owner("red")
+    unit.ownable.set_owner("red")
 
     reloaded = UnitState.load(unit.save())
 
-    assert reloaded.is_owned_by_player("red")
+    assert reloaded.ownable.is_owned_by_player("red")
     assert not declared_immutable_field_violations(reloaded)

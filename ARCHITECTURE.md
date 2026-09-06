@@ -820,25 +820,51 @@ concrete Domain Service built against the rules above, and its shape is the
 intended template for the ones after it (`CombatService`, etc.), not a
 one-off:
 
-- **One exception hierarchy per Service, one subclass per distinguishable
-  rejection reason.** A shared `MovementError` base plus `UnknownUnitError`,
-  `UnknownSystemError`, `UnitOwnershipError`, `SelfMoveError`,
-  `IllegalDestinationError` — never a single exception carrying a
-  string/enum "reason" field. This lets a caller catch broadly
-  (`except MovementError`) or narrowly by type, and keeps each rejection
-  path's identity a real Python type instead of a stringly-typed
-  discriminator (the same instinct behind `StrEnum` over raw strings in
-  State, applied to failure modes instead of data).
+- **One exception per distinguishable rejection reason, never a
+  string/enum "reason" field — but not necessarily all living in the
+  Service's own module.** `app/errors.py`'s `GameError(Exception)` is the
+  app-wide root every domain exception ultimately inherits, `MovementError`
+  included. Below it, two kinds of rejection turned out to be cross-cutting
+  rather than Movement-specific, and moved to where the behavior they report on
+  actually lives:
+  - **"Unknown id" belongs to the resolver, not the Service.** Every
+    `GameStateResolver.resolved_*` method can fail the same way (an id that
+    doesn't exist), so `GameStateResolver` defines one `UnknownEntityError(GameError)`
+    base (`entity_type: ClassVar[str]`, message built from the id alone) and
+    one subclass per (container, id-namespace) pair — `UnknownDeployedUnitError`,
+    `UnknownSystemStateError`, `UnknownPlanetStateError`, `UnknownPlayerError`,
+    etc. — plus a generic `_get[T](entity_dict, entity_id, error_cls)` helper
+    every `resolved_*` method calls. A Service never catches `KeyError` or
+    writes its own `Unknown*Error` translation at all; it just calls
+    `resolver.resolved_unit(...)`/`resolved_system(...)` and lets the typed
+    error propagate.
+  - **"Wrong owner" belongs to the ownership mechanism, not the Service.**
+    `app/state/base/ownable.py` defines `OwnershipError(GameError)`, taking
+    `(entity_id, actual_owner_id)`; a leaf's own ownership-error subclass
+    (`UnitState`'s `UnitOwnershipError`) lives next to that leaf, not in
+    whichever Service happens to check it first. `BaseService._require_ownership(entity, player_id, error_cls)`
+    is the shared call every Service uses: checks
+    `entity.ownable.is_owned_by_player(player_id)`, raises
+    `error_cls(entity.id, entity.ownable.owned_by_player_id)` if not.
+  - **What's left in the Service's own module is what's genuinely specific
+    to it.** `MovementService` only defines `MovementError` (base) plus
+    `SelfMoveError`/`IllegalDestinationError` — the two rejections that are
+    actually about movement's own domain legality, not about entity
+    existence or ownership in general. The practical cost: a caller can no
+    longer catch "any movement rejection" with one `except MovementError`,
+    since two of the five original candidates moved to different bases —
+    each rejection is still its own real Python type, just not all
+    siblings anymore.
 - **Guard-clause ordering: existence, then identity/authorization, then
   domain legality, then mutate — in that fixed order, every time.**
   `move_unit` resolves the unit and destination first (unknown id →
-  `Unknown*Error`, via the resolver's own `KeyError` translated at the
-  Service boundary — the resolver itself stays a plain uniform lookup, per
-  Rule 1 above), only *then* checks ownership, only *then* checks
-  domain-specific legality (self-move, hex-adjacency), and mutates last.
-  Existence must come first because every later check is meaningless
-  against an id that doesn't resolve to anything; a more specific rejection
-  (`SelfMoveError`) is checked before a more general one
+  `UnknownDeployedUnitError`/`UnknownSystemStateError`, raised by the
+  resolver itself per the point above — no `try`/`except` needed in the
+  Service), only *then* checks ownership via `_require_ownership`, only
+  *then* checks domain-specific legality (self-move, hex-adjacency), and
+  mutates last. Existence must come first because every later check is
+  meaningless against an id that doesn't resolve to anything; a more
+  specific rejection (`SelfMoveError`) is checked before a more general one
   (`IllegalDestinationError`) it would otherwise also, correctly but less
   informatively, satisfy — order guard clauses from "cheapest/most certain
   to short-circuit" to "most specific before more general," not

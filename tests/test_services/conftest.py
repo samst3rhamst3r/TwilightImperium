@@ -68,7 +68,7 @@ def movable_game(ruleset_config: RulesetConfig) -> MovableGame:
         config_id="infantry_i",
         location=UnitLocation(loc_type=UnitLocationType.SYSTEM, location_id=system_a_id),
     )
-    unit.assign_owner(owner_player_id)
+    unit.ownable.set_owner(owner_player_id)
 
     game_state = GameState(
         players=MappingProxyType({

@@ -2,33 +2,34 @@ from dataclasses import dataclass
 from typing import ClassVar, Final
 
 from app.config.objs.system import WormholeType
-from app.state.base.ownable import PlayerOwnableWithConvenienceProtocol, PlayerOwnableMixin
+from app.state.base.ownable import PlayerOwnableMixin
 from app.state.base.mixins import ConfigIDStateObj
 
 from .base.serializable import Serializable
 
 @dataclass(kw_only=True)
-class NaaluTokenState(PlayerOwnableWithConvenienceProtocol):
+class NaaluTokenState(PlayerOwnableMixin):
     pass
 
 @dataclass(kw_only=True)
 class SpeakerTokenState(PlayerOwnableMixin):
 
     def assign_speaker(self, player_id: str) -> None:
-        self.ownable.assign_owner(player_id)
-
-    def reassign_speaker(self, player_id: str) -> str:
-        return self.ownable.reassign_owner(player_id)
+        self.ownable.set_owner(player_id)
 
     def release_speaker(self) -> str:
         return self.ownable.release_owner()
 
-    def is_player_speaker(self, player_id: str) -> bool:
-        return self.ownable.is_owned_by_player(player_id)
-
     @property
     def speaker_player_id(self) -> str | None:
         return self.ownable.owned_by_player_id
+
+    @property
+    def is_speaker_assigned(self) -> bool:
+        return self.ownable.is_owned
+
+    def is_player_speaker(self, player_id: str) -> bool:
+        return self.ownable.is_owned_by_player(player_id)
 
 @dataclass(kw_only=True)
 class NekroAssimilatorTokenState(ConfigIDStateObj):

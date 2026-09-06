@@ -22,7 +22,9 @@ A minimal `GameState` — no full new-game bootstrap needed:
    non-adjacent edge case.
 3. One `UnitState` located in the first system
    (`UnitLocation(loc_type=SYSTEM, location_id=<system A id>)`), owned by
-   `red` via `unit.assign_owner("red")`.
+   `red` via `unit.ownable.set_owner("red")` (ownership is reached through
+   the `.ownable` field directly, not a forwarding method on `UnitState`
+   itself — see research.md Decision 1's amendment).
 4. A `RulesetConfig` (real `data/` tree via the session-scoped fixture
    pattern already used in `tests/test_config/conftest.py`) so
    `resolved_unit`/`resolved_system` can resolve real `config_id`s.
@@ -49,10 +51,10 @@ pytest
 |---|---|---|
 | US1 Scenario 1 | `move_unit(unit_id=U, destination_system_id=B, requesting_player_id="red")` where B is adjacent to A | Returns `None`; `deployed_units[U].location.location_id == B`; every other field of `game_state` unchanged (compare `game_state.save()` before/after, or spot-check untouched players/other systems). |
 | US1 Scenario 2 | Same call | `game_state.units_in_system(A) == ()`; `game_state.units_in_system(B) == (that unit,)`. |
-| US2 Scenario 1 | Same call but `requesting_player_id="blue"` | Raises `UnitOwnershipError`; unit still in A. |
+| US2 Scenario 1 | Same call but `requesting_player_id="blue"` | Raises `UnitOwnershipError` (`app.state.unit`); unit still in A. |
 | US3 Scenario 1 | `destination_system_id=C` (not adjacent) | Raises `IllegalDestinationError`; unit still in A. |
-| Edge: unknown destination | `destination_system_id="does-not-exist"` | Raises `UnknownSystemError`; unit still in A. |
-| Edge: unknown unit | `unit_id="does-not-exist"` | Raises `UnknownUnitError`. |
+| Edge: unknown destination | `destination_system_id="does-not-exist"` | Raises `UnknownSystemStateError` (`app.resolved.game_state_resolver`); unit still in A. |
+| Edge: unknown unit | `unit_id="does-not-exist"` | Raises `UnknownDeployedUnitError` (`app.resolved.game_state_resolver`). |
 | Edge: self-move | `destination_system_id=A` | Raises `SelfMoveError`; unit still in A. |
 | Edge: multi-hop chain | `destination_system_id=` a system 2+ hex rings away, reachable only via an intermediate adjacent system | Raises `IllegalDestinationError` — same as any other non-adjacent system; no multi-hop traversal is attempted. |
 
@@ -64,14 +66,18 @@ pytest
       (US1 Scenario 1), `test_move_updates_units_in_system` (US1 Scenario 2),
       `test_move_by_non_owner_raises_unit_ownership_error_and_changes_nothing`
       (US2 Scenario 1), `test_move_to_non_adjacent_system_raises_illegal_destination_error_and_changes_nothing`
-      (US3 Scenario 1), `test_move_unknown_destination_raises_unknown_system_error`,
-      `test_move_unknown_unit_raises_unknown_unit_error`,
+      (US3 Scenario 1), `test_move_unknown_destination_raises_unknown_system_state_error`,
+      `test_move_unknown_unit_raises_unknown_deployed_unit_error`,
       `test_self_move_raises_self_move_error`,
       `test_multi_hop_chain_is_not_a_legal_one_move_path`. All 8 pass.
+      (Test names updated post-implementation to match the resolver-level
+      exception names — see research.md Decision 3's amendment.)
 - [X] `pytest` (bare, from repo root) passes cleanly, including
       `tests/test_config` and `tests/test_state` (constitution Principle V
       gate) plus the new `tests/test_resolved` and `tests/test_services` —
-      661 passed, 0 failed.
+      652 passed, 0 failed (count shifted from 661 after the post-implementation
+      PlayerOwnable/error-hierarchy refactor consolidated a few tests
+      elsewhere in the suite; see the ownable rewrite in tests/test_state).
 - [X] A failed move (any exception row above) leaves `game_state` bit-for-bit
       unchanged except nothing — verified by an explicit before/after
       `game_state.save()` diff in

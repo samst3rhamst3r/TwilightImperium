@@ -12,22 +12,23 @@ from app.state.special_tokens import (
     SpeakerTokenState,
 )
 
-# --- NaaluTokenState (generic owner vocabulary via the convenience Protocol) ---
+# --- NaaluTokenState (plain PlayerOwnableMixin - no convenience forwarding;
+# reached through .ownable directly) ---
 
 def test_naalu_token_state_starts_unowned() -> None:
-    assert not NaaluTokenState().is_owned
+    assert not NaaluTokenState().ownable.is_owned
 
-def test_naalu_token_state_assign_and_release_owner() -> None:
+def test_naalu_token_state_set_and_release_owner() -> None:
     token = NaaluTokenState()
-    token.assign_owner("red")
-    assert token.is_owned_by_player("red")
-    assert token.release_owner() == "red"
+    token.ownable.set_owner("red")
+    assert token.ownable.is_owned_by_player("red")
+    assert token.ownable.release_owner() == "red"
 
 def test_naalu_token_state_save_load_round_trip() -> None:
     token = NaaluTokenState()
-    token.assign_owner("red")
+    token.ownable.set_owner("red")
     reloaded = NaaluTokenState.load(token.save())
-    assert reloaded.is_owned_by_player("red")
+    assert reloaded.ownable.is_owned_by_player("red")
 
 # --- SpeakerTokenState (bespoke "speaker" vocabulary) ---
 
@@ -36,13 +37,22 @@ def test_speaker_token_state_starts_with_no_speaker() -> None:
     assert token.speaker_player_id is None
     assert not token.is_player_speaker("red")
 
-def test_speaker_token_state_assign_and_reassign_speaker() -> None:
+def test_speaker_token_state_assign_speaker() -> None:
+    token = SpeakerTokenState()
+    assert not token.is_speaker_assigned
+    token.assign_speaker("red")
+    assert token.is_speaker_assigned
+    assert token.is_player_speaker("red")
+
+def test_speaker_token_state_assign_speaker_overwrites_an_existing_speaker() -> None:
+    """assign_speaker forwards to the now-unconditional _PlayerOwnable.set_owner
+    - no dedicated reassign_speaker method anymore (that method was removed
+    along with _PlayerOwnable.reassign_owner); assigning again just overwrites."""
     token = SpeakerTokenState()
     token.assign_speaker("red")
-    assert token.is_player_speaker("red")
-    released = token.reassign_speaker("blue")
-    assert released == "red"
+    token.assign_speaker("blue")
     assert token.is_player_speaker("blue")
+    assert not token.is_player_speaker("red")
 
 def test_speaker_token_state_release_speaker() -> None:
     token = SpeakerTokenState()

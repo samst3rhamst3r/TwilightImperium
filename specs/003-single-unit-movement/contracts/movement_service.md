@@ -42,25 +42,38 @@ primitives/already-decided values).
 
 ## Errors
 
-All exceptions are defined in `app.services.movement` and share a common
-`MovementError` base, so a caller can catch broadly (`except MovementError`)
-or narrowly. Every one of them leaves `GameState` completely unchanged —
-none of them partially apply the move.
+> **Amendment (post-implementation)**: This section originally specified all
+> five exceptions living in `app.services.movement` under one shared
+> `MovementError` base. As actually built, the hierarchy generalized past
+> this one Service — see research.md Decision 3 for the full rationale. Only
+> `SelfMoveError`/`IllegalDestinationError` are still `MovementError`
+> subclasses; the other two rejection reasons moved to more broadly-reusable
+> homes. **A caller can no longer catch every rejection with one
+> `except MovementError`** — this is the one real, callable-facing behavior
+> change from the original contract, not just a cosmetic rename.
 
-| Exception | Condition | Spec ref |
-|---|---|---|
-| `UnknownUnitError` | No unit with `unit_id` exists in `game_state.deployed_units`. | FR-006 |
-| `UnknownSystemError` | No system with `destination_system_id` exists in `game_state.systems`. | FR-006 |
-| `UnitOwnershipError` | `requesting_player_id` does not own the unit. | FR-004 |
-| `SelfMoveError` | `destination_system_id` equals the unit's current system id. | FR-005 |
-| `IllegalDestinationError` | `destination_system_id` is a real, different system, but is not a direct hex neighbor of the unit's current system. | FR-003 |
+Every exception below leaves `GameState` completely unchanged — none of
+them partially apply the move.
+
+| Exception | Lives in | Condition | Spec ref |
+|---|---|---|---|
+| `UnknownDeployedUnitError` | `app.resolved.game_state_resolver` | No unit with `unit_id` exists in `game_state.deployed_units`. Raised by `GameStateResolver.resolved_unit` itself, not by `MovementService`. | FR-006 |
+| `UnknownSystemStateError` | `app.resolved.game_state_resolver` | No system with `destination_system_id` exists in `game_state.systems`. Raised by `GameStateResolver.resolved_system` itself, not by `MovementService`. | FR-006 |
+| `UnitOwnershipError` | `app.state.unit` | `requesting_player_id` does not own the unit. Raised via `BaseService._require_ownership`. | FR-004 |
+| `SelfMoveError` | `app.services.movement` | `destination_system_id` equals the unit's current system id. | FR-005 |
+| `IllegalDestinationError` | `app.services.movement` | `destination_system_id` is a real, different system, but is not a direct hex neighbor of the unit's current system. | FR-003 |
 
 Checked in that order (first match wins) — see
-`research.md` Decision 4 for why.
+`research.md` Decision 4 for why. All five ultimately inherit
+`app.errors.GameError`: `UnknownDeployedUnitError`/`UnknownSystemStateError`
+via `UnknownEntityError`, `UnitOwnershipError` via `OwnershipError`, and
+`SelfMoveError`/`IllegalDestinationError` via `MovementError` itself.
 
 ## Example usage
 
 ```python
+from app.state.unit import UnitOwnershipError
+
 resolver = GameStateResolver(game_state, ruleset_config)
 movement = MovementService(resolver)
 

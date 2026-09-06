@@ -3,18 +3,27 @@
 Each test builds on the ``movable_game`` fixture (tests/test_services/conftest.py):
 a unit in system A, owned by "red", with B a direct hex neighbor of A and C
 not adjacent to either.
+
+Unknown-id rejections are now raised by GameStateResolver itself
+(UnknownDeployedUnitError/UnknownSystemStateError - MovementService no
+longer wraps KeyError into its own Unknown*Error types), and the ownership
+rejection (UnitOwnershipError) now lives alongside UnitState in
+app.state.unit rather than app.services.movement, since BaseService's
+_require_ownership helper is shared, cross-Service infrastructure.
 """
 from typing import Any
 
 import pytest
 
+from app.resolved.game_state_resolver import (
+    UnknownDeployedUnitError,
+    UnknownSystemStateError,
+)
 from app.services.movement import (
     IllegalDestinationError,
     SelfMoveError,
-    UnitOwnershipError,
-    UnknownSystemError,
-    UnknownUnitError,
 )
+from app.state.unit import UnitOwnershipError
 
 def _diff_paths(before: Any, after: Any, path: str = "") -> list[str]:
     """Returns the list of dotted/keyed paths whose value differs between
@@ -59,16 +68,16 @@ def test_move_updates_units_in_system(movable_game) -> None:
     assert movable_game.game_state.units_in_system(movable_game.system_a_id) == ()
     assert movable_game.game_state.units_in_system(movable_game.system_b_id) == (moved_unit,)
 
-def test_move_unknown_unit_raises_unknown_unit_error(movable_game) -> None:
-    with pytest.raises(UnknownUnitError):
+def test_move_unknown_unit_raises_unknown_deployed_unit_error(movable_game) -> None:
+    with pytest.raises(UnknownDeployedUnitError):
         movable_game.movement.move_unit(
             unit_id="does-not-exist",
             destination_system_id=movable_game.system_b_id,
             requesting_player_id=movable_game.owner_player_id,
         )
 
-def test_move_unknown_destination_raises_unknown_system_error(movable_game) -> None:
-    with pytest.raises(UnknownSystemError):
+def test_move_unknown_destination_raises_unknown_system_state_error(movable_game) -> None:
+    with pytest.raises(UnknownSystemStateError):
         movable_game.movement.move_unit(
             unit_id=movable_game.unit_id,
             destination_system_id="does-not-exist",

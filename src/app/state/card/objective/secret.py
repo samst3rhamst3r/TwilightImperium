@@ -48,7 +48,7 @@ class SecretObjectiveCardState(ObjectiveCardState, PlayerOwnableMixin, Revealabl
     def give_to_player(self, player_id: str) -> None:
         if self.zone is not SecretObjectiveZone.IN_DECK:
             raise InvalidStateTransition(f"Only objectives drawn from the deck can be given to a player. Current location: {self.zone.name}")
-        self.ownable.assign_owner(player_id)
+        self.ownable.set_owner(player_id)
         self.zone = SecretObjectiveZone.IN_HAND
 
     def release_owner_and_score(self) -> str:

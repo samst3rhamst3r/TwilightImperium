@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/planet/trait.py."""
 from app.config.objs.planet import PlanetTrait
-from app.config.enum.base import ConfigEnum
+from app.config.base import ConfigEnum
 
 def test_planet_trait_is_a_configenum() -> None:
     assert issubclass(PlanetTrait, ConfigEnum)

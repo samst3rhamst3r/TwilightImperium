@@ -1,7 +1,7 @@
 """Mirrors src/app/config/objs/objective/objective.py."""
 import pytest
 
-from app.config.enum.game_phase import GamePhase
+from app.config.game_phase import GamePhase
 from app.config.objs.objective import ObjectiveConfig, ObjectiveType
 from app.config.objs.named import NamedConfigObj, RequiresFunctionalText
 

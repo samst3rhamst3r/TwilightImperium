@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 from types import MappingProxyType
 
+from app.config.fromdict import FromDictMixin
 from app.config.objs.named import NamedConfigObj
 from app.config.objs.mixins import CanHaveFactionExclusivity
 
-from app.config.objs.ability import ParameterizedAbilityInstanceConfig
+from app.config.objs.ability import ParameterizedAbilityInstanceConfig, load_ability_config, load_parameterized_ability_instance
 from app.config.objs.tech import TechUpgradeReqConfig
 
 from .unit_class import UnitClass
@@ -31,7 +32,7 @@ _VALID_LOCATIONS_BY_UNIT_CLASS: MappingProxyType[UnitClass, tuple[UnitLocationTy
 })
 
 @dataclass(frozen=True, kw_only=True)
-class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity):
+class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity, FromDictMixin):
     """Unlike most Config types, functional_text is optional here (not the
     mandatory RequiresFunctionalText mixin) - plenty of units (e.g. basic
     Cruisers, Destroyers) have no special ability text at all."""
@@ -52,8 +53,12 @@ class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity):
     upgraded_from_unit_id: str | None = None
     upgrade_reqs: tuple[TechUpgradeReqConfig, ...] = ()
 
-    def __post_init__(self):
-        object.__setattr__(self, "unit_class", UnitClass(self.unit_class))
+    @classmethod
+    def _init_from_dict(cls, d: dict) -> None:
+        d["unit_class"] = UnitClass(d["unit_class"])
+        d["ability_ids"] = tuple(d["ability_ids"])
+        d["parameterized_abilities"] = tuple(load_parameterized_ability_instance(ability) for ability in d["parameterized_abilities"])
+        d["upgrade_reqs"] = tuple(TechUpgradeReqConfig.from_dict(req) for req in d["upgrade_reqs"])
 
     @property
     def can_move(self) -> bool:

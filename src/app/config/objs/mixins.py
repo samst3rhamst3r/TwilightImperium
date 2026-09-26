@@ -18,14 +18,6 @@ class RequiresFunctionalText:
     functional_text: str
 
 @dataclass(frozen=True, kw_only=True)
-class RequiresFlavorTextOptions(FromDictMixin):
-    flavor_text_options: tuple[str, ...]
-
-    @classmethod
-    def _init_from_dict(cls, d: dict) -> None:
-        d["flavor_text_options"] = tuple(d["flavor_text_options"])
-
-@dataclass(frozen=True, kw_only=True)
 class RequiresFlavorText:
     flavor_text: str
 

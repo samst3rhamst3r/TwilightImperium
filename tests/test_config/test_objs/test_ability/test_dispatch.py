@@ -1,7 +1,7 @@
 """Mirrors src/app/config/objs/ability/dispatch.py."""
 from app.config.objs.ability.dispatch import PARAMETERIZED_ABILITY_INSTANCE_REGISTRY
 from app.config.objs.ability.ids import AbilityID
-from app.config.objs.ability.parameterized_instance import ParameterizedAbilityInstanceConfig
+from app.config.objs.ability.parameterized.instance import ParameterizedAbilityInstanceConfig
 
 def test_every_registry_key_is_an_ability_id() -> None:
     for key in PARAMETERIZED_ABILITY_INSTANCE_REGISTRY:

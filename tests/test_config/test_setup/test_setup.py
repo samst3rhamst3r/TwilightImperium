@@ -7,13 +7,8 @@ deliberately doesn't exist (see ARCHITECTURE.md section 1 and
 test_ruleset_config.py::test_ruleset_config_has_no_setup_field).
 """
 from app.config.objs.map import MapShape
-from app.config.setup import PlayerSetupConfig, SetupConfig
-from app.config.shared import BaseConfigObj
+from app.config.setup import PlayerSetupConfig
 from app.geometry.coordinate import HexCoordinate
-
-def test_setup_config_classes_inherit_base_config_obj() -> None:
-    assert issubclass(PlayerSetupConfig, BaseConfigObj)
-    assert issubclass(SetupConfig, BaseConfigObj)
 
 def test_player_setup_config_trade_good_bonus_defaults_to_zero() -> None:
     setup = PlayerSetupConfig(home_system_coordinates=HexCoordinate(0, 0))

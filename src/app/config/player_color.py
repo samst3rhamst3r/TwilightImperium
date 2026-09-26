@@ -1,6 +1,6 @@
 from enum import auto
 
-from app.config.enum.base import SerializableEnum
+from .enum import SerializableEnum
 
 class PlayerColor(SerializableEnum):
     BLACK = auto()

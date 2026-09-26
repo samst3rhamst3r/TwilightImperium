@@ -2,7 +2,7 @@
 import pytest
 
 from app.config.objs.ability.ids import AbilityID
-from app.config.objs.ability.parameterized_instance import (
+from app.config.objs.ability.parameterized.instance import (
     CombatAbilityInstanceConfig,
     ParameterizedAbilityInstanceConfig,
     ProductionAbilityInstanceConfig,

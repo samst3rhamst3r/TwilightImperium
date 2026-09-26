@@ -1,6 +1,6 @@
 from enum import auto
 
-from app.config.enum.base import ConfigEnum
+from app.config.enum import ConfigEnum
 
 class UnitID(ConfigEnum):
     """Unit IDs can be enumerated here if there are unit-specific 

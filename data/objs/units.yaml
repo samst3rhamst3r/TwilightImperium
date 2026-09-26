@@ -53,8 +53,9 @@
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: bombardment
-    combat: 5
-    dice: 3
+    instance_args:
+      combat: 5
+      dice: 3
 
 - &carrier_i
   id: carrier_i
@@ -120,8 +121,9 @@
   capacity: null
   parameterized_abilities:
   - ability_id: anti_fighter_barrage
-    combat: 9
-    dice: 2
+    instance_args:
+      combat: 9
+      dice: 2
 
 - <<: *destroyer_i
   id: destroyer_ii
@@ -129,8 +131,9 @@
   combat: 8
   parameterized_abilities:
   - ability_id: anti_fighter_barrage
-    combat: 6
-    dice: 3
+    instance_args:
+      combat: 6
+      dice: 3
   upgraded_from_unit_id: destroyer_i
   upgrade_reqs:
   - tech_type: warfare
@@ -147,7 +150,8 @@
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: bombardment
-    combat: 5
+    instance_args:
+      combat: 5
 
 - <<: *dreadnought_i
   id: dreadnought_ii
@@ -183,8 +187,9 @@
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: bombardment
-    combat: 4
-    dice: 2
+    instance_args:
+      combat: 4
+      dice: 2
 
 - <<: *exotrireme_i
   id: exotrireme_ii
@@ -230,7 +235,8 @@
   capacity: 4
   parameterized_abilities:
   - ability_id: production
-    value: 5
+    instance_args:
+      value: 5
 
 - <<: *floating_factory_i
   id: floating_factory_ii
@@ -239,7 +245,8 @@
   capacity: 5
   parameterized_abilities:
   - ability_id: production
-    value: 7
+    instance_args:
+      value: 7
   upgraded_from_unit_id: floating_factory_i
   upgrade_reqs:
   - tech_type: cybernetic
@@ -353,7 +360,8 @@
   capacity: null
   parameterized_abilities:
   - ability_id: production
-    value: 1
+    instance_args:
+      value: 1
 
 - <<: *letani_warrior_i
   id: letani_warrior_ii
@@ -361,7 +369,8 @@
   combat: 7
   parameterized_abilities:
   - ability_id: production
-    value: 2
+    instance_args:
+      value: 2
   upgraded_from_unit_id: letani_warrior_i
   upgrade_reqs:
   - tech_type: biotic
@@ -379,8 +388,9 @@
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: space_cannon
-    combat: 5
-    dice: 3
+    instance_args:
+      combat: 5
+      dice: 3
 
 - id: matriarch
   name: Matriarch
@@ -404,14 +414,16 @@
   ability_ids: [planetary_shield]
   parameterized_abilities:
   - ability_id: space_cannon
-    combat: 6
+    instance_args:
+      combat: 6
 
 - <<: *pds_i
   id: pds_ii
   name: PDS II
   parameterized_abilities:
   - ability_id: space_cannon
-    combat: 5
+    instance_args:
+      combat: 5
   upgraded_from_unit_id: pds_i
   upgrade_reqs:
   - tech_type: cybernetic
@@ -432,8 +444,9 @@
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: bombardment
-    combat: 3
-    dice: 3
+    instance_args:
+      combat: 3
+      dice: 3
 
 - <<: *prototype_war_sun_i
   id: prototype_war_sun_ii
@@ -469,8 +482,9 @@
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: anti_fighter_barrage
-    combat: 6
-    dice: 4
+    instance_args:
+      combat: 6
+      dice: 4
 
 - &space_dock_i
   id: space_dock_i
@@ -482,14 +496,16 @@
   capacity: null
   parameterized_abilities:
   - ability_id: production
-    amt_more_than_rsrc_value_of_planet: 2
+    instance_args:
+      amt_more_than_rsrc_value_of_planet: 2
 
 - <<: *space_dock_i
   id: space_dock_ii
   name: Space Dock II
   parameterized_abilities:
   - ability_id: production
-    amt_more_than_rsrc_value_of_planet: 4
+    instance_args:
+      amt_more_than_rsrc_value_of_planet: 4
   upgraded_from_unit_id: space_dock_i
   upgrade_reqs:
   - tech_type: cybernetic
@@ -527,7 +543,8 @@
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: bombardment
-    combat: 5
+    instance_args:
+      combat: 5
 
 - <<: *super_dreadnought_i
   id: super_dreadnought_ii
@@ -537,7 +554,8 @@
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: bombardment
-    combat: 4
+    instance_args:
+      combat: 4
   upgraded_from_unit_id: super_dreadnought_i
   upgrade_reqs:
   - tech_type: propulsion
@@ -577,8 +595,9 @@
   ability_ids: [sustain_damage]
   parameterized_abilities:
   - ability_id: bombardment
-    combat: 3
-    dice: 3
+    instance_args:
+      combat: 3
+      dice: 3
   upgraded_from_unit_id: war_sun_i
   upgrade_reqs:
   - tech_type: cybernetic

@@ -1,0 +1,39 @@
+- id: anti_fighter_barrage
+  name: Anti-Fighter Barrage
+  instance_args: &combat_args
+    predicate_type: all_of
+    predicates:
+      - name: combat
+        nullable: false
+        required: true
+        default: null
+        min: 1
+      - name: dice
+        nullable: false
+        required: false
+        default: 1
+        min: 1
+
+- id: bombardment
+  name: Bombardment
+  instance_args: *combat_args
+
+- id: production
+  name: Production
+  instance_args: 
+    predicate_type: only_one_of
+    predicates:
+      - name: value
+        nullable: true
+        required: false
+        default: null
+        min: 1
+      - name: amt_more_than_rsrc_value_of_planet
+        nullable: true
+        required: false
+        default: null
+        min: 1
+
+- id: space_cannon
+  name: Space Cannon
+  instance_args: *combat_args

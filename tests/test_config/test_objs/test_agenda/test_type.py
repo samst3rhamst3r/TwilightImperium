@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/agenda/type.py."""
 from app.config.objs.agenda import AgendaType
-from app.config.enum.base import ConfigEnum
+from app.config.base import ConfigEnum
 
 def test_agenda_type_is_a_configenum() -> None:
     assert issubclass(AgendaType, ConfigEnum)

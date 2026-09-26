@@ -8,7 +8,7 @@ add a dedicated test for it. Per-class test modules still exist alongside
 this for behavior that reflection can't check (mixin semantics, __post_init__
 validation, real-data spot checks).
 """
-from app.config.enum.base import ConfigEnum
+from app.config.base import ConfigEnum
 
 def test_config_dataclass_is_frozen(config_dataclass: type) -> None:
     assert config_dataclass.__dataclass_params__.frozen, (

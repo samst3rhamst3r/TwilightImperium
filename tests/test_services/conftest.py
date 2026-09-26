@@ -18,7 +18,7 @@ from types import MappingProxyType
 import pytest
 
 from app.config.objs.unit import UnitLocationType
-from app.config.enum.player_color import PlayerColor
+from app.config.player_color import PlayerColor
 from app.config.ruleset_config import RulesetConfig
 from app.geometry import HexCoordinate
 from app.resolved.game_state_resolver import GameStateResolver

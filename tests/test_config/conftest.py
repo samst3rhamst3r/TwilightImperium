@@ -33,7 +33,7 @@ import app.config as app_config_pkg
 from app.config import yaml_loader
 from app.config.ruleset_config import RulesetConfig
 from app.config.setup import SetupConfig
-from app.config.enum.base import ConfigEnum, SerializableEnum
+from app.config.base import ConfigEnum, SerializableEnum
 
 # ---------------------------------------------------------------------------
 # Data fixtures

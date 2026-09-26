@@ -1,3 +1,5 @@
-from .ability import AbilityConfig
-from .parameterized_instance import ParameterizedAbilityInstanceConfig, CombatAbilityInstanceConfig, ProductionAbilityInstanceConfig
-from .ids import AbilityID
+from .faction import AbilityConfig
+from .loader import load_ability_config, load_parameterized_ability_instance
+from .parameterized.parameterized import ParameterizedAbilityConfig
+from .parameterized.instance import ParameterizedAbilityInstanceConfig
+from .parameterized.predicate_type import ParameterizedAbilityPredicateType

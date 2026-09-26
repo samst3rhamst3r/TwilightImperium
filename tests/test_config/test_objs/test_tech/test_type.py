@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/tech/type.py."""
 from app.config.objs.tech import TechType
-from app.config.enum.base import ConfigEnum
+from app.config.base import ConfigEnum
 
 def test_tech_type_is_a_configenum() -> None:
     assert issubclass(TechType, ConfigEnum)

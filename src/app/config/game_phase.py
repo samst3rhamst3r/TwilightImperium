@@ -1,6 +1,6 @@
 from enum import auto
 
-from app.config.enum.base import ConfigEnum
+from .enum import ConfigEnum
 
 class GamePhase(ConfigEnum):
     STRATEGY = auto()

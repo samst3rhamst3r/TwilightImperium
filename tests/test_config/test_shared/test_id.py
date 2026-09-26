@@ -1,9 +1,5 @@
 """Mirrors src/app/config/shared/id.py."""
-from app.config.fromdict import BaseConfigObj
 from app.config.objs.id import IDConfigObj
-
-def test_id_config_obj_inherits_base_config_obj() -> None:
-    assert issubclass(IDConfigObj, BaseConfigObj)
 
 def test_str_returns_the_id() -> None:
     obj = IDConfigObj(id="some_id")

@@ -1,0 +1,11 @@
+- id: trade_agreement
+  name: Trade Agreement
+
+- id: political_secret
+  name: Political Secret
+
+- id: ceasefire
+  name: Ceasefire
+
+- id: support_for_the_throne
+  name: Support for the Throne

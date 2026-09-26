@@ -1,2 +1,2 @@
-from .setup import SetupConfig, PlayerSetupConfig
-from .advanced_setup import AdvancedSetupConfig, AdvancedMapSetupTileConfig
+from .base import SetupConfig, PlayerSetupConfig
+from .advanced import AdvancedSetupConfig, AdvancedMapSetupTileConfig

@@ -34,7 +34,7 @@ from typing import Union, get_args, get_origin, get_type_hints
 import pytest
 
 import app.state as app_state_pkg
-from app.config.shared.enum import SerializableEnum
+from app.config.enum.base import SerializableEnum
 
 # ---------------------------------------------------------------------------
 # Discovery: every dataclass / enum actually defined under app.state

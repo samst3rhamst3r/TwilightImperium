@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.player_color import PlayerColor
+from app.config.enum.player_color import PlayerColor
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class _PlayerStateInfo:

@@ -5,7 +5,7 @@ import pytest
 
 from app.config.objs.system import WormholeType
 from app.config.objs.unit import UnitLocationType
-from app.config.player_color import PlayerColor
+from app.config.enum.player_color import PlayerColor
 from app.geometry import HexCoordinate
 from app.state.card.action import ActionCardState
 from app.state.card.agenda import AgendaCardState

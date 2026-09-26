@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/map/shape.py."""
 from app.config.objs.map import MapShape
-from app.config.shared.enum import ConfigEnum
+from app.config.enum.base import ConfigEnum
 
 def test_map_shape_is_a_configenum() -> None:
     assert issubclass(MapShape, ConfigEnum)

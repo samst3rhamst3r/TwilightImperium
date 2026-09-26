@@ -2,7 +2,8 @@
 import pytest
 
 from app.config.objs.promissory_note import PromissoryNoteConfig
-from app.config.shared import CanHaveFactionExclusivity, NamedConfigObj, RequiresFunctionalText
+from app.config.objs.mixins import CanHaveFactionExclusivity, RequiresFunctionalText
+from app.config.objs.named import NamedConfigObj
 
 def test_promissory_note_config_composes_the_expected_mixins() -> None:
     assert issubclass(PromissoryNoteConfig, NamedConfigObj)

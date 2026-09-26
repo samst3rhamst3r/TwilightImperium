@@ -1,7 +1,7 @@
 """Mirrors src/app/config/shared/mixins.py."""
 import pytest
 
-from app.config.shared.mixins import (
+from app.config.objs.mixins import (
     CanBeExhaustible,
     CanHaveFactionExclusivity,
     RequiresFlavorText,

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from app.config.shared import NamedConfigObj, RequiresFunctionalText, CanHaveFactionExclusivity
+from app.config.objs.named import NamedConfigObj
+from app.config.objs.mixins import RequiresFunctionalText, CanHaveFactionExclusivity
 
 @dataclass(frozen=True, kw_only=True)
 class AbilityConfig(NamedConfigObj, CanHaveFactionExclusivity, RequiresFunctionalText):

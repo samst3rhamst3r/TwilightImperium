@@ -1,7 +1,7 @@
 """Tests for app.state.card.promissory_note.PromissoryNoteCardState."""
 import pytest
 
-from app.config.player_color import PlayerColor
+from app.config.enum.player_color import PlayerColor
 from app.state.card.promissory_note import PromissoryNoteCardState
 
 @pytest.fixture

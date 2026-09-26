@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.shared import NamedConfigObj
+from .named import NamedConfigObj
 
 @dataclass(frozen=True, kw_only=True)
 class StrategyCardConfig(NamedConfigObj):

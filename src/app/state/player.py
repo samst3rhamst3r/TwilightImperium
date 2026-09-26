@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from typing import Final
 
 from app.config.objs.unit import UnitClass
-from app.config.player_color import PlayerColor
+from app.config.enum.player_color import PlayerColor
 from app.state.base.mixins import IDedStateObj
 
 class AlreadyScoredObjectiveError(Exception):

@@ -1,7 +1,7 @@
 """Tests for app.state.player.PlayerState."""
 import pytest
 
-from app.config.player_color import PlayerColor
+from app.config.enum.player_color import PlayerColor
 from app.state.player import (
     AlreadyHaveSecretObjectiveError,
     AlreadyResearchedTechError,

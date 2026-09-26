@@ -1,6 +1,6 @@
 from enum import auto
 
-from app.config.shared.enum import ConfigEnum
+from app.config.enum.base import ConfigEnum
 
 class TechID(ConfigEnum):
     """Tech IDs can be enumerated here if there are tech-specific

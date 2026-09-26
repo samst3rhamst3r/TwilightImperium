@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from app.config.shared import NamedConfigObj
-from app.config.shared.mixins import RequiresFlavorText
+from app.config.objs.named import NamedConfigObj
+from app.config.objs.mixins import RequiresFlavorText
 from app.config.objs.tech import TechType
 
 from .trait import PlanetTrait

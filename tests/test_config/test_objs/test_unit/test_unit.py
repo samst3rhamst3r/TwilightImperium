@@ -1,6 +1,7 @@
 """Mirrors src/app/config/objs/unit/unit.py."""
 from app.config.objs.unit import UnitClass, UnitConfig
-from app.config.shared import CanHaveFactionExclusivity, NamedConfigObj
+from app.config.objs.mixins import CanHaveFactionExclusivity, RequiresFunctionalText
+from app.config.objs.named import NamedConfigObj
 
 def _make(**overrides):
     defaults = dict(id="x", name="X", unit_class=UnitClass.CRUISER, cost=1, combat=1, move=1, capacity=0)
@@ -15,8 +16,6 @@ def test_unit_config_does_not_require_functional_text_mixin() -> None:
     here (str | None = None), not the mandatory RequiresFunctionalText
     mixin - plenty of real units (basic Cruisers, Destroyers) have no
     special ability text."""
-    from app.config.shared import RequiresFunctionalText
-
     assert not issubclass(UnitConfig, RequiresFunctionalText)
 
 def test_can_move_is_false_when_move_is_none_or_zero() -> None:

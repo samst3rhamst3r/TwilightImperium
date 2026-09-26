@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from types import MappingProxyType
 
-from app.config.shared import NamedConfigObj, CanHaveFactionExclusivity
+from app.config.objs.named import NamedConfigObj
+from app.config.objs.mixins import CanHaveFactionExclusivity
 
 from app.config.objs.ability import ParameterizedAbilityInstanceConfig
 from app.config.objs.tech import TechUpgradeReqConfig

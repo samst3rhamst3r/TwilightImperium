@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from .base import BaseConfigObj
+from ..fromdict import BaseConfigObj
 
 @dataclass(frozen=True, kw_only=True)
 class IDConfigObj(BaseConfigObj):

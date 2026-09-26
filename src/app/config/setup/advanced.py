@@ -1,14 +1,18 @@
 from dataclasses import dataclass
 
-from app.config.shared import BaseConfigObj
+from app.config import FromDictMixin
 from app.config.objs.system import TileColor
 
-from .setup import SetupConfig
+from .base import SetupConfig
 
 @dataclass(frozen=True, kw_only=True)
-class AdvancedMapSetupTileConfig(BaseConfigObj):
+class AdvancedMapSetupTileConfig(FromDictMixin):
     tile_color: TileColor
     num_tiles: int
+
+    @classmethod
+    def _init_from_dict(cls, d: dict) -> None:
+        d["tile_color"] = TileColor(d["tile_color"])
 
     def __post_init__(self):
         if self.num_tiles < 1:
@@ -20,3 +24,8 @@ class AdvancedMapSetupTileConfig(BaseConfigObj):
 class AdvancedSetupConfig(SetupConfig):
     setup_tiles_per_player: tuple[AdvancedMapSetupTileConfig, ...]
     extra_setup_tiles: tuple[AdvancedMapSetupTileConfig, ...] = ()
+
+    @classmethod
+    def _init_from_dict(cls, d: dict) -> None:
+        d["setup_tiles_per_player"] = tuple(AdvancedMapSetupTileConfig.from_dict(tile) for tile in d["setup_tiles_per_player"])
+        d["extra_setup_tiles"] = tuple(AdvancedMapSetupTileConfig.from_dict(tile) for tile in d["extra_setup_tiles"])

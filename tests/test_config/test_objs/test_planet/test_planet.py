@@ -1,7 +1,7 @@
 """Mirrors src/app/config/objs/planet/planet.py."""
 from app.config.objs.planet import PlanetConfig
-from app.config.shared import NamedConfigObj
-from app.config.shared.mixins import RequiresFlavorText
+from app.config.objs.named import NamedConfigObj
+from app.config.objs.mixins import RequiresFlavorText
 
 def test_planet_config_composes_the_expected_mixins() -> None:
     assert issubclass(PlanetConfig, NamedConfigObj)

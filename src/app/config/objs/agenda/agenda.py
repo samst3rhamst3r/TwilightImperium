@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from app.config.shared import NamedConfigObj
-from app.config.shared.mixins import CanBeExhaustible, RequiresFunctionalText
+from app.config.objs.named import NamedConfigObj
+from app.config.objs.mixins import CanBeExhaustible, RequiresFunctionalText
 from app.config.objs.planet import PlanetTrait
 
 from .type import AgendaType

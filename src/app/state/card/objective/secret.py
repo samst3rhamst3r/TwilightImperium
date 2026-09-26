@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import auto
 
-from app.config.shared.enum import SerializableEnum
+from app.config.enum.base import SerializableEnum
 from app.state.base.ownable import PlayerOwnableMixin
 
 from .base import InvalidStateTransition, ObjectiveCardState, Revealable

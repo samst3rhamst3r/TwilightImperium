@@ -3,8 +3,8 @@ import pytest
 
 from app.config.objs.agenda import AgendaConfig, AgendaType, AgendaVoteScenarioType
 from app.config.objs.planet import PlanetTrait
-from app.config.shared import NamedConfigObj, RequiresFunctionalText
-from app.config.shared.mixins import CanBeExhaustible
+from app.config.objs.named import NamedConfigObj, RequiresFunctionalText
+from app.config.objs.mixins import CanBeExhaustible
 
 def test_agenda_config_composes_the_expected_mixins() -> None:
     assert issubclass(AgendaConfig, NamedConfigObj)

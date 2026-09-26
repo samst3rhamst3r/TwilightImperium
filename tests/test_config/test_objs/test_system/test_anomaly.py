@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/system/anomaly.py."""
 from app.config.objs.system import AnomalyType
-from app.config.shared.enum import ConfigEnum
+from app.config.enum.base import ConfigEnum
 
 def test_anomaly_type_is_a_configenum() -> None:
     assert issubclass(AnomalyType, ConfigEnum)

@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/unit/location_type.py."""
 from app.config.objs.unit import UnitLocationType
-from app.config.shared.enum import ConfigEnum, SerializableEnum
+from app.config.enum.base import ConfigEnum, SerializableEnum
 
 def test_unit_location_type_is_not_a_configenum() -> None:
     """UnitLocationType is derived/internal (used by valid_locations.py to

@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/action_card.py."""
 from app.config.objs.action_card import ActionCardConfig
-from app.config.shared import NamedConfigObj, RequiresFlavorTextOptions, RequiresFunctionalText
+from app.config.objs.named import NamedConfigObj, RequiresFlavorTextOptions, RequiresFunctionalText
 
 def test_action_card_config_composes_the_expected_mixins() -> None:
     assert issubclass(ActionCardConfig, NamedConfigObj)

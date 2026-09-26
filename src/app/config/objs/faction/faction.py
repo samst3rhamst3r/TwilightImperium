@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.shared import NamedConfigObj
+from app.config.objs.named import NamedConfigObj
 
 from .starting_unit import FactionStartingUnitConfig
 

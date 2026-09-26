@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.shared import IDConfigObj
+from app.config.objs.id import IDConfigObj
 
 from .anomaly import AnomalyType
 from .wormhole import WormholeType

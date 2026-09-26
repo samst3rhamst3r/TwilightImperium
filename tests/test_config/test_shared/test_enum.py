@@ -3,7 +3,7 @@ from enum import auto
 
 import pytest
 
-from app.config.shared.enum import ConfigEnum, MissingEnumMemberError, NotLowerCasedValueError, SerializableEnum
+from app.config.enum.base import ConfigEnum, MissingEnumMemberError, NotLowerCasedValueError, SerializableEnum
 
 class _SampleConfigEnum(ConfigEnum):
     ALPHA = auto()

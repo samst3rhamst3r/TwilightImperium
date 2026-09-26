@@ -1,6 +1,6 @@
 """Mirrors src/app/config/game_phase.py."""
-from app.config.game_phase import GamePhase
-from app.config.shared.enum import ConfigEnum
+from app.config.enum.game_phase import GamePhase
+from app.config.enum.base import ConfigEnum
 
 def test_game_phase_is_a_configenum() -> None:
     """GamePhase values are parsed straight out of objectives.yaml's

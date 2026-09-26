@@ -1,7 +1,7 @@
 """Mirrors src/app/config/shared/base.py."""
 import dataclasses
 
-from app.config.shared.base import BaseConfigObj
+from app.config.fromdict import BaseConfigObj
 
 def test_base_config_obj_is_a_frozen_dataclass_with_no_generated_init() -> None:
     assert dataclasses.is_dataclass(BaseConfigObj)

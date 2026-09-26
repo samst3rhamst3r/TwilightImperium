@@ -1,6 +1,7 @@
 """Mirrors src/app/config/objs/ability/ability.py."""
 from app.config.objs.ability import AbilityConfig
-from app.config.shared import CanHaveFactionExclusivity, NamedConfigObj, RequiresFunctionalText
+from app.config.objs.mixins import CanHaveFactionExclusivity, RequiresFunctionalText
+from app.config.objs.named import NamedConfigObj
 
 def test_ability_config_composes_the_expected_mixins() -> None:
     assert issubclass(AbilityConfig, NamedConfigObj)

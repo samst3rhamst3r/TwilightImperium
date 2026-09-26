@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/system/wormhole.py."""
 from app.config.objs.system import WormholeType
-from app.config.shared.enum import ConfigEnum
+from app.config.enum.base import ConfigEnum
 
 def test_wormhole_type_is_a_configenum() -> None:
     assert issubclass(WormholeType, ConfigEnum)

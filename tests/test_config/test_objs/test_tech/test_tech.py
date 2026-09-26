@@ -1,7 +1,7 @@
 """Mirrors src/app/config/objs/tech/tech.py."""
 from app.config.objs.tech import AssimilatorTechConfig, StandardTechConfig, TechConfig, TechType
-from app.config.shared import CanHaveFactionExclusivity, NamedConfigObj, RequiresFunctionalText
-from app.config.shared.mixins import CanBeExhaustible
+from app.config.objs.mixins import CanHaveFactionExclusivity, RequiresFunctionalText, CanBeExhaustible
+from app.config.objs.named import NamedConfigObj
 
 def test_tech_config_composes_the_expected_mixins() -> None:
     assert issubclass(TechConfig, NamedConfigObj)

@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/faction/faction.py."""
 from app.config.objs.faction import FactionConfig
-from app.config.shared import NamedConfigObj
+from app.config.objs.named import NamedConfigObj
 
 def test_faction_config_inherits_named_config_obj() -> None:
     assert issubclass(FactionConfig, NamedConfigObj)

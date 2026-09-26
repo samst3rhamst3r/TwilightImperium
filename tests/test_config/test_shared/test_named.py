@@ -1,6 +1,6 @@
 """Mirrors src/app/config/shared/named.py."""
-from app.config.shared.id import IDConfigObj
-from app.config.shared.named import NamedConfigObj
+from app.config.objs.id import IDConfigObj
+from app.config.objs.named import NamedConfigObj
 
 def test_named_config_obj_inherits_id_config_obj() -> None:
     assert issubclass(NamedConfigObj, IDConfigObj)

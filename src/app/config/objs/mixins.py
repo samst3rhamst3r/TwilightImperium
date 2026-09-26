@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from app.config.fromdict import FromDictMixin
+
 # NOTE: these mixins are deliberately NOT slots=True - and neither is any
 # other Config dataclass (see ARCHITECTURE.md §2). CPython's multiple
 # inheritance only tolerates one base class in the MRO contributing real
@@ -16,23 +18,35 @@ class RequiresFunctionalText:
     functional_text: str
 
 @dataclass(frozen=True, kw_only=True)
-class RequiresFlavorTextOptions:
+class RequiresFlavorTextOptions(FromDictMixin):
     flavor_text_options: tuple[str, ...]
+
+    @classmethod
+    def _init_from_dict(cls, d: dict) -> None:
+        d["flavor_text_options"] = tuple(d["flavor_text_options"])
 
 @dataclass(frozen=True, kw_only=True)
 class RequiresFlavorText:
     flavor_text: str
 
 @dataclass(frozen=True, kw_only=True)
-class CanHaveFactionExclusivity:
+class RequiresFactionExclusivity:
+    faction_exclusive_id: str
+
+    @property
+    def is_faction_exclusive(self) -> bool:
+        return True
+    
+    def is_exclusive_to(self, faction_id: str) -> bool:
+        return self.faction_exclusive_id == faction_id
+
+@dataclass(frozen=True, kw_only=True)
+class CanHaveFactionExclusivity(RequiresFactionExclusivity):
     faction_exclusive_id: str | None = None
 
     @property
     def is_faction_exclusive(self) -> bool:
         return self.faction_exclusive_id is not None
-
-    def is_exclusive_to(self, faction_id: str) -> bool:
-        return self.faction_exclusive_id == faction_id
 
 @dataclass(frozen=True, kw_only=True)
 class CanBeExhaustible:

@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/strategy_card.py."""
 from app.config.objs.strategy_card import StrategyCardConfig
-from app.config.shared import NamedConfigObj
+from app.config.objs.named import NamedConfigObj
 
 def test_strategy_card_config_inherits_named_config_obj() -> None:
     assert issubclass(StrategyCardConfig, NamedConfigObj)

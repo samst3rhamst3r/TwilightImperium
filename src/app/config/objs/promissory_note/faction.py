@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from app.config.objs.named import NamedConfigObj
 from app.config.objs.mixins import RequiresFunctionalText, RequiresFactionExclusivity
+from .base import PromissoryNoteConfig
 
 @dataclass(frozen=True, kw_only=True)
-class FactionPromissoryNoteConfig(NamedConfigObj, RequiresFactionExclusivity, RequiresFunctionalText):
+class FactionPromissoryNoteConfig(PromissoryNoteConfig, RequiresFactionExclusivity, RequiresFunctionalText):
     pass

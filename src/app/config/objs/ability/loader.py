@@ -11,7 +11,7 @@ from .parameterized import ParameterizedAbilityConfig
 
 _REL_PATH = Path("abilities")
 
-def load_ability_config(root_data_path: Path) -> MappingProxyType[str, AbilityConfig]:
+def load_ability_data(root_data_path: Path) -> MappingProxyType[str, AbilityConfig]:
 
     abilities: list[AbilityConfig] = [
         FactionAbilityConfig(**config) for config in load_and_merge_text_by_id(root_data_path, _REL_PATH / "faction.yaml")

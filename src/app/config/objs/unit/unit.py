@@ -5,7 +5,7 @@ from app.config.fromdict import FromDictMixin
 from app.config.objs.named import NamedConfigObj
 from app.config.objs.mixins import CanHaveFactionExclusivity
 
-from app.config.objs.ability import ParameterizedAbilityInstanceConfig, load_ability_config, load_parameterized_ability_instance
+from app.config.objs.ability import ParameterizedAbilityInstanceConfig
 from app.config.objs.tech import TechUpgradeReqConfig
 
 from .unit_class import UnitClass
@@ -56,9 +56,9 @@ class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity, FromDictMixin):
     @classmethod
     def _init_from_dict(cls, d: dict) -> None:
         d["unit_class"] = UnitClass(d["unit_class"])
-        d["ability_ids"] = tuple(d["ability_ids"])
-        d["parameterized_abilities"] = tuple(load_parameterized_ability_instance(ability) for ability in d["parameterized_abilities"])
-        d["upgrade_reqs"] = tuple(TechUpgradeReqConfig.from_dict(req) for req in d["upgrade_reqs"])
+        d["ability_ids"] = tuple(d.get("ability_ids", ()))
+        d["parameterized_abilities"] = tuple(ParameterizedAbilityInstanceConfig.from_dict(ability) for ability in d.get("parameterized_abilities", ()))
+        d["upgrade_reqs"] = tuple(TechUpgradeReqConfig.from_dict(req) for req in d.get("upgrade_reqs", ()))
 
     @property
     def can_move(self) -> bool:

@@ -27,4 +27,4 @@ class AdvancedSetupConfig(FromDictMixin):
     def _init_from_dict(cls, d: dict) -> None:
         super()._init_from_dict(d)
         d["setup_tiles_per_player"] = tuple(AdvancedMapSetupTileConfig.from_dict(tile) for tile in d["setup_tiles_per_player"])
-        d["extra_setup_tiles"] = tuple(AdvancedMapSetupTileConfig.from_dict(tile) for tile in d["extra_setup_tiles"])
+        d["extra_setup_tiles"] = tuple(AdvancedMapSetupTileConfig.from_dict(tile) for tile in d.get("extra_setup_tiles", ()))

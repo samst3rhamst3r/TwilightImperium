@@ -1,5 +1,5 @@
 from .faction import AbilityConfig
-from .loader import load_ability_config, load_parameterized_ability_instance
+from .loader import load_ability_data
 from .parameterized.parameterized import ParameterizedAbilityConfig
 from .parameterized.instance import ParameterizedAbilityInstanceConfig
 from .parameterized.predicate_type import ParameterizedAbilityPredicateType

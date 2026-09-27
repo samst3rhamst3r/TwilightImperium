@@ -3,8 +3,6 @@ from dataclasses import dataclass
 from app.config import FromDictMixin
 from app.config.objs.system import TileColor
 
-from .base import SetupConfig
-
 @dataclass(frozen=True, kw_only=True)
 class AdvancedMapSetupTileConfig(FromDictMixin):
     tile_color: TileColor
@@ -21,11 +19,12 @@ class AdvancedMapSetupTileConfig(FromDictMixin):
             raise ValueError(f"tile_color must be either BLUE or RED, got {self.tile_color}")
 
 @dataclass(frozen=True, kw_only=True)
-class AdvancedSetupConfig(SetupConfig):
+class AdvancedSetupConfig(FromDictMixin):
     setup_tiles_per_player: tuple[AdvancedMapSetupTileConfig, ...]
     extra_setup_tiles: tuple[AdvancedMapSetupTileConfig, ...] = ()
 
     @classmethod
     def _init_from_dict(cls, d: dict) -> None:
+        super()._init_from_dict(d)
         d["setup_tiles_per_player"] = tuple(AdvancedMapSetupTileConfig.from_dict(tile) for tile in d["setup_tiles_per_player"])
         d["extra_setup_tiles"] = tuple(AdvancedMapSetupTileConfig.from_dict(tile) for tile in d["extra_setup_tiles"])

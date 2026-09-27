@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from app.config.fromdict import FromDictMixin
 from app.config.objs.id import IDConfigObj
 
 from .anomaly import AnomalyType
@@ -7,8 +8,18 @@ from .wormhole import WormholeType
 from .tile_color import TileColor
 
 @dataclass(frozen=True, kw_only=True)
-class SystemConfig(IDConfigObj):
+class SystemConfig(IDConfigObj, FromDictMixin):
     back_color: TileColor | None # Mecatol Rex is the sole exception of no tile back color. Field is still required to force explicit usage of None
     anomaly: AnomalyType | None = None
     wormhole: WormholeType | None = None
     is_off_board: bool = False # Unique trait for Ghosts of Creuss
+
+    @classmethod
+    def _init_from_dict(cls, d: dict) -> None:
+
+        d["back_color"] = TileColor(d["back_color"]) if d.get("back_color") is not None else None
+
+        if "anomaly" in d:
+            d["anomaly"] = AnomalyType(d["anomaly"])
+        if "wormhole" in d:
+            d["wormhole"] = WormholeType(d["wormhole"])

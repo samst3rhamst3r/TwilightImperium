@@ -1,8 +1,14 @@
 - map_shape_id: triangular
   player_setup:
-  - home_system_coordinates: [-3, 0]
-  - home_system_coordinates: [ 3,-3]
-  - home_system_coordinates: [ 0, 3]
+    - home_system_coordinates: [-3, 0]
+    - home_system_coordinates: [ 3,-3]
+    - home_system_coordinates: [ 0, 3]
+  advanced:
+    setup_tiles_per_player:
+      - tile_color: blue
+        num_tiles: 6
+      - tile_color: red
+        num_tiles: 2
 
 - map_shape_id: standard
   player_setup:
@@ -10,23 +16,44 @@
   - home_system_coordinates: [ 3,-2]
   - home_system_coordinates: [ 1, 2]
   - home_system_coordinates: [-3, 2]
+  advanced:
+    setup_tiles_per_player:
+      - tile_color: blue
+        num_tiles: 5
+      - tile_color: red
+        num_tiles: 3
 
 - map_shape_id: standard
   player_setup:
-  - home_system_coordinates: [-1,-2]
-  - home_system_coordinates: [ 3,-3]
-    trade_good_bonus: 2
-  - home_system_coordinates: [ 3, 0]
-    trade_good_bonus: 4
-  - home_system_coordinates: [ 0, 3]
-    trade_good_bonus: 2
-  - home_system_coordinates: [-3, 2]
-  
+    - home_system_coordinates: [-1,-2]
+    - home_system_coordinates: [ 3,-3]
+      trade_good_bonus: 2
+    - home_system_coordinates: [ 3, 0]
+      trade_good_bonus: 4
+    - home_system_coordinates: [ 0, 3]
+      trade_good_bonus: 2
+    - home_system_coordinates: [-3, 2]
+  advanced:
+    setup_tiles_per_player:
+      - tile_color: blue
+        num_tiles: 4
+      - tile_color: red
+        num_tiles: 2
+    extra_setup_tiles:
+      - tile_color: red
+        num_tiles: 1
+
 - map_shape_id: standard
   player_setup:
-  - home_system_coordinates: [ 0,-3]
-  - home_system_coordinates: [ 3,-3]
-  - home_system_coordinates: [ 3, 0]
-  - home_system_coordinates: [ 0, 3]
-  - home_system_coordinates: [-3, 3]
-  - home_system_coordinates: [-3, 0]
+    - home_system_coordinates: [ 0,-3]
+    - home_system_coordinates: [ 3,-3]
+    - home_system_coordinates: [ 3, 0]
+    - home_system_coordinates: [ 0, 3]
+    - home_system_coordinates: [-3, 3]
+    - home_system_coordinates: [-3, 0]
+  advanced:
+    setup_tiles_per_player:
+      - tile_color: blue
+        num_tiles: 3
+      - tile_color: red
+        num_tiles: 2

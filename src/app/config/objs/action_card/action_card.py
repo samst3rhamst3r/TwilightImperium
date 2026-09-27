@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 
 from app.config.fromdict import FromDictMixin
-
-from .named import NamedConfigObj
-from .mixins import RequiresFunctionalText
+from app.config.objs.mixins import RequiresFunctionalText
+from app.config.objs.named import NamedConfigObj
 
 @dataclass(frozen=True, kw_only=True)
 class ActionCardConfig(NamedConfigObj, RequiresFunctionalText, FromDictMixin):

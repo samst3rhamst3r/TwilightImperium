@@ -575,6 +575,81 @@ doesn't belong in `__post_init__`.
   `exhaust()` method before forwarding to the State mutation. (Not built yet —
   no `Resolved*` class currently has an `exhaust()` method; `Exhaustible`
   today is only exercised directly on the State object.)
+  
+### A Resolved object carries everything needed to *interpret* its entity
+
+More precisely than "one entity's State + its Config": a Resolved object is
+**one entity bound with everything needed to interpret it**. Usually that's
+just its State and Config. It may also carry immutable values the resolver
+looked up from *related* entities, when interpreting this entity requires them.
+
+**Dividing line:** a cross-entity **lookup** belongs to `GameStateResolver`; a
+cross-entity **decision** belongs to a Service. Following an ID to a related
+entity and reading a value is resolver work, the same kind of ID-to-object step
+`_require` already does. Anything involving a rule or judgment across entities
+still goes to a Service.
+
+**Guardrails for the extra fields:**
+- They must be *lookups*, never decisions.
+- They must be *immutable* values (snapshot-safe), such as a `Final` field on
+  the related entity. Snapshot only the value needed, never the related
+  entity's whole mutable State object.
+
+**Worked example: promissory note text.** A standard promissory note's
+functional text names its issuer's color ("the *red* player"). The note's State
+stores only `issuing_player_id: str` (the relationship, needed to return the
+note to its issuer). The color lives on the issuer's `PlayerState.color`
+(`Final`). Rendering the text therefore needs a second entity. Rather than
+push that to a Service, the resolver looks up the color and hands the Resolved
+object a self-sufficient binding:
+
+```python
+@dataclass(frozen=True, kw_only=True)
+class ResolvedStandardPromissoryNote(
+    BaseResolvedObj[PromissoryNoteCardState, StandardPromissoryNoteConfig]
+):
+    issuer_color: PlayerColor          # looked up by the resolver, immutable
+
+    @property
+    def functional_text(self) -> str:
+        return self.config.functional_text.replace(PLAYER_COLOR_TOKEN, self.issuer_color)
+
+
+@dataclass(frozen=True, kw_only=True)
+class ResolvedFactionPromissoryNote(
+    BaseResolvedObj[PromissoryNoteCardState, FactionPromissoryNoteConfig]
+):
+    @property
+    def functional_text(self) -> str:
+        return self.config.functional_text
+
+
+type ResolvedPromissoryNote = ResolvedStandardPromissoryNote | ResolvedFactionPromissoryNote
+```
+
+```python
+class GameStateResolver:
+    def resolved_promissory_note(self, note_id: str) -> ResolvedPromissoryNote:
+        state = self._require(self._game_state.promissory_notes, note_id, UnknownPromissoryNoteError)
+        config = self._ruleset_config.promissory_notes[state.config_id]
+        match config:
+            case StandardPromissoryNoteConfig():
+                issuer = self._require(self._game_state.players, state.issuing_player_id, UnknownPlayerError)
+                return ResolvedStandardPromissoryNote(state=state, config=config, issuer_color=issuer.color)
+            case FactionPromissoryNoteConfig():
+                return ResolvedFactionPromissoryNote(state=state, config=config)
+```
+
+Why this shape:
+- The ID stays a plain `str` reference; the resolver converts it to a real
+  `PlayerColor` by lookup, so no layer ever pretends an ID *is* a color.
+- `functional_text` is a no-argument property on both variants, giving callers
+  a uniform interface. Making it take a color parameter would split the
+  interface (Standard needs one, Faction doesn't) and force every caller to
+  know which variant it holds.
+- Only the resolver touches both entities. Services call
+  `resolver.resolved_promissory_note(id).functional_text` and never reach into
+  `PlayerState` for rendering.
 
 ## 5. Domain Services
 

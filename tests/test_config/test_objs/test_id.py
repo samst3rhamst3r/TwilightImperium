@@ -1,4 +1,4 @@
-"""Mirrors src/app/config/shared/id.py."""
+"""Mirrors src/app/config/objs/id.py."""
 from app.config.objs.id import IDConfigObj
 
 def test_str_returns_the_id() -> None:

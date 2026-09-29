@@ -1,8 +1,8 @@
 from pathlib import Path
 from types import MappingProxyType
 
-from config.objs.text_merge import load_and_merge_text_by_id
-from config.objs.index import index_by_id
+from app.config.objs.text_merge import load_and_merge_text_by_id
+from app.config.objs.index import index_by_id
 
 from .action_card import ActionCardConfig
 

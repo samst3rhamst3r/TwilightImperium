@@ -1,18 +1,18 @@
-"""Mirrors src/app/config/shared/mixins.py."""
+"""Mirrors src/app/config/objs/mixins.py."""
 import pytest
 
 from app.config.objs.mixins import (
     CanBeExhaustible,
     CanHaveFactionExclusivity,
+    RequiresFactionExclusivity,
     RequiresFlavorText,
-    RequiresFlavorTextOptions,
     RequiresFunctionalText,
 )
 
 _ALL_MIXINS = (
     RequiresFunctionalText,
     RequiresFlavorText,
-    RequiresFlavorTextOptions,
+    RequiresFactionExclusivity,
     CanHaveFactionExclusivity,
     CanBeExhaustible,
 )
@@ -21,8 +21,8 @@ _ALL_MIXINS = (
 def test_mixins_are_deliberately_not_slotted(mixin: type) -> None:
     """CPython's multiple inheritance only tolerates one base in the MRO
     contributing real (non-empty) __slots__. Concrete Config classes combine
-    two or more of these mixins with NamedConfigObj/IDConfigObj (which IS
-    slotted), so giving every mixin its own slots would raise
+    two or more of these mixins with NamedConfigObj/IDConfigObj, so giving
+    every mixin its own slots would raise
     "TypeError: multiple bases have instance lay-out conflict" the moment two
     of them are combined - this is exactly the bug that blocked importing
     app.config entirely until it was fixed."""
@@ -50,6 +50,17 @@ def test_requires_flavor_text_field_is_mandatory() -> None:
     with pytest.raises(TypeError):
         RequiresFlavorText()
 
-def test_requires_flavor_text_options_field_is_mandatory() -> None:
+def test_requires_faction_exclusivity_field_is_mandatory() -> None:
     with pytest.raises(TypeError):
-        RequiresFlavorTextOptions()
+        RequiresFactionExclusivity()
+
+def test_requires_faction_exclusivity_is_always_exclusive() -> None:
+    obj = RequiresFactionExclusivity(faction_exclusive_id="jol_nar")
+    assert obj.is_faction_exclusive is True
+    assert obj.is_exclusive_to("jol_nar") is True
+    assert obj.is_exclusive_to("sol") is False
+
+def test_can_have_faction_exclusivity_specializes_requires_faction_exclusivity() -> None:
+    """The optional variant is a subclass of the required one - anything
+    typed against RequiresFactionExclusivity accepts either."""
+    assert issubclass(CanHaveFactionExclusivity, RequiresFactionExclusivity)

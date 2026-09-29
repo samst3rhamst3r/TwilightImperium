@@ -8,6 +8,8 @@ modules, which mirror ``src/app/config``'s package layout one-for-one.
 - ``data_dir`` / ``ruleset_config`` - the real YAML content under ``data/``,
   loaded exactly once per session (mirrors ``RulesetConfig``'s own
   load-once/shared-across-games design; see ARCHITECTURE.md section 2).
+- ``setup_configs`` / ``map_configs`` - setup-lifetime data, deliberately
+  *not* on ``RulesetConfig`` (ARCHITECTURE.md section 1), loaded once each.
 - ``all_config_dataclasses`` / ``all_config_enums`` - every dataclass/enum
   actually defined under ``app.config``, discovered by walking the package.
   ``pytest_generate_tests`` below uses these to parametrize the structural
@@ -30,10 +32,10 @@ from typing import Union, get_args, get_origin, get_type_hints
 import pytest
 
 import app.config as app_config_pkg
-from app.config import yaml_loader
+from app.config.enum import ConfigEnum, SerializableEnum
+from app.config.objs.map import MapConfig, MapShape, load_map_data
 from app.config.ruleset_config import RulesetConfig
-from app.config.setup import SetupConfig
-from app.config.base import ConfigEnum, SerializableEnum
+from app.config.setup import SetupConfig, load_setup_data
 
 # ---------------------------------------------------------------------------
 # Data fixtures
@@ -56,16 +58,25 @@ def ruleset_config(data_dir: Path) -> RulesetConfig:
     """The full ruleset, loaded once from the real data/ tree."""
     return RulesetConfig.load(data_dir)
 
+SUPPORTED_PLAYER_COUNTS: tuple[int, ...] = (3, 4, 5, 6)
+
 @pytest.fixture(scope="session")
-def setup_configs(data_dir: Path) -> tuple[SetupConfig, ...]:
-    """Every real SetupConfig variant (data/setup/setup.yaml), loaded once.
+def setup_configs(data_dir: Path) -> MappingProxyType[int, SetupConfig]:
+    """Every real SetupConfig variant (data/setup/setup.yaml), keyed by
+    player count, loaded once.
 
     Deliberately NOT a RulesetConfig field - see ARCHITECTURE.md section 1
     ("SetupConfig live separately from RulesetConfig, not as fields on it")
     - so this is its own session-scoped fixture rather than
     ``ruleset_config.setup``.
     """
-    return tuple(yaml_loader.load_setup_data(data_dir))
+    return MappingProxyType({n: load_setup_data(data_dir, n) for n in SUPPORTED_PLAYER_COUNTS})
+
+@pytest.fixture(scope="session")
+def map_configs(data_dir: Path) -> MappingProxyType[MapShape, MapConfig]:
+    """Every real MapConfig (data/setup/map/*.yaml), keyed by shape. Like
+    SetupConfig, setup-lifetime data - not a RulesetConfig field."""
+    return MappingProxyType({shape: load_map_data(data_dir, shape) for shape in MapShape})
 
 # ---------------------------------------------------------------------------
 # Discovery: every dataclass / enum actually defined under app.config

@@ -1,6 +1,6 @@
 """Mirrors src/app/config/player_color.py."""
 from app.config.player_color import PlayerColor
-from app.config.base import ConfigEnum, SerializableEnum
+from app.config.enum import ConfigEnum, SerializableEnum
 
 def test_player_color_is_a_serializable_enum_but_not_a_configenum() -> None:
     """PlayerColor is assigned by app/setup logic, never parsed out of a raw

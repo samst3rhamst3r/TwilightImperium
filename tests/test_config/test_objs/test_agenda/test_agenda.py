@@ -3,7 +3,8 @@ import pytest
 
 from app.config.objs.agenda import AgendaConfig, AgendaType, AgendaVoteScenarioType
 from app.config.objs.planet import PlanetTrait
-from app.config.objs.named import NamedConfigObj, RequiresFunctionalText
+from app.config.objs.named import NamedConfigObj
+from app.config.objs.mixins import RequiresFunctionalText
 from app.config.objs.mixins import CanBeExhaustible
 
 def test_agenda_config_composes_the_expected_mixins() -> None:
@@ -18,14 +19,25 @@ def _make(**overrides):
     )
     return AgendaConfig(**(defaults | overrides))
 
-@pytest.mark.parametrize("agenda_type", [AgendaType.LAW, "law"], ids=["enum", "str"])
-def test_post_init_coerces_agenda_type_from_either_the_enum_or_its_raw_string(agenda_type) -> None:
-    """__post_init__ explicitly coerces via object.__setattr__ (required
-    since the dataclass is frozen) - this is what makes the `is`-based
-    vote_scenario_type check below actually reliable regardless of whether
-    the caller passed a real enum member or the raw YAML string."""
-    agenda = _make(agenda_type=agenda_type)
+def test_from_dict_coerces_raw_yaml_strings_to_enums() -> None:
+    """Coercion lives in _init_from_dict (the loader boundary), not
+    __post_init__ - the constructor only ever receives already-typed values
+    (ARCHITECTURE.md section 2). This is what makes the `is`-based
+    vote_scenario_type check in __post_init__ reliable."""
+    agenda = AgendaConfig.from_dict({
+        "id": "x", "name": "X", "functional_text": "...",
+        "agenda_type": "law", "vote_scenario_type": "elect_planet", "planet_trait": "industrial",
+    })
     assert agenda.agenda_type is AgendaType.LAW
+    assert agenda.vote_scenario_type is AgendaVoteScenarioType.ELECT_PLANET
+    assert agenda.planet_trait is PlanetTrait.INDUSTRIAL
+
+def test_from_dict_leaves_absent_planet_trait_as_none() -> None:
+    agenda = AgendaConfig.from_dict({
+        "id": "x", "name": "X", "functional_text": "...",
+        "agenda_type": "directive", "vote_scenario_type": "for_against",
+    })
+    assert agenda.planet_trait is None
 
 def test_planet_trait_is_rejected_outside_elect_planet_scenario() -> None:
     with pytest.raises(ValueError):

@@ -6,7 +6,8 @@ from abc import abstractmethod, ABC
 
 from app.config.player_color import PlayerColor
 from app.config.setup import SetupConfig
-from app.config.yaml_loader import load_first_game_system_tile_mapping, load_setup_data
+from app.config.objs.map import load_first_game_system_tile_mapping
+from app.config.setup import load_setup_data
 from app.geometry.coordinate import HexCoordinate
 from app.setup.game_setup import NewGameSetup
 

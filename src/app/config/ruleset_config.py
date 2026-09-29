@@ -7,7 +7,6 @@ from .objs.ability import AbilityConfig, load_ability_data
 from .objs.action_card import ActionCardConfig, load_action_card_data
 from .objs.agenda import AgendaConfig, load_agenda_data
 from .objs.faction import FactionConfig, load_faction_data
-from .objs.map import MapConfig, load_map_data
 from .objs.objective import ObjectiveConfig, load_objective_data
 from .objs.planet import PlanetConfig, load_planet_data
 from .objs.promissory_note import PromissoryNoteConfig, load_promissory_note_data
@@ -22,7 +21,6 @@ class RulesetConfig:
     action_cards: MappingProxyType[str, ActionCardConfig]
     agendas: MappingProxyType[str, AgendaConfig]
     factions: MappingProxyType[str, FactionConfig]
-    maps: MappingProxyType[str, MapConfig]
     objectives: MappingProxyType[str, ObjectiveConfig]
     planets: MappingProxyType[str, PlanetConfig]
     promissory_notes: MappingProxyType[str, PromissoryNoteConfig]
@@ -39,7 +37,6 @@ class RulesetConfig:
             action_cards = load_action_card_data(config_dir),
             agendas = load_agenda_data(config_dir),
             factions = load_faction_data(config_dir),
-            maps = load_map_data(config_dir),
             objectives = load_objective_data(config_dir),
             planets = load_planet_data(config_dir),
             promissory_notes = load_promissory_note_data(config_dir),

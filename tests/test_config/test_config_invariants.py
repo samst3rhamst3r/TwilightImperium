@@ -8,7 +8,7 @@ add a dedicated test for it. Per-class test modules still exist alongside
 this for behavior that reflection can't check (mixin semantics, __post_init__
 validation, real-data spot checks).
 """
-from app.config.base import ConfigEnum
+from app.config.enum import ConfigEnum
 
 def test_config_dataclass_is_frozen(config_dataclass: type) -> None:
     assert config_dataclass.__dataclass_params__.frozen, (
@@ -17,7 +17,7 @@ def test_config_dataclass_is_frozen(config_dataclass: type) -> None:
 
 _KW_ONLY_EXEMPT_DATACLASS_NAMES = frozenset({
     # MapConfig's `tiles` shape is encoded in YAML as a bare positional list
-    # of [q, r] pairs (see data/objs/map/*.yaml) to keep the hex-grid layout
+    # of [q, r] pairs (see data/setup/map/*.yaml) to keep the hex-grid layout
     # readable in the file - kw_only=True would be inconsistent with that
     # positional-friendly YAML shape. Deliberate exception, confirmed.
     "MapConfig",
@@ -28,7 +28,7 @@ def test_config_dataclass_is_kw_only(config_dataclass: type) -> None:
         return
     params = config_dataclass.__dataclass_params__
     if not params.init:
-        return  # no generated __init__ (e.g. BaseConfigObj) - kw_only is moot
+        return  # no generated __init__ - kw_only is moot
     assert params.kw_only, f"{config_dataclass.__name__} must be declared with kw_only=True"
 
 def test_config_dataclass_has_no_mutable_container_fields(
@@ -76,7 +76,7 @@ def test_yaml_sourced_enums_are_configenum_subclasses() -> None:
     never parsed out of a YAML value, so ConfigEnum's case-strictness
     doesn't apply to them.
     """
-    from app.config.objs.ability import AbilityID
+    from app.config.objs.ability import ParameterizedAbilityPredicateType
     from app.config.objs.agenda import AgendaType, AgendaVoteScenarioType
     from app.config.objs.map import MapShape
     from app.config.objs.objective import ObjectiveType
@@ -86,7 +86,7 @@ def test_yaml_sourced_enums_are_configenum_subclasses() -> None:
     from app.config.objs.unit import UnitClass
 
     yaml_sourced_enums = (
-        AbilityID,
+        ParameterizedAbilityPredicateType,
         AgendaType,
         AgendaVoteScenarioType,
         MapShape,

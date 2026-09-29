@@ -1,4 +1,4 @@
-"""Mirrors src/app/config/shared/named.py."""
+"""Mirrors src/app/config/objs/named.py."""
 from app.config.objs.id import IDConfigObj
 from app.config.objs.named import NamedConfigObj
 

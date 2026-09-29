@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/system/system.py."""
 from app.config.objs.system import SystemConfig
-from app.config.shared import IDConfigObj
+from app.config.objs.id import IDConfigObj
 
 def test_system_config_inherits_id_config_obj() -> None:
     assert issubclass(SystemConfig, IDConfigObj)

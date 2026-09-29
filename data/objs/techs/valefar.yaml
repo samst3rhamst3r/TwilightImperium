@@ -1,0 +1,7 @@
+- id: valefar_assimilator_x
+  name: Valefar Assimilator X
+  faction_exclusive_id: nekro_virus
+
+- id: valefar_assimilator_y
+  name: Valefar Assimilator Y
+  faction_exclusive_id: nekro_virus

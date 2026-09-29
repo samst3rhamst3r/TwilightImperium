@@ -38,3 +38,16 @@ def test_construction_of_a_standard_tech() -> None:
 def test_construction_of_an_assimilator_tech_needs_no_tech_type() -> None:
     tech = AssimilatorTechConfig(id="valefar_assimilator_x", name="Valefar Assimilator X", functional_text="...")
     assert not hasattr(tech, "tech_type")
+
+def test_standard_tech_from_dict_coerces_tech_type_and_prereqs() -> None:
+    from app.config.objs.tech import TechUpgradeReqConfig
+    tech = StandardTechConfig.from_dict({
+        "id": "x", "name": "X", "functional_text": "...", "tech_type": "warfare",
+        "prereqs": [{"tech_type": "biotic", "num": 1}],
+    })
+    assert tech.tech_type is TechType.WARFARE
+    assert tech.prereqs == (TechUpgradeReqConfig(tech_type=TechType.BIOTIC, num=1),)
+
+def test_assimilator_tech_from_dict_needs_no_tech_type() -> None:
+    tech = AssimilatorTechConfig.from_dict({"id": "valefar_assimilator_x", "name": "X", "functional_text": "..."})
+    assert tech.prereqs == ()

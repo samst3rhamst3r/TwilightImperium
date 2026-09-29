@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/objective/type.py."""
 from app.config.objs.objective import ObjectiveType
-from app.config.base import ConfigEnum
+from app.config.enum import ConfigEnum
 
 def test_objective_type_is_a_configenum() -> None:
     assert issubclass(ObjectiveType, ConfigEnum)

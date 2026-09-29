@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from config.yaml_loader import load_data, SETUP_CONFIG_DATA_PATH
+from app.config.yaml_loader import load_data, SETUP_CONFIG_DATA_PATH
 
 from .map import MapConfig
 from .shape import MapShape

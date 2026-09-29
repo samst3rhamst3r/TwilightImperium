@@ -1,4 +1,4 @@
-"""Mirrors src/app/config/objs/strategy_card.py."""
+"""Mirrors src/app/config/objs/strategy_card/base.py."""
 from app.config.objs.strategy_card import StrategyCardConfig
 from app.config.objs.named import NamedConfigObj
 

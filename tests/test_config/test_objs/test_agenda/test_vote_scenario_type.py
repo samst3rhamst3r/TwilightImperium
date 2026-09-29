@@ -1,6 +1,6 @@
 """Mirrors src/app/config/objs/agenda/vote_scenario_type.py."""
 from app.config.objs.agenda import AgendaVoteScenarioType
-from app.config.base import ConfigEnum
+from app.config.enum import ConfigEnum
 
 def test_agenda_vote_scenario_type_is_a_configenum() -> None:
     assert issubclass(AgendaVoteScenarioType, ConfigEnum)

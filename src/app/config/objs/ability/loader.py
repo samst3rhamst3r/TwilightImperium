@@ -1,9 +1,9 @@
 from pathlib import Path
 from types import MappingProxyType
 
-from config.yaml_loader import load_data, CONFIG_OBJ_DATA_PATH
-from config.objs.text_merge import load_and_merge_text_by_id
-from config.objs.index import index_by_id
+from app.config.yaml_loader import load_data, load_folder_data, CONFIG_OBJ_DATA_PATH
+from app.config.objs.text_merge import load_and_merge_text_by_id, TEXT_CONFIG_OBJ_DATA_PATH
+from app.config.objs.index import index_by_id
 
 from .base import AbilityConfig
 from .faction import FactionAbilityConfig
@@ -13,14 +13,17 @@ _REL_PATH = Path("abilities")
 
 def load_ability_data(root_data_path: Path) -> MappingProxyType[str, AbilityConfig]:
 
+    data = load_folder_data(root_data_path / CONFIG_OBJ_DATA_PATH / "abilities")
+    text_data = load_folder_data(root_data_path / TEXT_CONFIG_OBJ_DATA_PATH / "abilities")
+
     abilities: list[AbilityConfig] = [
         FactionAbilityConfig(**config) for config in load_and_merge_text_by_id(root_data_path, _REL_PATH / "faction.yaml")
     ]
     abilities.extend([
-        ParameterizedAbilityConfig.from_dict(config) for config in load_data(CONFIG_OBJ_DATA_PATH / _REL_PATH / "parameterized.yaml")
+        ParameterizedAbilityConfig.from_dict(config) for config in load_data(root_data_path / CONFIG_OBJ_DATA_PATH / _REL_PATH / "parameterized.yaml")
     ])
     abilities.extend([
-        AbilityConfig(**config) for config in load_data(CONFIG_OBJ_DATA_PATH / _REL_PATH / "standard.yaml")
+        AbilityConfig(**config) for config in load_data(root_data_path / CONFIG_OBJ_DATA_PATH / _REL_PATH / "standard.yaml")
     ])
 
     return index_by_id(abilities)

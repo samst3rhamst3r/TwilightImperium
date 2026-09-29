@@ -1,9 +1,9 @@
-"""Mirrors src/app/config/shared/enum.py."""
+"""Mirrors src/app/config/enum.py."""
 from enum import auto
 
 import pytest
 
-from app.config.base import ConfigEnum, MissingEnumMemberError, NotLowerCasedValueError, SerializableEnum
+from app.config.enum import ConfigEnum, MissingEnumMemberError, NotLowerCasedValueError, SerializableEnum
 
 class _SampleConfigEnum(ConfigEnum):
     ALPHA = auto()

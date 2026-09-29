@@ -7,7 +7,6 @@ from app.config.objs.ability import AbilityConfig
 from app.config.objs.action_card import ActionCardConfig
 from app.config.objs.agenda import AgendaConfig
 from app.config.objs.faction import FactionConfig
-from app.config.objs.map import MapConfig
 from app.config.objs.objective import ObjectiveConfig
 from app.config.objs.planet import PlanetConfig
 from app.config.objs.promissory_note import PromissoryNoteConfig
@@ -23,7 +22,6 @@ _INDEXED_FIELD_TO_TYPE = {
     "action_cards": ActionCardConfig,
     "agendas": AgendaConfig,
     "factions": FactionConfig,
-    "maps": MapConfig,
     "objectives": ObjectiveConfig,
     "planets": PlanetConfig,
     "promissory_notes": PromissoryNoteConfig,

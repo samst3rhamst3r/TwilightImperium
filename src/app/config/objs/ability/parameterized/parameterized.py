@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app.config.fromdict import FromDictMixin
-from config.objs.ability.base import AbilityConfig
+from app.config.objs.ability.base import AbilityConfig
 
 from .predicate_type import ParameterizedAbilityPredicateType
 

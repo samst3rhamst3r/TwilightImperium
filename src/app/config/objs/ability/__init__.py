@@ -1,4 +1,5 @@
-from .faction import AbilityConfig
+from .base import AbilityConfig
+from .faction import FactionAbilityConfig
 from .loader import load_ability_data
 from .parameterized.parameterized import ParameterizedAbilityConfig
 from .parameterized.instance import ParameterizedAbilityInstanceConfig

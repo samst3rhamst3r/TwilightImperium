@@ -3,7 +3,8 @@ import pytest
 
 from app.config.game_phase import GamePhase
 from app.config.objs.objective import ObjectiveConfig, ObjectiveType
-from app.config.objs.named import NamedConfigObj, RequiresFunctionalText
+from app.config.objs.named import NamedConfigObj
+from app.config.objs.mixins import RequiresFunctionalText
 
 def test_objective_config_composes_the_expected_mixins() -> None:
     assert issubclass(ObjectiveConfig, NamedConfigObj)

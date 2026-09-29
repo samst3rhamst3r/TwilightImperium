@@ -263,11 +263,6 @@
   - tech_type: biotic
     num: 1
 
-- id: valefar_assimilator_x
-  name: Valefar Assimilator X
-  faction_exclusive_id: nekro_virus
-  prereqs: []
-
 - id: valkyrie_particle_weave
   name: Valkyrie Particle Weave
   faction_exclusive_id: sardakk_norr
@@ -275,11 +270,6 @@
   prereqs:
   - tech_type: warfare
     num: 2
-
-- id: valefar_assimilator_y
-  name: Valefar Assimilator Y
-  faction_exclusive_id: nekro_virus
-  prereqs: []
 
 - id: wormhole_generator
   name: Wormhole Generator

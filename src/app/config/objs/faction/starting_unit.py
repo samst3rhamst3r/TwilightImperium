@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config.objs.mixins import FromDictMixin
+from app.config.fromdict import FromDictMixin
 from app.config.objs.unit import UnitClass
 
 @dataclass(frozen=True, kw_only=True)

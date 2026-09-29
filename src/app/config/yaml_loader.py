@@ -11,8 +11,8 @@ def load_data(config_data_file_path: Path) -> Any:
 
 def load_folder_data(config_data_folder_path: Path) -> list[Any]:
     res = []
-    for path, _, _ in config_data_folder_path.walk():
-        if path.is_file(follow_symlinks=False):
-            res.extend(load_data(path))
+    for dirpath, _, filenames in config_data_folder_path.walk():
+        for filename in filenames:
+            res.extend(load_data(dirpath / filename))
 
     return res

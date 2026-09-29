@@ -3,7 +3,7 @@ from types import MappingProxyType
 
 from app.config.objs.text_merge import merge_text_by_id, TEXT_CONFIG_OBJ_DATA_PATH
 from app.config.objs.index import index_by_id
-from app.config.yaml_loader import load_data, load_folder_data
+from app.config.yaml_loader import load_data, load_folder_data, CONFIG_OBJ_DATA_PATH
 
 from .ids import TechID
 from .tech import AssimilatorTechConfig, StandardTechConfig, TechConfig
@@ -17,7 +17,7 @@ def _tech_from_dict(d: dict) -> TechConfig:
     return StandardTechConfig.from_dict(d)
 
 def load_tech_data(root_data_path: Path) -> MappingProxyType[str, TechConfig]:
-    data = load_folder_data(root_data_path / "techs")
+    data = load_folder_data(root_data_path / CONFIG_OBJ_DATA_PATH / "techs")
     text_data = load_data(root_data_path / TEXT_CONFIG_OBJ_DATA_PATH / "techs.yaml")
     merged_data = merge_text_by_id(data, text_data)
     

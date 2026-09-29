@@ -18,398 +18,19 @@ geometry/    hex coordinate math — no dependencies on any other layer
 
 Dependency direction is one-way: `resolved` depends on `config` + `state`;
 `services` depend on `resolved`; `orchestration` depends on `services`. Lower
-layers never import from higher ones. `geometry` and `config/enums.py` are
-shared vocabulary/types that any layer may import — that's importing a *type*,
-not coupling to *data*, so it doesn't violate the boundary.
+layers never import from higher ones. `geometry` and `config/enum.py`
+(`ConfigEnum`/`SerializableEnum`) are shared vocabulary/types that any layer
+may import — that's importing a *type*, not coupling to *data*, so it doesn't
+violate the boundary.
 
 **The orchestrator never touches raw `GameState` containers directly.** It only
 calls `Resolved*` objects and Domain Services. `GameState`'s containers are
-effectively private.
-
-**Correction — the `resolved_*()` factories live in `resolved/`, not on
-`GameState` itself.** An earlier draft of this doc put `resolved_unit()`-style
-factory methods directly on `GameState`. That's backwards: `state/` is not
-allowed to import from `resolved/` (dependency direction is strictly
-`resolved → state`, never the reverse — see above), and a method like
-`GameState.resolved_unit()` would require exactly that import, creating a
-circular dependency between the two modules. The fix: a `GameStateResolver`
-object lives in `resolved/`, holds a `GameState` + `RulesetConfig` reference,
-and is the thing that constructs `Resolved*` objects on demand:
-
-```python
-# resolved/game_state_resolver.py
-class GameStateResolver:
-    def __init__(self, game_state: GameState, ruleset_config: RulesetConfig):
-        self.game_state = game_state
-        self.ruleset_config = ruleset_config
-
-    def resolved_unit(self, unit_id: str) -> ResolvedUnit:
-        state = self.game_state.units[unit_id]
-        config = self.ruleset_config.unit(state.config_id)
-        return ResolvedUnit(state, config)
-```
-
-Services and the orchestrator hold/use a `GameStateResolver`, never a raw
-`GameState` — that's the actual sanctioned access point. `GameState.units`/etc.
-remain accessible *to `resolved/` code* (that's the normal, sanctioned
-downward reach), just not constructed-from *inside* `state/` itself. This
-doesn't reopen the "never cache `Resolved*` objects" rule (§4) — a
-`GameStateResolver` instance is fine to hold for a whole session, since it only
-holds stable references (`game_state`, `ruleset_config`) and still constructs
-a fresh `Resolved*` binding on every call; nothing about the bound pair itself
-is cached.
-
-### Setup vs. play: `GameState` is constructed atomically, never incrementally
-
-`GameState.new_game(game_setup)` is called **exactly once**,
-with a complete, already-finalized `GameSetup` — never built up field-by-field
-as player choices trickle in. This follows from decisions already made
-elsewhere in this doc: every `new_game()` classmethod takes required,
-concrete parameters (no placeholder/`None`-until-later fields), and
-`__post_init__`-derived invariants (e.g. `command_token_reinforcement_pool`,
-conditional special-token existence) assume complete, valid input from the
-first moment the object exists. A partially-populated `GameState` would
-either violate those invariants or force them to tolerate incompleteness —
-degrading a guarantee that's deliberately load-bearing elsewhere.
-
-**`GameState.new_game` takes only `GameSetup`, not `RulesetConfig`.** Verified
-against the actual `GameState` class: it holds no `ruleset_config` field, and
-per Principle IV (Config Immutability / State Mutability), no State class
-holds a direct Config reference anywhere. Construction only ever consumes
-already-*decided* identifiers (`faction_config_id`, `map_layout_id`) — it
-never needs to *resolve* what those identifiers mean; that's exclusively the
-Resolved layer's job, via `GameStateResolver` (below), which is why
-`RulesetConfig` lives there instead. If a bootstrap layer wants to validate a
-`GameSetup`'s IDs actually exist in the ruleset before constructing
-`GameState`, that check belongs in the bootstrap layer itself, against
-`RulesetConfig`, *before* calling `new_game` — not inside `new_game`.
-
-
-The messy, in-progress part of setup (players still joining, still picking
-factions/colors/drafting systems) lives entirely **outside** the State model,
-in a separate, deliberately-partial structure that never pretends to be valid
-`Serializable` game state:
-
-```python
-@dataclass
-class GameSetupSession:
-    player_faction_ids: dict[str, str] = field(default_factory=dict)
-    drafted_system_ids: dict[str, list[str]] = field(default_factory=dict)
-    map_layout_id: str | None = None   # genuinely "unknown so far" here — the
-                                         # right place for that ambiguity to live
-
-    def is_complete(self) -> bool: ...
-
-    def finalize(self) -> GameSetup:
-        if not self.is_complete():
-            raise ValueError("setup incomplete")
-        return GameSetup(player_faction_ids=self.player_faction_ids, ...)
-```
-
-Only `GameSetupSession.finalize()` succeeding produces a real `GameSetup`, and
-only then does `GameState.new_game(...)` get called — once, by a
-bootstrap/setup layer sitting above everything else (not Config, State,
-Resolved, Services, or the gameplay Orchestrator — a distinct pre-game setup
-process), producing a fully-valid `GameState` from its very first instant.
-
-### `setup/` — a dedicated layer for pre-game data, distinct from `state/`, `resolved/`, and everything else
-
-Lives as its own top-level package, sibling to `config/`/`state/`/`resolved/`,
-in the dependency chain `config/` (+ `geometry/`) → `setup/` → `state/` →
-`resolved/` → `services/` → `orchestration/`. Not `resolved/` (nothing here
-binds State+Config for gameplay queries — this is pure construction input,
-before any State exists at all). Not `state/` (`GameSetupSession` is
-deliberately incomplete/mutable and never `Serializable`; even the finalized
-`GameSetup` has no business living alongside classes that carry State's
-save/load/`new_game` invariants).
-
-**Per-entity setup data gets its own small, explicit DTO once it has 2+
-related fields that travel together** (`NewGamePlayerInit`: `player_id`,
-`color`, `faction_config_id`, `name`) — the alternative, N parallel dicts all
-independently keyed by the same ID (`player_colors: dict[str, PlayerColor]`,
-`player_faction_ids: dict[str, str]`, ...), is the same "one entity split
-across containers" anti-pattern the derive-don't-store rules (§6) exist to
-prevent, just recurring at setup time. A setup value that's genuinely just
-one value per key (e.g. `system_id → HexCoordinate` placements) doesn't need
-a wrapper DTO — a plain `MappingProxyType` already says everything there is
-to say; reach for a DTO when there's a *record*, not for every mapping.
-
-**`GameSetupSession`'s mutable containers don't need a mutable mirror of
-every immutable DTO used in the finalized `GameSetup`.** Same reasoning as
-the YAML loader building typed `Config` objects from raw dicts: transient,
-in-progress data doesn't need type safety, because it gets validated and
-typed exactly once, at a single boundary (`finalize()`). A plain
-`dict[str, dict[str, ...]]`, or a `TypedDict` for a little static-checking
-without any runtime class overhead, is the right shape for the session —
-building `MutableNewGamePlayerInit` alongside `NewGamePlayerInit` would mean
-keeping *three* things in sync (mutable version, immutable version, whatever
-consumes the immutable one) instead of two. One exception: value types that
-are cheap, immutable, and already shared vocabulary (`HexCoordinate`) should
-still be constructed for real the moment the raw decision is captured, not
-deferred as raw ints until `finalize()` — same "loader owns full nested
-conversion" principle from §2, just relocated to whatever code captures a
-setup decision instead of a YAML loader.
-
-**Setup mode governs behavior, not data shape — worked example: First-Game
-vs. Advanced Setup, and a correction along the way.** An earlier draft of
-this doc split First-Game and Advanced/Complete Setup into two separate
-finalized classes (`FirstGameSetup`/`CompleteGameSetup`), reasoning by
-analogy to Config's mutually-exclusive trait splits (§2's `tech_type`
-example) — different setup *procedures*, so seemingly different output
-*shapes*. That was wrong, caught during design review: **First-Game's preset
-map still resolves to the identical `system_id → HexCoordinate` shape as
-Advanced's drafted placement** — it's a table lookup by player count instead
-of an interactive process, but the *result* is structurally the same data
-either way. The lesson generalizes: before splitting a type over a
-mode/procedure difference, trace each field to its **resolved** form, not
-its setup-time representation — `tech_type` genuinely has no resolved value
-for the two Assimilator techs (nothing to converge to); `map_layout_id`
-turns out to fully resolve to the same shape both modes already need.
-
-```python
-class SetupMode(StrEnum):
-    FIRST_GAME = "first_game"
-    ADVANCED = "advanced"
-
-@dataclass(frozen=True, kw_only=True)
-class GameSetup:
-    players: tuple[NewGamePlayerInit, ...]   # seating order, clockwise from speaker
-    speaker_player_id: str
-    system_placements: MappingProxyType[str, HexCoordinate]   # same shape, either mode
-    game_mode: SetupMode
-```
-
-`GameState.new_game()` switches on `game_mode` to decide **whether** a
-construction step runs at all — not to fill in different data.
-E.g. promissory notes (*"four that match their player color, and one
-faction-specific"*) need no dedicated Init field in either mode — they're
-fully derivable from `NewGamePlayerInit.color`/`.faction_config_id`, data
-already identical across both variants. The only thing that varies between
-modes is whether `GameState.new_game()` runs that construction step at all;
-mode governs *behavior*, not *data shape*. The restricted First-Game faction
-pool is a `GameSetupSession`-level (lobby/UI) constraint on what gets
-*offered* — never a field anywhere in the finalized `GameSetup` or beyond;
-downstream code only ever sees a valid `faction_config_id` and has no reason
-to know which pool it was drawn from.
-
-**Most of a rulebook's numbered setup steps turn out not to need Init data at
-all** — worked example: Twilight Imperium's 12-step First-Game Setup. Walking
-through each step against the "is this a genuine per-game decision, or a
-fixed/derivable default" test (same test as §3's `__post_init__` dividing
-line, applied to setup instead of construction) leaves only 3 of 12 steps
-producing real setup data (speaker, per-player faction+color, map). Everything
-else — component counts, starting units/tech (derivable from
-`faction_config_id` via `RulesetConfig`), deck contents (every matching
-Config entry), pool sizes, VP-track start, objective draws — is either a
-universal constant belonging in the relevant `StateObj.new_game()` default,
-or randomness resolved at construction time, never setup data to capture.
-When adapting a rulebook's setup procedure into Init objects, expect most
-steps to collapse this way — resist the instinct to give every numbered step
-its own field or DTO.
-
-**`SetupConfig` (and `MapConfig`) live separately from `RulesetConfig`, not
-as fields on it — worked example.** `RulesetConfig` is held by
-`GameStateResolver` for the *entire game*, resolving `config_id → Config` on
-every gameplay query, repeatedly, for the game's whole duration.
-`SetupConfig` (home coordinates, advanced-setup tile counts per player
-count) and `MapConfig` (map shapes) have a categorically different
-lifetime — consumed only during `new_game()`/`GameSetupSession`, never again
-once `GameState.systems` exists with each `SystemState.map_hex_coordinate`
-baked in directly. Bundling them into `RulesetConfig` costs nothing
-functionally, but misrepresents their lifetime and means every
-`GameStateResolver` (and everything holding one) carries data it will never
-use again after setup completes.
-
-```python
-@dataclass(frozen=True, kw_only=True)
-class SetupConfig:
-    map_shape_id: MapShape
-    player_setup: tuple[PlayerSetupConfig, ...]
-    maps: MappingProxyType[str, MapConfig]              # moved from RulesetConfig.maps
-    advanced_tile_counts: MappingProxyType[int, int]     # player_count -> tiles dealt
-
-    @classmethod
-    def load(cls, config_dir: Path) -> "SetupConfig": ...
-```
-
-**This produces a clean symmetry worth stating as a general rule**, not just
-a one-off fix: whether an object needs a Config reference at all follows
-from whether it's a **one-shot construction** or an **ongoing/resolving
-process**, not from which layer it happens to sit in.
-
-| | Construction-only (no Config needed) | Ongoing/resolving (holds Config) |
-|---|---|---|
-| Gameplay | `GameState` — consumes already-decided IDs once, at `new_game()` | `GameStateResolver` — resolves `config_id → Config` repeatedly, for the whole game |
-| Setup | `GameSetup` — the finalized, immutable output; never resolves anything itself | `GameSetupSession` — interactive; needs `SetupConfig` repeatedly as players join, colors are picked, tiles are dealt |
-
-`GameSetupSession` holds `setup_config: SetupConfig` for its whole
-interactive lifetime, exactly as `GameStateResolver` holds `ruleset_config`
-— both are the "ongoing" half of their respective pair. `GameState` and
-`GameSetup` are both the "one-shot" half, and neither holds Config, for the
-same underlying reason.
-
-**Setup phases: one enum-gated session class, not a `Phase1`/`Phase2` class
-split — worked example.** Some setup data has a real *dependency order* (the
-player count must be confirmed before advanced-setup tile counts can be
-looked up), which might suggest splitting `GameSetupSession` into separate
-classes per phase. Don't — this is the same "not yet complete" shape
-`GameSetupSession` already has, just with an intermediate checkpoint added,
-not a fundamentally different terminal shape the way distinct `game_mode`
-values might suggest at first glance (see above — they resolve to the same
-`GameSetup` shape, just gated by an enum field, not a class split). A
-`StrEnum` phase gate on the *same* session class, mirroring `SecretObjectiveZone`'s
-"illegal combinations should be unrepresentable" principle (§6) applied to
-setup instead of gameplay state:
-
-```python
-class SetupPhase(StrEnum):
-    JOINING = "joining"                 # players adding/removing, names, colors
-    ROSTER_LOCKED = "roster_locked"      # player count confirmed — setup lookups now resolvable
-
-@dataclass
-class GameSetupSession:
-    setup_config: SetupConfig
-    players: dict[str, PlayerSetupDraft] = field(default_factory=dict)
-    phase: SetupPhase = SetupPhase.JOINING
-
-    def add_player(self, player_id: str, name: str) -> None:
-        if self.phase != SetupPhase.JOINING:
-            raise InvalidSetupTransition("roster is locked")
-        self.players[player_id] = {"name": name}
-
-    def confirm_roster(self) -> None:
-        if self.phase != SetupPhase.JOINING:
-            raise InvalidSetupTransition("roster already locked")
-        if not (3 <= len(self.players) <= 6):
-            raise ValueError(f"invalid player count: {len(self.players)}")
-        self.phase = SetupPhase.ROSTER_LOCKED
-
-    @property
-    def player_setup_config(self) -> PlayerSetupConfig:
-        if self.phase == SetupPhase.JOINING:
-            raise InvalidSetupTransition("roster not yet locked")
-        return self.setup_config.player_setup[len(self.players)]
-```
-
-**No separate `confirmed_player_count: int` field** — that would be the same
-redundant-storage pattern §6 exists to prevent, just recurring at setup time.
-Once `phase >= ROSTER_LOCKED`, mutation methods are guarded against further
-changes to `players`, so `len(self.players)` stays reliable on its own;
-there's nothing to store that isn't already derivable, and the phase gate is
-precisely what makes that derivation *safe* to rely on (the count can't
-silently change out from under a caller after being read).
-
-**Session classes split by mode even though the finalized `GameSetup` no
-longer does — worked example: `FirstGameSetupSession` /
-`AdvancedGameSetupSession`.** The `SetupMode` correction above collapses the
-*output* to one class, but the two setup **procedures** still genuinely
-differ in what's legal to do while building toward that output — Advanced
-Setup has real tile-placement operations (with adjacency/legality checks)
-that First-Game has no equivalent of at all, not a simplified version of.
-That's process/legal-operations divergence *during construction*, a
-different question from whether the *resolved data shape* converges (it
-does — see above), so it gets a different answer: a real subclass split, on
-the mutable session side only.
-
-This is also a case where the field/mixin scale test from §2 (`target_id`
-vs. `tech_type`) points the other way than it did there: mode is decided
-**once, upfront, by exactly one caller context** (the lobby/bootstrap flow
-choosing which session to construct), never re-examined by unpredictable
-future call sites the way `vote_type` is checked by many different card
-resolvers over a card's whole lifetime. A single well-known
-mode-selection point makes a structural (type-level) split cheap to get and
-worth taking, rather than a runtime check nobody was ever at risk of
-skipping.
-
-```python
-@dataclass(kw_only=True)
-class GameSetupSession(ABC):
-    setup_config: SetupConfig
-    players: dict[str, PlayerSetupDraft] = field(default_factory=dict)
-    phase: SetupPhase = SetupPhase.JOINING
-    speaker_player_id: str | None = None
-
-    def add_player(self, player_id: str, name: str) -> None: ...
-    def set_color(self, player_id: str, color: PlayerColor) -> None: ...
-    def set_faction(self, player_id: str, faction_config_id: str) -> None: ...
-    def confirm_roster(self) -> None: ...
-
-    @abstractmethod
-    def finalize(self) -> GameSetup: ...
-
-
-@dataclass(kw_only=True)
-class FirstGameSetupSession(GameSetupSession):
-    def finalize(self) -> GameSetup:
-        # map isn't a choice at all here — a lookup once roster is locked
-        system_placements = self.setup_config.player_setup[len(self.players)].preset_placements
-        return GameSetup(
-            players=self._player_inits(), speaker_player_id=self.speaker_player_id,
-            system_placements=system_placements, game_mode=SetupMode.FIRST_GAME,
-        )
-
-
-@dataclass(kw_only=True)
-class AdvancedGameSetupSession(GameSetupSession):
-    system_placements: dict[str, HexCoordinate] = field(default_factory=dict)
-
-    def place_tile(self, system_id: str, coordinate: HexCoordinate) -> None:
-        if self.phase != SetupPhase.ROSTER_LOCKED:
-            raise InvalidSetupTransition("place tiles after roster is locked")
-        ...
-
-    def finalize(self) -> GameSetup:
-        return GameSetup(
-            players=self._player_inits(), speaker_player_id=self.speaker_player_id,
-            system_placements=MappingProxyType(self.system_placements), game_mode=SetupMode.ADVANCED,
-        )
-```
-
-`ABC` + `@abstractmethod finalize()` mirrors `Serializable` (ADR 0003) — a
-session subclass missing `finalize()` fails at construction, not silently.
-`FirstGameSetupSession` adds no new fields or methods, only overriding
-`finalize()` — correct, not a smell: it reflects that First-Game genuinely
-is the simpler variant, with nothing beyond a derived Config lookup once the
-roster is locked. **Net rule:** session classes split on
-*process*/legal-operations differences; the finalized DTO splits only when
-*resolved field shape* genuinely differs — trace each field to its resolved
-form (per the correction above) before assuming the two must move together.
-
-**Shared base + thin extension when *some* fields diverge but most converge —
-worked example: `AdvancedSetupConfig(SetupConfig)`.** Standard and advanced
-setup *config* share most of their shape (`map_shape_id`, per-player
-`home_system_coordinates` + `trade_good_bonus` — the 5-player balance bonus
-applies regardless of mode). Advanced adds two fields with no standard-mode
-counterpart at all: `tiles_per_player` (how many tiles each player drafts)
-and the 5-player-only pre-placed extra tiles. This is neither a full split
-(most fields converge — duplicating them into a parallel class is the
-copy-paste trap) nor a flat class with optionals (`tiles_per_player` is
-structurally meaningless in standard mode, the `tech_type`/Assimilator §2
-case). The middle path — a shared base plus a subclass adding only the
-genuinely-divergent fields — mirrors `TechConfig`/`AssimilatorTechConfig`:
-
-```python
-@dataclass(frozen=True, kw_only=True)
-class SetupConfig(BaseConfigObj):
-    map_shape_id: MapShape
-    player_setup: tuple[PlayerSetupConfig, ...]
-
-@dataclass(frozen=True, kw_only=True)
-class AdvancedSetupConfig(SetupConfig):
-    tiles_per_player: int
-    pre_placed_extra_tile_ids: tuple[str, ...] = ()   # empty except 5-player
-```
-
-The 5-player-only extra tiles stay a **defaulted-empty tuple inside advanced**,
-not a further sub-split: `()` unambiguously means "no pre-placed tiles" (a
-harmless-vacuous default, like `exhausted: bool = False` in §3 — not the
-ambiguous `None` of the `tech_type` case), so it doesn't justify an
-`AdvancedFivePlayerSetupConfig`. **Decision ladder for a diverging field**:
-all-fields-shared → one class; a-few-fields-structurally-absent-for-a-subset
-→ shared base + thin subclass (this case); field-present-but-value-sometimes-
-inapplicable-and-unambiguously-defaultable → flat field with a vacuous default
-(the extra tiles); field-whose-very-concept-is-absent-with-no-safe-default →
-full split (`tech_type`).
+effectively private; `GameStateResolver` (`resolved/game_state_resolver.py`,
+constructed from one `GameState` + one `RulesetConfig`) is the only
+sanctioned way to turn an id into a `Resolved*` object, via its
+`resolved_player`/`resolved_unit`/`resolved_planet`/`resolved_system`
+methods. `Domain Services` (§5) hold a `GameStateResolver` and call through
+it rather than touching `GameState`/`RulesetConfig` directly.
 
 ### Who owns what, and why — the dividing lines
 
@@ -423,7 +44,7 @@ settles the murky cases.
 | `data/` (YAML) | Raw static content, nothing else | Any typed shape, any logic | — |
 | `config/` | The complete, final **typed** shape of static ruleset data; **all** conversion from raw YAML into that shape, including nested/composed value types (§2) | Anything per-game or live; any decision that depends on which game is being played | "Is this true independent of any specific game being played?" → Config. "Only true in the context of one ongoing match?" → State. |
 | `state/` | Live, mutable, per-game data; identity (`instance_id`); self-contained mutation taking **primitives**, never Config objects; references to Config/other State **by id only** (§6 derive-don't-store rules) | Config *values* (only `config_id`); decisions requiring Config; cross-entity coordination; setup decisions requiring external context (that's `new_game()`'s job, not the class's fields/shape) | "Does this field/method need only this object's own already-known data?" → State. "Does it need to look up or reason about Config content?" → not State. |
-| `resolved/` | Binding one live State + its resolved Config, for the duration of one operation; single-entity Config-aware queries/decisions; `GameStateResolver` is the sanctioned entry point for constructing `Resolved*` objects (holds `GameState` + `RulesetConfig`) | Storage (never persisted — §4); cross-entity coordination | "Does answering this need only *this one entity's* State + Config?" → Resolved. "Needs another entity too?" → Service. |
+| `resolved/` | Binding one live State + its resolved Config, for the duration of one operation; single-entity Config-aware queries/decisions | Storage (never persisted — §4); cross-entity coordination | "Does answering this need only *this one entity's* State + Config?" → Resolved. "Needs another entity too?" → Service. |
 | `services/` | Cross-entity rules logic; decisions composing multiple `Resolved*` objects | Sequencing/turn order; raw State/Config manipulation (delegates down to Resolved/State) | "Does this require reasoning about 2+ entities together?" → Service. |
 | `orchestration/` | Sequencing/flow: *when* an operation fires, in response to what trigger, during what phase | The rule mechanics themselves (what's legal, what happens) — those live in Services/Resolved | "Is this deciding *whether/when* to call a rule, or *being* the rule?" — deciding when → orchestration; being the rule → Service/Resolved. |
 | `geometry/` | Pure hex-coordinate math, zero game-concept awareness | Any assumption that a caller knows about game rules | — |
@@ -439,10 +60,34 @@ classmethod, not `__post_init__`.
 - `RulesetConfig` is the static-data aggregate: loaded once (`RulesetConfig.load(config_dir)`),
   shared across every concurrent `GameState`, independent of any specific game
   (independent of player count, factions chosen, etc.). Frozen/immutable.
-- Per-type loader functions (`load_strategy_card_data`, etc.) live in
-  `config/yaml_loader.py`, each returning **already-typed Config objects**
-  (never raw dicts) — loaders own "YAML shape → typed object," `RulesetConfig.load`
-  only composes the results.
+- **Loaders are colocated per-entity functions, not a monolithic module and not
+  a Loader class hierarchy.** Each entity owns its own parsing, living next to the
+  Config class it builds: `config/objs/unit/loader.py` holds `load_unit_data(root)`
+  (and its private `_parse_unit`), beside `UnitConfig` and its enums — the whole
+  "what is a unit / how is one built from YAML" story in one folder. This
+  supersedes the earlier monolithic `config/yaml_loader.py`, which had become a
+  dumping ground coupling every entity's parsing into one file. Each `load_X_data`
+  returns **already-typed Config objects** (never raw dicts); `RulesetConfig.load`
+  stays a composition root that imports each `load_X_data` from its entity module
+  and assembles the results.
+- **Share the YAML *mechanism* by function call, not inheritance.** A base
+  `Loader` class whose `load()` is inherited by `UnitLoader`/`TechLoader`/... is
+  the wrong tool — it proliferates one-method classes that share no state and
+  exercise no polymorphism (a "class where a function would do"), and a base
+  class exerts gravitational pull that scatters loaders into a shared package,
+  fighting the colocation goal above. Instead, separate the two concerns as
+  layered functions: shared low-level `load_data(path) -> Any` / `load_folder_data(dir) -> list[Any]`
+  (file(s) → raw dict/list, identical for everyone, in `config/yaml_loader.py`,
+  along with the shared `CONFIG_OBJ_DATA_PATH`/`SETUP_CONFIG_DATA_PATH` path
+  constants), which each colocated `load_X_data` **back-calls** for the I/O
+  step before doing its own entity-specific dict→Config parsing. "File → raw
+  structure" is shared and called; "raw structure → typed X" is unique and
+  colocated. Same for the common text-merge step: `merge_text_by_id(config_dicts,
+  text_dicts)` is a shared **pure** function (no `Path`, no I/O — so it's
+  testable with in-memory dicts) in `config/objs/text_merge.py`, alongside the
+  convenience `load_and_merge_text_by_id(root_path, rel_path)` that composes it
+  with the load step for the common single-file case; composed by the
+  text-bearing entities' loaders.
 - **The loader owns *all* nested/composed type conversion, not just the outer
   object.** E.g. `MapConfig.tiles: tuple[HexCoordinate, ...]` — the loader
   builds fully-formed `HexCoordinate` instances from the raw `list[list[int]]`
@@ -456,14 +101,37 @@ classmethod, not `__post_init__`.
   (`tuple[...]`, `MappingProxyType[...]`) already *is* the immutability
   contract on a frozen dataclass; the loader just needs to construct that type
   once, explicitly, same as everything else it builds.
-- `RulesetConfig` builds `MappingProxyType` indices (ID → object) in `__post_init__`
-  for O(1) lookup, alongside the ordered tuple form if needed.
+- **Root path injection stays; per-entity loaders hardcode their own relative
+  filename.** `load_X_data(root)` takes the data root as a parameter (the one
+  thing tests need to vary — point at a fixture tree), and combines it with a
+  hardcoded relative filename/subdir internally. Filenames aren't parameters —
+  a loader's coupling to its one file is fixed and permanent, so parameterizing
+  it buys no testability, just call-site noise. Keep shared path constants
+  private/relative; never promote the file layout into the caller's contract.
+- Every `load_X_data` returns its `MappingProxyType[str, X]` (ID → object)
+  index directly, built via the shared `index_by_id(configs)` helper
+  (`config/objs/index.py` — raises `DuplicateConfigIDError` rather than
+  letting a later entry silently clobber an earlier one with the same id).
+  `RulesetConfig.load` is a pure aggregation of already-indexed mappings, so
+  `RulesetConfig` itself needs no `__post_init__` to build indices — the
+  per-entity loader is a more specific place to catch a duplicate id than a
+  single index-everything step on the aggregate.
+- **`FromDictMixin`** (`config/fromdict.py`) is the shared dict→instance
+  coercion contract: `from_dict(data)` copies the incoming dict (never
+  mutates the caller's — matters for YAML anchors/aliases resolving to the
+  *same* dict object), calls the subclass's `_init_from_dict(d)` to coerce
+  any nested/composed fields in place, then constructs `cls(**data)`. Only
+  compose it on a class that actually *has* a field needing coercion (a
+  nested Config type, an enum, a tuple built from a raw list); a class whose
+  fields are all already YAML-native primitives doesn't need it and doesn't
+  get a `from_dict` at all (e.g. `AssimilatorTechConfig` — see the Tech
+  worked example below).
 - Config classes use trait mixins for optional fields (`RequiresFunctionalText`,
   `RequiresFlavorText`, `RequiresFlavorTextOptions`) — composed per card type as needed.
 - Enums (`UnitClass`, `TechType`, etc.) live alongside the Config class that
   owns their vocabulary (e.g. `config/objs/unit/unit_class.py`), each
   subclassing the shared `ConfigEnum`/`SerializableEnum` bases in
-  `config/shared/enum.py` — static vocabulary, imported freely by
+  `config/enum.py` — static vocabulary, imported freely by
   State/Resolved without violating layering.
 - `HexCoordinate` (from `geometry/`) is imported into Config the same way — a shared
   value type, not a data-coupling.
@@ -500,16 +168,20 @@ whichever type the technology they're placed on has. Modeled as:
 
 ```python
 @dataclass(frozen=True, kw_only=True)
-class TechConfig(NamedConfigObj, RequiresFunctionalText, CanHaveFactionExclusivity, CanBeExhaustible):
-    prereqs: tuple[TechUpgradeReqConfig, ...] = ()
+class TechConfig(NamedConfigObj, RequiresFunctionalText):
     # no tech_type field here — not universal
+    # no prereqs field here either — see below
+    # no faction-exclusivity mixin here either — see below
+    # no CanBeExhaustible here either — see below
+    pass
 
 @dataclass(frozen=True, kw_only=True)
-class StandardTechConfig(TechConfig):
+class StandardTechConfig(TechConfig, CanHaveFactionExclusivity, CanBeExhaustible, FromDictMixin):
     tech_type: TechType   # required, not nullable
+    prereqs: tuple[TechUpgradeReqConfig, ...] = ()
 
 @dataclass(frozen=True, kw_only=True)
-class AssimilatorTechConfig(TechConfig):
+class AssimilatorTechConfig(TechConfig, RequiresFactionExclusivity):
     pass   # structurally has no tech_type — matches the domain truth exactly
 ```
 
@@ -525,46 +197,169 @@ at all. A `HasCurrentTechType`-style Resolved Protocol could unify that query
 Tech, each resolving it differently underneath — same shape as `Revealable`
 in §6. (Not built yet — Resolved-layer Tech support doesn't exist yet.)
 
-**Refinement — scale and existing discriminators matter, not just whether
-`None` is ambiguous in the abstract.** The subclass-split answer above is
-right for `tech_type` (2 exceptions out of ~90, no existing discriminator to
-lean on). It is **not** automatically right for every optional-but-structural
-field — weigh it against how many instances are affected, and whether a
-discriminator already exists elsewhere that every caller is already required
-to check.
+**Faction exclusivity on Tech is a second, independent split on the same two
+subclasses — different cardinality, not different existence.** Most standard
+techs aren't faction-locked, but some are (e.g. faction-specific upgrades),
+so `StandardTechConfig` composes `CanHaveFactionExclusivity`
+(`faction_exclusive_id: str | None = None`). The two Valefar Assimilator
+tokens, by contrast, are *only ever* printed for Nekro Virus — there's no
+real case where one exists without a faction — so `AssimilatorTechConfig`
+composes `RequiresFactionExclusivity` (`faction_exclusive_id: str`, no
+default) instead. `TechConfig` itself carries neither mixin: putting
+`CanHaveFactionExclusivity` on the shared base and simply re-declaring
+`faction_exclusive_id: str` on `AssimilatorTechConfig` does *not* work — a
+dataclass subclass that re-annotates an inherited field without assigning a
+new value still inherits the base's default via normal attribute lookup
+(verified: `B(A)` re-declaring `x: str` over `A`'s `x: str = None` still
+constructs `B()` successfully with `x=None`), so the field silently stays
+optional. The only reliable way to flip optional→required across a subclass
+boundary is to put each cardinality's mixin on the branch that needs it, not
+on the shared ancestor.
 
-**Worked example: Agenda `target_id`.** Of 50 Agenda cards, ~9 attach to a
-planet and ~13 attach to a player (mutually exclusive — a card is always
-exactly one `AgendaVoteType`: `FOR_AGAINST`, `ELECT_PLAYER`, `ELECT_PLANET`,
-`ELECT_LAW`, `ELECT_SCORE_SECRET_OBJECTIVE`). Splitting into subclasses here
-would mean 22/50 cards moving to specialized types, real `yaml_loader`/
-`save`/`new_game` complexity across ~5 shapes, to guard against an ambiguity
-that's already resolved by a field Config *already has*:
+**`CanBeExhaustible` is likewise only on `StandardTechConfig`, not `TechConfig`.**
+An Assimilator token isn't a real card that gets drawn and exhausted in its
+own right — it's a marker that borrows whatever technology it's assimilated.
+"Can this be exhausted" is a question that only makes sense for a real
+in-play tech, so the mixin belongs on `StandardTechConfig` alone, following
+the same rule as the tech_type/faction-exclusivity splits above: don't put a
+mixin on the shared base unless *every* subclass genuinely needs it.
+
+**`prereqs` moved to `StandardTechConfig` for the same reason — an Assimilator
+token isn't "upgraded through" the tech tree, so it has no prerequisites at
+all.** This has a knock-on effect on `FromDictMixin`: once `prereqs` (needing
+`TechUpgradeReqConfig` coercion) and `tech_type` (needing `TechType(...)`
+coercion) both live only on `StandardTechConfig`, every field remaining on
+`AssimilatorTechConfig` (`id`, `name`, `functional_text`,
+`faction_exclusive_id`) is already a YAML-native primitive that needs no
+coercion at all. So `FromDictMixin` also moves down to `StandardTechConfig`
+only — `AssimilatorTechConfig` has no `from_dict`, and `load_tech_data`
+constructs it directly (`AssimilatorTechConfig(**d)`) instead. This is the
+general pattern: `FromDictMixin` belongs on whichever class actually needs to
+convert raw dict values into richer types, not reflexively on every Config
+class — a class with only primitive fields doesn't need it.
+
+**Contrasting example: standard vs. advanced setup config — *pairing*, not a
+split and not an `Optional`.** Every player count has *both* a standard and an
+advanced setup definition, always, 1:1 — neither is a specialization of the
+other, and neither is ever absent. That relationship is neither the `tech_type`
+case (a field whose concept is absent for a subset → subclass) nor a nullable
+field (sometimes-absent → `Optional`). It's two complete, coexisting
+configurations held side by side, with *which one applies* decided at runtime.
+The implementation (`config/setup/base.py`, `config/setup/advanced.py`)
+settled on a **flattened** version of this pairing rather than two fully
+parallel sibling objects — the "standard" fields live directly on
+`SetupConfig` itself, and only `advanced` is a nested sibling substructure:
 
 ```python
 @dataclass(frozen=True, kw_only=True)
-class AgendaConfig(NamedConfigObj, CanBeExhaustible):
-    vote_type: AgendaVoteType
+class AdvancedMapSetupTileConfig(FromDictMixin):
+    tile_color: TileColor          # BLUE or RED only — validated in __post_init__
+    num_tiles: int                 # must be >= 1 — validated in __post_init__
+
+@dataclass(frozen=True, kw_only=True)
+class AdvancedSetupConfig(FromDictMixin):
+    setup_tiles_per_player: tuple[AdvancedMapSetupTileConfig, ...]
+    extra_setup_tiles: tuple[AdvancedMapSetupTileConfig, ...] = ()
+
+@dataclass(frozen=True, kw_only=True)
+class PlayerSetupConfig(FromDictMixin):
+    home_system_coordinates: HexCoordinate
+    trade_good_bonus: int = 0
+
+@dataclass(frozen=True, kw_only=True)
+class SetupConfig(FromDictMixin):        # the per-player-count pairing
+    map_shape_id: MapShape
+    player_setup: tuple[PlayerSetupConfig, ...]   # "standard" fields, flattened in
+    advanced: AdvancedSetupConfig                  # required, not `| None` — always present
+
+    @property
+    def num_players(self) -> int:
+        return len(self.player_setup)            # derived, never stored
 ```
+
+`advanced` is a **required** field, not `AdvancedSetupConfig | None`: since it's
+always present, it's a plain required field, which sidesteps the null-check
+ambiguity an `Optional` would introduce. There is no separate
+`StandardSetupConfig` sibling class — once "standard" turned out to be just
+`SetupConfig`'s own base shape (map + per-player setup), giving it its own
+parallel class would have meant an empty pass-through wrapper for no benefit;
+`advanced` earns its own nested class because it has multiple fields
+(`setup_tiles_per_player`, `extra_setup_tiles`) that don't belong flattened
+onto `SetupConfig` directly. `player_count` likewise isn't a stored field —
+`num_players` is a derived `@property` off `len(player_setup)`, so it can
+never drift out of sync with the actual player list (`config/setup/loader.py`'s
+`load_setup_data(root, num_players)` linear-scans `setup.yaml`'s entries and
+matches on this derived value). The config layer stays **mode-agnostic** — it
+carries `advanced` unconditionally, whether or not a given game uses it; mode
+selection (choosing to consume `.advanced` vs. the flattened standard fields)
+is runtime-layer (`GameSetupSession`/`new_game`) responsibility, matching the
+pattern below, though a `SetupMode`-driven dispatch isn't wired up yet —
+`GameSetupSession` currently only consumes the flattened standard field
+(`player_setup`). This mirrors
+"mode governs behavior, not data shape." `data/setup/setup.yaml` reflects the
+flattened shape directly — each per-player-count entry has `map_shape_id`/
+`player_setup` at the top level and a nested `advanced:` block, with no
+separate `standard:` block, since those fields already live on `SetupConfig`
+itself.
+
+**The decision family, summarized** (three relationships that look similar but
+resolve differently): concept-absent-for-a-subset → subclass split
+(`tech_type`); sometimes-absent-value → `Optional`; both-always-present-selected-
+at-runtime → required-field pairing of siblings (setup config). Match the shape
+to the actual relationship, not to surface similarity.
+
+**Worked example: Promissory Note templated text — structural segments, not a
+hard-coded placeholder string.** A standard promissory note's functional text
+names the *issuing player's color* mid-sentence (e.g. "...return this card to
+the Yellow player."), but that color isn't known until a specific game
+assigns the card to a player — unlike a faction promissory note, whose text
+is fully static. An earlier draft stored the standard note's text as one
+string with a placeholder token, replaced via `str.replace()` at query time —
+rejected in favor of a structural split, matching this project's general
+distaste for stringly-typed workarounds for a color that's a real, typed
+`PlayerColor` value:
 
 ```python
-@dataclass(kw_only=True)
-class AgendaCardState(ExhaustableStateMixin):
-    target_id: str | None = None   # elected player_id or planet_id — meaning
-                                     # determined by Config's vote_type, never
-                                     # read without checking it first
+@dataclass(frozen=True, kw_only=True)
+class PromissoryNoteConfig(NamedConfigObj):
+    pass
+
+@dataclass(frozen=True, kw_only=True)
+class FactionPromissoryNoteConfig(PromissoryNoteConfig, RequiresFactionExclusivity, RequiresFunctionalText):
+    pass    # fully static text — no player color ever appears in it
+
+@dataclass(frozen=True, kw_only=True)
+class StandardPromissoryNoteConfig(PromissoryNoteConfig, FromDictMixin):
+    # The raw YAML is a list of text *segments*, split at every point the
+    # issuing player's color needs to be inserted - never a single string
+    # with a placeholder substring to find-and-replace.
+    player_color_functional_text: tuple[str, ...]
 ```
 
-Every `instance_id` in the whole State model is a globally-unique `uuid4()`,
-so one field can safely hold "whichever kind of entity `vote_type` says this
-card elects" — same trick that let `PlayerState.scored_objective_ids` unify
-Public/Secret objective IDs (§6). `target_id` is only ever read after checking
-`ruleset_config.agenda(card.config_id).vote_type` — same Config-gated access
-discipline already used for `exhaustable` legality, extended to a second field.
-**Rule of thumb:** reach for a subclass split when the field is rare (small
-fraction of instances) *and* there's no existing enum every caller already
-checks; reach for a flat nullable field, gated by an existing discriminator,
-when neither condition holds.
+`ResolvedPromissoryNote.functional_text` does the actual assembly, joining
+the segments with the *live* `PlayerColor` pulled from
+`PromissoryNoteCardState.issuing_player_color` (`Final[PlayerColor | None]`,
+`None` until the card is issued) — this is Resolved-layer work precisely
+because it needs *both* the Config (the static segments) and the State (the
+live color) together, matching §4's rule for when a `Resolved*` type earns
+its methods:
+
+```python
+@property
+def functional_text(self) -> str:
+    if isinstance(self.config, StandardPromissoryNoteConfig):
+        return f" {self.state.issuing_player_color} ".join(self.config.player_color_functional_text)
+    return self.config.functional_text
+```
+
+`ResolvedPromissoryNote.__post_init__` also enforces the state/config pairing
+invariant this split creates: a `StandardPromissoryNoteConfig` must be paired
+with a State that *has* an issuing color, and a `FactionPromissoryNoteConfig`
+must be paired with a State that does *not* — raising `ValueError` if either
+is violated, since those are the only two valid combinations and nothing
+short of a runtime check (config subclass vs. state's optional field, two
+independently-typed pieces) can make the invalid pairing structurally
+unrepresentable.
 
 ## 3. State layer
 
@@ -607,7 +402,7 @@ when neither condition holds.
 
 Decision test:
 - **Needs to *store* real data / be composed with `default_factory`?** → concrete
-  dataclass mixin (e.g. `PlayerOwnable`, `ExhaustableStateMixin`).
+  dataclass mixin (e.g. `PlayerOwnableMixin`, `Exhaustible`).
 - **Only declares a required shape, no data of its own, used across *unrelated*
   class families with no common ancestor** (e.g. Config-layer + Resolved-layer
   traits)? → `Protocol`.
@@ -618,41 +413,33 @@ Decision test:
 
 **Composition over inheritance** for mechanism-sharing mixins whose *generic verb
 names* shouldn't leak onto the leaf class's public surface:
-- `PlayerOwnable` (`owner_player_id`, `assign_owner`/`remove_owner`) is *composed*
-  as a field (`ownership: PlayerOwnable`) rather than inherited, because different
-  leaf types use different domain vocabulary for the same mechanism — a Planet is
-  "controlled" (`assign_control`), a Speaker Token is "assigned" (`assign_speaker`).
-  Each leaf writes its own thin, domain-named forwarding method to
-  `self.ownership.assign_owner(...)`. This avoids leaking the generic method name
-  onto every leaf's public API.
-- `Exhaustable` was **collapsed directly into `ExhaustableStateMixin`** (inherited,
-  not composed) because "exhaust"/"ready" terminology never diverges across entity
-  types in this game — no vocabulary to protect, so composition's benefit doesn't
-  apply. Rule of thumb: compose when vocabulary varies by leaf type; inherit
-  directly when it doesn't.
-- Where multiple leaf types want the *same* generic vocabulary (no divergence),
-  a `Protocol` convenience mixin (e.g. `HasOwnership`) can supply default
-  forwarding methods (`assign_owner`) — leaf classes needing generic vocab inherit
-  both the storage mixin *and* the convenience Protocol; leaf classes needing
-  custom vocab inherit only the storage mixin and write their own forward.
-
-**Worked example: `exhausted` must never be `bool | None`.** Only some Tech
-(and some Agenda) cards are exhaustible — the temptation is to make the State
-field `bool | None` to represent "doesn't apply." Don't: `exhausted=False` is
-never ambiguous, even for a card that can *never* be exhausted — it's simply,
-harmlessly true ("not currently exhausted"). The "is this exhaustible at all"
-fact belongs on **Config**, not State: `TechConfig` already composes
-`CanBeExhaustible` (per §2) for exactly this reason, and `AgendaConfig` should
-too. Every `TechCardState`/`AgendaCardState` composes `ExhaustableStateMixin`
-**unconditionally**, with a plain `exhausted: bool = False` — no `Optional`,
-no per-card conditional field, no subclass split. Legality (can this specific
-card actually be exhausted) is checked once, at the Resolved-layer `exhaust()`
-method, against `config.exhaustable`/the `CanBeExhaustible` mixin data —
-never by inspecting whether the State field happens to be `None`. This is the
-simplest point on the same spectrum as the `tech_type` and `target_id`
-examples above: a plain unconditional field, gated by Config, needs neither
-`Optional` nor a subclass — reach for those only when the field's *meaning*
-(not just its legality) genuinely varies per instance.
+- Player ownership (`state/base/ownable.py`) is split into two layers: the
+  private `_PlayerOwnable` dataclass holds the real data
+  (`owned_by_player_id: str | None`) and the mechanism
+  (`set_owner`/`release_owner`/`is_owned`/`is_owned_by_player`); the public
+  `PlayerOwnableMixin` *composes* it as a field (`ownable: _PlayerOwnable`,
+  `default_factory=_PlayerOwnable`) rather than inheriting it, because
+  different leaf types use different domain vocabulary for the same
+  mechanism — a Planet is "controlled" (`assign_control`), a Speaker Token is
+  "assigned" (`assign_speaker`). Each leaf writes its own thin, domain-named
+  forwarding method to `self.ownable.set_owner(...)`. This avoids leaking the
+  generic method name onto every leaf's public API. A structural
+  `OwnableEntity` Protocol (`ownable: _PlayerOwnable`, `id: str`) lets
+  `BaseService._require_ownership` check ownership generically against any
+  leaf type without caring which domain vocabulary that leaf exposes
+  publicly.
+- `Exhaustible` (`state/base/exhaustible.py`) is **inherited directly**, not
+  composed, because "exhaust"/"ready" terminology never diverges across
+  entity types in this game — no vocabulary to protect, so composition's
+  benefit doesn't apply. Rule of thumb: compose when vocabulary varies by
+  leaf type; inherit directly when it doesn't.
+- An earlier draft added a `Protocol` convenience mixin (`HasOwnership`) to
+  supply default forwarding methods for leaf types with no vocabulary to
+  protect — **removed**: it added a second, largely-redundant inheritance
+  path for a one-line forward (`self.ownable.set_owner(...)`) that a leaf
+  class can just as easily write itself, or, when it has no bespoke
+  vocabulary at all (e.g. `NaaluTokenState`), skip entirely and call
+  `.ownable.set_owner(...)` straight through the composed field.
 
 ### `Serializable` — single shared terminal / ABC root
 
@@ -701,10 +488,13 @@ examples above: a plain unconditional field, gated by Config, needs neither
   `default_factory=...` or no default at all do **not** survive `__new__` —
   they raise `AttributeError` until explicitly set. This only matters for the
   `load` path; the `new_game` path avoids it entirely by using `cls()` directly.
-- `instance_id` uses `field(default_factory=lambda: str(uuid4()))` — not a
-  required no-default field — specifically so trivial "no real setup needed"
-  leaf classes can construct via plain `cls()` with zero required arguments where
-  appropriate.
+- `UUIDInstancedStateObj.instance_id` uses
+  `field(init=False, default_factory=lambda: uuid4().hex)` — not a required
+  no-default field, and not even settable through the constructor
+  (`init=False`) — since identity is never a legitimate value for a caller to
+  supply; combined with `default_factory`, this also lets trivial "no real
+  setup needed" leaf classes (e.g. `NaaluTokenState`) construct via plain
+  `cls()` with zero required arguments where appropriate.
 
 ### `__post_init__` — when it's appropriate
 
@@ -714,11 +504,27 @@ doesn't belong in `__post_init__`.
 
 - **Good fit**: purely structural derivations from already-provided sibling
   fields, with no legitimate independent value a caller could want instead.
-  - `RulesetConfig._strategy_card_index` built from `self.strategy_cards`.
-  - `PlayerState.command_token_reinforcement_pool = 16 - (tactic + fleet + strategy)`
-    — always must be synchronized to the other three pools, regardless of
-    construction path (new game, loaded game, etc.), pure arithmetic, no
-    domain-rule branching, no external context needed.
+  - **Stronger version, prefer it when possible: don't even compute-and-store
+    in `__post_init__` — derive on every access via a plain `@property`
+    instead**, so there's no field to keep in sync (or forget to recompute on
+    `load()` — see the caveat below) and nothing to save/restore at all.
+    `PlayerState.command_token_reinforcement_pool` was originally a
+    `__post_init__`-computed field; it's now `@property` returning
+    `16 - (tactic_pool + fleet_pool + strategy_pool)` on every access — same
+    "always synchronized, pure arithmetic, no domain-rule branching" reasoning
+    as before, just with nothing stored (and so nothing `save()`/`init_from_save`
+    need to carry).
+  - `__post_init__` is still the right tool when the derived value must be a
+    real *stored* field (e.g. because something else needs to reference it by
+    identity, or recomputing per-access would be wasteful) rather than a
+    cheap-to-recompute property — none of the current classes need this
+    today, but the tool remains available for when one does.
+  - Cross-field **validation** (not derivation) is also a good fit, since it
+    never clobbers an explicitly-passed value, only rejects an invalid
+    combination of already-provided fields: `AgendaConfig.__post_init__`
+    rejects a non-`None` `planet_trait` on any `vote_scenario_type` other than
+    `ELECT_PLANET`; `AdvancedMapSetupTileConfig.__post_init__` rejects
+    `num_tiles < 1` and a `tile_color` outside `{BLUE, RED}`.
 - **Bad fit**: anything requiring domain-rule branching, external context, or
   reaching into sibling containers (e.g. deciding which special tokens exist
   based on chosen factions — that's `new_game()`'s job, not `__post_init__`'s,
@@ -732,9 +538,24 @@ doesn't belong in `__post_init__`.
 
 ## 4. Resolved layer
 
-- `Resolved[TState, TConfig]` — generic dataclass base (`state`, `config` fields),
+- `BaseResolvedObj[TState: Serializable, TConfig: IDConfigObj]` (`resolved/base.py`)
+  — generic `slots=True, frozen=True` dataclass base (`state`, `config` fields),
   for the common one-State/one-Config case. Entities needing multiple Configs (or
-  none) use a bespoke dataclass instead of forcing the generic shape.
+  none) use a bespoke dataclass instead of forcing the generic shape (e.g.
+  `ResolvedPromissoryNote` still fits the generic shape but adds `__post_init__`
+  validation on top of it — see the Promissory Note worked example in §2).
+- **`GameStateResolver`** (`resolved/game_state_resolver.py`) is the single
+  factory for every `Resolved*` object: constructed from one `GameState` +
+  one `RulesetConfig`, its `resolved_player`/`resolved_unit`/`resolved_planet`/
+  `resolved_system` methods look up the State and Config halves by id and
+  wrap them. Every "unknown id" failure mode is a subclass of the shared
+  `UnknownEntityError` (`GameError` → `UnknownEntityError` → e.g.
+  `UnknownDeployedUnitError`, `UnknownSystemStateError`), which overrides
+  only a `ClassVar[str] entity_type` label — the base `__init__` builds the
+  full message from it, so a new "unknown X" error is a two-line class, not a
+  hand-written message at every call site. `GameStateResolver._get` is the
+  shared lookup helper (`dict[id] → value`, or raise the given error class)
+  that every `resolved_*` method calls.
 - **Build a `Resolved*` type only once 2+ real methods genuinely need State+Config
   together** — don't build speculatively just because a State object has a
   `config_id`. (`ResolvedUnit` was justified immediately — movement, combat both
@@ -749,60 +570,11 @@ doesn't belong in `__post_init__`.
   exactly which Config-layer traits that entity's Config type has (mirrors the
   Config-layer mixin composition 1:1).
 - Config-dependent **decisions** belong at this layer (or Services), not in State:
-  e.g. `Exhaustable` legality (`config.exhaustable: bool`, since it varies per
-  specific card, not per class). Reading `config.exhaustable` is precisely the
-  Config-aware justification that earns a Resolved-layer `exhaust()` method under
-  Rule 2 below — a legality check is not a pure forward. Absent any such
-  Config-aware check (an operation that only mutates State), no Resolved method
-  is written and the Service reaches the mutation via `resolved.state.<method>()`
-  instead. See the two-rule pair immediately below for the full boundary.
-
-### Two rules that together define the access boundary and the Resolved interface
-
-These are complementary, not contradictory — the first governs *how Services
-reach State*, the second governs *what a `Resolved*` object exposes*. State
-them together so neither gets misread in isolation.
-
-**Rule 1 — access is uniform: Services and Orchestration reach State *only*
-through `GameStateResolver`, never `GameState` directly.** There is exactly
-one access path, with no "does this operation happen to need Config" branch at
-the call site. The resolver returns a `Resolved*` binding where the entity has
-an associated Config, and plain State (via a plainly-named accessor, e.g.
-`resolver.player(player_id) -> PlayerState`, *not* dressed up as a fake
-`resolved_*` call) where the entity genuinely has no Config to bind. Either
-way the Service never touches a `GameState` container itself — "does this
-entity have Config" is an implementation detail the resolver's interface
-absorbs, not a branch that leaks into Service code. This is what keeps the
-"nothing above `resolved/` touches raw containers" boundary structurally true
-rather than a per-call judgment call.
-
-**Rule 2 — a `Resolved*` method earns its place only by reading `self.config`.**
-A pure, Config-free state mutation (`exhaust`, `ready`, `assign_control`) does
-**not** get wrapped in a redundant Resolved-layer method that just forwards to
-State — the Service reaches it via `resolved.state.exhaust()` on the resolved
-object it already holds. A `Resolved*` method is justified only when it does
-something raw State can't: read `self.config` for a legality check
-(`config.exhaustable` before exhausting), a derived value, or a Config-aware
-query (`is_exhaustible`, `can_exhaust`). Wrapping pure forwards makes the
-Resolved layer a second, redundant copy of the State interface — the exact
-redundancy that motivated this rule.
-
-**How they interact (the point that resolves the apparent tension):** because
-Rule 1 makes *every* Service access go through the resolver and land on a
-`Resolved*` object, `resolved.state.exhaust()` *is* the uniform path for pure
-mutations — there is no competing "grab raw State from `GameState`" path for it
-to be inconsistent with. Config-aware operations go through a real `Resolved*`
-method on that same object; pure mutations go through `.state` on that same
-object. One access path (Rule 1), two kinds of operation on the object it
-returns (Rule 2). Corollary: the Resolved-layer *forwarding* Protocols for
-pure mutations (a `ResolvedExhaustibleProtocol` that only forwards
-`exhaust`/`ready`, a Resolved-layer `PlayerOwnable` convenience protocol that
-only forwards `assign_owner`) should not be built until a Service actually
-needs a Config-aware version — at which point the method stops being a pure
-forward and earns the wrapper. The domain-vocabulary methods at the *State*
-layer (`assign_control`/`assign_speaker` forwarding to `ownable.assign_owner`)
-stay regardless — they serve direct-State callers (tests, save/load) that
-never touch the Resolved layer at all.
+  e.g. `Exhaustible` legality (`config.exhaustible: bool`, since it varies per
+  specific card, not per class) should be checked in a Resolved-layer
+  `exhaust()` method before forwarding to the State mutation. (Not built yet —
+  no `Resolved*` class currently has an `exhaust()` method; `Exhaustible`
+  today is only exercised directly on the State object.)
 
 ## 5. Domain Services
 
@@ -811,80 +583,47 @@ never touch the Resolved layer at all.
 - Built on top of `Resolved*` objects, not raw State + manual `config_id` lookups
   — eliminates repeated `ruleset_config.unit(state.config_id)` boilerplate at
   every call site.
-
-### Worked example: `MovementService` — the first Domain Service, setting the pattern
-
-`MovementService.move_unit(*, unit_id, destination_system_id,
-requesting_player_id)` (specs/003-single-unit-movement) is the first
-concrete Domain Service built against the rules above, and its shape is the
-intended template for the ones after it (`CombatService`, etc.), not a
-one-off:
-
-- **One exception per distinguishable rejection reason, never a
-  string/enum "reason" field — but not necessarily all living in the
-  Service's own module.** `app/errors.py`'s `GameError(Exception)` is the
-  app-wide root every domain exception ultimately inherits, `MovementError`
-  included. Below it, two kinds of rejection turned out to be cross-cutting
-  rather than Movement-specific, and moved to where the behavior they report on
-  actually lives:
-  - **"Unknown id" belongs to the resolver, not the Service.** Every
-    `GameStateResolver.resolved_*` method can fail the same way (an id that
-    doesn't exist), so `GameStateResolver` defines one `UnknownEntityError(GameError)`
-    base (`entity_type: ClassVar[str]`, message built from the id alone) and
-    one subclass per (container, id-namespace) pair — `UnknownDeployedUnitError`,
-    `UnknownSystemStateError`, `UnknownPlanetStateError`, `UnknownPlayerError`,
-    etc. — plus a generic `_get[T](entity_dict, entity_id, error_cls)` helper
-    every `resolved_*` method calls. A Service never catches `KeyError` or
-    writes its own `Unknown*Error` translation at all; it just calls
-    `resolver.resolved_unit(...)`/`resolved_system(...)` and lets the typed
-    error propagate.
-  - **"Wrong owner" belongs to the ownership mechanism, not the Service.**
-    `app/state/base/ownable.py` defines `OwnershipError(GameError)`, taking
-    `(entity_id, actual_owner_id)`; a leaf's own ownership-error subclass
-    (`UnitState`'s `UnitOwnershipError`) lives next to that leaf, not in
-    whichever Service happens to check it first. `BaseService._require_ownership(entity, player_id, error_cls)`
-    is the shared call every Service uses: checks
-    `entity.ownable.is_owned_by_player(player_id)`, raises
-    `error_cls(entity.id, entity.ownable.owned_by_player_id)` if not.
-  - **What's left in the Service's own module is what's genuinely specific
-    to it.** `MovementService` only defines `MovementError` (base) plus
-    `SelfMoveError`/`IllegalDestinationError` — the two rejections that are
-    actually about movement's own domain legality, not about entity
-    existence or ownership in general. The practical cost: a caller can no
-    longer catch "any movement rejection" with one `except MovementError`,
-    since two of the five original candidates moved to different bases —
-    each rejection is still its own real Python type, just not all
-    siblings anymore.
-- **Guard-clause ordering: existence, then identity/authorization, then
-  domain legality, then mutate — in that fixed order, every time.**
-  `move_unit` resolves the unit and destination first (unknown id →
-  `UnknownDeployedUnitError`/`UnknownSystemStateError`, raised by the
-  resolver itself per the point above — no `try`/`except` needed in the
-  Service), only *then* checks ownership via `_require_ownership`, only
-  *then* checks domain-specific legality (self-move, hex-adjacency), and
-  mutates last. Existence must come first because every later check is
-  meaningless against an id that doesn't resolve to anything; a more
-  specific rejection (`SelfMoveError`) is checked before a more general one
-  (`IllegalDestinationError`) it would otherwise also, correctly but less
-  informatively, satisfy — order guard clauses from "cheapest/most certain
-  to short-circuit" to "most specific before more general," not
-  arbitrarily.
-- **A `Resolved*` object earning its place ahead of a Config-reading method
-  (Rule 2 above) generalizes past single-entity cases.** `ResolvedSystem`
-  was added by this feature with a `pass`-only body — no method on it reads
-  `self.config` yet — justified the same way `ResolvedUnit` was in §4:
-  a real, near-term need already exists (this Service, today), even though
-  the first consumer only needs `self.state`.
+- **`BaseService`** (`services/base.py`) holds the one `GameStateResolver` a
+  concrete Service needs (`self._resolver`) and a shared
+  `_require_ownership(entity, player_id, error_cls)` helper — checks
+  `entity.ownable.is_owned_by_player(player_id)` (via the `OwnableEntity`
+  Protocol from §3) and raises the caller-supplied `error_cls` if not, so
+  every Service gets ownership-checking for free without hand-rolling the
+  `if not ...: raise` at each call site.
+- **`MovementService`** (`services/movement.py`) is the first realized
+  Service: `move_unit(unit_id, destination_system_id, requesting_player_id)`
+  resolves both the unit and the destination system through the resolver,
+  checks ownership via `_require_ownership`, rejects a no-op move to the
+  unit's own system (`SelfMoveError`) and a non-adjacent destination
+  (`IllegalDestinationError` — adjacency checked via
+  `HexCoordinate.neighbors`, the only legal-destination rule this feature
+  currently models), then forwards the single primitive
+  (`destination_system_id`) to `UnitState.place_in_system`.
+- **Two exception-subclassing styles, chosen by whether the message is fully
+  determined by a single id.** `UnknownEntityError`/`OwnershipError` (§3, §4)
+  use the **label-only `ClassVar` style**: many near-identical variants exist
+  (one per entity type), and each one's message is fully determined by one id
+  plus a short label, so a shared parameterized `__init__` on the base class
+  pays for itself. `MovementError`'s subclasses (`SelfMoveError`,
+  `IllegalDestinationError`) use the **plain-marker style** instead: each
+  raise site has richer, situation-specific context to report (both the unit
+  id and both system ids, in prose that differs per error) that doesn't
+  reduce to "fill in one label," so the message is built at the raise site
+  and the subclass exists only to be caught/distinguished by type. Don't
+  default to the `ClassVar` style everywhere — use it only when the
+  near-identical-variants condition actually holds.
 
 ## 6. State-to-state relationship rules ("derive, don't store both sides")
 
 Pick exactly **one side** to store a reference on — never both, never store a
 computed reverse-list that could drift out of sync. Classify by cardinality:
 
-1. **1:many** → store the "1" reference on each of the "many" (e.g. `system_id`
-   on `UnitState`, not a `unit_ids` list on `SystemState`).
+1. **1:many** → store the "1" reference on each of the "many" (e.g.
+   `UnitState.location.location_id`, a system/planet/ship id depending on
+   `UnitLocation.loc_type` — see `state/unit/location.py` — not a `unit_ids`
+   list on `SystemState`).
 2. **1:many, optional on the many side** → same as (1), just `Optional`
-   (e.g. `SecretObjectiveCardState.owner_player_id: str | None`).
+   (e.g. `SecretObjectiveCardState`'s composed `ownable.owned_by_player_id: str | None`).
 3. **1:optional(0-1)** → store on the consistent/always-present side
    (e.g. `PlayerState.faction_config_id`, not a back-reference on `FactionConfig`).
 4. **many:many** → store on whichever side "cares" about the relationship
@@ -902,11 +641,13 @@ same way, never stored as an incrementable counter.
 
 ### Worked example: Secret Objectives
 
-- Lifecycle modeled via a `SecretObjectiveZone` enum (`DECK`, `HAND`, `SCORED`,
-  `REVEALED`) on the card — not separate booleans (avoids representable-but-invalid
-  states like `scored=True, owner=None`).
-- `owner_player_id: str | None` on the card (rule 2) — who drew/originally scored
-  it; permanent once set, independent of the `zone` transitions.
+- Lifecycle modeled via a `SecretObjectiveZone` enum (`IN_DECK`, `IN_HAND`,
+  `SCORED`, `REVEALED`) on the card — not separate booleans (avoids
+  representable-but-invalid states like `scored=True, owner=None`).
+- Ownership (rule 2) is the generic `PlayerOwnableMixin`/`ownable` composition
+  from §3, not a bespoke `owner_player_id` field — `give_to_player` forwards
+  to `self.ownable.set_owner(player_id)`; permanent once set, independent of
+  the `zone` transitions.
 - Once a card enters `REVEALED` (via the one agenda card effect), it does **not**
   move to a different container/deck — `zone` transitions in place; "currently
   public" is a derived filter (`zone == REVEALED`), never a physical relocation.
@@ -927,13 +668,22 @@ same way, never stored as an incrementable counter.
   choices (which factions were picked) — structurally analogous to
   `UnitState`/`PlanetState`/objective cards (`GameState` only ever models what's
   *actually present* in this game, never the full space of what's *possible* —
-  that's `RulesetConfig`'s job).
-- Construction belongs in `new_game()` composition logic (e.g.
-  `SpecialTokenStates.new_game(player_faction_ids, ruleset_config)`), **not**
-  `__post_init__` (that would be reaching into external context/decisions, not
-  deriving from already-provided fields) and **not** pushed to a layer above
-  `GameState` (this is the same category of work `GameState.new_game()` already
-  does for map layout, factions, etc.).
-- Token → owner is rule 1/2 shape: `owner_player_id` stored on the token (often
-  non-optional, since these tokens are only ever constructed once an owner is
-  already known — no "exists but unowned" state is representable).
+  that's `RulesetConfig`'s job). Currently modeled as `X | None = None` fields
+  directly on `GameState` (`naalu_token`, `nekro_assimilator_tokens`,
+  `creuss_wormhole_tokens` — the latter two `tuple[X, X] | None` since each of
+  those factions has exactly two tokens when present) — there's no separate
+  `SpecialTokenStates` aggregate class wrapping them.
+- Construction *should* belong in `new_game()` composition logic once that
+  decision is implemented — reaching into which factions were picked to decide
+  which tokens exist is a genuine setup *decision*, not a mechanical
+  derivation, so it doesn't belong in `__post_init__`, and it's the same
+  category of work `GameState.new_game()` already does for map layout,
+  factions, etc. (Not built yet — `GameState.new_game(players, systems,
+  planets)` doesn't take faction ids or a `RulesetConfig` today, and simply
+  leaves all three fields at their `None` default regardless of which
+  factions are in the game.)
+- Token → owner is rule 1/2 shape: the `PlayerOwnableMixin`/`ownable`
+  composition from §3 stored on the token (often effectively non-optional in
+  practice, since these tokens are only ever constructed once an owner is
+  already known, even though `_PlayerOwnable.owned_by_player_id` is typed
+  `str | None`).

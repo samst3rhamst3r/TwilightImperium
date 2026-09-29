@@ -1,25 +1,34 @@
 from dataclasses import dataclass
+from typing import Final
 
 from app.config.objs.promissory_note import (
     FactionPromissoryNoteConfig,
     PromissoryNoteConfig,
     StandardPromissoryNoteConfig,
 )
+from app.config.player_color import PlayerColor
 from app.state.card.promissory_note import PromissoryNoteCardState
 
 from .base import BaseResolvedObj
 
 @dataclass(slots=True, frozen=True)
-class ResolvedPromissoryNote(BaseResolvedObj[PromissoryNoteCardState, PromissoryNoteConfig]):
-
-    def __post_init__(self):
-        if isinstance(self.config, StandardPromissoryNoteConfig) and not self.state.is_issued_to_player:
-            raise ValueError(f"Standard promissory notes must have an issuing player color.\nCONFIG: {self.config}")
-        if isinstance(self.config, FactionPromissoryNoteConfig) and self.state.is_issued_to_player:
-            raise ValueError(f"Faction promissory notes cannot have an issuing player color.\nCOLOR: {self.state.issuing_player_color}\nCONFIG: {self.config}")
+class ResolvedPromissoryNote[TConfig: PromissoryNoteConfig](BaseResolvedObj[PromissoryNoteCardState, TConfig]):
 
     @property
     def functional_text(self) -> str:
-        if isinstance(self.config, StandardPromissoryNoteConfig):
-            return f" {self.state.issuing_player_color} ".join(self.config.player_color_functional_text)
+        pass
+
+@dataclass(slots=True, frozen=True)
+class ResolvedFactionPromissoryNote(ResolvedPromissoryNote[FactionPromissoryNoteConfig]):
+
+    @property
+    def functional_text(self) -> str:
         return self.config.functional_text
+
+@dataclass(slots=True, frozen=True)
+class ResolvedStandardPromissoryNote(ResolvedPromissoryNote[StandardPromissoryNoteConfig]):
+    issuer_color: Final[PlayerColor]
+
+    @property
+    def functional_text(self) -> str:
+        return f" {self.issuer_color} ".join(self.config.player_color_functional_text)

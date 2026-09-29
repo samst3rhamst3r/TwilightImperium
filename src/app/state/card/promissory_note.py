@@ -1,27 +1,26 @@
 from dataclasses import dataclass
 from typing import Final
 
-from app.config.player_color import PlayerColor
-
 from app.state.base.mixins import UUIDInstancedStateObj
 
 @dataclass(kw_only=True)
 class PromissoryNoteCardState(UUIDInstancedStateObj):
-    issuing_player_color: Final[PlayerColor | None] = None
+    issuing_player_id: Final[str]
+    holding_player_id: str
 
-    @property
-    def is_issued_to_player(self) -> bool:
-        return self.issuing_player_color is not None
+    def transfer_to(self, player_id: str) -> None:
+        self.holding_player_id = player_id
 
-    def is_issued_to(self, player_color: PlayerColor) -> bool:
-        return self.issuing_player_color == player_color
+    def return_to_issuer(self) -> None:
+        self.holding_player_id = self.issuing_player_id
 
     def save(self):
         return super().save() | {
-            "issuing_player_color": self.issuing_player_color
+            "issuing_player_id": self.issuing_player_id,
+            "holding_player_id": self.holding_player_id
         }
 
     def init_from_save(self, data: dict) -> None:
         super().init_from_save(data)
-        issuing_player_color = data["issuing_player_color"]
-        self.issuing_player_color = PlayerColor(issuing_player_color) if issuing_player_color is not None else None
+        self.issuing_player_id = data["issuing_player_id"]
+        self.holding_player_id = data["holding_player_id"]

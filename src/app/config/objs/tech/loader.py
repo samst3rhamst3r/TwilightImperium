@@ -13,7 +13,7 @@ _ASSIMILATOR_TECH_IDS = frozenset({TechID.VALEFAR_ASSIMILATOR_X, TechID.VALEFAR_
 def _tech_from_dict(d: dict) -> TechConfig:
     """Dispatch by id (a known discriminator), never by whether tech_type happens to be absent."""
     if d["id"] in _ASSIMILATOR_TECH_IDS:
-        return AssimilatorTechConfig.from_dict(d)
+        return AssimilatorTechConfig(**d)
     return StandardTechConfig.from_dict(d)
 
 def load_tech_data(root_data_path: Path) -> MappingProxyType[str, TechConfig]:

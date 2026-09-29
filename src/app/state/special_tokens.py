@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import ClassVar, Final
+from typing import ClassVar, Final, Literal, get_args, get_type_hints
 
 from app.config.objs.system import WormholeType
 from app.state.base.ownable import PlayerOwnableMixin
@@ -61,14 +61,12 @@ class InvalidWormholeType(ValueError):
 
 @dataclass(kw_only=True)
 class CreussWormholeTokenState(Serializable):
-    wormhole_type: Final[WormholeType]
+    wormhole_type: Final[Literal[WormholeType.ALPHA, WormholeType.BETA]]
     active_system_id: str | None = None
 
-    _VALID_WORMHOLE_TYPES: ClassVar[tuple[WormholeType, ...]] = (WormholeType.ALPHA, WormholeType.BETA)
-
     def __post_init__(self):
-        if self.wormhole_type not in self._VALID_WORMHOLE_TYPES:
-            raise InvalidWormholeType(f"Invalid wormhole type {self.wormhole_type} for Creuss token. Valid types are: {', '.join(t.name for t in self._VALID_WORMHOLE_TYPES)}")
+        if self.wormhole_type not in (WormholeType.ALPHA, WormholeType.BETA):
+            raise InvalidWormholeType(f"Invalid wormhole type {self.wormhole_type} for Creuss token. Valid types are: {', '.join(t.name for t in (WormholeType.ALPHA, WormholeType.BETA))}")
 
     def save(self) -> dict:
         return super().save() | {

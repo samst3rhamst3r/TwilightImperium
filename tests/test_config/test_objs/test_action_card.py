@@ -1,11 +1,10 @@
 """Mirrors src/app/config/objs/action_card.py."""
 from app.config.objs.action_card import ActionCardConfig
-from app.config.shared import NamedConfigObj, RequiresFlavorTextOptions, RequiresFunctionalText
+from app.config.shared import NamedConfigObj, RequiresFunctionalText
 
 def test_action_card_config_composes_the_expected_mixins() -> None:
     assert issubclass(ActionCardConfig, NamedConfigObj)
     assert issubclass(ActionCardConfig, RequiresFunctionalText)
-    assert issubclass(ActionCardConfig, RequiresFlavorTextOptions)
 
 def test_num_in_deck_defaults_to_one() -> None:
     card = ActionCardConfig(id="x", name="X", functional_text="...", flavor_text_options=())

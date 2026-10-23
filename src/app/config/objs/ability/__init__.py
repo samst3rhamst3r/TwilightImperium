@@ -1,3 +1,4 @@
-from .ability import AbilityConfig
+from .base import AbilityConfig
 from .parameterized_instance import ParameterizedAbilityInstanceConfig, CombatAbilityInstanceConfig, ProductionAbilityInstanceConfig
 from .ids import AbilityID
+from .loader import load_ability_data

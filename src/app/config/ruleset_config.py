@@ -3,20 +3,18 @@ from types import MappingProxyType
 from pathlib import Path
 from typing import Self
 
-from .yaml_loader import *
-
-from .objs.ability import AbilityConfig
-from .objs.action_card import ActionCardConfig
-from .objs.agenda import AgendaConfig
-from .objs.faction import FactionConfig
-from .objs.map import MapConfig
-from .objs.objective import ObjectiveConfig
-from .objs.planet import PlanetConfig
-from .objs.promissory_note import PromissoryNoteConfig
-from .objs.strategy_card import StrategyCardConfig
-from .objs.system import SystemConfig
-from .objs.tech import TechConfig
-from .objs.unit import UnitConfig
+from .objs.ability import AbilityConfig, load_ability_data
+from .objs.action_card import ActionCardConfig, load_action_card_data
+from .objs.agenda import AgendaConfig, load_agenda_data
+from .objs.faction import FactionConfig, load_faction_data
+from .objs.map import MapConfig, load_map_data
+from .objs.objective import ObjectiveConfig, load_objective_data
+from .objs.planet import PlanetConfig, load_planet_data
+from .objs.promissory_note import PromissoryNoteConfig, load_promissory_note_data
+from .objs.strategy_card import StrategyCardConfig, load_strategy_card_data
+from .objs.system import SystemConfig, load_system_data
+from .objs.tech import TechConfig, load_tech_data
+from .objs.unit import UnitConfig, load_unit_data
 
 @dataclass(frozen=True, kw_only=True)
 class RulesetConfig:

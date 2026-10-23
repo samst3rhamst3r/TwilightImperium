@@ -459,7 +459,7 @@ classmethod, not `__post_init__`.
 - `RulesetConfig` builds `MappingProxyType` indices (ID → object) in `__post_init__`
   for O(1) lookup, alongside the ordered tuple form if needed.
 - Config classes use trait mixins for optional fields (`RequiresFunctionalText`,
-  `RequiresFlavorText`, `RequiresFlavorTextOptions`) — composed per card type as needed.
+  `RequiresFlavorText`) — composed per card type as needed.
 - Enums (`UnitClass`, `TechType`, etc.) live alongside the Config class that
   owns their vocabulary (e.g. `config/objs/unit/unit_class.py`), each
   subclassing the shared `ConfigEnum`/`SerializableEnum` bases in
@@ -487,7 +487,7 @@ Use `Optional[X] = None` only when `None` means "legitimately unknown/unset,
 but the field's concept still applies to this instance." When a field's
 *concept itself* doesn't apply to some subset of instances (not "unknown
 value," but "this question doesn't make sense here"), that's a signal for a
-trait split (matching the `RequiresFlavorText`/`RequiresFlavorTextOptions`
+trait split (matching the `RequiresFlavorText`
 pattern), not a nullable field — otherwise you get an illegal state that's
 *representable* (`None` where it shouldn't be) and can only be caught by a
 test enforcing "everything except these N special cases has a value," rather

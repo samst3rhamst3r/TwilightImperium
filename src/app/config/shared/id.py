@@ -8,5 +8,5 @@ class IDConfigObj(BaseConfigObj):
     id: str
 
     def __str__(self):
-        return f"{self.id}"
+        return self.id
     

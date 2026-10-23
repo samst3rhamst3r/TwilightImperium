@@ -24,4 +24,4 @@ def get_unit_limit_per_player(unit_class: UnitClass) -> int | None:
     return _UNIT_LIMITATIONS_PER_PLAYER_BY_CLASS[unit_class]
 
 def get_component_limit_per_player(unit_class: UnitClass) -> int:
-    return _COMPONENT_LIMITATIONS_PER_PLAYER_BY_CLASS.get(unit_class, _UNIT_LIMITATIONS_PER_PLAYER_BY_CLASS[unit_class])
+    return _COMPONENT_LIMITATIONS_PER_PLAYER_BY_CLASS.get(unit_class, get_unit_limit_per_player(unit_class))

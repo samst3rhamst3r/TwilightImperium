@@ -7,4 +7,4 @@ class AbilityConfig(NamedConfigObj, CanHaveFactionExclusivity, RequiresFunctiona
     # TODO: Add trigger fields for ability objects as they are defined
     # trigger: AbilityTrigger
     # trigger_event: GameEvent | None = None
-    ...
+    pass

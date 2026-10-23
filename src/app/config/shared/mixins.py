@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from .base import BaseConfigObj
+
 # NOTE: these mixins are deliberately NOT slots=True - and neither is any
 # other Config dataclass (see ARCHITECTURE.md §2). CPython's multiple
 # inheritance only tolerates one base class in the MRO contributing real
@@ -14,10 +16,6 @@ from dataclasses import dataclass
 @dataclass(frozen=True, kw_only=True)
 class RequiresFunctionalText:
     functional_text: str
-
-@dataclass(frozen=True, kw_only=True)
-class RequiresFlavorTextOptions:
-    flavor_text_options: tuple[str, ...]
 
 @dataclass(frozen=True, kw_only=True)
 class RequiresFlavorText:

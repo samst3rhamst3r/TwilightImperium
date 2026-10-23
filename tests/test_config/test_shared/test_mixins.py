@@ -5,14 +5,12 @@ from app.config.shared.mixins import (
     CanBeExhaustible,
     CanHaveFactionExclusivity,
     RequiresFlavorText,
-    RequiresFlavorTextOptions,
     RequiresFunctionalText,
 )
 
 _ALL_MIXINS = (
     RequiresFunctionalText,
     RequiresFlavorText,
-    RequiresFlavorTextOptions,
     CanHaveFactionExclusivity,
     CanBeExhaustible,
 )
@@ -49,7 +47,3 @@ def test_requires_functional_text_field_is_mandatory() -> None:
 def test_requires_flavor_text_field_is_mandatory() -> None:
     with pytest.raises(TypeError):
         RequiresFlavorText()
-
-def test_requires_flavor_text_options_field_is_mandatory() -> None:
-    with pytest.raises(TypeError):
-        RequiresFlavorTextOptions()

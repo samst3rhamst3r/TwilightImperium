@@ -102,6 +102,7 @@
   prereqs:
   - tech_type: cybernetic
     num: 1
+  exhaustible: true
   functional_text: |-
     You may exhaust this card before 1 or more of your units use SPACE CANOON;
     hits produced by those units must be assigned to non-fighter ships if able.
@@ -123,6 +124,7 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  exhaustible: true
   functional_text: |-
     Exhaust this card when 1 or more of your units use PRODUCTION; swap the resource and influence
     values of 1 planet you control during that use of PRODUCTION.
@@ -155,6 +157,7 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  exhaustible: true
   functional_text: |-
     You may exhaust this card and spend 2 resources when you research a technology;
     ignore all of that technology's prerequisites.
@@ -166,6 +169,7 @@
   prereqs:
   - tech_type: biotic
     num: 1
+  exhaustible: true
   functional_text: |-
     You may exhaust this card and spend 1 token from your strategy pool when another
     player plays an action card; cancel that action card.
@@ -197,6 +201,7 @@
   prereqs:
   - tech_type: propulsion
     num: 2
+  exhaustible: true
   functional_text: |-
     During your tactical actions, if you do not control Mecatol Rex,
     treat its system as if it contains both an alpha and beta wormhole.
@@ -219,6 +224,7 @@
   prereqs:
   - tech_type: warfare
     num: 1
+  exhaustible: true
   functional_text: |-
     You may exhaust this card at the start of a round of ground combat on a planet that
     contains 1 or more of your units that have PLANETARY SHIELD; your opponent cannot make
@@ -231,6 +237,7 @@
   prereqs:
   - tech_type: biotic
     num: 3
+  exhaustible: true
   functional_text: |-
     ACTION: Exhaust this card to look at another player's hand of action cards. Choose 1
     of those cards and add it to your hand.
@@ -293,6 +300,7 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  exhaustible: true
   functional_text: |-
     After another player activates a system that contains 1 or more of your ships,
     you may exhaust this card and spend 1 token from your strategy pool; immediately end
@@ -313,6 +321,7 @@
   prereqs:
   - tech_type: biotic
     num: 2
+  exhaustible: true
   functional_text: |-
     ACTION: Exhaust this card and spend 1 token from your strategy pool to gain 4
     trade goods and choose 1 one other player; that player gains 2 trade goods.
@@ -356,6 +365,7 @@
   prereqs:
   - tech_type: propulsion
     num: 2
+  exhaustible: true
   functional_text: |-
     You may exhaust this card after you activate a system that contains 1 or more of you units;
     that system is adjacent to all other systems that contain 1 or more of your units
@@ -367,6 +377,7 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  exhaustible: true
   functional_text: |-
     You may exhaust this card at the start of your turn during the action phase;
     remove up to 4 of your ground forces from the game board and place them
@@ -431,6 +442,7 @@
   prereqs:
   - tech_type: biotic
     num: 3
+  exhaustible: true
   functional_text: |-
     ACTION: Exhaust this card and choose 1 planet in a system that contains 1 or more
     of your ships that have BOMBARDMENT; destroy all infantry on that planet.

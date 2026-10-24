@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-from .base import BaseConfigObj
-
 # NOTE: these mixins are deliberately NOT slots=True - and neither is any
 # other Config dataclass (see ARCHITECTURE.md §2). CPython's multiple
 # inheritance only tolerates one base class in the MRO contributing real

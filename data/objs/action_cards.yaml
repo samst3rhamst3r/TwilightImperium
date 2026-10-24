@@ -70,7 +70,6 @@
 
 - id: direct_hit
   name: Direct Hit
-  num_in_deck: 4
   functional_text: |-
     After another player's ship uses 'Sustain Damage' to cancel a hit produced by your units or abilities:
     Destroy that ship.
@@ -157,7 +156,6 @@
 
 - id: flank_speed
   name: Flank Speed
-  num_in_deck: 4
   functional_text: |-
     After you activate a system:
     Apply +1 to the move value of each of your ships during this tactical action.
@@ -275,7 +273,6 @@
 
 - id: maneuvering_jets
   name: Maneuvering Jets
-  num_in_deck: 4
   functional_text: |-
     Before you assign hits produced by another player's SPACE CANNON roll:
     Cancel 1 hit.
@@ -299,7 +296,6 @@
 
 - id: morale_boost
   name: Morale Boost
-  num_in_deck: 4
   functional_text: |-
     At the start of a combat round:
     Apply +1 to the result of each of your unit's combat rolls during this combat round.
@@ -392,7 +388,6 @@
 
 - id: sabotage
   name: Sabotage
-  num_in_deck: 4
   functional_text: |-
     When another player plays an action card other than "Sabotage":
     Cancel that action card.
@@ -417,7 +412,6 @@
 
 - id: shields_holding
   name: Shields Holding
-  num_in_deck: 4
   functional_text: |-
     Before you assign hits to your ships during a space combat:
     Cancel up to 2 hits.

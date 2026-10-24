@@ -13,8 +13,7 @@ class Serializable(ABC):
         return {}
 
     @abstractmethod
-    def init_from_save(self, data: dict) -> None:
-        pass
+    def init_from_save(self, data: dict) -> None: ...
 
     @classmethod
     def load(cls, data: dict) -> Self:

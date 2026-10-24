@@ -11,9 +11,9 @@ class _PlayerStateInfo:
 @dataclass(slots=True, frozen=True, kw_only=True)
 class NewGameSetup:
     """The final state of a game setup session, containing all the information needed to start a game."""
-    players: list[str]
-    systems: list[str]
-    planets: list[str]
+    players: tuple[str, ...]
+    systems: tuple[str, ...]
+    planets: tuple[str, ...]
 
     def __post_init__(self):
         if len(self.players) < 3:

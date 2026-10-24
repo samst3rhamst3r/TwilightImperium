@@ -8,5 +8,6 @@ class FactionStartingUnitConfig(BaseConfigObj):
     unit_class: UnitClass
     num: int
 
-    def __post_init__(self):
-        object.__setattr__(self, "unit_class", UnitClass(self.unit_class))
+    @classmethod
+    def _parse_fields(cls, d: dict) -> None:
+        d["unit_class"] = UnitClass(d["unit_class"])

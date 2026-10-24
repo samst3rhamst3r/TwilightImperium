@@ -95,13 +95,9 @@ class PlayerState(IDedStateObj):
         self.unit_reinforcement_pool = {UnitClass(k): v for k, v in data["unit_reinforcement_pool"].items()}
 
     def __post_init__(self):
-        self.color = PlayerColor(self.color)
         total_tokens_placed = self.tactic_pool + self.fleet_pool + self.strategy_pool
         if total_tokens_placed > _MAX_COMMAND_TOKENS:
             raise TooManyTokensError(f"Initialization error. {self.tactic_pool} tactic + {self.fleet_pool} fleet + {self.strategy_pool} command tokens exceeds maximum allowed: {_MAX_COMMAND_TOKENS}.")
-        self.secret_objective_card_ids_in_hand = set(self.secret_objective_card_ids_in_hand)
-        self.scored_objective_card_ids = set(self.scored_objective_card_ids)
-        self.researched_tech_ids = set(self.researched_tech_ids)
 
     def score_public_objective(self, card_id: str) -> None:
         if card_id in self.scored_objective_card_ids:

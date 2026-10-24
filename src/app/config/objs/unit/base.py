@@ -51,8 +51,9 @@ class UnitConfig(NamedConfigObj, CanHaveFactionExclusivity):
     upgraded_from_unit_id: str | None = None
     upgrade_reqs: tuple[TechUpgradeReqConfig, ...] = ()
 
-    def __post_init__(self):
-        object.__setattr__(self, "unit_class", UnitClass(self.unit_class))
+    @classmethod
+    def _parse_fields(cls, d: dict) -> None:
+        d["unit_class"] = UnitClass(d["unit_class"])
 
     @property
     def can_move(self) -> bool:

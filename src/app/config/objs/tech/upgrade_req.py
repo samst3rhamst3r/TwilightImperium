@@ -9,5 +9,6 @@ class TechUpgradeReqConfig(BaseConfigObj):
     tech_type: TechType
     num: int
 
-    def __post_init__(self):
-        object.__setattr__(self, "tech_type", TechType(self.tech_type))
+    @classmethod
+    def _parse_fields(cls, d: dict) -> None:
+        d["tech_type"] = TechType(d["tech_type"])

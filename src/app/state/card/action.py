@@ -1,10 +1,11 @@
 from dataclasses import dataclass
+from typing import Final
 
 from app.state.base.mixins import UUIDInstancedStateObj
 
 @dataclass(kw_only=True)
 class ActionCardState(UUIDInstancedStateObj):
-    flavor_text_index: int
+    flavor_text_index: Final[int]
 
     def save(self) -> dict:
         return super().save() | {

@@ -1,5 +1,3 @@
-
-
 from app.config.ruleset_config import RulesetConfig
 from app.state.game import GameState
 

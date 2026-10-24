@@ -1,7 +1,7 @@
 from collections.abc import Generator
 from pathlib import Path
 
-from app.config.yaml_loader import load_data, SETUP_CONFIG_DATA_PATH
+from app.config.shared.loader import load_data, SETUP_CONFIG_DATA_PATH
 from .base import SetupConfig
 
 def load_setup_data(root_data_path: Path) -> Generator[SetupConfig]:

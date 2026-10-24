@@ -8,6 +8,9 @@
   move: 1
   capacity: 5
   ability_ids: [sustain_damage]
+  functional_text: |-
+    During a space combat, hits produced by this ship and by your dreadnoughts in this system
+    must be assigned to non-fighter ships if able.
 
 - &advanced_carrier_level_1
   id: advanced_carrier_i
@@ -40,6 +43,9 @@
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    At the start of a space combat, choose any number of your ground forces in this system
+    to participate in that combat as if they were ships.
 
 - id: arc_secundus
   name: Arc Secundus
@@ -55,6 +61,9 @@
   - ability_id: bombardment
     combat: 5
     dice: 3
+  functional_text: |-
+    Other players' units in this system lose PLANETARY SHIELD. At the start of each
+    space combat round, repair this ship.
 
 - &carrier_i
   id: carrier_i
@@ -85,6 +94,8 @@
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    Apply +1 to the result of each of your other ship's combat rolls in this system.
 
 - &cruiser_i
   id: cruiser_i
@@ -159,6 +170,8 @@
     num: 2
   - tech_type: cybernetic
     num: 1
+  functional_text: |-
+    This unit cannot be destroyed by "Direct Hit" action cards.
 
 - id: duha_menaimon
   name: Duha Menaimon
@@ -170,6 +183,8 @@
   move: 1
   capacity: 5
   ability_ids: [sustain_damage]
+  functional_text: |-
+    After you activate this system, you may produce up to 5 units in this system.
 
 - &exotrireme_i
   id: exotrireme_i
@@ -196,6 +211,9 @@
     num: 2
   - tech_type: cybernetic
     num: 1
+  functional_text: |-
+    This unit cannot be destroyed by "Direct Hit" action cards. After a round of
+    space combat, you may destroy this unit to destroy up to 2 ships in this system.
 
 - &fighter_i
   id: fighter_i
@@ -218,6 +236,9 @@
     num: 1
   - tech_type: propulsion
     num: 1
+  functional_text: |-
+    This unit may move without being transported. Fighters in excess of your ships'
+    capacity count against your fleet pool.
 
 - &floating_factory_i
   id: floating_factory_i
@@ -231,6 +252,9 @@
   parameterized_abilities:
   - ability_id: production
     value: 5
+  functional_text: |-
+    This unit is placed in a space area instead of on a planet. This unit can move and retreat
+    as if it were a ship. If this unit is blockaded, it is destroyed.
 
 - <<: *floating_factory_i
   id: floating_factory_ii
@@ -255,6 +279,8 @@
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    Other players' ships in this system cannot use SUSTAIN DAMAGE.
 
 - id: genesis
   name: Genesis
@@ -266,6 +292,9 @@
   move: 1
   capacity: 12
   ability_ids: [sustain_damage]
+  functional_text: |-
+    At the end of the status phase, place 1 infantry from your reinforcements
+    in this system's space area.
 
 - id: hil_colish
   name: Hil Colish
@@ -276,6 +305,9 @@
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    This ship's system contains a delta wormhole. During movement, this ship
+    may move before or after your other ships.
 
 - &hybrid_crystal_fighter_i
   id: hybrid_crystal_fighter_i
@@ -299,6 +331,9 @@
     num: 1
   - tech_type: propulsion
     num: 1
+  functional_text: |-
+    This unit may move without being transported. Each fighter in excess of your
+    ships' capacity counts as 1/2 of a ship against your fleet pool.
 
 - &infantry_i
   id: infantry_i
@@ -318,6 +353,10 @@
   upgrade_reqs:
   - tech_type: biotic
     num: 2
+  functional_text: |-
+    After this unit is destroyed, roll 1 die. If the result is 6 or greater, place
+    the unit on this card. At the start of your next turn, place each unit that is
+    on this card on a planet you control in your home system.
 
 - id: inferno
   name: The Inferno
@@ -329,6 +368,8 @@
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    ACTION: Spend 1 token from your strategy pool to place 1 cruiser in this unit's system.
 
 - id: jns_hylarim
   name: J.N.S. Hylarim
@@ -340,6 +381,9 @@
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    When making a combat roll for this ship, each result of 9 or 10, before applying
+    modifiers, produces 2 additional hits.
 
 - &letani_warrior_i
   id: letani_warrior_i
@@ -366,6 +410,10 @@
   upgrade_reqs:
   - tech_type: biotic
     num: 2
+  functional_text: |-
+    After this unit is destroyed, roll 1 die. If the result is 6 or greater, place
+    the unit on this card. At the start of your next turn, place each unit that is
+    on this card on a planet you control in your home system.
 
 - id: loncara_ssodu
   name: Loncara Ssodu
@@ -381,6 +429,8 @@
   - ability_id: space_cannon
     combat: 5
     dice: 3
+  functional_text: |-
+    You may use this unit's SPACE CANNON against ships that are in adjacent systems.
 
 - id: matriarch
   name: Matriarch
@@ -392,6 +442,9 @@
   move: 1
   capacity: 6
   ability_ids: [sustain_damage]
+  functional_text: |-
+    During an invasion in this system, you may commit fighters to planets as if they 
+    were ground forces. When combat ends, return those units to the space area.
 
 - &pds_i
   id: pds_i
@@ -418,6 +471,9 @@
     num: 1
   - tech_type: warfare
     num: 1
+  functional_text: |-
+    You may use this unit's SPACE CANNON against ships that are adjacent
+    to this unit's systems.
 
 - &prototype_war_sun_i
   id: prototype_war_sun_i
@@ -434,6 +490,8 @@
   - ability_id: bombardment
     combat: 3
     dice: 3
+  functional_text: |-
+    Other players' units in this system lose PLANETARY SHIELD.
 
 - <<: *prototype_war_sun_i
   id: prototype_war_sun_ii
@@ -456,6 +514,9 @@
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    When this unit makes a combat roll, it rolls a number of dice equal to the
+    number of your opponent's non-fighter ships in this system.
 
 - id: son_of_ragh
   name: Son of Ragh
@@ -483,6 +544,11 @@
   parameterized_abilities:
   - ability_id: production
     amt_more_than_rsrc_value_of_planet: 2
+  functional_text: |-
+    This unit's PRODUCTION value is equal to 2 more than the resource
+    value of this planet.
+
+    Up to 3 fighters in this system do not count against your ships' capacity.
 
 - <<: *space_dock_i
   id: space_dock_ii
@@ -494,6 +560,11 @@
   upgrade_reqs:
   - tech_type: cybernetic
     num: 2
+  functional_text: |-
+    This unit's PRODUCTION value is equal to 4 more than the resource
+    value of this planet.
+
+    Up to 3 fighters in this system do not count against your ships' capacity.
 
 - &spec_ops_i
   id: spec_ops_i
@@ -514,6 +585,10 @@
   upgrade_reqs:
   - tech_type: biotic
     num: 2
+  functional_text: |-
+    After this unit is destroyed, roll 1 die. If the result is 5 or greater, place
+    the unit on this card. At the start of your next turn, place each unit that is
+    on this card on a planet you control in your home system.
 
 - &super_dreadnought_i
   id: super_dreadnought_i
@@ -544,6 +619,8 @@
     num: 2
   - tech_type: cybernetic
     num: 1
+  functional_text: |-
+    This unit cannot be destroyed by "Direct Hit" action cards.
 
 - id: van_hauge
   name: Van Hauge
@@ -555,6 +632,8 @@
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    When this ship is destroyed, destroy all ships in this system.
 
 - &war_sun_i
   id: war_sun_i
@@ -566,6 +645,8 @@
   burst: null
   move: null
   capacity: null
+  functional_text: |-
+    You cannot produce this unit unless you own its unit upgrade technology.
 
 - <<: *war_sun_i
   id: war_sun_ii
@@ -585,6 +666,8 @@
     num: 1
   - tech_type: warfare
     num: 3
+  functional_text: |-
+    Other players' units in this system lose PLANETARY SHIELD.
 
 - id: wrath_of_kenara
   name: Wrath of Kenara
@@ -596,6 +679,9 @@
   move: 1
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    After you roll a die during a space combat in this system, you may spend 1 trade good
+    to apply +1 to the result.
 
 - id: ysia_yssrila
   name: Y'sia Y'ssrila
@@ -607,3 +693,5 @@
   move: 2
   capacity: 3
   ability_ids: [sustain_damage]
+  functional_text: |-
+    This ship can move through systems that contain other players' ships.

@@ -48,10 +48,6 @@ def data_objs_dir(data_dir: Path) -> Path:
     return data_dir / "objs"
 
 @pytest.fixture(scope="session")
-def text_objs_dir(data_dir: Path) -> Path:
-    return data_dir / "text_objs"
-
-@pytest.fixture(scope="session")
 def ruleset_config(data_dir: Path) -> RulesetConfig:
     """The full ruleset, loaded once from the real data/ tree."""
     return RulesetConfig.load(data_dir)

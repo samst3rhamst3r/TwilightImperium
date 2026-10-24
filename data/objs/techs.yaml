@@ -2,6 +2,11 @@
   name: Antimass Deflectors
   tech_type: propulsion
   prereqs: []
+  functional_text: |-
+    Your ships can move into and through asteroid fields.
+    
+    When other players' units use SPACE CANNON against your units, apply -1
+    to the result of each die roll.
 
 - id: assault_cannon
   name: Assault Cannon
@@ -9,6 +14,9 @@
   prereqs: 
   - tech_type: warfare
     num: 3
+  functional_text: |-
+    At the start of a space combat in a system that contains 3 or more of your
+    non-fighter ships, you opponent must destroy 1 of their non-fighter ships.
 
 - id: bioplasmosis
   name: Bioplasmosis
@@ -17,6 +25,10 @@
   prereqs:
   - tech_type: biotic
     num: 2
+  functional_text: |-
+    At the end of the status phase, you may remove any number of infantry from
+    planets you control and place them on 1 or more planets you control
+    in the same or adjacent systems.
 
 - id: chaos_mapping
   name: Chaos Mapping
@@ -25,6 +37,11 @@
   prereqs:
   - tech_type: propulsion
     num: 1
+  functional_text: |-
+    Other players cannot activate asteroid fields that contain 1 or more of your ships.
+
+    At the start of your turn during the action phase, you may produce 1 unit in a system
+    that contains at least 1 of your units that has PRODUCTION.
 
 - id: dacxive_animators
   name: Dacxive Animators
@@ -32,6 +49,9 @@
   prereqs:
   - tech_type: biotic
     num: 1
+  functional_text: |-
+    After you win a ground combat, you may place 1 infantry from your reinforcements
+    on that planet.
 
 - id: dimensional_splicer
   name: Dimensional Splicer
@@ -40,6 +60,9 @@
   prereqs:
   - tech_type: warfare
     num: 1
+  functional_text: |-
+    At the start of a space combat in a system that contains a wormhole and 1 or more
+    of your ships, you may produce 1 hit and assign it to 1 of your opponents' ships.
 
 - id: duranium_armor
   name: Duranium Armor
@@ -47,6 +70,10 @@
   prereqs:
   - tech_type: warfare
     num: 2
+  functional_text: |-
+    During each combat round, after you assign hits to your units,
+    repair 1 of your damaged units that did not use SUSTAIN DAMAGE
+    during this combat round.
 
 - id: e_res_siphons
   name: E-Res Siphons
@@ -55,6 +82,9 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  functional_text: |-
+    After another player activates a system that contains 1 or more of your ships,
+    gain 4 trade goods.
 
 - id: fleet_logistics
   name: Fleet Logistics
@@ -62,6 +92,9 @@
   prereqs:
   - tech_type: propulsion
     num: 2
+  functional_text: |-
+    During each of your turns of the action phase, you may perform
+    2 actions instead of 1.
 
 - id: graviton_laser_system
   name: Graviton Laser System
@@ -69,6 +102,9 @@
   prereqs:
   - tech_type: cybernetic
     num: 1
+  functional_text: |-
+    You may exhaust this card before 1 or more of your units use SPACE CANOON;
+    hits produced by those units must be assigned to non-fighter ships if able.
 
 - id: gravity_drive
   name: Gravity Drive
@@ -76,6 +112,9 @@
   prereqs:
   - tech_type: propulsion
     num: 1
+  functional_text: |-
+    After you activate a system, apply +1 to the move value of 1 of your ships
+    during this tactical action.
 
 - id: hegemonic_trade_policy
   name: Hegemonic Trade Policy
@@ -84,6 +123,9 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  functional_text: |-
+    Exhaust this card when 1 or more of your units use PRODUCTION; swap the resource and influence
+    values of 1 planet you control during that use of PRODUCTION.
 
 - id: hyper_metabolism
   name: Hyper Metabolism
@@ -91,6 +133,8 @@
   prereqs:
   - tech_type: biotic
     num: 2
+  functional_text: |-
+    During the status phase, gain 3 command tokens instead of 2.
 
 - id: impulse_core
   name: Impulse Core
@@ -99,6 +143,10 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  functional_text: |-
+    At the start of a space combat, you may destroy 1 of your cruisers or destroyers
+    in the active system to produce 1 hit against your opponent's ships; that hit
+    must be assigned by your opponent to 1 of their non-fighter ships if able.
 
 - id: inheritance_systems
   name: Inheritance Systems
@@ -107,6 +155,9 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  functional_text: |-
+    You may exhaust this card and spend 2 resources when you research a technology;
+    ignore all of that technology's prerequisites.
 
 - id: instinct_training
   name: Instinct Training
@@ -115,6 +166,9 @@
   prereqs:
   - tech_type: biotic
     num: 1
+  functional_text: |-
+    You may exhaust this card and spend 1 token from your strategy pool when another
+    player plays an action card; cancel that action card.
 
 - id: integrated_economy
   name: Integrated Economy
@@ -122,6 +176,9 @@
   prereqs:
   - tech_type: cybernetic
     num: 3
+  functional_text: |-
+    After you gain control of a planet, you may produce any number of units
+    on that planet that have a combined cost equal to or less than that planet's resource value.
 
 - id: l4_disruptors
   name: L4 Disruptors
@@ -130,6 +187,8 @@
   prereqs:
   - tech_type: cybernetic
     num: 1
+  functional_text: |-
+    During an invasion, units cannot use SPACE CANNON against your units.
 
 - id: lazax_gate_folding
   name: Lazax Gate Folding
@@ -138,6 +197,12 @@
   prereqs:
   - tech_type: propulsion
     num: 2
+  functional_text: |-
+    During your tactical actions, if you do not control Mecatol Rex,
+    treat its system as if it contains both an alpha and beta wormhole.
+
+    ACTION: If you control Mecatol Rex, exhaust this card to place 1 infantry
+    from your reinforcements on Mecatol Rex.
 
 - id: light_wave_deflector
   name: Light/Wave Deflector
@@ -145,6 +210,8 @@
   prereqs:
   - tech_type: propulsion
     num: 3
+  functional_text: |-
+    Your ships can move through systems that contain other players' ships.
 
 - id: magen_defense_grid
   name: Magen Defense Grid
@@ -152,6 +219,10 @@
   prereqs:
   - tech_type: warfare
     num: 1
+  functional_text: |-
+    You may exhaust this card at the start of a round of ground combat on a planet that
+    contains 1 or more of your units that have PLANETARY SHIELD; your opponent cannot make
+    combat rolls during this combat round.
 
 - id: mageon_implants
   name: Mageon Implants
@@ -160,6 +231,9 @@
   prereqs:
   - tech_type: biotic
     num: 3
+  functional_text: |-
+    ACTION: Exhaust this card to look at another player's hand of action cards. Choose 1
+    of those cards and add it to your hand.
 
 - id: magmus_reactor
   name: Magmus Reactor
@@ -168,6 +242,11 @@
   prereqs:
   - tech_type: warfare
     num: 2
+  functional_text: |-
+    Your ships can move into supernovas.
+
+    After 1 or more of your units use PRODUCTION in a system that either contains a war sun
+    or is adjacent to a supernova, gain 1 trade good.
 
 - id: mirror_computing
   name: Mirror Computing
@@ -176,11 +255,15 @@
   prereqs:
   - tech_type: cybernetic
     num: 3
+  functional_text: |-
+    When you spend trade goods, each trade good is worth 2 resources or influence instead of 1.
 
 - id: neural_motivator
   name: Neural Motivator
   tech_type: biotic
   prereqs: []
+  functional_text: |-
+    During the status phase, draw 2 actions instead of 1.
 
 - id: neuroglaive
   name: Neuroglaive
@@ -189,6 +272,9 @@
   prereqs:
   - tech_type: biotic
     num: 3
+  functional_text: |-
+    After another player activates a system that contains 1 or more of your ships,
+    that player removes 1 token from their fleet pool and returns it to their reinforcements.
 
 - id: non_euclidean_shielding
   name: Non-Euclidean Shielding
@@ -197,6 +283,8 @@
   prereqs:
   - tech_type: warfare
     num: 2
+  functional_text: |-
+    When 1 of your units uses SUSTAIN DAMAGE, cancel 2 hits instead of 1.
 
 - id: nullification_field
   name: Nullification Field
@@ -205,11 +293,18 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  functional_text: |-
+    After another player activates a system that contains 1 or more of your ships,
+    you may exhaust this card and spend 1 token from your strategy pool; immediately end
+    that player's turn.
 
 - id: plasma_scoring
   name: Plasma Scoring
   tech_type: warfare
   prereqs: []
+  functional_text: |-
+    When 1 or more of your units use BOMBARDMENT or SPACE CANNON,
+    1 of those units may roll 1 additional die.
 
 - id: production_biomes
   name: Production Biomes
@@ -218,6 +313,9 @@
   prereqs:
   - tech_type: biotic
     num: 2
+  functional_text: |-
+    ACTION: Exhaust this card and spend 1 token from your strategy pool to gain 4
+    trade goods and choose 1 one other player; that player gains 2 trade goods.
 
 - id: quantum_datahub_node
   name: Quantum Datahub Node
@@ -226,6 +324,10 @@
   prereqs:
   - tech_type: cybernetic
     num: 3
+  functional_text: |-
+    At the end of the strategy phase, you may spend 1 token from your strategy pool
+    and give another player 3 of your trade goods. If you do, give 1 of your
+    strategy cards to that player and take 1 of their strategy cards.
 
 - id: salvage_operations
   name: Salvage Operations
@@ -234,11 +336,18 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  functional_text: |-
+    After you win or lose a space combat, gain 1 trade good; if you won the combat,
+    you may also produce 1 ship in that system of any ship type that was destroyed
+    during the combat.
 
 - id: sarween_tools
   name: Sarween Tools
   tech_type: cybernetic
   prereqs: []
+  functional_text: |-
+    When 1 or more of your units use PRODUCTION, reduce the combined cost
+    of the produced units by 1.
 
 - id: spacial_conduit_cylinder
   name: Spacial Conduit Cylinder
@@ -247,6 +356,10 @@
   prereqs:
   - tech_type: propulsion
     num: 2
+  functional_text: |-
+    You may exhaust this card after you activate a system that contains 1 or more of you units;
+    that system is adjacent to all other systems that contain 1 or more of your units
+    during this activation.
 
 - id: transit_diodes
   name: Transit Diodes
@@ -254,6 +367,10 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  functional_text: |-
+    You may exhaust this card at the start of your turn during the action phase;
+    remove up to 4 of your ground forces from the game board and place them
+    on 1 or more planets you control.
 
 - id: transparasteel_plating
   name: Transparasteel Plating
@@ -262,11 +379,18 @@
   prereqs:
   - tech_type: biotic
     num: 1
+  functional_text: |-
+    During your turn of the action phase, players that have passed cannot play action cards.
 
 - id: valefar_assimilator_x
   name: Valefar Assimilator X
   faction_exclusive_id: nekro_virus
   prereqs: []
+  functional_text: |-
+    When you would gain another player's technology using 1 of your faction abilities,
+    you may place the "X" assimilator token on a faction technology owned by that player instead.
+    While that token is on a technology, this card gains that technology's text. You cannot
+    place an assimilator token on technology that already has an assimilator token.
 
 - id: valkyrie_particle_weave
   name: Valkyrie Particle Weave
@@ -275,11 +399,19 @@
   prereqs:
   - tech_type: warfare
     num: 2
+  functional_text: |-
+    After making combat rolls during a round of ground combat, if your opponent
+    produced 1 or more hits, you produce 1 additional hit.
 
 - id: valefar_assimilator_y
   name: Valefar Assimilator Y
   faction_exclusive_id: nekro_virus
   prereqs: []
+  functional_text: |-
+    When you would gain another player's technology using 1 of your faction abilities,
+    you may place the "Y" assimilator token on a faction technology owned by that player instead.
+    While that token is on a technology, this card gains that technology's text. You cannot
+    place an assimilator token on technology that already has an assimilator token.
 
 - id: wormhole_generator
   name: Wormhole Generator
@@ -288,6 +420,10 @@
   prereqs:
   - tech_type: cybernetic
     num: 2
+  functional_text: |-
+    At the start of the status phase, place or move a Creuss wormhole token into
+    either a system that contains a planet you control or a non-home system that
+    does not contain another player's ships.
 
 - id: x_89_bacterial_weapon
   name: X-89 Bacterial Weapon
@@ -295,6 +431,9 @@
   prereqs:
   - tech_type: biotic
     num: 3
+  functional_text: |-
+    ACTION: Exhaust this card and choose 1 planet in a system that contains 1 or more
+    of your ships that have BOMBARDMENT; destroy all infantry on that planet.
 
 - id: yin_spinner
   name: Yin Spinner
@@ -303,3 +442,6 @@
   prereqs:
   - tech_type: biotic
     num: 2
+  functional_text: |-
+    After 1 or more of your units use PRODUCTION, place 1 infantry from your
+    reinforcements on a planet you control in that system.

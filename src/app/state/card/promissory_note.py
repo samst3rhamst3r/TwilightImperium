@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Final
 
 from app.config.player_color import PlayerColor
 
@@ -7,7 +6,7 @@ from app.state.base.mixins import UUIDInstancedStateObj
 
 @dataclass(kw_only=True)
 class PromissoryNoteCardState(UUIDInstancedStateObj):
-    issuing_player_color: Final[PlayerColor | None] = None
+    issuing_player_color: PlayerColor | None = None
 
     @property
     def is_issued_to_player(self) -> bool:

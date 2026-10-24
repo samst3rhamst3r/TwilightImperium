@@ -1,15 +1,17 @@
+from dataclasses import dataclass
+
 from app.config.ruleset_config import RulesetConfig
 from app.state.game import GameState
 
 from .player import ResolvedPlayer
 from .unit import ResolvedUnit
 from .planet import ResolvedPlanet
+from .action_card import ResolvedActionCard
 
+@dataclass(slots=True, frozen=True)
 class GameStateResolver:
-
-    def __init__(self, game_state: GameState, ruleset_config: RulesetConfig):
-        self._game_state = game_state
-        self._ruleset_config = ruleset_config
+    _game_state: GameState
+    _ruleset_config: RulesetConfig
 
     def resolved_player(self, player_id: str) -> ResolvedPlayer:
         player_state = self._game_state.players[player_id]
@@ -25,3 +27,8 @@ class GameStateResolver:
         planet_state = self._game_state.planets[planet_id]
         planet_config = self._ruleset_config.planets[planet_state.config_id]
         return ResolvedPlanet(planet_state, planet_config)
+
+    def resolved_action_card(self, action_card_id: str) -> ResolvedActionCard:
+        action_card_state = self._game_state.action_cards[action_card_id]
+        action_card_config = self._ruleset_config.action_cards[action_card_state.config_id]
+        return ResolvedActionCard(action_card_state, action_card_config)

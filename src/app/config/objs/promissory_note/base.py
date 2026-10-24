@@ -6,7 +6,7 @@ from app.config.shared import NamedConfigObj, RequiresFunctionalText, CanHaveFac
 @dataclass(frozen=True, kw_only=True)
 class PromissoryNoteConfig(NamedConfigObj, CanHaveFactionExclusivity, RequiresFunctionalText):
 
-    PLAYER_COLOR_REPLACE_STRING: ClassVar[Final[str]] = "__PLAYER_COLOR__"
+    PLAYER_COLOR_REPLACE_STRING: Final[ClassVar[str]] = "__PLAYER_COLOR__"
 
     def __post_init__(self):
         if self.faction_exclusive_id is not None and self.PLAYER_COLOR_REPLACE_STRING in self.functional_text:

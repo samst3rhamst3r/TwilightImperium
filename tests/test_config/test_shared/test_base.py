@@ -1,13 +1,21 @@
 """Mirrors src/app/config/shared/base.py."""
-import dataclasses
+from dataclasses import dataclass
 
 from app.config.shared.base import BaseConfigObj
 
-def test_base_config_obj_is_a_frozen_dataclass_with_no_generated_init() -> None:
-    assert dataclasses.is_dataclass(BaseConfigObj)
-    params = BaseConfigObj.__dataclass_params__
-    assert params.frozen
-    assert not params.init  # init=False - a marker/root, never constructed directly
+@dataclass(frozen=True, kw_only=True)
+class _Sample(BaseConfigObj):
+    value: int
 
-def test_base_config_obj_declares_no_fields_of_its_own() -> None:
-    assert dataclasses.fields(BaseConfigObj) == ()
+    @classmethod
+    def _parse_fields(cls, d: dict) -> None:
+        super()._parse_fields(d)
+        d["value"] = int(d["value"])
+
+def test_from_dict_runs_parse_fields_before_constructing() -> None:
+    assert _Sample.from_dict({"value": "3"}) == _Sample(value=3)
+
+def test_base_parse_fields_is_a_no_op_hook() -> None:
+    d = {"value": 1}
+    BaseConfigObj._parse_fields(d)
+    assert d == {"value": 1}

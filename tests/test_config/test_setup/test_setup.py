@@ -2,12 +2,13 @@
 
 Real setup data is exercised via the ``setup_configs`` fixture
 (tests/test_config/conftest.py), loaded directly from
-``yaml_loader.load_setup_data`` - not via ``ruleset_config.setup``, which
+``load_setup_data`` - not via ``ruleset_config.setup``, which
 deliberately doesn't exist (see ARCHITECTURE.md section 1 and
 test_ruleset_config.py::test_ruleset_config_has_no_setup_field).
 """
 from app.config.objs.map import MapShape
-from app.config.setup import PlayerSetupConfig, SetupConfig
+from app.config.setup import SetupConfig
+from app.config.setup.base import _PlayerSetupConfig as PlayerSetupConfig
 from app.config.shared import BaseConfigObj
 from app.geometry.coordinate import HexCoordinate
 

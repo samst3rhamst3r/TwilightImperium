@@ -11,7 +11,8 @@ added.
 import pytest
 
 from app.config.objs.system import TileColor
-from app.config.setup import AdvancedMapSetupTileConfig, AdvancedSetupConfig, SetupConfig
+from app.config.setup import AdvancedSetupConfig, SetupConfig
+from app.config.setup.advanced_setup import _AdvancedMapSetupTileConfig as AdvancedMapSetupTileConfig
 from app.config.objs.map import MapShape
 
 def _tile(*, tile_color: TileColor = TileColor.BLUE, num_tiles: int = 1) -> AdvancedMapSetupTileConfig:

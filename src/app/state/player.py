@@ -16,10 +16,6 @@ class InvalidTradeGoodsToGiveError(Exception):
     pass
 class TooManyTokensError(Exception):
     pass
-class AlreadyHaveSecretObjectiveError(Exception):
-    pass
-class DoesNotHaveSecretObjectiveError(Exception):
-    pass
 class InvalidTokenRedistributionError(Exception):
     pass
 
@@ -37,7 +33,6 @@ class PlayerState(IDedStateObj):
     color: Final[PlayerColor]
     name: Final[str]
     faction_config_id: Final[str]
-    secret_objective_card_ids_in_hand: set[str] = field(default_factory=set)
     scored_objective_card_ids: set[str] = field(default_factory=set)
     researched_tech_ids: set[str] = field(default_factory=set)
     commodities: int = 0
@@ -65,7 +60,6 @@ class PlayerState(IDedStateObj):
             "color": self.color,
             "name": self.name,
             "faction_config_id": self.faction_config_id,
-            "secret_objective_card_ids_in_hand": list(self.secret_objective_card_ids_in_hand),
             "scored_objective_card_ids": list(self.scored_objective_card_ids),
             "researched_tech_ids": list(self.researched_tech_ids),
             "commodities": self.commodities,
@@ -83,7 +77,6 @@ class PlayerState(IDedStateObj):
         self.color = PlayerColor(data["color"])
         self.name = data["name"]
         self.faction_config_id = data["faction_config_id"]
-        self.secret_objective_card_ids_in_hand = set(data["secret_objective_card_ids_in_hand"])
         self.scored_objective_card_ids = set(data["scored_objective_card_ids"])
         self.researched_tech_ids = set(data["researched_tech_ids"])
         self.commodities = data["commodities"]
@@ -139,19 +132,6 @@ class PlayerState(IDedStateObj):
         if amount < 1:
             raise InvalidTradeGoodsToGiveError("Number of trade goods to give must be at least 1.")
         self.trade_goods += amount
-
-    def add_secret_objective(self, card_id: str) -> None:
-        if card_id in self.secret_objective_card_ids_in_hand:
-            raise AlreadyHaveSecretObjectiveError(f"Player already has the secret objective with ID {card_id}.")
-        self.secret_objective_card_ids_in_hand.add(card_id)
-
-    def remove_secret_objective(self, card_id: str) -> None:
-        if not self.has_secret_objective(card_id):
-            raise DoesNotHaveSecretObjectiveError(f"Player does not have the secret objective with ID {card_id}.")
-        self.secret_objective_card_ids_in_hand.remove(card_id)
-
-    def has_secret_objective(self, card_id: str) -> bool:
-        return card_id in self.secret_objective_card_ids_in_hand
 
     def redistribute_command_tokens(self, tactic_pool: int, fleet_pool: int, strategy_pool: int) -> None:
         existing = self.tactic_pool + self.fleet_pool + self.strategy_pool

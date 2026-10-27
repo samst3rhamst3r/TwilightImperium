@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 from random import shuffle
+from collections.abc import Iterable
+from typing import Self
 
 from app.state.base import Serializable
 
@@ -11,6 +13,12 @@ class EmptyCardDeckError(Exception):
 class CardDeckState(Serializable):
     deck: list[str]
     discard_pile: list[str] = field(default_factory=list)
+
+    @classmethod
+    def new_game(cls, card_ids: Iterable[str]) -> Self:
+        obj = cls(deck=list(card_ids))
+        obj.shuffle_deck()
+        return obj
 
     def shuffle_deck(self) -> None:
         shuffle(self.deck)

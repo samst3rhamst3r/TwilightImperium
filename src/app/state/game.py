@@ -1,10 +1,13 @@
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from types import MappingProxyType
-from typing import Self
+from typing import Final, Self
 
 from app.config.ruleset_config import RulesetConfig
+from app.config.objs.system.wormhole import WormholeType
+from app.config.objs.tech.ids import TechID
 from app.config.objs.objective import ObjectiveType
+from app.config.objs.faction.ids import FactionID
 from app.geometry.coordinate import HexCoordinate
 
 from .base import Serializable
@@ -13,7 +16,7 @@ from .planet import PlanetState
 from .player import PlayerState
 from .system import SystemState
 from .unit import UnitState
-from .special_tokens import (
+from .special_token import (
     NaaluTokenState,
     NekroAssimilatorTokenState,
     CreussWormholeTokenState,
@@ -32,7 +35,9 @@ from .card import (
     TechCardState,
 )
 
-@dataclass(kw_only=True)
+_STARTING_PUBLIC_OBJECTIVES: Final[int] = 2
+
+@dataclass(frozen=True, kw_only=True)
 class GameState(Serializable):
     players: MappingProxyType[str, PlayerState]
     systems: MappingProxyType[str, SystemState]
@@ -62,7 +67,6 @@ class GameState(Serializable):
     secret_objective_deck: CardDeckState
     action_card_deck: CardDeckState
     agenda_card_deck: CardDeckState
-    action_card_deck: CardDeckState
 
     _hex_coordinate_index: MappingProxyType[HexCoordinate, str] = field(init=False, repr=False)
 
@@ -153,9 +157,11 @@ class GameState(Serializable):
         players_ = MappingProxyType({player.id: player for player in players})
         systems_ = MappingProxyType({system.id: system for system in systems})
 
+        factions = {player.faction_config_id: player for player in players}
+        
         player_home_systems = {}
-        for player in players_.values():
-            faction = ruleset_config.factions[player.faction_config_id]
+        for faction_id, player in factions.items():
+            faction = ruleset_config.factions[faction_id]
             player_home_systems[faction.home_system_id] = player.id
             if faction.off_board_home_system_id is not None:
                 player_home_systems[faction.off_board_home_system_id] = player.id
@@ -168,64 +174,91 @@ class GameState(Serializable):
                     planet.assign_control(player_home_systems[planet_cfg.system_id])
                 planets[planet.id] = planet
 
-        factions = {player.faction_config_id: player.id for player in players}
-        promissory_notes: list[PromissoryNoteCardState] = []
+        promissory_notes: dict[str, PromissoryNoteCardState] = {}
         for note_cfg in ruleset_config.promissory_notes.values():
             if note_cfg.faction_exclusive_id is None:
                 for player in players:
-                    promissory_notes.append(PromissoryNoteCardState(config_id=note_cfg.id, issuing_player_color=player.color))
+                    promissory_note = PromissoryNoteCardState(config_id=note_cfg.id, issuing_player_color=player.color)
+                    promissory_notes[promissory_note.id] = promissory_note
             elif note_cfg.faction_exclusive_id in factions:
-                promissory_notes.append(PromissoryNoteCardState(config_id=note_cfg.id))
+                promissory_note = PromissoryNoteCardState(config_id=note_cfg.id)
+                promissory_notes[promissory_note.id] = promissory_note
+            else:
+                raise ValueError(f"Promissory note {note_cfg.id} is faction-exclusive to {note_cfg.faction_exclusive_id}, which is not in play this game.")
 
         strategy_cards = [StrategyCardState(config_id=card.id) for card in ruleset_config.strategy_cards.values()]
         agenda_cards = [AgendaCardState(config_id=card.id) for card in ruleset_config.agendas.values()]
-        tech_cards = [TechCardState(config_id=card.id) for card in ruleset_config.techs.values()]
 
-        action_cards: list[ActionCardState] = []
+        action_cards: dict[str, ActionCardState] = {}
         for card_cfg in ruleset_config.action_cards.values():
             for i in range(card_cfg.num_in_deck):
-                action_cards.append(ActionCardState(config_id=card_cfg.id, flavor_text_index=i))
+                action_card = ActionCardState(config_id=card_cfg.id, flavor_text_index=i)
+                action_cards[action_card.id] = action_card
 
-        tech_cards: list[TechCardState] = []
-        for faction_id, player_id in factions.items():
+        tech_cards: dict[str, TechCardState] = {}
+        for faction_id, player in factions.items():
             if faction_id in factions:
-                player = players_[ player_id ]
                 for starting_tech_id in ruleset_config.factions[faction_id].starting_tech_ids:
                     starting_tech = TechCardState(config_id=starting_tech_id)
                     player.research_tech(starting_tech.id)
-                    tech_cards.append(starting_tech)
+                    tech_cards[starting_tech.id] = starting_tech
 
-        pub_i: list[PublicObjectiveCardState] = []
-        pub_ii: list[PublicObjectiveCardState] = []
-        sec: list[SecretObjectiveCardState] = []
+        pub_i: dict[str, PublicObjectiveCardState] = {}
+        pub_ii: dict[str, PublicObjectiveCardState] = {}
+        sec: dict[str, SecretObjectiveCardState] = {}
         for card in ruleset_config.objectives.values():
-            if card.objective_type == ObjectiveType.PUBLIC_STAGE_I:
-                pub_i.append(PublicObjectiveCardState(config_id=card.id))
-            elif card.objective_type == ObjectiveType.PUBLIC_STAGE_II:
-                pub_ii.append(PublicObjectiveCardState(config_id=card.id))
-            elif card.objective_type == ObjectiveType.SECRET:
-                sec.append(SecretObjectiveCardState(config_id=card.id))
+            if card.objective_type is ObjectiveType.PUBLIC_STAGE_I:
+                obj = PublicObjectiveCardState(config_id=card.id)
+                pub_i[obj.id] = obj
+            elif card.objective_type is ObjectiveType.PUBLIC_STAGE_II:
+                obj = PublicObjectiveCardState(config_id=card.id)
+                pub_ii[obj.id] = obj
+            elif card.objective_type is ObjectiveType.SECRET:
+                obj = SecretObjectiveCardState(config_id=card.id)
+                sec[obj.id] = obj
 
-        return cls(
+        naalu_token: NaaluTokenState | None = None
+        if FactionID.NAALU_COLLECTIVE in factions:
+            naalu_token = NaaluTokenState.new_game(factions[FactionID.NAALU_COLLECTIVE].id)
+
+        nekro_assimilator_tokens: tuple[NekroAssimilatorTokenState, NekroAssimilatorTokenState] | None = None
+        if FactionID.NEKRO_VIRUS in factions:
+            nekro_assimilator_tokens = NekroAssimilatorTokenState.new_game()
+
+        creuss_wormhole_tokens: tuple[CreussWormholeTokenState, CreussWormholeTokenState] | None = None
+        if FactionID.GHOSTS_OF_CREUSS in factions:
+            creuss_wormhole_tokens = CreussWormholeTokenState.new_game()
+
+        obj = cls(
             players=players_,
             systems=systems_,
             planets=MappingProxyType(planets),
             speaker_token=SpeakerTokenState(),
             custodians_token=CustodiansTokenState(),
-            public_objectives=MappingProxyType({card.id: card for card in pub_i + pub_ii}),
-            secret_objectives=MappingProxyType({card.id: card for card in sec}),
+            public_objectives=MappingProxyType(pub_i | pub_ii),
+            secret_objectives=MappingProxyType(sec),
             strategy_cards=MappingProxyType({card.id: card for card in strategy_cards}),
-            promissory_notes=MappingProxyType({card.id: card for card in promissory_notes}),
+            promissory_notes=MappingProxyType(promissory_notes),
             agenda_cards=MappingProxyType({card.id: card for card in agenda_cards}),
-            action_cards=MappingProxyType({card.id: card for card in action_cards}),
-            tech_cards=MappingProxyType({card.id: card for card in tech_cards}),
-            public_objective_i_deck=CardDeckState(deck=[card.id for card in pub_i]),
-            public_objective_ii_deck=CardDeckState(deck=[card.id for card in pub_ii]),
-            secret_objective_deck=CardDeckState(deck=[card.id for card in sec]),
-            action_card_deck=CardDeckState(deck=[card.id for card in action_cards]),
-            agenda_card_deck=CardDeckState(deck=[card.id for card in agenda_cards]),
-            # TODO init these
-            naalu_token=NaaluTokenState() if any(player.faction_config_id == "naalu" for player in players) else None,
-            nekro_assimilator_tokens=(NekroAssimilatorTokenState(), NekroAssimilatorTokenState()) if any(player.faction_config_id == "nekro" for player in players) else None,
-            creuss_wormhole_tokens=(CreussWormholeTokenState(), CreussWormholeTokenState()) if any(player.faction_config_id == "creuss" for player in players) else None,
+            action_cards=MappingProxyType(action_cards),
+            tech_cards=MappingProxyType(tech_cards),
+            public_objective_i_deck=CardDeckState.new_game(pub_i),
+            public_objective_ii_deck=CardDeckState.new_game(pub_ii),
+            secret_objective_deck=CardDeckState.new_game(sec),
+            action_card_deck=CardDeckState.new_game(action_cards),
+            agenda_card_deck=CardDeckState.new_game([card.id for card in agenda_cards]),
+            naalu_token=naalu_token,
+            nekro_assimilator_tokens=nekro_assimilator_tokens,
+            creuss_wormhole_tokens=creuss_wormhole_tokens,
         )
+
+        for player in obj.players.values():
+            objective_id = obj.secret_objective_deck.draw()
+            objective = obj.secret_objectives[objective_id]
+            objective.give_to_player(player.id)
+
+        for i in range(_STARTING_PUBLIC_OBJECTIVES):
+            objective = obj.public_objective_i_deck.draw()
+            obj.revealed_public_objectives.add(objective)
+
+        return obj

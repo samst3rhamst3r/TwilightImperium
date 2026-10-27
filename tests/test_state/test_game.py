@@ -16,7 +16,7 @@ from app.state.card.tech import TechCardState
 from app.state.game import GameState
 from app.state.planet import PlanetState
 from app.state.player import PlayerState
-from app.state.special_tokens import (
+from app.state.special_token import (
     CreussWormholeTokenState,
     CustodiansTokenState,
     NaaluTokenState,

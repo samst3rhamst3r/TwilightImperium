@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from app.config.player_color import PlayerColor
 
-from app.state.base.mixins import UUIDInstancedStateObj
+from app.state.objs import UUIDInstancedStateObj
 
 @dataclass(kw_only=True)
 class PromissoryNoteCardState(UUIDInstancedStateObj):

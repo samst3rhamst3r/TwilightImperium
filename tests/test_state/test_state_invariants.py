@@ -13,7 +13,7 @@ deliberate ``MapConfig`` case).
 import dataclasses
 from typing import get_type_hints
 
-from app.state.base.exhaustible import Exhaustible
+from app.state.objs.exhaustible import Exhaustible
 
 def test_state_dataclass_is_not_frozen(state_dataclass: type) -> None:
     assert not state_dataclass.__dataclass_params__.frozen, (

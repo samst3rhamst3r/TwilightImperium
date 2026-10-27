@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.state.unit import UnitState
+from app.state.objs.unit import UnitState
 from app.config.objs.unit import UnitConfig
 
 from .base import BaseResolvedObj

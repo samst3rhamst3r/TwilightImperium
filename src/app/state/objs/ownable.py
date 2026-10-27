@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
-from typing import Protocol
 
-from .serializable import Serializable
+from app.state import Serializable
 
 class AlreadyOwnedResourceException(Exception): 
     pass

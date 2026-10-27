@@ -2,7 +2,7 @@
 InvalidStateTransition."""
 import pytest
 
-from app.state.card.objective.base import InvalidStateTransition, ObjectiveCardState
+from app.state.objs.card.objective.base import InvalidStateTransition, ObjectiveCardState
 
 def test_invalid_state_transition_is_a_real_exception() -> None:
     """Regression: this class used to not subclass Exception, so raising it

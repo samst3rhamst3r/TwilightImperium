@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Final
 
 from app.geometry import HexCoordinate
-from app.state.base.mixins import ConfigIDStateObj
+from .config_id import ConfigIDStateObj
 
 @dataclass(kw_only=True)
 class SystemState(ConfigIDStateObj):

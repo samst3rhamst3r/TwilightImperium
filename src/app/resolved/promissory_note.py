@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app.config.objs.promissory_note import PromissoryNoteConfig
-from app.state.card.promissory_note import PromissoryNoteCardState
+from app.state.objs.card.promissory_note import PromissoryNoteCardState
 
 from .base import BaseResolvedObj
 

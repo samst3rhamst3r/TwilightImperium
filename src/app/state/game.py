@@ -4,19 +4,17 @@ from types import MappingProxyType
 from typing import Final, Self
 
 from app.config.ruleset_config import RulesetConfig
-from app.config.objs.system.wormhole import WormholeType
-from app.config.objs.tech.ids import TechID
 from app.config.objs.objective import ObjectiveType
 from app.config.objs.faction.ids import FactionID
 from app.geometry.coordinate import HexCoordinate
 
 from .base import Serializable
 
-from .planet import PlanetState
+from .objs.planet import PlanetState
 from .player import PlayerState
-from .system import SystemState
-from .unit import UnitState
-from .special_token import (
+from .objs.system import SystemState
+from .objs.unit import UnitState
+from .objs.special_token import (
     NaaluTokenState,
     NekroAssimilatorTokenState,
     CreussWormholeTokenState,
@@ -24,7 +22,7 @@ from .special_token import (
     CustodiansTokenState,
 )
 
-from .card import (
+from .objs.card import (
     CardDeckState,
     PublicObjectiveCardState,
     SecretObjectiveCardState,

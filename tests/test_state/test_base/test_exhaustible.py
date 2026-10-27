@@ -6,7 +6,7 @@ hatch (ARCHITECTURE.md section 2's trait-split principle, applied to State).
 """
 import pytest
 
-from app.state.base.exhaustible import (
+from app.state.objs.exhaustible import (
     Exhaustible,
     ExhaustibleAlreadyExhausted,
     ExhaustibleAlreadyReadied,

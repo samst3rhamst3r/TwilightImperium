@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from app.state.base.serializable import Serializable
+from app.state import Serializable
 
 @dataclass(kw_only=True)
 class _ConcreteSerializable(Serializable):

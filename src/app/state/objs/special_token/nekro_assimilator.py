@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Self
 
 from app.config.objs.tech import TechID
-from app.state.base import ConfigIDStateObj
+from app.state.objs import ConfigIDStateObj
 
 @dataclass(kw_only=True)
 class NekroAssimilatorTokenState(ConfigIDStateObj):

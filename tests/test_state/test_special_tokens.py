@@ -3,7 +3,7 @@ special token State classes."""
 import pytest
 
 from app.config.objs.system import WormholeType
-from app.state.special_token import (
+from app.state.objs.special_token import (
     CreussWormholeTokenState,
     CustodiansTokenState,
     InvalidWormholeType,

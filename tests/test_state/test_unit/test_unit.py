@@ -7,8 +7,8 @@ location=None (see class docstring)."""
 import pytest
 
 from app.config.objs.unit import UnitLocationType
-from app.state.unit.location import UnitLocation
-from app.state.unit.unit import UnitState
+from app.state.objs.unit.location import UnitLocation
+from app.state.objs.unit.unit import UnitState
 
 @pytest.fixture
 def unit_factory():

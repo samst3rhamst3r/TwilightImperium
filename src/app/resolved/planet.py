@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app.config.objs.planet import PlanetConfig
-from app.state.planet import PlanetState 
+from app.state.objs.planet import PlanetState 
 
 from .base import BaseResolvedObj
 from .exhaust import IsExhaustibleProtocol

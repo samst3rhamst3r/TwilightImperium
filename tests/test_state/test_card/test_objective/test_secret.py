@@ -8,8 +8,8 @@ These tests cover the *current* behavior, not a resolution of that question.
 """
 import pytest
 
-from app.state.card.objective.base import InvalidStateTransition, Revealable
-from app.state.card.objective.secret import SecretObjectiveCardState, SecretObjectiveZone
+from app.state.objs.card.objective.base import InvalidStateTransition, Revealable
+from app.state.objs.card.objective.secret import SecretObjectiveCardState, SecretObjectiveZone
 
 @pytest.fixture
 def secret_objective_factory():

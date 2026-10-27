@@ -1,8 +1,8 @@
 """Tests for app.state.planet.PlanetState."""
 import pytest
 
-from app.state.base.ownable import AlreadyOwnedResourceException, NotYetOwnedResourceException
-from app.state.planet import PlanetState
+from app.state.objs.ownable import AlreadyOwnedResourceException, NotYetOwnedResourceException
+from app.state.objs.planet import PlanetState
 
 @pytest.fixture
 def planet_factory():

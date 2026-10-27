@@ -6,7 +6,7 @@ population strategy" open question); this class only tracks the mutable
 exhaustion state a subset of technologies can have."""
 import pytest
 
-from app.state.card.tech import TechCardState
+from app.state.objs.card.tech import TechCardState
 
 @pytest.fixture
 def tech_card_factory():

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app.config.objs.unit import UnitLocationType
-from app.state.base.mixins import UUIDInstancedStateObj
+from app.state.objs import UUIDInstancedStateObj
 
 from .location import UnitLocation
 

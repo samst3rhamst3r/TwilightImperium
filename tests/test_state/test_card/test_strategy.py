@@ -1,7 +1,7 @@
 """Tests for app.state.card.strategy.StrategyCardState."""
 import pytest
 
-from app.state.card.strategy import StrategyCardState
+from app.state.objs.card.strategy import StrategyCardState
 
 @pytest.fixture
 def strategy_card_factory():

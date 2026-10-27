@@ -4,7 +4,7 @@ Only ConfigIDStateObj + Exhaustible - agendas have no owner (see
 specs/STATE_OBJS.md's "Agenda/Tech card population strategy" open question)."""
 import pytest
 
-from app.state.card.agenda import AgendaCardState
+from app.state.objs.card.agenda import AgendaCardState
 
 @pytest.fixture
 def agenda_card_factory():

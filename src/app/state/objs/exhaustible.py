@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.state.base.serializable import Serializable
+from app.state import Serializable
 
 class ExhaustibleAlreadyExhausted(Exception):
     pass

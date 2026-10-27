@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.state.card.action import ActionCardState
+from app.state.objs.card.action import ActionCardState
 from app.config.objs.action_card import ActionCardConfig
 
 from .base import BaseResolvedObj

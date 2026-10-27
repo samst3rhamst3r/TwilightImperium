@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from app.state.base.ownable import (
+from app.state.objs.ownable import (
     AlreadyOwnedResourceException,
     NotYetOwnedResourceException,
     PlayerOwnableMixin,

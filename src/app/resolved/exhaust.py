@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from app.state.base.exhaustible import Exhaustible
+from app.state.objs.exhaustible import Exhaustible
 from app.config.shared.mixins import CanBeExhaustible
 
 class IncompatibleExhaustProtocolError(TypeError):

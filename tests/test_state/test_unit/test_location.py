@@ -6,7 +6,7 @@ loc_type is SHIP (see field docstring/ARCHITECTURE.md review notes)."""
 import pytest
 
 from app.config.objs.unit import UnitLocationType
-from app.state.unit.location import UnitLocation
+from app.state.objs.unit.location import UnitLocation
 
 def test_is_on_planet() -> None:
     loc = UnitLocation(loc_type=UnitLocationType.PLANET, location_id="mecatol_rex")

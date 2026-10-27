@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 
-from app.state.base.exhaustible import Exhaustible
-
-from .base.ownable import PlayerOwnableMixin
-from .base.mixins import ConfigIDStateObj
+from .ownable import PlayerOwnableMixin
+from .config_id import ConfigIDStateObj
+from .exhaustible import Exhaustible
 
 class PlanetAlreadyControlledError(Exception): 
     pass

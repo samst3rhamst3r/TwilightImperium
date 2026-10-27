@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Final
 
-from app.state.base.mixins import UUIDInstancedStateObj
+from app.state.objs import UUIDInstancedStateObj
 
 @dataclass(kw_only=True)
 class ActionCardState(UUIDInstancedStateObj):

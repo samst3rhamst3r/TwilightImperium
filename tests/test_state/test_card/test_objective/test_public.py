@@ -1,8 +1,8 @@
 """Tests for app.state.card.objective.public.PublicObjectiveCardState."""
 import pytest
 
-from app.state.card.objective.base import InvalidStateTransition, Revealable
-from app.state.card.objective.public import PublicObjectiveCardState
+from app.state.objs.card.objective.base import InvalidStateTransition, Revealable
+from app.state.objs.card.objective.public import PublicObjectiveCardState
 
 @pytest.fixture
 def public_objective_factory():

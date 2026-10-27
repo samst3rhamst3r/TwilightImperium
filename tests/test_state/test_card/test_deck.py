@@ -5,9 +5,9 @@ _TYPE_REGISTRY; AgendaCardState/TechCardState/PromissoryNoteCardState/
 StrategyCardState are deliberately not deck-managed, see game.py)."""
 import pytest
 
-from app.state.card.action import ActionCardState
-from app.state.card.deck import CardDeckState, EmptyCardDeckError
-from app.state.card.objective.public import PublicObjectiveCardState
+from app.state.objs.card.action import ActionCardState
+from app.state.objs.card.deck import CardDeckState, EmptyCardDeckError
+from app.state.objs.card.objective.public import PublicObjectiveCardState
 
 @pytest.fixture
 def action_cards() -> list[ActionCardState]:

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Protocol
 
-from app.state.base.mixins import ConfigIDStateObj
+from app.state.objs import ConfigIDStateObj
 
 @dataclass(kw_only=True)
 class ObjectiveCardState(ConfigIDStateObj):

@@ -2,7 +2,7 @@
 import pytest
 
 from app.config.player_color import PlayerColor
-from app.state.card.promissory_note import PromissoryNoteCardState
+from app.state.objs.card.promissory_note import PromissoryNoteCardState
 
 @pytest.fixture
 def promissory_note_factory():
